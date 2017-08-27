@@ -1,0 +1,3 @@
+LabelNumber {
+    precision: 2
+}
