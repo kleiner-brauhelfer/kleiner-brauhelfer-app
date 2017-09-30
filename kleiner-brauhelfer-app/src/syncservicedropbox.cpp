@@ -21,6 +21,7 @@ SyncServiceDropbox::~SyncServiceDropbox()
 bool SyncServiceDropbox::downloadFile()
 {
     bool ret = false;
+    _dbox->clearError();
     QDropbox2File srcFile(filePathServer(), _dbox);
     connect(&srcFile, SIGNAL(signal_downloadProgress(qint64,qint64)), this, SIGNAL(progress(qint64,qint64)));
     connect(&srcFile, SIGNAL(signal_errorOccurred(int,const QString&)), this, SIGNAL(errorOccurred(int,const QString&)));
@@ -53,6 +54,7 @@ bool SyncServiceDropbox::uploadFile()
     QFile srcFile(getFilePath());
     if (srcFile.open(QIODevice::ReadOnly))
     {
+        _dbox->clearError();
         QDropbox2File dstFile(filePathServer(), _dbox);
         connect(&dstFile, SIGNAL(signal_uploadProgress(qint64,qint64)), this, SIGNAL(progress(qint64,qint64)));
         connect(&dstFile, SIGNAL(signal_errorOccurred(int,const QString&)), this, SIGNAL(errorOccurred(int,const QString&)));
@@ -72,6 +74,7 @@ bool SyncServiceDropbox::uploadFile()
 
 QString SyncServiceDropbox::getServerRevision()
 {
+    _dbox->clearError();
     QDropbox2File file(filePathServer(), _dbox);
     QDropbox2EntityInfo info(file.metadata());
     if (_dbox->error() == QDropbox2::NoError && file.error() == QDropbox2::NoError)
