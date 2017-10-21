@@ -1155,7 +1155,6 @@ PageBase {
                                 Layout.preferredWidth: 70
                                 text: qsTr("Liter")
                             }
-
                             LabelPrim {
                                 Layout.fillWidth: true
                                 text: qsTr("Abgefüllte Speisemenge")
@@ -1185,6 +1184,18 @@ PageBase {
                                     Brauhelfer.sud.WuerzemengeAnstellen = value
                                     Brauhelfer.sud.JungbiermengeAbfuellen = value
                                 }
+                            }
+                            LabelPrim {
+                                Layout.preferredWidth: 70
+                                text: qsTr("Liter")
+                            }
+                            LabelPrim {
+                                Layout.fillWidth: true
+                                text: qsTr("Menge Total")
+                            }
+                            LabelNumber {
+                                Layout.preferredWidth: 60
+                                value: Brauhelfer.sud.WuerzemengeAnstellen + Brauhelfer.sud.Speisemenge
                             }
                             LabelPrim {
                                 Layout.preferredWidth: 70

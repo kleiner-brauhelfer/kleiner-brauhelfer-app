@@ -122,6 +122,7 @@ bool Brauhelfer::connect()
 void Brauhelfer::disconnect()
 {
     message("Disconnect from database");
+    _sud->unload();
     _db->disconnect();
     emit databaseConnectionChanged(connected());
 }

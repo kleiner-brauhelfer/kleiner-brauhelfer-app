@@ -296,12 +296,14 @@ ApplicationWindow {
         {
             if (currentItem.currentIndex < currentItem.count - 1)
                 currentItem.currentIndex = currentItem.currentIndex + 1
+            setFocus()
         }
 
         function previous()
         {
             if (currentItem.currentIndex > 0)
                 currentItem.currentIndex = currentItem.currentIndex - 1
+            setFocus()
         }
 
         function goHome()
@@ -362,7 +364,10 @@ ApplicationWindow {
         anchors.bottomMargin: 8
         visible: Brauhelfer.modified
         imageSource: "qrc:/images/ic_clear_white.png"
-        onClicked: app.discard()
+        onClicked: {
+            app.discard()
+            navPane.setFocus()
+        }
     }
 
     // save button
@@ -373,7 +378,10 @@ ApplicationWindow {
         anchors.bottomMargin: 8
         visible: Brauhelfer.modified
         imageSource: "qrc:/images/ic_save_white.png"
-        onClicked: app.save()
+        onClicked: {
+            app.save()
+            navPane.setFocus()
+        }
     }
 
     // navigation menu
