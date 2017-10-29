@@ -39,6 +39,43 @@ ApplicationWindow {
             switch (schedule) {
             case connect:
                 Brauhelfer.connect()
+                app.loaded = true
+
+                // trigger focus to load content of first page, after app.loaded is set
+                navPane.currentItem.currentItem.focus = false
+                navPane.currentItem.currentItem.focus = true
+
+                // synchronization message
+                switch (Brauhelfer.syncState)
+                {
+                case Brauhelfer.UpToDate:
+                    toast.start(qsTr("Datenbank aktuell."))
+                    break;
+                case Brauhelfer.Updated:
+                    toast.start(qsTr("Datenbank aktualisiert."))
+                    break;
+                case Brauhelfer.Offline:
+                    toast.start(qsTr("Gerät ist nicht mit dem Internet verbunden."))
+                    break;
+                case Brauhelfer.NotFound:
+                    toast.start(qsTr("Datenbank nicht gefunden."))
+                    break;
+                case Brauhelfer.OutOfSync:
+                    toast.start(qsTr("Datenbank nicht synchron."))
+                    break;
+                case Brauhelfer.Failed:
+                    toast.start(qsTr("Synchronisation fehlgeschlagen."))
+                    break;
+                }
+
+                // check if everything ok
+                if (Brauhelfer.readonly)
+                    messageDialog.show(qsTr("Synchronisationsdienst ist nicht verfügbar."),
+                                       qsTr("Datenbank wird nur lesend geöffnet."))
+                if (!Brauhelfer.connected) {
+                    messageDialogGotoSettings.show(qsTr("Verbindung mit der Datenbank fehlgeschlagen."),
+                                                   qsTr("Einstellungen überprüfen."))
+                }
                 break
             case save:
                 Brauhelfer.save()
@@ -105,47 +142,7 @@ ApplicationWindow {
         buildMenus()
 
         // connect to database
-        Brauhelfer.connect()
-        app.loaded = true
-
-        // trigger focus to load content of first page, after app.loaded is set
-        navPane.currentItem.currentItem.focus = false
-        navPane.currentItem.currentItem.focus = true
-
-        // done initialising
-        busyIndicator.running = false
-
-        // synchronization message
-        switch (Brauhelfer.syncState)
-        {
-        case Brauhelfer.UpToDate:
-            toast.start(qsTr("Datenbank aktuell."))
-            break;
-        case Brauhelfer.Updated:
-            toast.start(qsTr("Datenbank aktualisiert."))
-            break;
-        case Brauhelfer.Offline:
-            toast.start(qsTr("Gerät ist nicht mit dem Internet verbunden."))
-            break;
-        case Brauhelfer.NotFound:
-            toast.start(qsTr("Datenbank nicht gefunden."))
-            break;
-        case Brauhelfer.OutOfSync:
-            toast.start(qsTr("Datenbank nicht synchron."))
-            break;
-        case Brauhelfer.Failed:
-            toast.start(qsTr("Synchronisation fehlgeschlagen."))
-            break;
-        }
-
-        // check if everything ok
-        if (Brauhelfer.readonly)
-            messageDialog.show(qsTr("Synchronisationsdienst ist nicht verfügbar."),
-                               qsTr("Datenbank wird nur lesend geöffnet."))
-        if (!Brauhelfer.connected) {
-            messageDialogGotoSettings.show(qsTr("Verbindung mit der Datenbank fehlgeschlagen."),
-                                           qsTr("Einstellungen überprüfen."))
-        }
+        app.connect()
     }
 
     // connect debug message to console
@@ -352,7 +349,7 @@ ApplicationWindow {
     // busy indicator
     BusyIndicator {
         id: busyIndicator
-        running: true
+        running: false
         anchors.centerIn: parent
     }
 

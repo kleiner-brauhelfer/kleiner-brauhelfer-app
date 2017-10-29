@@ -22,8 +22,22 @@ PageBase {
         anchors.topMargin: 0
         clip: true
         anchors.fill: parent
-        boundsBehavior: Flickable.OvershootBounds
+        boundsBehavior: Flickable.DragAndOvershootBounds
         model: Brauhelfer.modelSudAuswahl
+
+        property bool canRefresh: false
+        onMovementStarted: canRefresh = atYBeginning
+        onContentYChanged: {
+            if (canRefresh) {
+                if (contentY < -0.2 * height) {
+                    canRefresh = false
+                    app.connect()
+                }
+                if (contentY  > 0) {
+                    canRefresh = false
+                }
+            }
+        }
 
         delegate: Item {
             property bool active: Brauhelfer.sud.id === model.ID
