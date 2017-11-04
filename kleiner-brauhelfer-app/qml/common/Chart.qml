@@ -27,6 +27,12 @@ ChartView {
     margins.bottom: 0
     animationOptions: ChartView.NoAnimation
 
+    Component.onCompleted: {
+        buildAxis(series1, axisY1)
+        buildAxis(series2, axisY2)
+        buildAxis(series3, axisY3)
+    }
+
     DateTimeAxis {
         id: dAxisX
         format: "dd.MM"
@@ -52,8 +58,6 @@ ChartView {
     }
 
     LineSeries {
-        property alias p11: p11
-        property alias p12: p12
         id: series1Should
         color: series1.color
         width: series1.width
@@ -61,8 +65,6 @@ ChartView {
         visible: should1 !== null
         axisX: series1.axisX
         axisY: series1.axisY
-        XYPoint { id: p11; x: 0; y: 0 }
-        XYPoint { id: p12; x: 0; y: 0 }
     }
 
     LineSeries {
@@ -83,8 +85,6 @@ ChartView {
     }
 
     LineSeries {
-        property alias p21: p21
-        property alias p22: p22
         id: series2Should
         color: series2.color
         width: series2.width
@@ -92,8 +92,6 @@ ChartView {
         visible: should2 !== null
         axisX: series2.axisX
         axisYRight: series2.axisYRight
-        XYPoint { id: p21; x: 0; y: 0 }
-        XYPoint { id: p22; x: 0; y: 0 }
     }
 
     LineSeries {
@@ -114,8 +112,6 @@ ChartView {
     }
 
     LineSeries {
-        property alias p31: p31
-        property alias p32: p32
         id: series3Should
         color: series3.color
         width: series3.width
@@ -123,8 +119,6 @@ ChartView {
         visible: should3 !== null
         axisX: series3.axisX
         axisYRight: series3.axisYRight
-        XYPoint { id: p31; x: 0; y: 0 }
-        XYPoint { id: p32; x: 0; y: 0 }
     }
 
     function toMsecsSinceEpoch(date) {
@@ -140,13 +134,11 @@ ChartView {
         var pt
         var minX, maxX, minY, maxY
 
-        if (series.count === 0)
-            return
-
         // first point: x
         pt = series.at(index)
         minX = pt.x;
         maxX = pt.x + 1; // add one day
+
         // first point: y
         minY = Math.floor(pt.y)
         maxY = Math.ceil(pt.y) + 1
@@ -166,22 +158,31 @@ ChartView {
         }
 
         if (series === series1 && should1 !== null) {
-            series1Should.p11.x = minX
-            series1Should.p12.x = maxX
-            series1Should.p11.y = should1
-            series1Should.p12.y = should1
+            series1Should.clear()
+            series1Should.append(minX, should1)
+            series1Should.append(maxX, should1)
+            if (should1 < minY)
+                minY = Math.floor(should1)
+            if (should1 > maxY)
+                maxY = Math.ceil(should1)
         }
         if (series === series2 && should2 !== null) {
-            series2Should.p21.x = minX
-            series2Should.p22.x = maxX
-            series2Should.p21.y = should2
-            series2Should.p22.y = should2
+            series2Should.clear()
+            series2Should.append(minX, should2)
+            series2Should.append(maxX, should2)
+            if (should2 < minY)
+                minY = Math.floor(should2)
+            if (should2 > maxY)
+                maxY = Math.ceil(should2)
         }
         if (series === series3 && should3 !== null) {
-            series3Should.p31.x = minX
-            series3Should.p32.x = maxX
-            series3Should.p31.y = should3
-            series3Should.p32.y = should3
+            series3Should.clear()
+            series3Should.append(minX, should3)
+            series3Should.append(maxX, should3)
+            if (should3 < minY)
+                minY = Math.floor(should3)
+            if (should3 > maxY)
+                maxY = Math.ceil(should3)
         }
 
         dAxisX.min = fromMsecsSinceEpoch(minX)
