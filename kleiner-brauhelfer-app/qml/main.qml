@@ -237,6 +237,7 @@ ApplicationWindow {
         id: viewTools
         visible: false
         PageToolBieranalyse {}
+        PageToolCrossMix {}
     }
 
     // other pages

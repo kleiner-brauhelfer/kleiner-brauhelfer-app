@@ -17,11 +17,14 @@ PageBase {
         anchors.fill: parent
 
         GridView {
+            id: grid
             Layout.fillWidth: true
             Layout.fillHeight: true
             boundsBehavior: Flickable.OvershootBounds
-            cellWidth: 120
-            cellHeight: 120
+            snapMode: GridView.SnapToRow
+            clip: true
+            cellWidth: app.width/(Math.floor(app.width/100))
+            cellHeight: cellWidth
 
             Component.onCompleted: {
                 for (var i = 1; i < viewSud.count; ++i)
@@ -34,8 +37,8 @@ PageBase {
 
                 property var page: model.view.itemAt(model.index)
 
-                implicitWidth: 120
-                implicitHeight: 120
+                implicitWidth: grid.cellWidth
+                implicitHeight: grid.cellHeight
                 onClicked:  navPane.goTo(model.view, model.index)
 
                 Rectangle {

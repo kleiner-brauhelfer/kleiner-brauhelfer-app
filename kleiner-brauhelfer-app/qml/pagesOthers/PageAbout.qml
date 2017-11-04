@@ -8,7 +8,7 @@ import brauhelfer 1.0
 
 PageBase {
     id: page
-    title: qsTr("About")
+    title: qsTr("Über")
     icon: "ic_help.png"
 
     component: Flickable {

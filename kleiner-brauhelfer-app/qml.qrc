@@ -37,5 +37,7 @@
         <file>qml/common/TextFieldNumber.qml</file>
         <file>qml/common/LabelDate.qml</file>
         <file>qml/common/LabelDateTime.qml</file>
+        <file>qml/PageTestarea.qml</file>
+        <file>qml/pagesTools/PageToolCrossMix.qml</file>
     </qresource>
 </RCC>

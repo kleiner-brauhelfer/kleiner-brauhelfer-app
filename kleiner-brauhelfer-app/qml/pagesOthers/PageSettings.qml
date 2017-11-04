@@ -11,7 +11,7 @@ import brauhelfer 1.0
 
 PageBase {
     id: page
-    title: qsTr("Settings")
+    title: qsTr("Einstellungen")
     icon: "ic_settings.png"
 
     component: Flickable {
