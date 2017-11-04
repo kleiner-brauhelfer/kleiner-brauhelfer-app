@@ -150,6 +150,10 @@ PageBase {
                 close()
             }
 
+            onClosed: {
+                navPane.setFocus()
+            }
+
             background: Rectangle {
                 color: Material.background
                 radius: 10

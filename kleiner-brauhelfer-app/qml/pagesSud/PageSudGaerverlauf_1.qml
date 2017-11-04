@@ -208,6 +208,7 @@ PageBase {
                                  "SW": tfSW.value,
                                  "Temp": tfTemp.value })
                 }
+                navPane.setFocus()
             }
 
             background: Rectangle {

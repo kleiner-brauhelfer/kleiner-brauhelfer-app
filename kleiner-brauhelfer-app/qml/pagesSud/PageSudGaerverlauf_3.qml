@@ -207,6 +207,7 @@ PageBase {
                                  "Druck": tfDruck.value,
                                  "Temp": tfTemp.value })
                 }
+                navPane.setFocus()
             }
 
             background: Rectangle {

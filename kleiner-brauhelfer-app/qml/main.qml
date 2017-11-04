@@ -336,6 +336,7 @@ ApplicationWindow {
         function setFocus()
         {
             focus = true
+            forceActiveFocus()
         }
     }
 
