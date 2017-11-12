@@ -41,6 +41,9 @@ ApplicationWindow {
                 Brauhelfer.connect()
                 app.loaded = true
 
+                // build navigation menu
+                buildMenus()
+
                 // trigger focus to load content of first page, after app.loaded is set
                 navPane.currentItem.currentItem.focus = false
                 navPane.currentItem.currentItem.focus = true
@@ -138,10 +141,6 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
-        // build navigation menu
-        buildMenus()
-
-        // connect to database
         app.connect()
     }
 

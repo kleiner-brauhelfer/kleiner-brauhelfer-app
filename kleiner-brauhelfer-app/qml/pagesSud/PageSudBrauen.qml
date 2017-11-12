@@ -1186,6 +1186,11 @@ PageBase {
                                     tfSpeise.value = factor * value
                                     tfWuerzemenge.value = value + tfSpeise.value
                                 }
+                                Component.onCompleted: {
+                                    var factor = Brauhelfer.calc.speise(Brauhelfer.sud.CO2, Brauhelfer.sud.SWAnstellen, 3.0, 3.0, 20.0)
+                                    tfSpeise.value = factor * value
+                                    tfWuerzemenge.value = value + tfSpeise.value
+                                }
                             }
                             LabelPrim {
                                 Layout.preferredWidth: 70
