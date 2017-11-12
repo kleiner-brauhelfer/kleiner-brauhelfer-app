@@ -69,7 +69,6 @@ private:
     QVariant SWSollAnstellen(const QModelIndex &index) const;
     QVariant KorrekturWasser(const QModelIndex &index) const;
     QVariant Verdampfungsziffer(const QModelIndex &index) const;
-    QVariant WasserVerschneidung(const QModelIndex &index) const;
     QVariant RestalkalitaetFaktor(const QModelIndex &index) const;
     QVariant FaktorHauptgussEmpfehlung(const QModelIndex &index) const;
 private:

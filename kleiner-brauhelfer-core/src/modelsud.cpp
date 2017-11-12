@@ -32,8 +32,6 @@ ModelSud::ModelSud(Brauhelfer *bh, bool globalList) :
     additionalFieldNames.append("SWSollAnstellen");
     additionalFieldNames.append("KorrekturWasser");
     additionalFieldNames.append("Verdampfungsziffer");
-    additionalFieldNames.append("WasserVerschneidung");
-    additionalFieldNames.append("WasserVerschneidungZumischen");
     additionalFieldNames.append("RestalkalitaetFaktor");
     additionalFieldNames.append("FaktorHauptgussEmpfehlung");
 }
@@ -196,14 +194,6 @@ QVariant ModelSud::dataExt(const QModelIndex &index) const
     if (field == "Verdampfungsziffer")
     {
         return Verdampfungsziffer(index);
-    }
-    if (field == "WasserVerschneidung")
-    {
-        return WasserVerschneidung(index);
-    }
-    if (field == "WasserVerschneidungZumischen")
-    {
-        return data(index.row(), "SWAnstellen").toDouble() <= data(index.row(), "SWSollAnstellen").toDouble();
     }
     if (field == "RestalkalitaetFaktor")
     {
@@ -634,17 +624,6 @@ QVariant ModelSud::Verdampfungsziffer(const QModelIndex &index) const
         if (model->data(model->index(i, col)).toInt() == anlage)
             return model->data(i, "Verdampfungsziffer").toDouble();
     return 0.0;
-}
-
-QVariant ModelSud::WasserVerschneidung(const QModelIndex &index) const
-{
-    double hgf = 1 + data(index.row(), "highGravityFaktor").toDouble() / 100;
-    double menge = data(index.row(), "WuerzemengeKochende").toDouble() * hgf;
-    double swSoll = data(index.row(), "SWSollKochende").toDouble() / hgf;
-    double swIst = data(index.row(), "SWKochende").toDouble();
-    if (swIst < swSoll)
-        return 0.0;
-    return menge * (swIst / swSoll - 1);
 }
 
 QVariant ModelSud::RestalkalitaetFaktor(const QModelIndex &index) const

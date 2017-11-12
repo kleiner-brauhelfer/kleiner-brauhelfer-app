@@ -226,6 +226,13 @@ double BierCalc::Sudhausausbeute(double sw, double V, double schuettung)
     return sw * platoToDichte(sw) * 0.96 * V / schuettung;
 }
 
+double BierCalc::verschneidung(double swIst, double swSoll, double menge)
+{
+    if (swIst < swSoll)
+        return 0.0;
+    return menge * (swIst / swSoll - 1);
+}
+
 QColor BierCalc::ebcToColor(double ebc)
 {
     static int aFarbe[300][3] = {

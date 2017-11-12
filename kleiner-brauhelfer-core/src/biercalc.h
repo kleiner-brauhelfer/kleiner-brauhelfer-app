@@ -215,6 +215,15 @@ public:
     Q_INVOKABLE static double Sudhausausbeute(double sw, double V, double schuettung);
 
     /**
+     * @brief Benötigte Wassermenge, um auf die Sollstammwürze zu erreichen
+     * @param swIst Iststammwürze [°P]
+     * @param swSoll Sollstammwürze [°P]
+     * @param menge Volumen [L]
+     * @return Verschneidung [L]
+     */
+    Q_INVOKABLE static double verschneidung(double swIst, double swSoll, double menge);
+
+    /**
      * @brief Farbe im RGB Raum
      * @param ebc EBC Farbwert [EBC]
      * @return Farbwert im RGB Raum
