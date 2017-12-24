@@ -12,7 +12,7 @@ TextField {
     }
 
     id: tf
-    implicitWidth: 150
+    implicitWidth: 100
     wrapMode: TextArea.Wrap
     inputMethodHints: Qt.ImhDate
     horizontalAlignment: Text.AlignHCenter

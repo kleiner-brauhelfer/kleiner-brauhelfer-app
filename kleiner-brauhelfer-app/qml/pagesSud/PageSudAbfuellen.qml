@@ -484,15 +484,13 @@ PageBase {
                             text: qsTr("Abfülldatum")
                         }
                         TextFieldDate {
+                            Layout.columnSpan: 2
                             enabled: !page.readOnly
                             date: Brauhelfer.sud.BierWurdeAbgefuellt ? Brauhelfer.sud.Abfuelldatum : new Date()
                             onNewDate: {
                                 this.date = date
                                 Brauhelfer.sud.Abfuelldatum = date
                             }
-                        }
-                        Item {
-                            Layout.preferredWidth: 70
                         }
                         LabelPrim {
                             Layout.fillWidth: true

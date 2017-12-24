@@ -74,13 +74,13 @@ PageBase {
                 Brauhelfer.sud.modelHauptgaerverlauf.append({"SW": Brauhelfer.sud.SWAnstellen, "Temp": tfTemperature.value })
             }
 
-            // message dialog to ask for quit
+            // message dialog
             MessageDialog {
                 id: messageDialog
                 text: qsTr("Verwendete Rohstoffe vom Bestand abziehen?")
                 standardButtons: StandardButton.Yes | StandardButton.No
                 //buttons: MessageDialog.Yes | MessageDialog.No
-                onYes: Brauhelfer.sud.substractBrewRawMaterials()
+                onYes: Brauhelfer.sud.substractBrewIngredients()
             }
 
             ColumnLayout {
@@ -415,33 +415,36 @@ PageBase {
                             }
                         }
                         HorizontalDivider {
-                            visible: repWZMaischen.countVisible > 0
+                            visible: Brauhelfer.sud.modelWeitereZutatenGabenMaischen.rowCount() > 0
                         }
                         LabelPrim {
                             Layout.fillWidth: true
-                            visible: repWZMaischen.countVisible > 0
+                            visible: Brauhelfer.sud.modelWeitereZutatenGabenMaischen.rowCount() > 0
                             text: qsTr("Weitere Zutaten")
                         }
                         Repeater {
-                            property int countVisible: 0
-                            id: repWZMaischen
-                            model: Brauhelfer.sud.modelWeitereZutatenGaben
-                            onItemAdded: if (item.visible) ++countVisible
-                            delegate: RowLayout {
+                            model: Brauhelfer.sud.modelWeitereZutatenGabenMaischen
+                            delegate: ColumnLayout {
                                 Layout.leftMargin: 8
-                                visible: model.Zeitpunkt === 2
-                                LabelPrim {
-                                    Layout.fillWidth: true
-                                    text: model.Name
+                                RowLayout {
+                                    LabelPrim {
+                                        Layout.fillWidth: true
+                                        text: model.Name
+                                    }
+                                    LabelNumber {
+                                        Layout.preferredWidth: 60
+                                        precision: 2
+                                        value: model.Einheit === 0 ? model.erg_Menge/1000 : model.erg_Menge
+                                    }
+                                    LabelPrim {
+                                        Layout.preferredWidth: 70
+                                        text: model.Einheit === 0 ? qsTr("kg") : qsTr("g")
+                                    }
                                 }
-                                LabelNumber {
-                                    Layout.preferredWidth: 60
-                                    precision: 2
-                                    value: model.Einheit === 0 ? model.erg_Menge/1000 : model.erg_Menge
-                                }
                                 LabelPrim {
-                                    Layout.preferredWidth: 70
-                                    text: model.Einheit === 0 ? qsTr("kg") : qsTr("g")
+                                    Layout.leftMargin: 8
+                                    visible: model.Bemerkung !== ""
+                                    text: model.Bemerkung
                                 }
                             }
                         }
@@ -674,35 +677,79 @@ PageBase {
                         anchors.fill: parent
                         LabelPrim {
                             Layout.fillWidth: true
-                            visible: repWZKochen.countVisible > 0
-                            text: qsTr("Weitere Zutaten")
+                            text: qsTr("Hopfen")
                         }
                         Repeater {
-                            property int countVisible: 0
-                            id: repWZKochen
-                            model: Brauhelfer.sud.modelWeitereZutatenGaben
-                            onItemAdded: if (item.visible) ++countVisible
+                            model:Brauhelfer.sud.modelHopfengaben
                             delegate: RowLayout {
                                 Layout.leftMargin: 8
-                                visible: model.Zeitpunkt === 1
+                                visible: !model.Vorderwuerze
                                 LabelPrim {
                                     Layout.fillWidth: true
                                     text: model.Name
                                 }
                                 LabelNumber {
-                                    Layout.preferredWidth: 60
-                                    precision: 2
-                                    value: model.Einheit === 0 ? model.erg_Menge/1000 : model.erg_Menge
+                                    Layout.preferredWidth: 40
+                                    value: model.erg_Menge
                                 }
                                 LabelPrim {
-                                    Layout.preferredWidth: 70
-                                    text: model.Einheit === 0 ? qsTr("kg") : qsTr("g")
+                                    Layout.preferredWidth: 30
+                                    text: qsTr("g")
+                                }
+                                LabelNumber {
+                                    Layout.preferredWidth: 40
+                                    precision: 0
+                                    value: model.Zeit
+                                }
+                                LabelPrim {
+                                    Layout.preferredWidth: 30
+                                    text: qsTr("min")
                                 }
                             }
                         }
                         HorizontalDivider {
-                            visible: repWZKochen.countVisible > 0
+                            visible: Brauhelfer.sud.modelWeitereZutatenGabenKochen.rowCount() > 0
                         }
+                        LabelPrim {
+                            Layout.fillWidth: true
+                            visible: Brauhelfer.sud.modelWeitereZutatenGabenKochen.rowCount() > 0
+                            text: qsTr("Weitere Zutaten")
+                        }
+                        Repeater {
+                            model: Brauhelfer.sud.modelWeitereZutatenGabenKochen
+                            delegate: ColumnLayout {
+                                Layout.leftMargin: 8
+                                RowLayout {
+                                    LabelPrim {
+                                        Layout.fillWidth: true
+                                        text: model.Name
+                                    }
+                                    LabelNumber {
+                                        Layout.preferredWidth: 40
+                                        value: model.Einheit === 0 ? model.erg_Menge/1000 : model.erg_Menge
+                                    }
+                                    LabelPrim {
+                                        Layout.preferredWidth: 30
+                                        text: model.Einheit === 0 ? qsTr("kg") : qsTr("g")
+                                    }
+                                    LabelNumber {
+                                        Layout.preferredWidth: 40
+                                        precision: 0
+                                        value: model.Typ === 0 || model.Typ === 1 ? Brauhelfer.sud.KochdauerNachBitterhopfung : model.Zugabedauer
+                                    }
+                                    LabelPrim {
+                                        Layout.preferredWidth: 30
+                                        text: qsTr("min")
+                                    }
+                                }
+                                LabelPrim {
+                                    Layout.leftMargin: 8
+                                    visible: model.Bemerkung !== ""
+                                    text: model.Bemerkung
+                                }
+                            }
+                        }
+                        HorizontalDivider { }
                         LabelPrim {
                             Layout.fillWidth: true
                             text: qsTr("Kochbegin")
@@ -819,39 +866,6 @@ PageBase {
                             LabelPrim {
                                 Layout.preferredWidth: 70
                                 text: qsTr("min")
-                            }
-                        }
-                        HorizontalDivider { }
-                        LabelPrim {
-                            Layout.fillWidth: true
-                            text: qsTr("Hopfen")
-                        }
-                        Repeater {
-                            model:Brauhelfer.sud.modelHopfengaben
-                            delegate: RowLayout {
-                                Layout.leftMargin: 8
-                                visible: !model.Vorderwuerze
-                                LabelPrim {
-                                    Layout.fillWidth: true
-                                    text: model.Name
-                                }
-                                LabelNumber {
-                                    Layout.preferredWidth: 40
-                                    value: model.erg_Menge
-                                }
-                                LabelPrim {
-                                    Layout.preferredWidth: 30
-                                    text: qsTr("g")
-                                }
-                                LabelNumber {
-                                    Layout.preferredWidth: 40
-                                    precision: 0
-                                    value: model.Zeit
-                                }
-                                LabelPrim {
-                                    Layout.preferredWidth: 30
-                                    text: qsTr("min")
-                                }
                             }
                         }
                         HorizontalDivider { }
@@ -1244,10 +1258,12 @@ PageBase {
                         anchors.fill: parent
                         LabelPrim {
                             Layout.fillWidth: true
+                            visible: Brauhelfer.sud.AuswahlHefe !== ""
                             text: qsTr("Hefe")
                         }
                         RowLayout {
                             Layout.leftMargin: 8
+                            visible: Brauhelfer.sud.AuswahlHefe !== ""
                             LabelPrim {
                                 Layout.fillWidth: true
                                 text: Brauhelfer.sud.AuswahlHefe
@@ -1262,33 +1278,44 @@ PageBase {
                             }
                         }
                         HorizontalDivider {
-                            visible: repWZGaerung.countVisible > 0
+                            visible: Brauhelfer.sud.AuswahlHefe !== "" && Brauhelfer.sud.modelWeitereZutatenGabenGaerung.rowCount() > 0
                         }
                         LabelPrim {
                             Layout.fillWidth: true
-                            visible: repWZGaerung.countVisible > 0
+                            visible: Brauhelfer.sud.modelWeitereZutatenGabenGaerung.rowCount() > 0
                             text: qsTr("Weitere Zutaten")
                         }
                         Repeater {
-                            property int countVisible: 0
-                            id: repWZGaerung
-                            model: Brauhelfer.sud.modelWeitereZutatenGaben
-                            onItemAdded: if (item.visible) ++countVisible
-                            delegate: RowLayout {
+                            model: Brauhelfer.sud.modelWeitereZutatenGabenGaerung
+                            delegate: ColumnLayout {
                                 Layout.leftMargin: 8
-                                visible: model.Zeitpunkt === 0
-                                LabelPrim {
-                                    Layout.fillWidth: true
-                                    text: model.Name
+                                RowLayout {
+                                    LabelPrim {
+                                        Layout.fillWidth: true
+                                        text: model.Name
+                                    }
+                                    LabelNumber {
+                                        Layout.preferredWidth: 40
+                                        value: model.Einheit === 0 ? model.erg_Menge/1000 : model.erg_Menge
+                                    }
+                                    LabelPrim {
+                                        Layout.preferredWidth: 30
+                                        text: model.Einheit === 0 ? qsTr("kg") : qsTr("g")
+                                    }
+                                    LabelNumber {
+                                        Layout.preferredWidth: 40
+                                        precision: 0
+                                        value: model.Zugabedauer/ 1440
+                                    }
+                                    LabelPrim {
+                                        Layout.preferredWidth: 30
+                                        text: qsTr("Tage")
+                                    }
                                 }
-                                LabelNumber {
-                                    Layout.preferredWidth: 60
-                                    precision: 2
-                                    value: model.Einheit === 0 ? model.erg_Menge/1000 : model.erg_Menge
-                                }
                                 LabelPrim {
-                                    Layout.preferredWidth: 70
-                                    text: model.Einheit === 0 ? qsTr("kg") : qsTr("g")
+                                    Layout.leftMargin: 8
+                                    visible: model.Bemerkung !== ""
+                                    text: model.Bemerkung
                                 }
                             }
                         }

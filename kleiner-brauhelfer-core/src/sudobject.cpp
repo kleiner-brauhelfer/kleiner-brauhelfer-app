@@ -99,6 +99,21 @@ SqlTableModel* SudObject::modelWeitereZutatenGaben() const
  return bh->db()->modelWeitereZutatenGaben;
 }
 
+QSortFilterProxyModel *SudObject::modelWeitereZutatenGabenMaischen() const
+{
+    return bh->db()->modelWeitereZutatenGabenMaischen;
+}
+
+QSortFilterProxyModel *SudObject::modelWeitereZutatenGabenKochen() const
+{
+    return bh->db()->modelWeitereZutatenGabenKochen;
+}
+
+QSortFilterProxyModel *SudObject::modelWeitereZutatenGabenGaerung() const
+{
+    return bh->db()->modelWeitereZutatenGabenGaerung;
+}
+
 SqlTableModel* SudObject::modelSchnellgaerverlauf() const
 {
     return bh->db()->modelSchnellgaerverlauf;
@@ -139,7 +154,7 @@ bool SudObject::setValue(const QString &fieldName, const QVariant &value)
     return modelSud()->setData(0, fieldName, value);
 }
 
-void SudObject::substractBrewRawMaterials()
+void SudObject::substractBrewIngredients()
 {
     int row;
     double quantity;
@@ -225,6 +240,41 @@ void SudObject::substractBrewRawMaterials()
                     mSubstract->setData(row, "Menge", quantity);
                 }
             }
+        }
+    }
+}
+
+void SudObject::substractIngredient(const QString& ingredient, int type, double quantity)
+{
+    int row;
+    double totalQuantity;
+    SqlTableModel *mSubstract;
+    if (type == EWZ_Typ_Hopfen)
+    {
+        mSubstract = bh->modelHopfen();
+        row = mSubstract->GetRowWithValue("Beschreibung", ingredient);
+        if (row != -1)
+        {
+            totalQuantity = mSubstract->data(row, "Menge").toDouble() - quantity;
+            if (totalQuantity < 0.0)
+                totalQuantity = 0.0;
+            mSubstract->setData(row, "Menge", totalQuantity);
+        }
+    }
+    else
+    {
+        mSubstract = bh->modelWeitereZutaten();
+        row = mSubstract->GetRowWithValue("Beschreibung", ingredient);
+        if (row != -1)
+        {
+            totalQuantity = mSubstract->data(row, "Menge").toDouble();
+            if (mSubstract->data(row, "Einheiten").toInt() == EWZ_Einheit_Kg)
+                totalQuantity -= quantity / 1000;
+            else
+                totalQuantity -= quantity;
+            if (totalQuantity < 0.0)
+                totalQuantity = 0.0;
+            mSubstract->setData(row, "Menge", totalQuantity);
         }
     }
 }

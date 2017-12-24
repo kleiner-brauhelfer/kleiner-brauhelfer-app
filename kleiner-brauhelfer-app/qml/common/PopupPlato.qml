@@ -16,6 +16,10 @@ Popup {
     modal: true
     focus: true
 
+    onClosed: {
+        navPane.setFocus()
+    }
+
     function edit(value) {
         tfPlato.focus = true
         tfPlato.value = value

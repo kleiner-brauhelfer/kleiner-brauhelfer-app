@@ -59,10 +59,10 @@ PageBase {
             anchors.right: parent.right
             anchors.bottom: parent.bottom
             boundsBehavior: Flickable.OvershootBounds
-
             model: Brauhelfer.sud.modelSchnellgaerverlauf
-
             headerPositioning: isLandscape? ListView.PullBackHeader : ListView.OverlayHeader
+            Component.onCompleted: positionViewAtEnd()
+            ScrollIndicator.vertical: ScrollIndicator {}
             header: Rectangle {
                 z: 2
                 width: parent.width
@@ -169,8 +169,6 @@ PageBase {
                     HorizontalDivider {}
                 }
             }
-
-            ScrollIndicator.vertical: ScrollIndicator {}
         }
 
         Popup {
@@ -356,7 +354,7 @@ PageBase {
             id: btnAdd
             anchors.right: parent.right
             anchors.rightMargin: 16
-            anchors.bottom: parent.bottom
+            anchors.bottom: listView.bottom
             anchors.bottomMargin: 8
             imageSource: "qrc:/images/ic_add_white.png"
             visible: !page.readOnly

@@ -12,10 +12,12 @@ Pane {
 
     z: 1
     Material.elevation: 8
-    height: 24
+    height: layout.height
     padding: 0
 
     RowLayout {
+        id: layout
+        height: 24
         anchors.fill: parent
 
         Item {
