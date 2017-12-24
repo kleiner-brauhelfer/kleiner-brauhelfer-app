@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.2
 import QtGraphicalEffects 1.0
 import QtCharts 2.2
+import QtQuick.Dialogs 1.3
 
 import "../common"
 import brauhelfer 1.0
@@ -58,7 +59,7 @@ PageBase {
             anchors.top: chart.bottom
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.bottom: parent.bottom
+            anchors.bottom: layoutIngredients.top
             boundsBehavior: Flickable.OvershootBounds
             model: Brauhelfer.sud.modelHauptgaerverlauf
             headerPositioning: isLandscape? ListView.PullBackHeader : ListView.OverlayHeader
@@ -168,6 +169,151 @@ PageBase {
                         }
                     }
                     HorizontalDivider {}
+                }
+            }
+        }
+        ColumnLayout {
+            id: layoutIngredients
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            HorizontalDivider {
+                visible: Brauhelfer.sud.modelWeitereZutatenGabenGaerung.rowCount() > 0
+            }
+            LabelSubheader {
+                Layout.fillWidth: true
+                Layout.leftMargin: 4
+                Layout.rightMargin: 4
+                visible: Brauhelfer.sud.modelWeitereZutatenGabenGaerung.rowCount() > 0
+                text: qsTr("Weitere Zutaten")
+            }
+            ListView {
+
+                function addIngredient(item, date) {
+                    item.Zeitpunkt_von = date
+                    item.Zugabestatus = 1
+                    messageDialog.item = item
+                    messageDialog.open()
+                }
+
+                function removeIngredient(item, date, date2) {
+                    item.Zeitpunkt_bis = date
+                    item.Zugabestatus = 2
+                    item.Zugabedauer = (Math.ceil(date.getTime() / 1440 / 60000) - Math.floor(date2.getTime() / 1440 / 60000)) * 1440
+                }
+
+                // message dialog
+                MessageDialog {
+                    property var item: null
+                    id: messageDialog
+                    icon: StandardIcon.Question
+                    text: qsTr("Rohstoff vom Bestand abziehen?")
+                    standardButtons: StandardButton.Yes | StandardButton.No
+                    //buttons: MessageDialog.Yes | MessageDialog.No
+                    onYes: Brauhelfer.sud.substractIngredient(item.Name, item.Typ, item.erg_Menge)
+                }
+
+                id: layoutIngredientsList
+                clip: true
+                snapMode: ListView.SnapOneItem
+                Layout.fillWidth: true
+                Layout.leftMargin: 4
+                Layout.rightMargin: 4
+                height: 92
+                visible: Brauhelfer.sud.modelWeitereZutatenGabenGaerung.rowCount() > 0
+                boundsBehavior: Flickable.OvershootBounds
+                model: Brauhelfer.sud.modelWeitereZutatenGabenGaerung
+                ScrollIndicator.vertical: ScrollIndicator {}
+                Component.onCompleted: height = itemAt(0, 0).height
+                delegate: ColumnLayout {
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    RowLayout {
+                        Layout.fillWidth: true
+                        LabelPrim {
+                            Layout.fillWidth: true
+                            text: model.Name
+                        }
+                        LabelNumber {
+                            value: model.Einheit === 0 ? model.erg_Menge/1000 : model.erg_Menge
+                        }
+                        LabelPrim {
+                            text: model.Einheit === 0 ? qsTr("kg") : qsTr("g")
+                        }
+                        Item {
+                            Layout.preferredWidth: 10
+                            visible: model.Entnahmeindex !== 1
+                        }
+                        LabelNumber {
+                            visible: model.Entnahmeindex !== 1
+                            precision: 0
+                            value: model.Zugabedauer / 1440
+                        }
+                        LabelPrim {
+                            visible: model.Entnahmeindex !== 1
+                            text: qsTr("Tage")
+                        }
+                    }
+                    LabelPrim {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: 8
+                        text: model.Bemerkung
+                    }
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: 8
+                        LabelPrim {
+                            text: qsTr("von")
+                        }
+                        TextFieldDate {
+                            id: tfDateAdded
+                            Layout.fillWidth: true
+                            enabled: !page.readOnly
+                            readOnly: model.Zugabestatus !== 0
+                            date: model.Zugabestatus === 0 ? new Date() : model.Zeitpunkt_von
+                            onNewDate: {
+                                this.date = date
+                                model.Zeitpunkt_von = date
+                            }
+                        }
+                        LabelPrim {
+                            visible: model.Entnahmeindex !== 1
+                            text: qsTr("bis")
+                        }
+                        TextFieldDate {
+                            function addDays(date, days) {
+                              var result = new Date(date);
+                              result.setDate(result.getDate() + days);
+                              return result;
+                            }
+                            id: tfDateRemoved
+                            Layout.fillWidth: true
+                            enabled: !page.readOnly
+                            visible: model.Entnahmeindex !== 1
+                            readOnly: model.Zugabestatus !== 1
+                            date: model.Zugabestatus === 0 ? addDays(tfDateAdded.date, model.Zugabedauer / 1440) : model.Zugabestatus === 1 ? new Date() : model.Zeitpunkt_bis
+                            onNewDate: {
+                                this.date = date
+                                model.Zeitpunkt_bis = date
+                            }
+                        }
+                        RoundButton {
+                            visible: !page.readOnly && (model.Zugabestatus === 0 || (model.Zugabestatus === 1 && model.Entnahmeindex !== 1))
+                            contentItem: Image {
+                                source: model.Zugabestatus === 0 ? "qrc:/images/ic_add.png" : "qrc:/images/ic_remove.png"
+                                anchors.centerIn: parent
+                            }
+                            enabled: !page.readOnly
+                            onClicked: {
+                                if (model.Zugabestatus === 0) {
+                                    layoutIngredientsList.addIngredient(model, tfDateAdded.date)
+                                }
+                                else if (model.Zugabestatus === 1) {
+                                    layoutIngredientsList.removeIngredient(model, tfDateRemoved.date, tfDateAdded.date)
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

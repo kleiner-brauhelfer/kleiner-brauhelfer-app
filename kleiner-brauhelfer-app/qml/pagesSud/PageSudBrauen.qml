@@ -3,7 +3,7 @@ import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.2
 import QtGraphicalEffects 1.0
-import QtQuick.Dialogs 1.2
+import QtQuick.Dialogs 1.3
 
 import "../common"
 import brauhelfer 1.0
@@ -77,6 +77,7 @@ PageBase {
             // message dialog
             MessageDialog {
                 id: messageDialog
+                icon: StandardIcon.Question
                 text: qsTr("Verwendete Rohstoffe vom Bestand abziehen?")
                 standardButtons: StandardButton.Yes | StandardButton.No
                 //buttons: MessageDialog.Yes | MessageDialog.No

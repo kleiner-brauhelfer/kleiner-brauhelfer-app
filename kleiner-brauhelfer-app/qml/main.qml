@@ -1,6 +1,6 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
-import QtQuick.Dialogs 1.2
+import QtQuick.Dialogs 1.3
 
 import "common"
 import "pagesGlobal"
@@ -73,12 +73,10 @@ ApplicationWindow {
 
                 // check if everything ok
                 if (Brauhelfer.readonly)
-                    messageDialog.show(qsTr("Synchronisationsdienst ist nicht verfügbar."),
-                                       qsTr("Datenbank wird nur lesend geöffnet."))
-                if (!Brauhelfer.connected) {
-                    messageDialogGotoSettings.show(qsTr("Verbindung mit der Datenbank fehlgeschlagen."),
-                                                   qsTr("Einstellungen überprüfen."))
-                }
+                    messageDialogReadonly.open()
+                if (!Brauhelfer.connected)
+                    messageDialogGotoSettings.open()
+
                 break
             case save:
                 Brauhelfer.save()
@@ -155,30 +153,27 @@ ApplicationWindow {
         id: toast
     }
 
-    // generic message dialog, use show() to open dialog
+    // message dialog to show readonly message
     MessageDialog {
-        id: messageDialog
-        function show(text, details) {
-            messageDialog.text = text
-            messageDialog.informativeText = details
-            messageDialog.open()
-        }
+        id: messageDialogReadonly
+        icon: StandardIcon.Information
+        text: qsTr("Synchronisationsdienst ist nicht verfügbar.")
+        informativeText: qsTr("Datenbank wird nur lesend geöffnet.")
     }
 
-    // message dialog going to the settings, use show() to open dialog
+    // message dialog going to the settings
     MessageDialog {
         id: messageDialogGotoSettings
+        icon: StandardIcon.Warning
+        text: qsTr("Verbindung mit der Datenbank fehlgeschlagen.")
+        informativeText: qsTr("Einstellungen überprüfen.")
         onAccepted: navPane.goSettings()
-        function show(text, details) {
-            messageDialogGotoSettings.text = text
-            messageDialogGotoSettings.informativeText = details
-            messageDialogGotoSettings.open()
-        }
     }
 
     // message dialog to ask for quit
     MessageDialog {
         id: messageDialogQuit
+        icon: StandardIcon.Question
         text: qsTr("Soll das Programm geschlossen werden?")
         standardButtons: StandardButton.Ok | StandardButton.Cancel
         //buttons: MessageDialog.Ok | MessageDialog.Cancel

@@ -7,6 +7,8 @@
         <file>images/glass.png</file>
         <file>images/hauptgaerung.png</file>
         <file>images/hauptgaerung@2x.png</file>
+        <file>images/ic_add.png</file>
+        <file>images/ic_add@2x.png</file>
         <file>images/ic_add_white.png</file>
         <file>images/ic_add_white@2x.png</file>
         <file>images/ic_cancel.png</file>
@@ -39,6 +41,8 @@
         <file>images/ic_menu_white@2x.png</file>
         <file>images/ic_merge_type.png</file>
         <file>images/ic_merge_type@2x.png</file>
+        <file>images/ic_remove.png</file>
+        <file>images/ic_remove@2x.png</file>
         <file>images/ic_save_white.png</file>
         <file>images/ic_save_white@2x.png</file>
         <file>images/ic_settings.png</file>
