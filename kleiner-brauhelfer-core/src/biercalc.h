@@ -19,8 +19,8 @@ public:
      */
     enum BrixToPlato
     {
-        Terril = 0,
-        TerrilLinear = 1,
+        Terrill = 0,
+        TerrillLinear = 1,
         Standard = 2
     };
     Q_ENUM(BrixToPlato)
@@ -62,7 +62,7 @@ public:
      * @param formel Benutze Umrechnungsformel
      * @return Spezifische Dichte [g/ml]
      */
-    Q_INVOKABLE static double brixToDichte(double sw, double brix, BrixToPlato formel = Terril);
+    Q_INVOKABLE static double brixToDichte(double sw, double brix, BrixToPlato formel = Terrill);
 
     /**
      * @brief Umrechnung spezifische Dichte bei 20°C [g/ml] nach plato [°P]

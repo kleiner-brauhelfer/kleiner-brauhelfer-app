@@ -20,10 +20,10 @@ double BierCalc::brixToDichte(double sw, double brix, BrixToPlato formel)
     double b = brixToPlato(brix);
     switch (formel)
     {
-    case Terril:
+    case Terrill:
         // http://seanterrill.com/2011/04/07/refractometer-fg-results/
         return 1 - 0.0044993*sw + 0.0117741*b + 0.000275806*sw*sw - 0.00127169*b*b - 0.00000727999*sw*sw*sw + 0.0000632929*b*b*b;
-    case TerrilLinear:
+    case TerrillLinear:
         // http://seanterrill.com/2011/04/07/refractometer-fg-results/
         return 1.0000 - 0.00085683*sw + 0.0034941*b;
     case Standard:
@@ -228,7 +228,7 @@ double BierCalc::Sudhausausbeute(double sw, double V, double schuettung)
 
 double BierCalc::verschneidung(double swIst, double swSoll, double menge)
 {
-    if (swIst < swSoll)
+    if (swIst < swSoll || swSoll == 0.0)
         return 0.0;
     return menge * (swIst / swSoll - 1);
 }

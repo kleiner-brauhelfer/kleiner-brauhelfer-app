@@ -47,7 +47,7 @@ PageBase {
                 ComboBox {
                     id: cbFormel
                     Layout.columnSpan: 2
-                    model: [ "Terril", "Terril Linear", "Standard" ]
+                    model: [ "Terrill", "Terrill Linear", "Standard" ]
                     opacity: {
                         if (enabled)
                             Material.theme === Material.Dark ? 1.00 : 0.87
