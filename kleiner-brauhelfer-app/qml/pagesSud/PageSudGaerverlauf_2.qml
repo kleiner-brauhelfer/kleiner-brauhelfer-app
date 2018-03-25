@@ -104,7 +104,7 @@ PageBase {
 
             footerPositioning: ListView.InlineFooter
             footer: Item {
-                height: btnAdd.height + 12
+                height: !page.readOnly ? btnAdd.height + 12 : 0
             }
 
             delegate: ItemDelegate {
@@ -149,21 +149,21 @@ PageBase {
                         }
                         LabelPlato {
                             Layout.preferredWidth: 70
-                            unit: " °P"
+                            unit: "°P"
                             value: model.SW
                             color: chart.color2
                         }
                         LabelNumber {
                             Layout.preferredWidth: 70
                             precision: 1
-                            unit: " °C"
+                            unit: "°C"
                             value: model.Temp
                             color: chart.color3
                         }
                         LabelNumber {
                             Layout.preferredWidth: 70
                             precision: 1
-                            unit: " %"
+                            unit: "%"
                             value: model.Alc
                             color: chart.color1
                         }
@@ -224,7 +224,7 @@ PageBase {
                 boundsBehavior: Flickable.OvershootBounds
                 model: Brauhelfer.sud.modelWeitereZutatenGabenGaerung
                 ScrollIndicator.vertical: ScrollIndicator {}
-                Component.onCompleted: height = itemAt(0, 0).height
+                Component.onCompleted: height = count > 0 ? itemAt(0, 0).height : 0
                 delegate: ColumnLayout {
                     anchors.left: parent.left
                     anchors.right: parent.right

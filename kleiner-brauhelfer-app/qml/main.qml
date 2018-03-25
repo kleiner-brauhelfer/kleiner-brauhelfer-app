@@ -196,6 +196,10 @@ ApplicationWindow {
         visible: false
         //Testarea {}
         PageGlobalAuswahl { onClicked: loadBrew(id) }
+        PageGlobalMalt { }
+        PageGlobalHops { }
+        PageGlobalIngredients { }
+        PageGlobalYeast { }
     }
 
     // brew pages

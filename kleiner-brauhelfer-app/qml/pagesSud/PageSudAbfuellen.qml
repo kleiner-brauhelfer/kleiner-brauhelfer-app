@@ -504,7 +504,7 @@ PageBase {
                         }
                         LabelPrim {
                            Layout.preferredWidth: 70
-                            text: qsTr("CHF")
+                            text: Qt.locale().currencySymbol()
                         }
                         LabelPrim {
                             Layout.fillWidth: true
@@ -517,7 +517,7 @@ PageBase {
                         }
                         LabelPrim {
                             Layout.preferredWidth: 70
-                            text: qsTr("CHF/Liter")
+                            text: Qt.locale().currencySymbol() + "/" + qsTr("Liter")
                         }
                         Button {
                             id: ctrlAbgefuellt

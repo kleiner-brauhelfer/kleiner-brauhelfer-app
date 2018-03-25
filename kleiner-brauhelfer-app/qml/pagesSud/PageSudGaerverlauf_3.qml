@@ -103,7 +103,7 @@ PageBase {
 
             footerPositioning: ListView.InlineFooter
             footer: Item {
-                height: btnAdd.height + 12
+                height: !page.readOnly ? btnAdd.height + 12 : 0
             }
 
             delegate: ItemDelegate {
@@ -148,20 +148,20 @@ PageBase {
                         }
                         LabelNumber {
                             Layout.preferredWidth: 70
-                            unit: " bar"
+                            unit: "bar"
                             value: model.Druck
                             color: chart.color2
                         }
                         LabelNumber {
                             Layout.preferredWidth: 70
                             precision: 1
-                            unit: " °C"
+                            unit: "°C"
                             value: model.Temp
                             color: chart.color3
                         }
                         LabelNumber {
                             Layout.preferredWidth: 70
-                            unit: " g/ml"
+                            unit: "g/ml"
                             value: model.CO2
                             color: chart.color1
                         }

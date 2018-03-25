@@ -10,13 +10,19 @@
         <file>qml/pagesOthers/PageSettings.qml</file>
         <file>qml/pagesOthers/PageAbout.qml</file>
         <file>qml/pagesGlobal/PageGlobalAuswahl.qml</file>
+        <file>qml/pagesGlobal/PageGlobalMalt.qml</file>
+        <file>qml/pagesGlobal/PageGlobalHops.qml</file>
+        <file>qml/pagesGlobal/PageGlobalIngredients.qml</file>
+        <file>qml/pagesGlobal/PageGlobalYeast.qml</file>
         <file>qml/pagesSud/PageSudHome.qml</file>
         <file>qml/pagesSud/PageSudAbfuellen.qml</file>
+        <file>qml/pagesSud/PageSudBrauen.qml</file>
         <file>qml/pagesSud/PageSudGaerverlauf_1.qml</file>
         <file>qml/pagesSud/PageSudGaerverlauf_2.qml</file>
         <file>qml/pagesSud/PageSudGaerverlauf_3.qml</file>
         <file>qml/pagesSud/PageSudBewertung.qml</file>
         <file>qml/pagesTools/PageToolBieranalyse.qml</file>
+        <file>qml/pagesTools/PageToolCrossMix.qml</file>
         <file>qml/common/Chart.qml</file>
         <file>qml/common/FloatingButton.qml</file>
         <file>qml/common/HorizontalDivider.qml</file>
@@ -29,7 +35,6 @@
         <file>qml/common/Toast.qml</file>
         <file>qml/common/TextFieldDate.qml</file>
         <file>qml/common/TextFieldDateTime.qml</file>
-        <file>qml/pagesSud/PageSudBrauen.qml</file>
         <file>qml/common/TextFieldVolume.qml</file>
         <file>qml/common/LabelSubheader.qml</file>
         <file>qml/common/LabelNumber.qml</file>
@@ -38,6 +43,5 @@
         <file>qml/common/LabelDate.qml</file>
         <file>qml/common/LabelDateTime.qml</file>
         <file>qml/PageTestarea.qml</file>
-        <file>qml/pagesTools/PageToolCrossMix.qml</file>
     </qresource>
 </RCC>

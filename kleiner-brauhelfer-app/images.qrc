@@ -7,6 +7,8 @@
         <file>images/glass.png</file>
         <file>images/hauptgaerung.png</file>
         <file>images/hauptgaerung@2x.png</file>
+        <file>images/hops.png</file>
+        <file>images/hops@2x.png</file>
         <file>images/ic_add.png</file>
         <file>images/ic_add@2x.png</file>
         <file>images/ic_add_white.png</file>
@@ -55,7 +57,11 @@
         <file>images/ic_star_border@2x.png</file>
         <file>images/ic_view_module.png</file>
         <file>images/ic_view_module@2x.png</file>
+        <file>images/ingredients.png</file>
+        <file>images/ingredients@2x.png</file>
         <file>images/logo.png</file>
+        <file>images/malt.png</file>
+        <file>images/malt@2x.png</file>
         <file>images/nachgaerung.png</file>
         <file>images/nachgaerung@2x.png</file>
         <file>images/pressure.png</file>
@@ -70,5 +76,7 @@
         <file>images/sugar@2x.png</file>
         <file>images/temperature.png</file>
         <file>images/temperature@2x.png</file>
+        <file>images/yeast.png</file>
+        <file>images/yeast@2x.png</file>
     </qresource>
 </RCC>

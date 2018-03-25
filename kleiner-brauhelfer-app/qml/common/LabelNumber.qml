@@ -9,5 +9,5 @@ LabelPrim {
     property int precision: 1
     property string unit: ""
     horizontalAlignment: Text.AlignHCenter
-    text: Number(value).toLocaleString(Qt.locale(), 'f', precision) + unit
+    text: Number(value).toLocaleString(Qt.locale(), 'f', precision) + (unit != "" ? " " + unit : "")
 }
