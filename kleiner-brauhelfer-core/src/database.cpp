@@ -27,9 +27,6 @@ Database::Database(Brauhelfer* bh) :
     modelMalzschuettung = new SqlTableModel(bh);
     modelHopfengaben = new SqlTableModel(bh);
     modelWeitereZutatenGaben = new SqlTableModel(bh);
-    modelWeitereZutatenGabenMaischen = new QSortFilterProxyModel(bh);
-    modelWeitereZutatenGabenKochen = new QSortFilterProxyModel(bh);
-    modelWeitereZutatenGabenGaerung = new QSortFilterProxyModel(bh);
     modelSchnellgaerverlauf = new ModelSchnellgaerverlauf(bh);
     modelHauptgaerverlauf = new ModelHauptgaerverlauf(bh);
     modelNachgaerverlauf = new ModelNachgaerverlauf(bh);
@@ -74,15 +71,6 @@ void Database::onConnect()
     modelMalzschuettung->setTable("Malzschuettung");
     modelHopfengaben->setTable("Hopfengaben");
     modelWeitereZutatenGaben->setTable("WeitereZutatenGaben");
-    modelWeitereZutatenGabenMaischen->setSourceModel(modelWeitereZutatenGaben);
-    modelWeitereZutatenGabenMaischen->setFilterFixedString(STR(EWZ_Zeitpunkt_Maischen));
-    modelWeitereZutatenGabenMaischen->setFilterKeyColumn(modelWeitereZutatenGaben->fieldIndex("Zeitpunkt"));
-    modelWeitereZutatenGabenKochen->setSourceModel(modelWeitereZutatenGaben);
-    modelWeitereZutatenGabenKochen->setFilterFixedString(STR(EWZ_Zeitpunkt_Kochbeginn));
-    modelWeitereZutatenGabenKochen->setFilterKeyColumn(modelWeitereZutatenGaben->fieldIndex("Zeitpunkt"));
-    modelWeitereZutatenGabenGaerung->setSourceModel(modelWeitereZutatenGaben);
-    modelWeitereZutatenGabenGaerung->setFilterFixedString(STR(EWZ_Zeitpunkt_Gaerung));
-    modelWeitereZutatenGabenGaerung->setFilterKeyColumn(modelWeitereZutatenGaben->fieldIndex("Zeitpunkt"));
     modelSchnellgaerverlauf->setTable("Schnellgaerverlauf");
     modelSchnellgaerverlauf->setSortByFieldName("Zeitstempel", Qt::AscendingOrder);
     modelHauptgaerverlauf->setTable("Hauptgaerverlauf");
@@ -114,9 +102,6 @@ Database::~Database()
     delete modelMalzschuettung;
     delete modelHopfengaben;
     delete modelWeitereZutatenGaben;
-    delete modelWeitereZutatenGabenMaischen;
-    delete modelWeitereZutatenGabenKochen;
-    delete modelWeitereZutatenGabenGaerung;
     delete modelSchnellgaerverlauf;
     delete modelHauptgaerverlauf;
     delete modelNachgaerverlauf;

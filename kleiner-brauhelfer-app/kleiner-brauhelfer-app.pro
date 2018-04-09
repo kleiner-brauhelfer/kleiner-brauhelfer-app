@@ -55,13 +55,15 @@ INCLUDEPATH += src ../kleiner-brauhelfer-core/src
 HEADERS += \
     src/qmlutils.h \
     src/syncservicemanager.h \
-    src/syncservicedropbox.h
+    src/syncservicedropbox.h \
+    src/sortfilterproxymodel.h
 
 # source files
 SOURCES += src\main.cpp \
     src/qmlutils.cpp \
     src/syncservicemanager.cpp \
-    src/syncservicedropbox.cpp
+    src/syncservicedropbox.cpp \
+    src/sortfilterproxymodel.cpp
 
 # resource files
 RESOURCES += qml.qrc \

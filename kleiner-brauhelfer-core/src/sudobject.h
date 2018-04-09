@@ -111,9 +111,6 @@ class SudObject : public QObject
     Q_PROPERTY(SqlTableModel* modelMalzschuettung READ modelMalzschuettung CONSTANT)
     Q_PROPERTY(SqlTableModel* modelHopfengaben READ modelHopfengaben CONSTANT)
     Q_PROPERTY(SqlTableModel* modelWeitereZutatenGaben READ modelWeitereZutatenGaben CONSTANT)
-    Q_PROPERTY(QSortFilterProxyModel* modelWeitereZutatenGabenMaischen READ modelWeitereZutatenGabenMaischen CONSTANT)
-    Q_PROPERTY(QSortFilterProxyModel* modelWeitereZutatenGabenKochen READ modelWeitereZutatenGabenKochen CONSTANT)
-    Q_PROPERTY(QSortFilterProxyModel* modelWeitereZutatenGabenGaerung READ modelWeitereZutatenGabenGaerung CONSTANT)
     Q_PROPERTY(SqlTableModel* modelSchnellgaerverlauf READ modelSchnellgaerverlauf CONSTANT)
     Q_PROPERTY(SqlTableModel* modelHauptgaerverlauf READ modelHauptgaerverlauf CONSTANT)
     Q_PROPERTY(SqlTableModel* modelNachgaerverlauf READ modelNachgaerverlauf CONSTANT)
@@ -180,9 +177,6 @@ public:
     SqlTableModel* modelMalzschuettung() const;
     SqlTableModel* modelHopfengaben() const;
     SqlTableModel* modelWeitereZutatenGaben() const;
-    QSortFilterProxyModel* modelWeitereZutatenGabenMaischen() const;
-    QSortFilterProxyModel* modelWeitereZutatenGabenKochen() const;
-    QSortFilterProxyModel* modelWeitereZutatenGabenGaerung() const;
     SqlTableModel* modelSchnellgaerverlauf() const;
     SqlTableModel* modelHauptgaerverlauf() const;
     SqlTableModel* modelNachgaerverlauf() const;

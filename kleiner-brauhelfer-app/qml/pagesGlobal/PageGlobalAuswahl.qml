@@ -380,7 +380,7 @@ PageBase {
                         ListElement {
                             text: qsTr("nicht verbraucht")
                             checked: false
-                            filter: "BierWurdeVerbraucht=0"
+                            filter: "BierWurdeGebraut=1 AND BierWurdeAbgefuellt=1 AND BierWurdeVerbraucht=0"
                         }
                         ListElement {
                             text: qsTr("Merkliste")

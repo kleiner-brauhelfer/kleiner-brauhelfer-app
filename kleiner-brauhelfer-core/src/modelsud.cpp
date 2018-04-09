@@ -257,13 +257,13 @@ void ModelSud::valueChanged(const QModelIndex &index, const QVariant &value)
     // erg_Sudhausausbeute
     double sw = data(index.row(), "SWKochende").toDouble();
     menge = data(index.row(), "WuerzemengeKochende").toDouble();
-    setData(index.row(), "erg_Sudhausausbeute", BierCalc::Sudhausausbeute(sw - swWzMaischen[index.row()] - swWzKochen[index.row()], menge, schuet));
+    setData(index.row(), "erg_Sudhausausbeute", BierCalc::sudhausausbeute(sw - swWzMaischen[index.row()] - swWzKochen[index.row()], menge, schuet));
 
     // erg_EffektiveAusbeute
     double hgf = 1 + data(index.row(), "highGravityFaktor").toDouble() / 100;
     sw = data(index.row(), "SWAnstellen").toDouble();
     menge = data(index.row(), "WuerzemengeAnstellen").toDouble() + data(index.row(), "Speisemenge").toDouble();
-    setData(index.row(), "erg_EffektiveAusbeute", BierCalc::Sudhausausbeute(sw * hgf - swWzMaischen[index.row()] - swWzKochen[index.row()], menge/hgf, schuet));
+    setData(index.row(), "erg_EffektiveAusbeute", BierCalc::sudhausausbeute(sw * hgf - swWzMaischen[index.row()] - swWzKochen[index.row()], menge/hgf, schuet));
 
     // erg_Alkohol
     double sre = data(index.row(), "SREIst").toDouble();

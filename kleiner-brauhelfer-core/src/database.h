@@ -78,9 +78,6 @@ public:
     SqlTableModel* modelMalzschuettung;
     SqlTableModel* modelHopfengaben;
     SqlTableModel* modelWeitereZutatenGaben;
-    QSortFilterProxyModel* modelWeitereZutatenGabenMaischen;
-    QSortFilterProxyModel* modelWeitereZutatenGabenKochen;
-    QSortFilterProxyModel* modelWeitereZutatenGabenGaerung;
     SqlTableModel* modelSchnellgaerverlauf;
     SqlTableModel* modelHauptgaerverlauf;
     SqlTableModel* modelNachgaerverlauf;

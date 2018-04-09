@@ -85,7 +85,7 @@ double BierCalc::extraktForCO2(double co2)
     return co2 / 0.51429;
 }
 
-double BierCalc::CO2ForExtrakt(double extrakt)
+double BierCalc::co2ForExtrakt(double extrakt)
 {
     // C12H22O11 + H2O -> 4C2H5OH + 4CO2
     //  342.3g   +  .. ->   ...   + 127.04g
@@ -160,12 +160,12 @@ double BierCalc::speise(double co2Soll, double sw, double sreSchnellgaerprobe, d
     double dichteJungbier = platoToDichte(treJungbier);
 
     // CO2 Potenzial der endvergorenen Speise
-    double co2Pot = CO2ForExtrakt(sw - treSchnellgaerprobe) * (dichteSpeise * 10);
+    double co2Pot = co2ForExtrakt(sw - treSchnellgaerprobe) * (dichteSpeise * 10);
     if (co2Pot <= 0.0)
         return 0.0;
 
     // CO2 Potenzial im teilvergorenen Jungbier
-    double co2PotJungbier = CO2ForExtrakt((treJungbier - treSchnellgaerprobe) * (dichteJungbier * 10));
+    double co2PotJungbier = co2ForExtrakt((treJungbier - treSchnellgaerprobe) * (dichteJungbier * 10));
 
     // Benoetigtes zusaetzliches CO2
     double co2Add = co2Soll - co2(0.0, T) - co2PotJungbier;
@@ -193,7 +193,7 @@ double BierCalc::speiseToZucker(double sw, double sre, double speise)
     return (sw - tre) * 10 * (speise / 1000);
 }
 
-double BierCalc::DichteWasser(double T)
+double BierCalc::dichteWasser(double T)
 {
     const double a0 = 999.83952;
     const double a1 = 16.952577;
@@ -205,10 +205,10 @@ double BierCalc::DichteWasser(double T)
     return (a0 + T * a1 + pow(T,2) * a2 + pow(T,3) * a3 + pow(T,4) * a4 + pow(T,5) * a5) / (1 + T * b);
 }
 
-double BierCalc::VolumenWasser(double T1, double T2, double V1)
+double BierCalc::volumenWasser(double T1, double T2, double V1)
 {
-    double rho1 = DichteWasser(T1);
-    double rho2 = DichteWasser(T2);
+    double rho1 = dichteWasser(T1);
+    double rho2 = dichteWasser(T2);
     return (rho1 * V1) / rho2;
 }
 
@@ -219,7 +219,7 @@ double BierCalc::verdampfungsziffer(double V1, double V2, double t)
     return ((V1 - V2) * 100 * 60) / (V2 * t);
 }
 
-double BierCalc::Sudhausausbeute(double sw, double V, double schuettung)
+double BierCalc::sudhausausbeute(double sw, double V, double schuettung)
 {
     if (schuettung <= 0.0)
         return 0.0;

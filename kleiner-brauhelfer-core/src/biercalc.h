@@ -108,7 +108,7 @@ public:
      * @param extrakt Extrakt [g/l]
      * @return CO2 Gehalt [g/l]
      */
-    Q_INVOKABLE static double CO2ForExtrakt(double extrakt);
+    Q_INVOKABLE static double co2ForExtrakt(double extrakt);
 
     /**
      * @brief Vergärungsgrad [%]
@@ -185,7 +185,7 @@ public:
      * @param T Temperatur [°C]
      * @return Dichte
      */
-    Q_INVOKABLE static double DichteWasser(double T);
+    Q_INVOKABLE static double dichteWasser(double T);
 
     /**
      * @brief Berechnet das Volumen von Wasser bei einer andere Temperatur
@@ -194,7 +194,7 @@ public:
      * @param V1 Volumen bei Temperatur 1 [L]
      * @return Volumen bei Temperatur 2 [L]
      */
-    Q_INVOKABLE static double VolumenWasser(double T1, double T2, double V1);
+    Q_INVOKABLE static double volumenWasser(double T1, double T2, double V1);
 
     /**
      * @brief Berechnet die Verdampfungsziffer
@@ -212,7 +212,7 @@ public:
      * @param schuettung Schüttung [kg]
      * @return Sudhausausbeute [%]
      */
-    Q_INVOKABLE static double Sudhausausbeute(double sw, double V, double schuettung);
+    Q_INVOKABLE static double sudhausausbeute(double sw, double V, double schuettung);
 
     /**
      * @brief Benötigte Wassermenge, um auf die Sollstammwürze zu erreichen

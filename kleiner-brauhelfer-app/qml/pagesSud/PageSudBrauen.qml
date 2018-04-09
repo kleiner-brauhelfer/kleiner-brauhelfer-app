@@ -7,6 +7,7 @@ import QtQuick.Dialogs 1.3
 
 import "../common"
 import brauhelfer 1.0
+import SortFilterProxyModel 1.0
 
 PageBase {
     id: page
@@ -416,15 +417,20 @@ PageBase {
                             }
                         }
                         HorizontalDivider {
-                            visible: Brauhelfer.sud.modelWeitereZutatenGabenMaischen.rowCount() > 0
+                            visible: repeaterModelWeitereZutatenGabenMaischen.count > 0
                         }
                         LabelPrim {
                             Layout.fillWidth: true
-                            visible: Brauhelfer.sud.modelWeitereZutatenGabenMaischen.rowCount() > 0
+                            visible: repeaterModelWeitereZutatenGabenMaischen.count > 0
                             text: qsTr("Weitere Zutaten")
                         }
                         Repeater {
-                            model: Brauhelfer.sud.modelWeitereZutatenGabenMaischen
+                            id: repeaterModelWeitereZutatenGabenMaischen
+                            model: SortFilterProxyModel {
+                                sourceModel: Brauhelfer.sud.modelWeitereZutatenGaben
+                                filterKeyColumn: sourceModel.fieldIndex("Zeitpunkt")
+                                filterRegExp: /2/
+                            }
                             delegate: ColumnLayout {
                                 Layout.leftMargin: 8
                                 RowLayout {
@@ -620,7 +626,7 @@ PageBase {
                             }
                             LabelNumber {
                                 Layout.preferredWidth: 60
-                                value: Brauhelfer.calc.VolumenWasser(20.0, 100.0, Brauhelfer.sud.MengeSollKochbegin)
+                                value: Brauhelfer.calc.volumenWasser(20.0, 100.0, Brauhelfer.sud.MengeSollKochbegin)
                             }
                             LabelPrim {
                                 Layout.preferredWidth: 70
@@ -709,15 +715,20 @@ PageBase {
                             }
                         }
                         HorizontalDivider {
-                            visible: Brauhelfer.sud.modelWeitereZutatenGabenKochen.rowCount() > 0
+                            visible: repeaterModelWeitereZutatenGabenKochen.count > 0
                         }
                         LabelPrim {
                             Layout.fillWidth: true
-                            visible: Brauhelfer.sud.modelWeitereZutatenGabenKochen.rowCount() > 0
+                            visible: repeaterModelWeitereZutatenGabenKochen.count > 0
                             text: qsTr("Weitere Zutaten")
                         }
                         Repeater {
-                            model: Brauhelfer.sud.modelWeitereZutatenGabenKochen
+                            id: repeaterModelWeitereZutatenGabenKochen
+                            model: SortFilterProxyModel {
+                                sourceModel: Brauhelfer.sud.modelWeitereZutatenGaben
+                                filterKeyColumn: sourceModel.fieldIndex("Zeitpunkt")
+                                filterRegExp: /1/
+                            }
                             delegate: ColumnLayout {
                                 Layout.leftMargin: 8
                                 RowLayout {
@@ -800,7 +811,7 @@ PageBase {
                             }
                             LabelNumber {
                                 Layout.preferredWidth: 60
-                                value: Brauhelfer.calc.VolumenWasser(20.0, 100.0, Brauhelfer.sud.MengeSollKochbegin)
+                                value: Brauhelfer.calc.volumenWasser(20.0, 100.0, Brauhelfer.sud.MengeSollKochbegin)
                             }
                             LabelPrim {
                                 Layout.preferredWidth: 70
@@ -937,7 +948,7 @@ PageBase {
                             }
                             LabelNumber {
                                 Layout.preferredWidth: 60
-                                value: Brauhelfer.calc.VolumenWasser(20.0, 100.0, Brauhelfer.sud.MengeSollKochende)
+                                value: Brauhelfer.calc.volumenWasser(20.0, 100.0, Brauhelfer.sud.MengeSollKochende)
                             }
                             LabelPrim {
                                 Layout.preferredWidth: 70
@@ -1279,15 +1290,20 @@ PageBase {
                             }
                         }
                         HorizontalDivider {
-                            visible: Brauhelfer.sud.AuswahlHefe !== "" && Brauhelfer.sud.modelWeitereZutatenGabenGaerung.rowCount() > 0
+                            visible: Brauhelfer.sud.AuswahlHefe !== "" && repeaterModelWeitereZutatenGabenGaerung.count > 0
                         }
                         LabelPrim {
                             Layout.fillWidth: true
-                            visible: Brauhelfer.sud.modelWeitereZutatenGabenGaerung.rowCount() > 0
+                            visible: repeaterModelWeitereZutatenGabenGaerung.count > 0
                             text: qsTr("Weitere Zutaten")
                         }
                         Repeater {
-                            model: Brauhelfer.sud.modelWeitereZutatenGabenGaerung
+                            id: repeaterModelWeitereZutatenGabenGaerung
+                            model: SortFilterProxyModel {
+                                sourceModel: Brauhelfer.sud.modelWeitereZutatenGaben
+                                filterKeyColumn: sourceModel.fieldIndex("Zeitpunkt")
+                                filterRegExp: /0/
+                            }
                             delegate: ColumnLayout {
                                 Layout.leftMargin: 8
                                 RowLayout {

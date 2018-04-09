@@ -43,7 +43,7 @@ TextFieldNumber {
         }
 
         function edit(value) {
-            tfV1.value = Brauhelfer.calc.VolumenWasser(temp2, temp1, value)
+            tfV1.value = Brauhelfer.calc.volumenWasser(temp2, temp1, value)
             tfV2.value = value
             tfV2.focus = true
             open()
@@ -75,7 +75,7 @@ TextFieldNumber {
                 readOnly: temp1Fix
                 onNewValue: {
                     temp1 = value
-                    tfV2.value = Brauhelfer.calc.VolumenWasser(temp1, temp2, tfV1.value)
+                    tfV2.value = Brauhelfer.calc.volumenWasser(temp1, temp2, tfV1.value)
                 }
             }
 
@@ -95,7 +95,7 @@ TextFieldNumber {
                 precision: textfield.precision
                 onNewValue: {
                     this.value = value
-                    tfV2.value = Brauhelfer.calc.VolumenWasser(temp1, temp2, value)
+                    tfV2.value = Brauhelfer.calc.volumenWasser(temp1, temp2, value)
                 }
             }
 
@@ -118,7 +118,7 @@ TextFieldNumber {
                 readOnly: temp2Fix
                 onNewValue: {
                     temp2 = value
-                    tfV2.value = Brauhelfer.calc.VolumenWasser(temp1, temp2, tfV1.value)
+                    tfV2.value = Brauhelfer.calc.volumenWasser(temp1, temp2, tfV1.value)
                 }
             }
 
@@ -138,7 +138,7 @@ TextFieldNumber {
                 precision: textfield.precision
                 onNewValue: {
                     this.value = value
-                    tfV1.value = Brauhelfer.calc.VolumenWasser(temp2, temp1, value)
+                    tfV1.value = Brauhelfer.calc.volumenWasser(temp2, temp1, value)
                 }
             }
 

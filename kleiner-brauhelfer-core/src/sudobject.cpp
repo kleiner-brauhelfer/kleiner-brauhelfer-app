@@ -99,21 +99,6 @@ SqlTableModel* SudObject::modelWeitereZutatenGaben() const
  return bh->db()->modelWeitereZutatenGaben;
 }
 
-QSortFilterProxyModel *SudObject::modelWeitereZutatenGabenMaischen() const
-{
-    return bh->db()->modelWeitereZutatenGabenMaischen;
-}
-
-QSortFilterProxyModel *SudObject::modelWeitereZutatenGabenKochen() const
-{
-    return bh->db()->modelWeitereZutatenGabenKochen;
-}
-
-QSortFilterProxyModel *SudObject::modelWeitereZutatenGabenGaerung() const
-{
-    return bh->db()->modelWeitereZutatenGabenGaerung;
-}
-
 SqlTableModel* SudObject::modelSchnellgaerverlauf() const
 {
     return bh->db()->modelSchnellgaerverlauf;

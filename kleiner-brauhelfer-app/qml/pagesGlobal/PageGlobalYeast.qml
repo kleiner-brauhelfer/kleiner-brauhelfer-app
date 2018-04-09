@@ -5,6 +5,7 @@ import QtQuick.Controls.Material 2.2
 
 import "../common"
 import brauhelfer 1.0
+import SortFilterProxyModel 1.0
 
 PageBase {
     id: page
@@ -16,7 +17,11 @@ PageBase {
         clip: true
         anchors.fill: parent
         boundsBehavior: Flickable.OvershootBounds
-        model: Brauhelfer.modelHefe
+        model: SortFilterProxyModel {
+            id: myModel
+            sourceModel: Brauhelfer.modelHefe
+            filterKeyColumn: sourceModel.fieldIndex("Menge")
+        }
         headerPositioning: isLandscape? ListView.PullBackHeader : ListView.OverlayHeader
         Component.onCompleted: positionViewAtEnd()
         ScrollIndicator.vertical: ScrollIndicator {}
@@ -25,7 +30,6 @@ PageBase {
             width: parent.width
             height: header.height
             color: Material.background
-
             ColumnLayout {
                 id: header
                 width: parent.width
@@ -46,7 +50,26 @@ PageBase {
                 HorizontalDivider {}
             }
         }
-
+        footerPositioning: isLandscape? ListView.PullBackFooter : ListView.OverlayFooter
+        footer: Rectangle {
+            z: 2
+            width: parent.width
+            height: layoutFilter.height
+            color: Material.background
+            Flow {
+                id: layoutFilter
+                width: parent.width
+                RadioButton {
+                    checked: true
+                    text: qsTr("alle")
+                    onClicked: myModel.filterRegExp = /(?:)/
+                }
+                RadioButton {
+                    text: qsTr("verfügbar")
+                    onClicked: myModel.filterRegExp = /[^0]+/
+                }
+            }
+        }
         delegate: ItemDelegate {
             id: rowDelegate
             width: parent.width
