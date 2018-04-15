@@ -21,7 +21,7 @@ PageBase {
 
         model: Brauhelfer.sud.modelBewertungen
 
-        headerPositioning: isLandscape? ListView.PullBackHeader : ListView.OverlayHeader
+        headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
         header: Rectangle {
             z: 2
             width: parent.width

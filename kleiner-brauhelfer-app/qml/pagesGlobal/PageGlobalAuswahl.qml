@@ -15,7 +15,7 @@ PageBase {
     icon: "ic_list.png"
 
     component: ListView {
-        id: list
+        id: listView
         anchors.rightMargin: 0
         anchors.bottomMargin: 0
         anchors.leftMargin: 0
@@ -69,7 +69,7 @@ PageBase {
                 anchors.left: parent.left
                 height: parent.height - 2
                 width: 8
-                color: active ? Material.color(Material.accent, Material.Shade300) : list.getColor(model)
+                color: active ? Material.color(Material.accent, Material.Shade300) : listView.getColor(model)
             }
 
             ColumnLayout {
@@ -113,7 +113,7 @@ PageBase {
                         LabelSec {
                             Layout.fillWidth: true
                             font.italic: true
-                            text: list.getStatus(model)
+                            text: listView.getStatus(model)
                         }
                     }
                 }
@@ -342,7 +342,7 @@ PageBase {
                 return "#888888"
         }
 
-        footerPositioning: isLandscape? ListView.PullBackFooter : ListView.OverlayFooter
+        footerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackFooter : ListView.OverlayFooter
         footer: Rectangle {
             z: 2
             width: parent.width

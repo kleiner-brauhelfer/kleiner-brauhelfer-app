@@ -71,7 +71,7 @@ PageBase {
         }
 
         Switch {
-            text: qsTr("Eingabefelder entsperren")
+            text: qsTr("Alle Eingabefelder entsperren")
             checked: app.brewForceEditable
             onCheckedChanged: app.brewForceEditable = checked
         }

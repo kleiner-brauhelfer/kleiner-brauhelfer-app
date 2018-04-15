@@ -8,6 +8,7 @@ import QtQuick.Dialogs 1.3
 
 import "../common"
 import brauhelfer 1.0
+import SortFilterProxyModel 1.0
 
 PageBase {
     id: page
@@ -62,7 +63,7 @@ PageBase {
             anchors.bottom: layoutIngredients.top
             boundsBehavior: Flickable.OvershootBounds
             model: Brauhelfer.sud.modelHauptgaerverlauf
-            headerPositioning: isLandscape? ListView.PullBackHeader : ListView.OverlayHeader
+            headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
             Component.onCompleted: positionViewAtEnd()
             ScrollIndicator.vertical: ScrollIndicator {}
             header: Rectangle {
@@ -178,13 +179,13 @@ PageBase {
             anchors.right: parent.right
             anchors.bottom: parent.bottom
             HorizontalDivider {
-                visible: Brauhelfer.sud.modelWeitereZutatenGabenGaerung.rowCount() > 0
+                visible: layoutIngredientsList.count > 0
             }
             LabelSubheader {
                 Layout.fillWidth: true
                 Layout.leftMargin: 4
                 Layout.rightMargin: 4
-                visible: Brauhelfer.sud.modelWeitereZutatenGabenGaerung.rowCount() > 0
+                visible: layoutIngredientsList.count > 0
                 text: qsTr("Weitere Zutaten")
             }
             ListView {
@@ -220,9 +221,13 @@ PageBase {
                 Layout.leftMargin: 4
                 Layout.rightMargin: 4
                 height: 92
-                visible: Brauhelfer.sud.modelWeitereZutatenGabenGaerung.rowCount() > 0
+                visible: layoutIngredientsList.count > 0
                 boundsBehavior: Flickable.OvershootBounds
-                model: Brauhelfer.sud.modelWeitereZutatenGabenGaerung
+                model: SortFilterProxyModel {
+                    sourceModel: Brauhelfer.sud.modelWeitereZutatenGaben
+                    filterKeyColumn: sourceModel.fieldIndex("Zeitpunkt")
+                    filterRegExp: /0/
+                }
                 ScrollIndicator.vertical: ScrollIndicator {}
                 Component.onCompleted: height = count > 0 ? itemAt(0, 0).height : 0
                 delegate: ColumnLayout {
@@ -253,11 +258,6 @@ PageBase {
                             visible: model.Entnahmeindex !== 1
                             text: qsTr("Tage")
                         }
-                    }
-                    LabelPrim {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 8
-                        text: model.Bemerkung
                     }
                     RowLayout {
                         Layout.fillWidth: true
@@ -313,6 +313,11 @@ PageBase {
                                 }
                             }
                         }
+                    }
+                    LabelPrim {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: 8
+                        text: model.Bemerkung
                     }
                 }
             }

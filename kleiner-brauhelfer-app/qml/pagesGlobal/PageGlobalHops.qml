@@ -22,7 +22,7 @@ PageBase {
             sourceModel: Brauhelfer.modelHopfen
             filterKeyColumn: sourceModel.fieldIndex("Menge")
         }
-        headerPositioning: isLandscape? ListView.PullBackHeader : ListView.OverlayHeader
+        headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
         Component.onCompleted: positionViewAtEnd()
         ScrollIndicator.vertical: ScrollIndicator {}
         header: Rectangle {
@@ -50,7 +50,7 @@ PageBase {
                 HorizontalDivider {}
             }
         }
-        footerPositioning: isLandscape? ListView.PullBackFooter : ListView.OverlayFooter
+        footerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackFooter : ListView.OverlayFooter
         footer: Rectangle {
             z: 2
             width: parent.width
@@ -76,27 +76,10 @@ PageBase {
             height: dataColumn.implicitHeight
             padding: 0
             text: " "
-
-            NumberAnimation {
-                id: removeFake
-                target: rowDelegate
-                property: "height"
-                to: 0
-                easing.type: Easing.InOutQuad
-                onStopped: rowDelegate.visible = false
-            }
-
             onClicked: {
                 listView.currentIndex = index
                 popupEdit.openIndex(listView.currentIndex)
             }
-
-            function remove() {
-                removeFake.start()
-                chart.removeFake(index)
-                Brauhelfer.sud.modelSchnellgaerverlauf.remove(index)
-            }
-
             ColumnLayout {
                 id: dataColumn
                 parent: rowDelegate.contentItem

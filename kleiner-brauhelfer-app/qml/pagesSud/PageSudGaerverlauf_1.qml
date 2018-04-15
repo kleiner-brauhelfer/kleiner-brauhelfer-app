@@ -60,7 +60,7 @@ PageBase {
             anchors.bottom: parent.bottom
             boundsBehavior: Flickable.OvershootBounds
             model: Brauhelfer.sud.modelSchnellgaerverlauf
-            headerPositioning: isLandscape? ListView.PullBackHeader : ListView.OverlayHeader
+            headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
             Component.onCompleted: positionViewAtEnd()
             ScrollIndicator.vertical: ScrollIndicator {}
             header: Rectangle {

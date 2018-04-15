@@ -5,7 +5,7 @@ import QtQuick.Controls.Material 2.2
 Popup {
     id: popup
     closePolicy: Popup.NoAutoClose
-    bottomMargin: isLandscape ? 24 : 80
+    bottomMargin: app.height / 10
     x: (app.width - width) / 2
     y: (app.height - height)
 

@@ -13,14 +13,18 @@ import brauhelfer 1.0
 ApplicationWindow {
 
     property bool loaded: false
-    property bool isLandscape: width > height
     property bool brewForceEditable: false
+    property alias config: config
 
     id: app
     title: Qt.application.name
     width: 360
     height: 640
     visible: true
+
+    Config {
+        id: config
+    }
 
     // scheduler to do stuff in the background, use run() or runExt()
     Timer {

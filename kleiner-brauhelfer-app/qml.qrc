@@ -2,6 +2,7 @@
     <qresource prefix="/">
         <file>qtquickcontrols2.conf</file>
         <file>qml/main.qml</file>
+        <file>qml/Config.qml</file>
         <file>qml/Footer.qml</file>
         <file>qml/Header.qml</file>
         <file>qml/NavMenu.qml</file>
