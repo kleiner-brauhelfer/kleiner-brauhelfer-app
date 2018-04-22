@@ -58,7 +58,7 @@ PageBase {
 
         footerPositioning: ListView.InlineFooter
         footer: Item {
-            height: btnAdd.height + 12
+            height: !page.readOnly ? btnAdd.height + 12 : 0
         }
 
         delegate: ItemDelegate {
@@ -86,7 +86,7 @@ PageBase {
 
             function remove() {
                 removeFake.start()
-                Brauhelfer.sud.modelBewertungen.remove(index)
+                listView.model.remove(index)
             }
 
             ColumnLayout {
@@ -216,7 +216,7 @@ PageBase {
                         wrapMode: TextArea.Wrap
                         placeholderText: qsTr("Bemerkung")
                         text: model.Bemerkung
-                        onTextChanged: model.Bemerkung = text
+                        onTextChanged: if (activeFocus) model.Bemerkung = text
                     }
 
                     HorizontalDivider { Layout.fillWidth: true }
@@ -280,7 +280,7 @@ PageBase {
                         wrapMode: TextArea.Wrap
                         placeholderText: qsTr("Bemerkung")
                         text: model.GesamteindruckBemerkung
-                        onTextChanged: model.GesamteindruckBemerkung = text
+                        onTextChanged: if (activeFocus) model.GesamteindruckBemerkung = text
                     }
 
                     HorizontalDivider { Layout.fillWidth: true }
@@ -366,7 +366,7 @@ PageBase {
                         wrapMode: TextArea.Wrap
                         placeholderText: qsTr("Bemerkung")
                         text: model.FarbeBemerkung
-                        onTextChanged: model.FarbeBemerkung = text
+                        onTextChanged: if (activeFocus) model.FarbeBemerkung = text
                     }
 
                     HorizontalDivider { Layout.fillWidth: true }
@@ -466,7 +466,7 @@ PageBase {
                         wrapMode: TextArea.Wrap
                         placeholderText: qsTr("Bemerkung")
                         text: model.SchaumBemerkung
-                        onTextChanged: model.SchaumBemerkung = text
+                        onTextChanged: if (activeFocus) model.SchaumBemerkung = text
                     }
 
                     HorizontalDivider { Layout.fillWidth: true }
@@ -550,7 +550,7 @@ PageBase {
                         wrapMode: TextArea.Wrap
                         placeholderText: qsTr("Bemerkung")
                         text: model.GeruchBemerkung
-                        onTextChanged: model.GeruchBemerkung = text
+                        onTextChanged: if (activeFocus) model.GeruchBemerkung = text
                     }
 
                     HorizontalDivider { Layout.fillWidth: true }
@@ -639,7 +639,7 @@ PageBase {
                         wrapMode: TextArea.Wrap
                         placeholderText: qsTr("Bemerkung")
                         text: model.GeschmackBemerkung
-                        onTextChanged: model.GeschmackBemerkung = text
+                        onTextChanged: if (activeFocus) model.GeschmackBemerkung = text
                     }
 
                     HorizontalDivider { Layout.fillWidth: true }
@@ -703,7 +703,7 @@ PageBase {
                         wrapMode: TextArea.Wrap
                         placeholderText: qsTr("Bemerkung")
                         text: model.AntrunkBemerkung
-                        onTextChanged: model.AntrunkBemerkung = text
+                        onTextChanged: if (activeFocus) model.AntrunkBemerkung = text
                     }
 
                     HorizontalDivider { Layout.fillWidth: true }
@@ -752,7 +752,7 @@ PageBase {
                         wrapMode: TextArea.Wrap
                         placeholderText: qsTr("Bemerkung")
                         text: model.HaupttrunkBemerkung
-                        onTextChanged: model.HaupttrunkBemerkung = text
+                        onTextChanged: if (activeFocus) model.HaupttrunkBemerkung = text
                     }
 
                     HorizontalDivider { Layout.fillWidth: true }
@@ -821,7 +821,7 @@ PageBase {
                         wrapMode: TextArea.Wrap
                         placeholderText: qsTr("Bemerkung")
                         text: model.NachtrunkBemerkung
-                        onTextChanged: model.NachtrunkBemerkung = text
+                        onTextChanged: if (activeFocus) model.NachtrunkBemerkung = text
                     }
                 }
             }
@@ -831,12 +831,12 @@ PageBase {
             id: btnAdd
             anchors.right: parent.right
             anchors.rightMargin: 16
-            anchors.bottom: parent.bottom
+            anchors.bottom: listView.bottom
             anchors.bottomMargin: 8
             imageSource: "qrc:/images/ic_add_white.png"
             visible: !page.readOnly
             onClicked: {
-                Brauhelfer.sud.modelBewertungen.append()
+                listView.model.append()
                 listView.currentIndex = listView.count - 1
                 popuploader.active = true
             }

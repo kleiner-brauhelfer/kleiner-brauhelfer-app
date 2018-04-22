@@ -26,7 +26,7 @@ TextFieldNumber {
         focus: true
         onLoaded: item.open()
         sourceComponent: PopupBase {
-            width: 240
+            maxWidth: 240
             onOpened: {
                 tfV1.value = Brauhelfer.calc.volumenWasser(textfield.temp2, textfield.temp1, textfield.value)
                 tfV2.value = textfield.value

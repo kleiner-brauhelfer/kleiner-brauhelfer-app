@@ -23,7 +23,7 @@ TextFieldNumber {
         focus: true
         onLoaded: item.open()
         sourceComponent: PopupBase {
-            width: 240
+            maxWidth: 240
             onOpened: {
                 tfPlato.focus = true
                 tfPlato.value = textfield.value

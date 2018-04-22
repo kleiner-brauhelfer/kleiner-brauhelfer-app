@@ -72,6 +72,9 @@ bool Brauhelfer::connect()
         disconnect();
     }
 
+    // check if service available
+    _fs->checkIfServiceAvailable();
+
     // synchronize database
     message("Synchronize database: download");
     _fs->synchronize(SyncService::Download);

@@ -112,7 +112,7 @@ PageBase {
                                 enabled: !page.readOnly
                                 placeholderText: qsTr("Sudname")
                                 text: Brauhelfer.sud.Sudname
-                                onTextChanged: Brauhelfer.sud.Sudname = text
+                                onTextChanged: if (activeFocus) Brauhelfer.sud.Sudname = text
                             }
                             LabelPrim {
                                 text: qsTr("Erstellt")
@@ -255,7 +255,7 @@ PageBase {
                                 wrapMode: TextArea.Wrap
                                 placeholderText: qsTr("Bemerkung")
                                 text: Brauhelfer.sud.Kommentar
-                                onTextChanged: Brauhelfer.sud.Kommentar = text
+                                onTextChanged: if (activeFocus) Brauhelfer.sud.Kommentar = text
                             }
                         }
                     }

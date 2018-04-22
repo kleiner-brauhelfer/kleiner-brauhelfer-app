@@ -56,10 +56,9 @@ PageBase {
         footer: Rectangle {
             z: 2
             width: parent.width
-            height: layoutFilter.height
+            height: btnAdd.height + 12
             color: Material.background
             Flow {
-                id: layoutFilter
                 width: parent.width
                 RadioButton {
                     checked: true
@@ -83,6 +82,21 @@ PageBase {
                 listView.currentIndex = index
                 popuploader.active = true
             }
+
+            NumberAnimation {
+                id: removeFake
+                target: rowDelegate
+                property: "height"
+                to: 0
+                easing.type: Easing.InOutQuad
+                onStopped: rowDelegate.visible = false
+            }
+
+            function remove() {
+                removeFake.start()
+                listView.model.sourceModel.remove(index)
+            }
+
             ColumnLayout {
                 id: dataColumn
                 parent: rowDelegate.contentItem
@@ -116,6 +130,12 @@ PageBase {
             sourceComponent: PopupBase {
                 property variant _model: listView.currentItem.values
                 onClosed: popuploader.active = false
+
+                function remove() {
+                    listView.currentItem.remove()
+                    close()
+                }
+
                 GridLayout {
                     anchors.top: parent.top
                     anchors.left: parent.left
@@ -124,30 +144,50 @@ PageBase {
                     columns: 3
                     columnSpacing: 16
 
-                    Item {
-                        property bool editing: false
-                        id: itBeschreibung
+                    RowLayout {
                         Layout.fillWidth: true
                         Layout.columnSpan: 3
-                        height: children[1].height
-                        LabelSubheader {
-                            anchors.fill: parent
-                            visible: !itBeschreibung.editing
-                            text: _model.Beschreibung
-                            horizontalAlignment: Text.AlignHCenter
-                            MouseArea {
-                                anchors.fill: parent
-                                onClicked: itBeschreibung.editing = true
-                            }
+
+                        Item {
+                            width: btnRemove.width
                         }
-                        TextField {
-                            anchors.fill: parent
-                            visible: itBeschreibung.editing
-                            horizontalAlignment: Text.AlignHCenter
-                            text: _model.Beschreibung
-                            onTextChanged: _model.Beschreibung = text
-                            onEditingFinished: itBeschreibung.editing = false
-                            onVisibleChanged: if (visible) forceActiveFocus()
+
+                        Item {
+                            property bool editing: false
+                            id: itBeschreibung
+                            Layout.fillWidth: true
+                            height: children[1].height
+                            LabelSubheader {
+                                anchors.fill: parent
+                                visible: !itBeschreibung.editing
+                                text: _model.Beschreibung
+                                horizontalAlignment: Text.AlignHCenter
+                                MouseArea {
+                                    anchors.fill: parent
+                                    onClicked: itBeschreibung.editing = true
+                                }
+                            }
+                            TextField {
+                                anchors.fill: parent
+                                visible: itBeschreibung.editing
+                                horizontalAlignment: Text.AlignHCenter
+                                text: _model.Beschreibung
+                                onTextChanged: if (activeFocus) _model.Beschreibung = text
+                                onEditingFinished: itBeschreibung.editing = false
+                                onVisibleChanged: if (visible) forceActiveFocus()
+                            }
+
+                            Component.onCompleted: if (_model.Beschreibung === "") editing = true
+                        }
+
+                        ToolButton {
+                            id: btnRemove
+                            Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                            onClicked: remove()
+                            contentItem: Image {
+                                source: "qrc:/images/ic_delete.png"
+                                anchors.centerIn: parent
+                            }
                         }
                     }
 
@@ -226,7 +266,7 @@ PageBase {
                         wrapMode: TextArea.Wrap
                         placeholderText: qsTr("Eigenschaften")
                         text: _model.Eigenschaften
-                        onTextChanged: _model.Eigenschaften = text
+                        onTextChanged: if (activeFocus) _model.Eigenschaften = text
                     }
 
                     LabelPrim {
@@ -241,7 +281,7 @@ PageBase {
                         wrapMode: TextArea.Wrap
                         placeholderText: qsTr("Bemerkung")
                         text: _model.Bemerkung
-                        onTextChanged: _model.Bemerkung = text
+                        onTextChanged: if (activeFocus) _model.Bemerkung = text
                     }
 
                     LabelPrim {
@@ -285,6 +325,21 @@ PageBase {
                         onNewDate: _model.Mindesthaltbar = date
                     }
                 }
+            }
+        }
+
+        FloatingButton {
+            id: btnAdd
+            anchors.right: parent.right
+            anchors.rightMargin: 16
+            anchors.bottom: listView.bottom
+            anchors.bottomMargin: 8
+            imageSource: "qrc:/images/ic_add_white.png"
+            visible: !page.readOnly
+            onClicked: {
+                listView.model.sourceModel.append()
+                listView.currentIndex = listView.count - 1
+                popuploader.active = true
             }
         }
     }

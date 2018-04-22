@@ -153,7 +153,7 @@ ApplicationWindow {
     }
 
     // toast messages
-    Toast{
+    Toast {
         id: toast
     }
 

@@ -5,9 +5,9 @@
 SyncService::SyncService(QSettings *settings, const QString &urlServerCheck) :
     _settings(settings),
     _state(SyncState::Failed),
-    _urlServerCheck(urlServerCheck)
+    _urlServerCheck(urlServerCheck),
+    _online(false)
 {
-    _online = checkIfServiceAvailable();
 }
 
 
@@ -20,6 +20,9 @@ bool SyncService::checkIfServiceAvailable()
 {
     if (_urlServerCheck != "")
     {
+        QTimer timer;
+        timer.setSingleShot(true);
+
         const QUrl url = QUrl(_urlServerCheck);
         QNetworkAccessManager nam;
         QNetworkRequest req(url);
@@ -27,14 +30,19 @@ bool SyncService::checkIfServiceAvailable()
 
         QEventLoop loop;
         connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
+        connect(&timer, SIGNAL(timeout()), &loop, SLOT(quit()));
+        timer.start(8000);
         loop.exec();
-
-        return reply->bytesAvailable();
+        if (timer.isActive())
+            _online = reply->bytesAvailable();
+        else
+            _online = false;
     }
     else
     {
-        return true;
+        _online = true;
     }
+    return _online;
 }
 
 QString SyncService::getFilePath() const

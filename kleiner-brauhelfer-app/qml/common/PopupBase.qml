@@ -6,11 +6,12 @@ import QtQuick.Controls.Material 2.2
 Popup {
     default property alias contents: placeholder.children
     property int margin: 20
+    property int maxWidth: 350
 
     id: popup
     parent: page
 
-    width: parent.width - margin
+    width: Math.min(maxWidth, parent.width - margin)
     height: Math.min(placeholder.childrenRect.height + 2 * padding, parent.height - margin)
     x: (parent.width - width) / 2
     y: (parent.height - height) / 2

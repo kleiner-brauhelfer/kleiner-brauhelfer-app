@@ -179,7 +179,7 @@ PageBase {
             onLoaded: item.open()
             sourceComponent: PopupBase {
                 property variant model: listView.currentItem.values
-                width: 240
+                maxWidth: 240
                 onClosed: popuploader.active = false
 
                 function remove() {
