@@ -91,7 +91,7 @@ PageBase {
                     selectByMouse: true
                     enabled: radioLocal.checked
                     onTextChanged: {
-                        if (focus)
+                        if (activeFocus)
                             reconnect = true
                     }
                     onEditingFinished: {
@@ -152,7 +152,7 @@ PageBase {
                 selectByMouse: true
                 enabled: radioRemote.checked
                 onTextChanged: {
-                    if (focus)
+                    if (activeFocus)
                         reconnect = true
                 }
                 onEditingFinished: {
@@ -176,7 +176,7 @@ PageBase {
                 selectByMouse: true
                 enabled: radioRemote.checked
                 onTextChanged: {
-                    if (focus)
+                    if (activeFocus)
                         reconnect = true
                 }
                 onEditingFinished: {

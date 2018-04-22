@@ -32,7 +32,6 @@
         <file>qml/common/PageBase.qml</file>
         <file>qml/common/TextFieldPlato.qml</file>
         <file>qml/common/TextFieldTemperature.qml</file>
-        <file>qml/common/PopupPlato.qml</file>
         <file>qml/common/Toast.qml</file>
         <file>qml/common/TextFieldDate.qml</file>
         <file>qml/common/TextFieldDateTime.qml</file>
@@ -44,5 +43,6 @@
         <file>qml/common/LabelDate.qml</file>
         <file>qml/common/LabelDateTime.qml</file>
         <file>qml/PageTestarea.qml</file>
+        <file>qml/common/PopupBase.qml</file>
     </qresource>
 </RCC>

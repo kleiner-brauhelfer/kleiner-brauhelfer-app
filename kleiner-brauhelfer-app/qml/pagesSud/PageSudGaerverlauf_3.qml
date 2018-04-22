@@ -33,19 +33,19 @@ PageBase {
             color3: "#780000"
             legend.visible: false
             VXYModelMapper {
-                model: Brauhelfer.sud.modelNachgaerverlauf
+                model: listView.model
                 series: chart.series1
                 xColumn: model.fieldIndex("Zeitstempel")
                 yColumn: model.fieldIndex("CO2")
             }
             VXYModelMapper {
-                model: Brauhelfer.sud.modelNachgaerverlauf
+                model: listView.model
                 series: chart.series2
                 xColumn: model.fieldIndex("Zeitstempel")
                 yColumn: model.fieldIndex("Druck")
             }
             VXYModelMapper {
-                model: Brauhelfer.sud.modelNachgaerverlauf
+                model: listView.model
                 series: chart.series3
                 xColumn: model.fieldIndex("Zeitstempel")
                 yColumn: model.fieldIndex("Temp")
@@ -107,6 +107,7 @@ PageBase {
             }
 
             delegate: ItemDelegate {
+                property variant values: model
                 id: rowDelegate
                 width: parent.width
                 height: dataColumn.implicitHeight
@@ -124,13 +125,14 @@ PageBase {
 
                 onClicked: {
                     listView.currentIndex = index
-                    popupEdit.openIndex(listView.currentIndex)
+                    if (!page.readOnly)
+                        popuploader.active = true
                 }
 
                 function remove() {
                     removeFake.start()
                     chart.removeFake(index)
-                    Brauhelfer.sud.modelNachgaerverlauf.remove(index)
+                    listView.model.remove(index)
                 }
 
                 ColumnLayout {
@@ -171,119 +173,80 @@ PageBase {
             }
         }
 
-        Popup {
-            property int index: -1
-            property bool valueChanged: false
+        Loader {
+            id: popuploader
+            active: false
+            onLoaded: item.open()
+            sourceComponent: PopupBase {
+                property variant model: listView.currentItem.values
+                width: 240
+                onClosed: popuploader.active = false
 
-            id: popupEdit
-            parent: page
-            width: 240
-            x: (parent.width - width) / 2
-            y: (parent.height - height) / 2
-            modal: true
-
-            function openIndex(index) {
-                if (!page.readOnly) {
-                    popupEdit.index = index
-                    tfDate.date = Brauhelfer.sud.modelNachgaerverlauf.data(index, "Zeitstempel")
-                    tfDruck.value = Brauhelfer.sud.modelNachgaerverlauf.data(index, "Druck")
-                    tfTemp.value = Brauhelfer.sud.modelNachgaerverlauf.data(index, "Temp")
-                    valueChanged = false
-                    open()
-                }
-            }
-
-            function remove(index) {
-                item.listView.currentItem.remove()
-                close()
-            }
-
-            onClosed: {
-                if (popupEdit.valueChanged && !isNaN(tfDate.date)) {
-                  Brauhelfer.sud.modelNachgaerverlauf.setData(popupEdit.index,
-                                {"Zeitstempel": tfDate.date,
-                                 "Druck": tfDruck.value,
-                                 "Temp": tfTemp.value })
-                }
-                navPane.setFocus()
-            }
-
-            background: Rectangle {
-                color: Material.background
-                radius: 10
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: forceActiveFocus()
-                }
-            }
-
-            GridLayout {
-                anchors.top: parent.top
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.margins: 8
-                columns: 3
-                rows: 4
-                columnSpacing: 16
-
-                Image {
-                    source: "qrc:/images/ic_schedule.png"
+                function remove() {
+                    listView.currentItem.remove()
+                    close()
                 }
 
-                TextFieldDate {
-                    id: tfDate
-                    Layout.columnSpan: 2
-                    Layout.fillWidth: true
-                    onNewDate: {
-                        this.date = date
-                        popupEdit.valueChanged = true
+                GridLayout {
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.margins: 8
+                    columns: 3
+                    columnSpacing: 16
+
+                    Image {
+                        source: "qrc:/images/ic_schedule.png"
                     }
-                }
 
-                Image {
-                    source: "qrc:/images/pressure.png"
-                }
-
-                TextFieldNumber {
-                    id: tfDruck
-                    min: 0.0
-                    max: 99.9
-                    precision: 2
-                    onNewValue: {
-                        this.value = value
-                        popupEdit.valueChanged = true
+                    TextFieldDate {
+                        id: tfDate
+                        Layout.columnSpan: 2
+                        Layout.fillWidth: true
+                        date: model.Zeitstempel
+                        onNewDate: model.Zeitstempel = date
                     }
-                }
 
-                LabelPrim {
-                    text: "bar"
-                    Layout.fillWidth: true
-                }
-
-                Image {
-                    source: "qrc:/images/temperature.png"
-                }
-
-                TextFieldTemperature {
-                    id: tfTemp
-                    onNewValue: {
-                        this.value = value
-                        popupEdit.valueChanged = true
+                    Image {
+                        source: "qrc:/images/pressure.png"
                     }
-                }
 
-                LabelPrim {
-                    text: "°C"
-                    Layout.fillWidth: true
-                }
+                    TextFieldNumber {
+                        id: tfDruck
+                        min: 0.0
+                        max: 99.9
+                        precision: 2
+                        value: model.Druck
+                        onNewValue: model.Druck = value
+                    }
 
-                ToolButton {
-                    Layout.columnSpan: 3
-                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    onClicked: popupEdit.remove(popupEdit.index)
-                    contentItem: Image {
-                        source: "qrc:/images/ic_delete.png"
-                        anchors.centerIn: parent
+                    LabelPrim {
+                        text: "bar"
+                        Layout.fillWidth: true
+                    }
+
+                    Image {
+                        source: "qrc:/images/temperature.png"
+                    }
+
+                    TextFieldTemperature {
+                        value: model.Temp
+                        onNewValue: model.Temp = value
+                    }
+
+                    LabelPrim {
+                        text: "°C"
+                        Layout.fillWidth: true
+                    }
+
+                    ToolButton {
+                        Layout.columnSpan: 3
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        onClicked: remove()
+                        contentItem: Image {
+                            source: "qrc:/images/ic_delete.png"
+                            anchors.centerIn: parent
+                        }
                     }
                 }
             }
@@ -298,9 +261,9 @@ PageBase {
             imageSource: "qrc:/images/ic_add_white.png"
             visible: !page.readOnly
             onClicked: {
-                Brauhelfer.sud.modelNachgaerverlauf.append()
-                item.listView.currentIndex = item.listView.count - 1
-                popupEdit.openIndex(item.listView.currentIndex)
+                listView.model.append()
+                listView.currentIndex = listView.count - 1
+                popuploader.active = true
             }
         }
     }

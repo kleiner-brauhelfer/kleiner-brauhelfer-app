@@ -96,7 +96,7 @@ SqlTableModel* SudObject::modelHopfengaben() const
 
 SqlTableModel* SudObject::modelWeitereZutatenGaben() const
 {
- return bh->db()->modelWeitereZutatenGaben;
+    return bh->db()->modelWeitereZutatenGaben;
 }
 
 SqlTableModel* SudObject::modelSchnellgaerverlauf() const

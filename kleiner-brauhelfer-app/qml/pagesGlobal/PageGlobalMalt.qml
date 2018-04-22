@@ -81,7 +81,7 @@ PageBase {
             text: " "
             onClicked: {
                 listView.currentIndex = index
-                popupEdit.open()
+                popuploader.active = true
             }
             ColumnLayout {
                 id: dataColumn
@@ -109,166 +109,175 @@ PageBase {
             }
         }
 
-        Popup {
-            id: popupEdit
-            parent: page
-            width: parent.width - 40
-            x: (parent.width - width) / 2
-            y: (parent.height - height) / 2
-            modal: true
+        Loader {
+            id: popuploader
+            active: false
+            onLoaded: item.open()
+            sourceComponent: PopupBase {
+                property variant _model: listView.currentItem.values
+                onClosed: popuploader.active = false
+                GridLayout {
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.margins: 8
+                    columns: 3
+                    columnSpacing: 16
 
-            onClosed: navPane.setFocus()
-
-            background: Rectangle {
-                color: Material.background
-                radius: 10
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: forceActiveFocus()
-                }
-            }
-
-            GridLayout {
-                anchors.top: parent.top
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.margins: 8
-                columns: 3
-                //rows: 6
-                //columnSpacing: 16
-
-                LabelPrim {
-                    Layout.fillWidth: true
-                    Layout.columnSpan: 3
-                    text: listView.currentItem.values.Beschreibung
-                }
-
-                LabelPrim {
-                    text: qsTr("Menge")
-                    Layout.fillWidth: true
-                }
-
-                TextFieldNumber {
-                    Layout.preferredWidth: 60
-                    min: 0.0
-                    precision: 2
-                    value: listView.currentItem.values.Menge
-                    onNewValue: listView.currentItem.values.Menge = value
-                }
-
-                LabelPrim {
-                    Layout.preferredWidth: 70
-                    text: qsTr("kg")
-                    Layout.fillWidth: true
-                }
-
-                LabelPrim {
-                    text: qsTr("Farbe")
-                    Layout.fillWidth: true
-                }
-
-                TextFieldNumber {
-                    Layout.preferredWidth: 60
-                    min: 0.0
-                    precision: 2
-                    value: listView.currentItem.values.Farbe
-                    onNewValue: listView.currentItem.values.Farbe = value
-                }
-
-                LabelPrim {
-                    Layout.preferredWidth: 70
-                    text: qsTr("ebc")
-                    Layout.fillWidth: true
-                }
-
-                LabelPrim {
-                    text: qsTr("MaxProzent")
-                    Layout.fillWidth: true
-                }
-
-                TextFieldNumber {
-                    Layout.preferredWidth: 60
-                    min: 0.0
-                    precision: 2
-                    value: listView.currentItem.values.MaxProzent
-                    onNewValue: listView.currentItem.values.MaxProzent = value
-                }
-
-                LabelPrim {
-                    Layout.preferredWidth: 70
-                    text: qsTr("kg")
-                    Layout.fillWidth: true
-                }
-
-                LabelPrim {
-                    text: qsTr("Preis")
-                    Layout.fillWidth: true
-                }
-
-                TextFieldNumber {
-                    Layout.preferredWidth: 60
-                    min: 0.0
-                    precision: 2
-                    value: listView.currentItem.values.Preis
-                    onNewValue: listView.currentItem.values.Preis = value
-                }
-
-                LabelPrim {
-                    Layout.preferredWidth: 70
-                    text: qsTr("kg")
-                    Layout.fillWidth: true
-                }
-
-                LabelPrim {
-                    text: qsTr("Bemerkung")
-                    Layout.fillWidth: true
-                }
-
-                TextField {
-                    Layout.columnSpan: 2
-                    text: listView.currentItem.values.Bemerkung
-                    onTextChanged: {
-                        listView.currentItem.values.Bemerkung = text
-                        if (!activeFocus)
-                            cursorPosition = 0
+                    Item {
+                        property bool editing: false
+                        id: itBeschreibung
+                        Layout.fillWidth: true
+                        Layout.columnSpan: 3
+                        height: children[1].height
+                        LabelSubheader {
+                            anchors.fill: parent
+                            visible: !itBeschreibung.editing
+                            text: _model.Beschreibung
+                            horizontalAlignment: Text.AlignHCenter
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: itBeschreibung.editing = true
+                            }
+                        }
+                        TextField {
+                            anchors.fill: parent
+                            visible: itBeschreibung.editing
+                            horizontalAlignment: Text.AlignHCenter
+                            text: _model.Beschreibung
+                            onTextChanged: _model.Beschreibung = text
+                            onEditingFinished: itBeschreibung.editing = false
+                            onVisibleChanged: if (visible) forceActiveFocus()
+                        }
                     }
-                }
 
-                LabelPrim {
-                    text: qsTr("Anwendung")
-                    Layout.fillWidth: true
-                }
-
-                TextField {
-                    Layout.columnSpan: 2
-                    text: listView.currentItem.values.Anwendung
-                    onTextChanged: {
-                        listView.currentItem.values.Anwendung = text
-                        if (!activeFocus)
-                            cursorPosition = 0
+                    LabelPrim {
+                        text: qsTr("Menge")
+                        Layout.fillWidth: true
                     }
-                }
 
-                LabelPrim {
-                    text: qsTr("Eingelagert")
-                    Layout.fillWidth: true
-                }
+                    TextFieldNumber {
+                        Layout.preferredWidth: 60
+                        min: 0.0
+                        precision: 3
+                        value: _model.Menge
+                        onNewValue: _model.Menge = value
+                    }
 
-                TextFieldDate {
-                    Layout.columnSpan: 2
-                    date: listView.currentItem.values.Eingelagert
-                    onNewDate: listView.currentItem.values.Eingelagert = date
-                }
+                    LabelPrim {
+                        Layout.preferredWidth: 70
+                        text: qsTr("kg")
+                        Layout.fillWidth: true
+                    }
 
-                LabelPrim {
-                    text: qsTr("Mindesthaltbar")
-                    Layout.fillWidth: true
-                }
+                    LabelPrim {
+                        text: qsTr("Farbe")
+                        Layout.fillWidth: true
+                    }
 
-                TextFieldDate {
-                    Layout.columnSpan: 2
-                    date: listView.currentItem.values.Mindesthaltbar
-                    onNewDate: listView.currentItem.values.Mindesthaltbar = date
+                    TextFieldNumber {
+                        Layout.preferredWidth: 60
+                        min: 0.0
+                        precision: 1
+                        value: _model.Farbe
+                        onNewValue: _model.Farbe = value
+                    }
+
+                    LabelPrim {
+                        Layout.preferredWidth: 70
+                        text: qsTr("EBC")
+                        Layout.fillWidth: true
+                    }
+
+                    LabelPrim {
+                        text: qsTr("MaxProzent")
+                        Layout.fillWidth: true
+                    }
+
+                    TextFieldNumber {
+                        Layout.preferredWidth: 60
+                        min: 0.0
+                        precision: 0
+                        value: _model.MaxProzent
+                        onNewValue: _model.MaxProzent = value
+                    }
+
+                    LabelPrim {
+                        Layout.preferredWidth: 70
+                        text: qsTr("%")
+                        Layout.fillWidth: true
+                    }
+
+                    LabelPrim {
+                        text: qsTr("Anwendung")
+                        Layout.columnSpan: 3
+                        Layout.fillWidth: true
+                    }
+
+                    TextArea {
+                        Layout.columnSpan: 3
+                        Layout.fillWidth: true
+                        wrapMode: TextArea.Wrap
+                        placeholderText: qsTr("Anwendung")
+                        text: _model.Anwendung
+                        onTextChanged: _model.Anwendung = text
+                    }
+
+                    LabelPrim {
+                        text: qsTr("Bemerkung")
+                        Layout.columnSpan: 3
+                        Layout.fillWidth: true
+                    }
+
+                    TextArea {
+                        Layout.columnSpan: 3
+                        Layout.fillWidth: true
+                        wrapMode: TextArea.Wrap
+                        placeholderText: qsTr("Bemerkung")
+                        text: _model.Bemerkung
+                        onTextChanged: _model.Bemerkung = text
+                    }
+
+                    LabelPrim {
+                        text: qsTr("Preis")
+                        Layout.fillWidth: true
+                    }
+
+                    TextFieldNumber {
+                        Layout.preferredWidth: 60
+                        min: 0.0
+                        precision: 2
+                        value: _model.Preis
+                        onNewValue: _model.Preis = value
+                    }
+
+                    LabelPrim {
+                        Layout.preferredWidth: 70
+                        text: Qt.locale().currencySymbol() + "/" + qsTr("kg")
+                        Layout.fillWidth: true
+                    }
+
+                    LabelPrim {
+                        text: qsTr("Eingelagert")
+                        Layout.fillWidth: true
+                    }
+
+                    TextFieldDate {
+                        Layout.columnSpan: 2
+                        date: _model.Eingelagert
+                        onNewDate: _model.Eingelagert = date
+                    }
+
+                    LabelPrim {
+                        text: qsTr("Mindesthaltbar")
+                        Layout.fillWidth: true
+                    }
+
+                    TextFieldDate {
+                        Layout.columnSpan: 2
+                        date: _model.Mindesthaltbar
+                        onNewDate: _model.Mindesthaltbar = date
+                    }
                 }
             }
         }

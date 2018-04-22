@@ -35,19 +35,19 @@ PageBase {
             color3: "#780000"
             legend.visible: false
             VXYModelMapper {
-                model: Brauhelfer.sud.modelHauptgaerverlauf
+                model: listView.model
                 series: chart.series1
                 xColumn: model.fieldIndex("Zeitstempel")
                 yColumn: model.fieldIndex("Alc")
             }
             VXYModelMapper {
-                model: Brauhelfer.sud.modelHauptgaerverlauf
+                model: listView.model
                 series: chart.series2
                 xColumn: model.fieldIndex("Zeitstempel")
                 yColumn: model.fieldIndex("SW")
             }
             VXYModelMapper {
-                model: Brauhelfer.sud.modelHauptgaerverlauf
+                model: listView.model
                 series: chart.series3
                 xColumn: model.fieldIndex("Zeitstempel")
                 yColumn: model.fieldIndex("Temp")
@@ -109,6 +109,7 @@ PageBase {
             }
 
             delegate: ItemDelegate {
+                property variant values: model
                 id: rowDelegate
                 width: parent.width
                 height: dataColumn.implicitHeight
@@ -126,13 +127,14 @@ PageBase {
 
                 onClicked: {
                     listView.currentIndex = index
-                    popupEdit.openIndex(listView.currentIndex)
+                    if (!page.readOnly)
+                        popuploader.active = true
                 }
 
                 function remove() {
                     removeFake.start()
                     chart.removeFake(index)
-                    Brauhelfer.sud.modelHauptgaerverlauf.remove(index)
+                    listView.model.remove(index)
                 }
 
                 ColumnLayout {
@@ -323,180 +325,143 @@ PageBase {
             }
         }
 
-        Popup {
-            property int index: -1
-            property bool valueChanged: false
+        Loader {
+            id: popuploader
+            active: false
+            focus: true
+            onLoaded: item.open()
+            sourceComponent: PopupBase {
+                property variant model: listView.currentItem.values
+                width: 240
+                onClosed: popuploader.active = false
 
-            id: popupEdit
-            parent: page
-            width: 240
-            x: (parent.width - width) / 2
-            y: (parent.height - height) / 2
-            modal: true
-
-            function openIndex(index) {
-                if (!page.readOnly) {
-                    popupEdit.index = index
-                    tfDate.date = Brauhelfer.sud.modelHauptgaerverlauf.data(index, "Zeitstempel")
-                    tfSW.value = Brauhelfer.sud.modelHauptgaerverlauf.data(index, "SW")
-                    tfDensity.value = Brauhelfer.calc.platoToDichte(tfSW.value)
-                    tfTemp.value = Brauhelfer.sud.modelHauptgaerverlauf.data(index, "Temp")
-                    valueChanged = false
-                    open()
-                }
-            }
-
-            function remove(index) {
-                item.listView.currentItem.remove()
-                close()
-            }
-
-            onClosed: {
-                if (popupEdit.valueChanged && !isNaN(tfDate.date)) {
-                    Brauhelfer.sud.modelHauptgaerverlauf.setData(popupEdit.index,
-                                {"Zeitstempel": tfDate.date,
-                                 "SW": tfSW.value,
-                                 "Temp": tfTemp.value })
-                }
-                navPane.setFocus()
-            }
-
-            background: Rectangle {
-                color: Material.background
-                radius: 10
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: forceActiveFocus()
-                }
-            }
-
-            GridLayout {
-                anchors.top: parent.top
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.margins: 8
-                columns: 3
-                rows: 6
-                columnSpacing: 16
-
-                Image {
-                    source: "qrc:/images/ic_schedule.png"
+                function remove() {
+                    listView.currentItem.remove()
+                    close()
                 }
 
-                TextFieldDate {
-                    id: tfDate
-                    Layout.columnSpan: 2
-                    Layout.fillWidth: true
-                    onNewDate: {
-                        this.date = date
-                        popupEdit.valueChanged = true
+                GridLayout {
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.margins: 8
+                    columns: 3
+                    columnSpacing: 16
+
+                    Image {
+                        source: "qrc:/images/ic_schedule.png"
                     }
-                }
 
-                Image {
-                    source: "qrc:/images/refractometer.png"
-                }
-
-                TextFieldPlato {
-                    id: tfBrix
-                    onNewValue: {
-                        this.value = value
-                        var brix = value
-                        if (!isNaN(brix)) {
-                            var density = Brauhelfer.calc.brixToDichte(Brauhelfer.sud.SWIst, brix)
-                            var sre = Brauhelfer.calc.dichteToPlato(density)
-                            tfDensity.value = density
-                            tfSW.value = sre
-                        }
-                        else {
-                            tfDensity.value = NaN
-                            tfSW.value = NaN
-                        }
-                        popupEdit.valueChanged = true
+                    TextFieldDate {
+                        id: tfDate
+                        Layout.columnSpan: 2
+                        Layout.fillWidth: true
+                        date: model.Zeitstempel
+                        onNewDate: model.Zeitstempel = date
                     }
-                }
 
-                LabelPrim {
-                    text: "°Brix"
-                    Layout.fillWidth: true
-                }
-
-                Image {
-                    source: "qrc:/images/spindel.png"
-                }
-
-                TextFieldNumber {
-                    id: tfDensity
-                    min: 0.0
-                    max: 2.0
-                    precision: 4
-                    onNewValue: {
-                        var density = value
-                        if (!isNaN(density)) {
-                            tfSW.value = Brauhelfer.calc.dichteToPlato(density)
-                        }
-                        else {
-                            tfSW.value = NaN
-                        }
-                        tfBrix.value = NaN
-                        popupEdit.valueChanged = true
+                    Image {
+                        source: "qrc:/images/refractometer.png"
                     }
-                }
 
-                LabelPrim {
-                    text: "g/ml"
-                    Layout.fillWidth: true
-                }
-
-                Image {
-                    source: "qrc:/images/sugar.png"
-                }
-
-                TextFieldPlato {
-                    id: tfSW
-                    onNewValue: {
-                        this.value = value
-                        var sre = value
-                        if (!isNaN(sre)) {
-                            tfDensity.value = Brauhelfer.calc.platoToDichte(sre)
+                    TextFieldPlato {
+                        id: tfBrix
+                        onNewValue: {
+                            this.value = value
+                            var brix = value
+                            if (!isNaN(brix)) {
+                                var density = Brauhelfer.calc.brixToDichte(Brauhelfer.sud.SWIst, brix)
+                                var sre = Brauhelfer.calc.dichteToPlato(density)
+                                tfDensity.value = density
+                                model.SW = sre
+                            }
+                            else {
+                                tfDensity.value = NaN
+                                model.SW = NaN
+                            }
                         }
-                        else {
-                            tfDensity.value = NaN
+                    }
+
+                    LabelPrim {
+                        text: "°Brix"
+                        Layout.fillWidth: true
+                    }
+
+                    Image {
+                        source: "qrc:/images/spindel.png"
+                    }
+
+                    TextFieldNumber {
+                        id: tfDensity
+                        min: 0.0
+                        max: 2.0
+                        precision: 4
+                        value: Brauhelfer.calc.platoToDichte(model.SW)
+                        onNewValue: {
+                            this.value = value
+                            var density = value
+                            if (!isNaN(density)) {
+                                model.SW = Brauhelfer.calc.dichteToPlato(density)
+                            }
+                            else {
+                                model.SW = NaN
+                            }
+                            tfBrix.value = NaN
                         }
-                        tfBrix.value = NaN
-                        popupEdit.valueChanged = true
                     }
-                }
 
-                LabelPrim {
-                    text: "°P"
-                    Layout.fillWidth: true
-                }
-
-                Image {
-                    source: "qrc:/images/temperature.png"
-                }
-
-                TextFieldTemperature {
-                    id: tfTemp
-                    onNewValue: {
-                        this.value = value
-                        popupEdit.valueChanged = true
+                    LabelPrim {
+                        text: "g/ml"
+                        Layout.fillWidth: true
                     }
-                }
 
-                LabelPrim {
-                    text: "°C"
-                    Layout.fillWidth: true
-                }
+                    Image {
+                        source: "qrc:/images/sugar.png"
+                    }
 
-                ToolButton {
-                    Layout.columnSpan: 3
-                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    onClicked: popupEdit.remove(popupEdit.index)
-                    contentItem: Image {
-                        source: "qrc:/images/ic_delete.png"
-                        anchors.centerIn: parent
+                    TextFieldPlato {
+                        id: tfSW
+                        value: model.SW
+                        onNewValue: {
+                            model.SW = value
+                            var sre = value
+                            if (!isNaN(sre)) {
+                                tfDensity.value = Brauhelfer.calc.platoToDichte(sre)
+                            }
+                            else {
+                                tfDensity.value = NaN
+                            }
+                            tfBrix.value = NaN
+                        }
+                    }
+
+                    LabelPrim {
+                        text: "°P"
+                        Layout.fillWidth: true
+                    }
+
+                    Image {
+                        source: "qrc:/images/temperature.png"
+                    }
+
+                    TextFieldTemperature {
+                        value: model.Temp
+                        onNewValue: model.Temp = value
+                    }
+
+                    LabelPrim {
+                        text: "°C"
+                        Layout.fillWidth: true
+                    }
+
+                    ToolButton {
+                        Layout.columnSpan: 3
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        onClicked: remove()
+                        contentItem: Image {
+                            source: "qrc:/images/ic_delete.png"
+                            anchors.centerIn: parent
+                        }
                     }
                 }
             }
@@ -511,9 +476,9 @@ PageBase {
             imageSource: "qrc:/images/ic_add_white.png"
             visible: !page.readOnly
             onClicked: {
-                Brauhelfer.sud.modelHauptgaerverlauf.append()
-                item.listView.currentIndex = item.listView.count - 1
-                popupEdit.openIndex(item.listView.currentIndex)
+                listView.model.append()
+                listView.currentIndex = listView.count - 1
+                popuploader.active = true
             }
         }
     }

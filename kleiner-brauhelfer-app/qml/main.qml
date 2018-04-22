@@ -202,8 +202,8 @@ ApplicationWindow {
         PageGlobalAuswahl { onClicked: loadBrew(id) }
         PageGlobalMalt { }
         PageGlobalHops { }
-        PageGlobalIngredients { }
         PageGlobalYeast { }
+        PageGlobalIngredients { }
     }
 
     // brew pages
