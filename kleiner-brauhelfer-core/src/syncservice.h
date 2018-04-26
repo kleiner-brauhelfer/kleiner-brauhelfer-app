@@ -17,9 +17,9 @@ class KBCORE_EXPORT SyncService : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(bool serviceAvailable READ isServiceAvailable CONSTANT)
-    Q_PROPERTY(QString filePath READ getFilePath CONSTANT)
-    Q_PROPERTY(SyncState state READ getState CONSTANT)
+    Q_PROPERTY(bool serviceAvailable READ isServiceAvailable NOTIFY serviceAvailableChanged)
+    Q_PROPERTY(QString filePath READ getFilePath NOTIFY filePathChanged)
+    Q_PROPERTY(SyncState state READ getState NOTIFY stateChanged)
 
 public:
 
@@ -110,13 +110,37 @@ signals:
      */
     void errorOccurred(int errorcode, const QString& errormessage);
 
+    /**
+     * @brief Signal when the service availability changed
+     * @param serviceAvailable Service availability
+     */
+    void serviceAvailableChanged(bool serviceAvailable);
+
+    /**
+     * @brief Signal when the file path changed
+     * @param filePath File path
+     */
+    void filePathChanged(QString filePath);
+
+    /**
+     * @brief Signal when the state changed
+     * @param state State
+     */
+    void stateChanged(SyncState state);
+
 protected:
 
     /**
      * @brief Sets the path to the local file
-     * @return Path
+     * @param filePath File path
      */
-    void setFilePath(const QString &path);
+    void setFilePath(const QString &filePath);
+
+    /**
+     * @brief Sets the state
+     * @param state State
+     */
+    void setState(SyncState state);
 
     /**
      * @brief Gets a path to store a file in the cache
@@ -126,12 +150,12 @@ protected:
     static QString cacheFilePath(const QString filePath);
 
     QSettings* _settings;
-    SyncState _state;
 
 private:
     bool _online;
     QString _urlServerCheck;
     QString _filePath;
+    SyncState _state;
 };
 
 #endif // SYNCSERVICE_H

@@ -142,6 +142,7 @@ PageBase {
             onLoaded: item.open()
             sourceComponent: PopupBase {
                 property variant model: listView.currentItem.values
+                onOpened: forceActiveFocus()
                 onClosed: popuploader.active = false
 
                 function remove() {

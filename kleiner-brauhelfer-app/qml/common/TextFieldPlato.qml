@@ -25,10 +25,10 @@ TextFieldNumber {
         sourceComponent: PopupBase {
             maxWidth: 240
             onOpened: {
-                tfPlato.focus = true
                 tfPlato.value = textfield.value
                 tfDensity.value = Brauhelfer.calc.platoToDichte(tfPlato.value)
                 tfBrix.value = (textfield.sw === 0.0) ? Brauhelfer.calc.platoToBrix(tfPlato.value) : ""
+                tfPlato.forceActiveFocus()
             }
             onClosed: {
                 if (tfPlato.value !== textfield.value)

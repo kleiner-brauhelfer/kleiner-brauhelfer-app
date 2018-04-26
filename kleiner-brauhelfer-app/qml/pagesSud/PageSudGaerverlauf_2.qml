@@ -333,6 +333,7 @@ PageBase {
             sourceComponent: PopupBase {
                 property variant model: listView.currentItem.values
                 maxWidth: 240
+                onOpened: tfSW.forceActiveFocus()
                 onClosed: popuploader.active = false
 
                 function remove() {

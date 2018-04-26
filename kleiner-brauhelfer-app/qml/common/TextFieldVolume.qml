@@ -30,7 +30,7 @@ TextFieldNumber {
             onOpened: {
                 tfV1.value = Brauhelfer.calc.volumenWasser(textfield.temp2, textfield.temp1, textfield.value)
                 tfV2.value = textfield.value
-                tfV2.focus = true
+                tfV2.forceActiveFocus()
             }
             onClosed: {
                 if (tfV2.value !== textfield.value)

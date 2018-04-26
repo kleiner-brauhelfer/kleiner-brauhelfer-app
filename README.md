@@ -6,10 +6,10 @@ This is a cross platform app (Android, iOS) that goes along with the brewing sof
 - Add data and measurements during the bottling process
 - Add measurements during the fermentation process
 - Add brew ratings
+- Manage the ingredient inventory
 ### What can't you do with the app (yet)?
 - Create database file
 - Create a recipe
-- Manage the ingredient inventory
 - Manage the equipment
 ### Screenshots
 ![Screenshot 01](doc/Screenshot_01.png)

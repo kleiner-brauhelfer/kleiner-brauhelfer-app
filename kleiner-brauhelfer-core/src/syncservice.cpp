@@ -42,6 +42,7 @@ bool SyncService::checkIfServiceAvailable()
     {
         _online = true;
     }
+    emit serviceAvailableChanged(_online);
     return _online;
 }
 
@@ -50,14 +51,21 @@ QString SyncService::getFilePath() const
     return _filePath;
 }
 
-void SyncService::setFilePath(const QString &path)
+void SyncService::setFilePath(const QString &filePath)
 {
-    _filePath = path;
+    _filePath = filePath;
+    emit filePathChanged(_filePath);
 }
 
 SyncService::SyncState SyncService::getState() const
 {
     return _state;
+}
+
+void SyncService::setState(SyncService::SyncState state)
+{
+    _state = state;
+    emit stateChanged(_state);
 }
 
 void SyncService::clearCache()

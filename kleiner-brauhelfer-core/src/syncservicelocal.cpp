@@ -20,21 +20,21 @@ bool SyncServiceLocal::synchronize(SyncDirection direction)
         switch (direction)
         {
         case SyncDirection::Download:
-            _state = SyncState::UpToDate;
+            setState(SyncState::UpToDate);
             return true;
 
         case SyncDirection::Upload:
-            _state = SyncState::Updated;
+            setState(SyncState::Updated);
             return true;
 
         default:
-            _state = SyncState::Failed;
+            setState(SyncState::Failed);
             return false;
         }
     }
     else
     {
-        _state = SyncState::NotFound;
+        setState(SyncState::NotFound);
         return false;
     }
 }

@@ -26,12 +26,12 @@ class KBCORE_EXPORT Brauhelfer : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(bool connected READ connected NOTIFY databaseConnectionChanged)
-    Q_PROPERTY(bool isServiceAvailable READ isServiceAvailable CONSTANT)
-    Q_PROPERTY(SyncService::SyncState syncState READ syncState CONSTANT)
-    Q_PROPERTY(bool readonly READ readonly NOTIFY databaseLocalChanged)
+    Q_PROPERTY(bool connected READ connected NOTIFY connectionChanged)
+    Q_PROPERTY(bool isServiceAvailable READ isServiceAvailable NOTIFY connectionChanged)
+    Q_PROPERTY(bool readonly READ readonly NOTIFY connectionChanged)
+    Q_PROPERTY(QString databasePath READ databasePath NOTIFY connectionChanged)
     Q_PROPERTY(bool modified READ isDirty NOTIFY modified)
-    Q_PROPERTY(QString databasePath READ databasePath NOTIFY databasePathChanged)
+    Q_PROPERTY(SyncService::SyncState syncState READ syncState NOTIFY modified)
 
     Q_PROPERTY(BierCalc* calc READ calc CONSTANT)
     Q_PROPERTY(SudObject* sud READ sud CONSTANT)
@@ -220,31 +220,7 @@ signals:
      * @brief Emitted if database connection changed
      * @param connected Connection state
      */
-    void databaseConnectionChanged(bool connected);
-
-    /**
-     * @brief Emitted if database location changed
-     * @param local True if database is local
-     */
-    void databaseLocalChanged(bool local);
-
-    /**
-     * @brief Emitted if database path changed (local and/or remote)
-     * @param dbPath Database path
-     */
-    void databasePathChanged(const QString &dbPath);
-
-    /**
-     * @brief Emitted if database path on the server changed
-     * @param dbPath Database path
-     */
-    void databasePathOnServerChanged(const QString &dbPath);
-
-    /**
-     * @brief Emitted if access token was changed
-     * @param token Access token
-     */
-    void databaseAccessTokenChanged(const QString &token);
+    void connectionChanged(bool connected);
 
     /**
      * @brief Emitted when the database was changed

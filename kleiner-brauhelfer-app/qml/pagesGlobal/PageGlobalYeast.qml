@@ -66,7 +66,7 @@ PageBase {
                     onClicked: myModel.filterRegExp = /(?:)/
                 }
                 RadioButton {
-                    text: qsTr("verfügbar")
+                    text: qsTr("vorhanden")
                     onClicked: myModel.filterRegExp = /[^0]+/
                 }
             }
@@ -128,6 +128,7 @@ PageBase {
             onLoaded: item.open()
             sourceComponent: PopupBase {
                 property variant _model: listView.currentItem.values
+                onOpened: if (_model.Beschreibung !== "") tfMenge.forceActiveFocus()
                 onClosed: popuploader.active = false
 
                 function remove() {
@@ -196,6 +197,7 @@ PageBase {
                     }
 
                     TextFieldNumber {
+                        id: tfMenge
                         Layout.preferredWidth: 60
                         min: 0.0
                         precision: 0

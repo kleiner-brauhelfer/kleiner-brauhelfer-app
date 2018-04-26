@@ -96,7 +96,7 @@ bool SyncServiceDropbox::synchronize(SyncDirection direction)
 {
     if (filePathServer() == "")
     {
-        _state = SyncState::Failed;
+        setState(SyncState::Failed);
         return false;
     }
 
@@ -109,7 +109,7 @@ bool SyncServiceDropbox::synchronize(SyncDirection direction)
             {
                 if (direction == SyncDirection::Download)
                 {
-                    _state = SyncState::UpToDate;
+                    setState(SyncState::UpToDate);
                     return true;
                 }
                 else
@@ -117,12 +117,12 @@ bool SyncServiceDropbox::synchronize(SyncDirection direction)
                     if (uploadFile())
                     {
                         setLocalRevision(getServerRevision());
-                        _state = SyncState::Updated;
+                        setState( SyncState::Updated);
                         return true;
                     }
                     else
                     {
-                        _state = SyncState::Failed;
+                        setState(SyncState::Failed);
                         return false;
                     }
                 }
@@ -134,18 +134,18 @@ bool SyncServiceDropbox::synchronize(SyncDirection direction)
                     if (downloadFile())
                     {
                         setLocalRevision(revision);
-                        _state = SyncState::Updated;
+                        setState(SyncState::Updated);
                         return true;
                     }
                     else
                     {
-                        _state = SyncState::Failed;
+                        setState(SyncState::Failed);
                         return false;
                     }
                 }
                 else
                 {
-                    _state = SyncState::OutOfSync;
+                    setState(SyncState::OutOfSync);
                     return false;
                 }
             }
@@ -157,18 +157,18 @@ bool SyncServiceDropbox::synchronize(SyncDirection direction)
                 if (downloadFile())
                 {
                     setLocalRevision(getServerRevision());
-                    _state = SyncState::Updated;
+                    setState(SyncState::Updated);
                     return true;
                 }
                 else
                 {
-                    _state = SyncState::Failed;
+                    setState(SyncState::Failed);
                     return false;
                 }
             }
             else
             {
-                _state = SyncState::NotFound;
+                setState(SyncState::NotFound);
                 return false;
             }
         }
@@ -177,7 +177,7 @@ bool SyncServiceDropbox::synchronize(SyncDirection direction)
     {
         if (QFile::exists(getFilePath()))
         {
-            _state = SyncState::Offline;
+            setState(SyncState::Offline);
             if (direction == SyncDirection::Download)
             {
                 return true;
@@ -189,7 +189,7 @@ bool SyncServiceDropbox::synchronize(SyncDirection direction)
         }
         else
         {
-            _state = SyncState::NotFound;
+            setState(SyncState::NotFound);
             return false;
         }
     }

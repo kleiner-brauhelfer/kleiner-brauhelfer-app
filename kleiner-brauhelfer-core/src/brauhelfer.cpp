@@ -117,7 +117,7 @@ bool Brauhelfer::connect()
     message("Database connected: " + (QString)(connected() ? "true" : "false"));
 
     // emit signal
-    emit databaseConnectionChanged(connected());
+    emit connectionChanged(connected());
 
     return connected();
 }
@@ -127,7 +127,7 @@ void Brauhelfer::disconnect()
     message("Disconnect from database");
     _sud->unload();
     _db->disconnect();
-    emit databaseConnectionChanged(connected());
+    emit connectionChanged(connected());
 }
 
 bool Brauhelfer::connected() const
