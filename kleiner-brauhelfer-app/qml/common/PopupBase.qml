@@ -17,6 +17,7 @@ Popup {
     y: (parent.height - height) / 2
     modal: true
 
+    onOpened: forceActiveFocus()
     onClosed: navPane.setFocus()
 
     background: Rectangle {
@@ -37,6 +38,11 @@ Popup {
         clip: true
         onVisibleChanged: contentY = 0
         ScrollIndicator.vertical: ScrollIndicator {}
+        MouseArea {
+            anchors.fill: parent
+            anchors.margins: 0
+            onClicked: forceActiveFocus()
+        }
         Item {
             id: placeholder
             anchors.top: parent.top

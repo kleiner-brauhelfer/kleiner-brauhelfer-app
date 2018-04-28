@@ -48,12 +48,7 @@ PageBase {
                     id: cbFormel
                     Layout.columnSpan: 2
                     model: [ "Terrill", "Terrill Linear", "Standard" ]
-                    opacity: {
-                        if (enabled)
-                            Material.theme === Material.Dark ? 1.00 : 0.87
-                        else
-                            Material.theme === Material.Dark ? 0.50 : 0.38
-                    }
+                    opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
                 }
 
                 HorizontalDivider {

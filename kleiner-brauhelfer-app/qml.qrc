@@ -44,5 +44,6 @@
         <file>qml/common/LabelDateTime.qml</file>
         <file>qml/PageTestarea.qml</file>
         <file>qml/common/PopupBase.qml</file>
+        <file>qml/common/SpinBoxReal.qml</file>
     </qresource>
 </RCC>

@@ -1,6 +1,7 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Dialogs 1.3
+import Qt.labs.settings 1.0
 
 import "common"
 import "pagesGlobal"
@@ -15,6 +16,7 @@ ApplicationWindow {
     property bool loaded: false
     property bool brewForceEditable: false
     property alias config: config
+    property alias settings: settings
 
     id: app
     title: Qt.application.name
@@ -24,6 +26,12 @@ ApplicationWindow {
 
     Config {
         id: config
+    }
+
+    Settings {
+        id: settings
+        category: "App"
+        property int ingredientsFilter: 0
     }
 
     // scheduler to do stuff in the background, use run() or runExt()

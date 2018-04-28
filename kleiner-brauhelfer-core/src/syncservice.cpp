@@ -4,9 +4,10 @@
 
 SyncService::SyncService(QSettings *settings, const QString &urlServerCheck) :
     _settings(settings),
-    _state(SyncState::Failed),
+    _online(false),
     _urlServerCheck(urlServerCheck),
-    _online(false)
+    _filePath(""),
+    _state(SyncState::Failed)
 {
 }
 

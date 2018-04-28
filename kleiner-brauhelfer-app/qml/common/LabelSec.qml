@@ -7,10 +7,5 @@ import QtQuick.Controls.Material 2.2
 Label {
     wrapMode: Label.WordWrap
     elide: Label.ElideRight
-    opacity: {
-        if (enabled)
-            Material.theme === Material.Dark ? 0.70 : 0.54
-        else
-            Material.theme === Material.Dark ? 0.50 : 0.38
-    }
+    opacity: enabled ? app.config.textOpacityHalf : app.config.textOpacityDisabled
 }

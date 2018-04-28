@@ -18,9 +18,7 @@ PageBase {
         clip: true
         anchors.fill: parent
         boundsBehavior: Flickable.OvershootBounds
-
         model: Brauhelfer.sud.modelBewertungen
-
         headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
         header: Rectangle {
             z: 2
@@ -142,7 +140,6 @@ PageBase {
             onLoaded: item.open()
             sourceComponent: PopupBase {
                 property variant model: listView.currentItem.values
-                onOpened: forceActiveFocus()
                 onClosed: popuploader.active = false
 
                 function remove() {

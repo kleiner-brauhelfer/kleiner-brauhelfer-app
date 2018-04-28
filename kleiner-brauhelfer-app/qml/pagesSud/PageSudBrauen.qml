@@ -27,7 +27,7 @@ PageBase {
                 ToolButton {
                     implicitWidth: 32
                     implicitHeight: 32
-                    opacity: Material.theme === Material.Dark ? 1.00 : 0.87
+                    opacity: app.config.textOpacityFull
                     visible: flickable.groupID(index).visible
                     text: flickable.groupID(index).name.substr(0, 1)
                     onClicked: flickable.contentY = flickable.groupID(index).y

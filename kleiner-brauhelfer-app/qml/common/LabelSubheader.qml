@@ -10,5 +10,5 @@ Label {
     font.bold: true
     wrapMode: Label.WordWrap
     elide: Label.ElideRight
-    opacity: Material.theme === Material.Dark ? 1.00 : 0.87
+    opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
 }

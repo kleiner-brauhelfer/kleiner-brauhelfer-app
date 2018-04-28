@@ -18,12 +18,11 @@ PageBase {
         anchors.fill: parent
         boundsBehavior: Flickable.OvershootBounds
         model: SortFilterProxyModel {
-            id: myModel
             sourceModel: Brauhelfer.modelWeitereZutaten
             filterKeyColumn: sourceModel.fieldIndex("Menge")
+            filterRegExp: app.settings.ingredientsFilter === 0 ? /(?:)/ : /[^0]+/
         }
         headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
-        Component.onCompleted: positionViewAtEnd()
         ScrollIndicator.vertical: ScrollIndicator {}
         header: Rectangle {
             z: 2
@@ -61,13 +60,14 @@ PageBase {
             Flow {
                 width: parent.width
                 RadioButton {
-                    checked: true
+                    checked: app.settings.ingredientsFilter === 0
                     text: qsTr("alle")
-                    onClicked: myModel.filterRegExp = /(?:)/
+                    onClicked: app.settings.ingredientsFilter = 0
                 }
                 RadioButton {
+                    checked: app.settings.ingredientsFilter === 1
                     text: qsTr("vorhanden")
-                    onClicked: myModel.filterRegExp = /[^0]+/
+                    onClicked: app.settings.ingredientsFilter = 1
                 }
             }
         }
@@ -108,12 +108,14 @@ PageBase {
                     LabelPrim {
                         Layout.fillWidth: true
                         leftPadding: 8
+                        opacity: model.Menge > 0 ? app.config.textOpacityFull : app.config.textOpacityHalf
                         text: model.Beschreibung
                     }
                     LabelNumber {
                         Layout.fillWidth: true
                         rightPadding: 8
                         horizontalAlignment: Text.AlignRight
+                        opacity: model.Menge > 0 ? app.config.textOpacityFull : app.config.textOpacityHalf
                         precision: 2
                         unit: model.Einheiten === 0 ? qsTr("kg") : qsTr("g")
                         value: model.Menge
@@ -129,7 +131,6 @@ PageBase {
             onLoaded: item.open()
             sourceComponent: PopupBase {
                 property variant _model: listView.currentItem.values
-                onOpened: if (_model.Beschreibung !== "") tfMenge.forceActiveFocus()
                 onClosed: popuploader.active = false
 
                 function remove() {
@@ -143,7 +144,7 @@ PageBase {
                     anchors.right: parent.right
                     anchors.margins: 8
                     columns: 3
-                    columnSpacing: 16
+                    columnSpacing: 0
 
                     RowLayout {
                         Layout.fillWidth: true
@@ -193,31 +194,29 @@ PageBase {
                     }
 
                     LabelPrim {
+                        rightPadding: 8
                         text: qsTr("Menge")
-                        Layout.fillWidth: true
+                        font.weight: Font.DemiBold
                     }
 
-                    TextFieldNumber {
-                        id: tfMenge
-                        Layout.preferredWidth: 60
-                        min: 0.0
-                        precision: 2
-                        value: _model.Menge
-                        onNewValue: _model.Menge = value
+                    SpinBoxReal {
+                        Layout.fillWidth: true
+                        decimals: 2
+                        realValue: _model.Menge
+                        onRealValueChanged: _model.Menge = realValue
                     }
 
                     ComboBox {
-                        id: cbUnit
                         Layout.preferredWidth: 70
-                        Layout.fillWidth: true
                         model: [qsTr("kg"), qsTr("g")]
                         currentIndex: _model.Einheiten
                         onActivated: _model.Einheiten = index
                     }
 
                     LabelPrim {
+                        rightPadding: 8
                         text: qsTr("Typ")
-                        Layout.fillWidth: true
+                        font.weight: Font.DemiBold
                     }
 
                     ComboBox {
@@ -229,47 +228,45 @@ PageBase {
                     }
 
                     LabelPrim {
+                        rightPadding: 8
                         text: qsTr("Ausbeute")
+                        font.weight: Font.DemiBold
+                    }
+
+                    SpinBoxReal {
                         Layout.fillWidth: true
+                        decimals: 0
+                        realValue: _model.Ausbeute
+                        onRealValueChanged: _model.Ausbeute = realValue
                     }
 
-                    TextFieldNumber {
-                        Layout.preferredWidth: 60
-                        min: 0.0
-                        precision: 0
-                        value: _model.Ausbeute
-                        onNewValue: _model.Ausbeute = value
-                    }
-
-                    LabelPrim {
-                        Layout.preferredWidth: 70
+                    LabelSec {
                         text: qsTr("%")
-                        Layout.fillWidth: true
                     }
 
                     LabelPrim {
+                        rightPadding: 8
                         text: qsTr("Farbe")
+                        font.weight: Font.DemiBold
+                    }
+
+                    SpinBoxReal {
                         Layout.fillWidth: true
+                        decimals: 1
+                        realValue: _model.EBC
+                        onRealValueChanged: _model.EBC = realValue
                     }
 
-                    TextFieldNumber {
-                        Layout.preferredWidth: 60
-                        min: 0.0
-                        precision: 1
-                        value: _model.EBC
-                        onNewValue: _model.EBC = value
-                    }
-
-                    LabelPrim {
-                        Layout.preferredWidth: 70
+                    LabelSec {
                         text: qsTr("EBC")
-                        Layout.fillWidth: true
                     }
 
                     LabelPrim {
-                        text: qsTr("Bemerkung")
                         Layout.columnSpan: 3
                         Layout.fillWidth: true
+                        rightPadding: 8
+                        text: qsTr("Bemerkung")
+                        font.weight: Font.DemiBold
                     }
 
                     TextArea {
@@ -282,42 +279,44 @@ PageBase {
                     }
 
                     LabelPrim {
+                        rightPadding: 8
                         text: qsTr("Preis")
+                        font.weight: Font.DemiBold
+                    }
+
+                    SpinBoxReal {
                         Layout.fillWidth: true
+                        decimals: 2
+                        realValue: _model.Preis
+                        onRealValueChanged: _model.Preis = realValue
                     }
 
-                    TextFieldNumber {
-                        Layout.preferredWidth: 60
-                        min: 0.0
-                        precision: 2
-                        value: _model.Preis
-                        onNewValue: _model.Preis = value
-                    }
-
-                    LabelPrim {
-                        Layout.preferredWidth: 70
+                    LabelSec {
                         text: Qt.locale().currencySymbol()
-                        Layout.fillWidth: true
                     }
 
                     LabelPrim {
+                        rightPadding: 8
                         text: qsTr("Eingelagert")
-                        Layout.fillWidth: true
+                        font.weight: Font.DemiBold
                     }
 
                     TextFieldDate {
                         Layout.columnSpan: 2
+                        Layout.fillWidth: true
                         date: _model.Eingelagert
                         onNewDate: _model.Eingelagert = date
                     }
 
                     LabelPrim {
-                        text: qsTr("Mindesthaltbar")
-                        Layout.fillWidth: true
+                        rightPadding: 8
+                        text: qsTr("Haltbar")
+                        font.weight: Font.DemiBold
                     }
 
                     TextFieldDate {
                         Layout.columnSpan: 2
+                        Layout.fillWidth: true
                         date: _model.Mindesthaltbar
                         onNewDate: _model.Mindesthaltbar = date
                     }

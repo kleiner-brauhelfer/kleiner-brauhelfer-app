@@ -6,7 +6,7 @@ TextField {
     signal newValue(real value)
 
     property real value: NaN
-    property real min: -Infinity
+    property real min: 0
     property real max: Infinity
     property int precision: 1
 
@@ -28,7 +28,7 @@ TextField {
     text: formatedText()
     onTextChanged: {
         if (activeFocus && acceptableInput) {
-            var _value = Number.fromLocaleString(Qt.locale(), text);
+            var _value = Number.fromLocaleString(Qt.locale(), text)
             if (value !== _value)
                 newValue(_value)
         }

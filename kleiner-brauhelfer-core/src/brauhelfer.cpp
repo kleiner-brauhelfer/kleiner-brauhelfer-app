@@ -186,10 +186,10 @@ void Brauhelfer::save()
             break;
         }
 
-        // select main tables
+        // reselect main tables
         select();
 
-        // select brew table to clean stuff, just in case
+        // reselect brew table
         _sud->select();
     }
 }
@@ -199,7 +199,10 @@ void Brauhelfer::discard(bool skipSelect)
     message("Discard database changes");
     _db->discard();
 
-    // select brew table to clean stuff, just in case
+    // reselect main tables
+    select();
+
+    // reselect brew table
     if (!skipSelect)
         _sud->select();
 }
