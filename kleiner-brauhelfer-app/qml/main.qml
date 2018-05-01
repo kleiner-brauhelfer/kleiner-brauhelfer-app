@@ -206,7 +206,6 @@ ApplicationWindow {
     SwipeView {
         id: viewGlobal
         visible: false
-        //Testarea {}
         PageGlobalAuswahl { onClicked: loadBrew(id) }
         PageGlobalMalt { }
         PageGlobalHops { }
@@ -223,6 +222,7 @@ ApplicationWindow {
                 removeItem(0)
             if (Brauhelfer.sud.loaded) {
                 addItem(pageSudHome)
+                addItem(pageSudInfo)
                 addItem(pageSudBrauen)
                 addItem(pageSudGaerverlauf_1)
                 addItem(pageSudGaerverlauf_2)
@@ -235,6 +235,7 @@ ApplicationWindow {
         }
     }
     PageSudHome { id: pageSudHome }
+    PageSudInfo { id: pageSudInfo }
     PageSudBrauen { id: pageSudBrauen }
     PageSudGaerverlauf_1 { id: pageSudGaerverlauf_1 }
     PageSudGaerverlauf_2 { id: pageSudGaerverlauf_2 }

@@ -21,7 +21,8 @@ CONFIG += warn_on
 # enable / disable dropbox support
 CONFIG += dropbox_en
 dropbox_en {
-    unix|win32: LIBS += -L../bin/ -lqtdropbox2
+    win32: LIBS += -L../bin/ -lqtdropbox2
+    unix: LIBS += -L../qtdropbox2/ -lqtdropbox2
     INCLUDEPATH += $$PWD/../qtdropbox2/src
     DEPENDPATH += $$PWD/../qtdropbox2/src
     DEFINES += DROPBOX_EN=1
@@ -48,7 +49,8 @@ RCC_DIR = tmp
 DESTDIR = ../bin
 
 # libraries
-unix|win32: LIBS += -L../bin/ -lkleiner-brauhelfer-core
+win32: LIBS += -L../bin/ -lkleiner-brauhelfer-core
+unix: LIBS += -L../kleiner-brauhelfer-core/ -lkleiner-brauhelfer-core
 
 # header files
 INCLUDEPATH += src ../kleiner-brauhelfer-core/src

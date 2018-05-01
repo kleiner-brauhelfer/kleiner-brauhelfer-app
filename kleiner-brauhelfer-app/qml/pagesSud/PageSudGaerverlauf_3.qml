@@ -180,6 +180,7 @@ PageBase {
             sourceComponent: PopupBase {
                 property variant model: listView.currentItem.values
                 maxWidth: 240
+                y: page.height * 0.1
                 onOpened: tfDruck.forceActiveFocus()
                 onClosed: popuploader.active = false
 

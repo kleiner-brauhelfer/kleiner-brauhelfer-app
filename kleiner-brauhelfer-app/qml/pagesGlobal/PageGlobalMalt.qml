@@ -72,7 +72,6 @@ PageBase {
             }
         }
         delegate: ItemDelegate {
-            property variant values: model
             id: rowDelegate
             width: parent.width
             height: dataColumn.implicitHeight
@@ -130,7 +129,6 @@ PageBase {
             active: false
             onLoaded: item.open()
             sourceComponent: PopupBase {
-                property variant _model: listView.currentItem.values
                 onClosed: popuploader.active = false
 
                 function remove() {
@@ -138,187 +136,210 @@ PageBase {
                     close()
                 }
 
-                GridLayout {
+                SwipeView {
                     anchors.top: parent.top
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.margins: 8
-                    columns: 3
-                    columnSpacing: 0
-
-                    RowLayout {
-                        Layout.fillWidth: true
-                        Layout.columnSpan: 3
-
-                        Item {
-                            width: btnRemove.width
-                        }
-
-                        Item {
-                            property bool editing: false
-                            id: itBeschreibung
-                            Layout.fillWidth: true
-                            height: children[1].height
-                            LabelSubheader {
-                                anchors.fill: parent
-                                visible: !itBeschreibung.editing
-                                text: _model.Beschreibung
-                                horizontalAlignment: Text.AlignHCenter
+                    spacing: 16
+                    height: contentChildren[currentIndex].implicitHeight
+                    clip: true
+                    currentIndex: listView.currentIndex
+                    Repeater {
+                        model: listView.model
+                        Loader {
+                            active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
+                            sourceComponent: Item {
+                                implicitHeight: layout.height
                                 MouseArea {
                                     anchors.fill: parent
-                                    onClicked: itBeschreibung.editing = true
+                                    anchors.margins: 0
+                                    onClicked: forceActiveFocus()
+                                }
+                                GridLayout {
+                                    id: layout
+                                    anchors.top: parent.top
+                                    anchors.left: parent.left
+                                    anchors.right: parent.right
+                                    columns: 3
+                                    columnSpacing: 0
+                                    RowLayout {
+                                        Layout.fillWidth: true
+                                        Layout.columnSpan: 3
+
+                                        Item {
+                                            width: btnRemove.width
+                                        }
+
+                                        Item {
+                                            property bool editing: false
+                                            id: itBeschreibung
+                                            Layout.fillWidth: true
+                                            height: children[1].height
+                                            LabelSubheader {
+                                                anchors.fill: parent
+                                                visible: !itBeschreibung.editing
+                                                text: model.Beschreibung
+                                                horizontalAlignment: Text.AlignHCenter
+                                                MouseArea {
+                                                    anchors.fill: parent
+                                                    onClicked: itBeschreibung.editing = true
+                                                }
+                                            }
+                                            TextField {
+                                                anchors.fill: parent
+                                                visible: itBeschreibung.editing
+                                                horizontalAlignment: Text.AlignHCenter
+                                                text: model.Beschreibung
+                                                onTextChanged: if (activeFocus) model.Beschreibung = text
+                                                onEditingFinished: itBeschreibung.editing = false
+                                                onVisibleChanged: if (visible) forceActiveFocus()
+                                            }
+
+                                            Component.onCompleted: if (model.Beschreibung === "") editing = true
+                                        }
+
+                                        ToolButton {
+                                            id: btnRemove
+                                            Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                                            onClicked: remove()
+                                            contentItem: Image {
+                                                source: "qrc:/images/ic_delete.png"
+                                                anchors.centerIn: parent
+                                            }
+                                        }
+                                    }
+
+                                    LabelPrim {
+                                        rightPadding: 8
+                                        text: qsTr("Menge")
+                                        font.weight: Font.DemiBold
+                                    }
+
+                                    SpinBoxReal {
+                                        Layout.fillWidth: true
+                                        decimals: 2
+                                        realValue: model.Menge
+                                        onRealValueChanged: model.Menge = realValue
+                                    }
+
+                                    LabelUnit {
+                                        text: qsTr("kg")
+                                    }
+
+                                    LabelPrim {
+                                        rightPadding: 8
+                                        text: qsTr("Farbe")
+                                        font.weight: Font.DemiBold
+                                    }
+
+                                    SpinBoxReal {
+                                        Layout.fillWidth: true
+                                        decimals: 1
+                                        realValue: model.Farbe
+                                        onRealValueChanged: model.Farbe = realValue
+                                    }
+
+                                    LabelUnit {
+                                        text: qsTr("EBC")
+                                    }
+
+                                    LabelPrim {
+                                        rightPadding: 8
+                                        text: qsTr("Max. Anteil")
+                                        font.weight: Font.DemiBold
+                                    }
+
+                                    SpinBoxReal {
+                                        Layout.fillWidth: true
+                                        decimals: 0
+                                        realValue: model.MaxProzent
+                                        onRealValueChanged: model.MaxProzent = realValue
+                                    }
+
+                                    LabelUnit {
+                                        text: qsTr("%")
+                                    }
+
+                                    LabelPrim {
+                                        Layout.columnSpan: 3
+                                        Layout.fillWidth: true
+                                        rightPadding: 8
+                                        text: qsTr("Anwendung")
+                                        font.weight: Font.DemiBold
+                                    }
+
+                                    TextArea {
+                                        Layout.columnSpan: 3
+                                        Layout.fillWidth: true
+                                        wrapMode: TextArea.Wrap
+                                        placeholderText: qsTr("Anwendung")
+                                        text: model.Anwendung
+                                        onTextChanged: if (activeFocus) model.Anwendung = text
+                                    }
+
+                                    LabelPrim {
+                                        Layout.columnSpan: 3
+                                        Layout.fillWidth: true
+                                        rightPadding: 8
+                                        text: qsTr("Bemerkung")
+                                        font.weight: Font.DemiBold
+                                    }
+
+                                    TextArea {
+                                        Layout.columnSpan: 3
+                                        Layout.fillWidth: true
+                                        wrapMode: TextArea.Wrap
+                                        placeholderText: qsTr("Bemerkung")
+                                        text: model.Bemerkung
+                                        onTextChanged: if (activeFocus) model.Bemerkung = text
+                                    }
+
+                                    LabelPrim {
+                                        rightPadding: 8
+                                        text: qsTr("Preis")
+                                        font.weight: Font.DemiBold
+                                    }
+
+                                    SpinBoxReal {
+                                        Layout.fillWidth: true
+                                        decimals: 2
+                                        realValue: model.Preis
+                                        onRealValueChanged: model.Preis = realValue
+                                    }
+
+                                    LabelUnit {
+                                        text: Qt.locale().currencySymbol() + "/" + qsTr("kg")
+                                    }
+
+                                    LabelPrim {
+                                        rightPadding: 8
+                                        text: qsTr("Eingelagert")
+                                        font.weight: Font.DemiBold
+                                    }
+
+                                    TextFieldDate {
+                                        Layout.columnSpan: 2
+                                        Layout.fillWidth: true
+                                        date: model.Eingelagert
+                                        onNewDate: model.Eingelagert = date
+                                    }
+
+                                    LabelPrim {
+                                        rightPadding: 8
+                                        text: qsTr("Haltbar")
+                                        font.weight: Font.DemiBold
+                                    }
+
+                                    TextFieldDate {
+                                        Layout.columnSpan: 2
+                                        Layout.fillWidth: true
+                                        date: model.Mindesthaltbar
+                                        onNewDate: model.Mindesthaltbar = date
+                                    }
                                 }
                             }
-                            TextField {
-                                anchors.fill: parent
-                                visible: itBeschreibung.editing
-                                horizontalAlignment: Text.AlignHCenter
-                                text: _model.Beschreibung
-                                onTextChanged: if (activeFocus) _model.Beschreibung = text
-                                onEditingFinished: itBeschreibung.editing = false
-                                onVisibleChanged: if (visible) forceActiveFocus()
-                            }
-
-                            Component.onCompleted: if (_model.Beschreibung === "") editing = true
                         }
-
-                        ToolButton {
-                            id: btnRemove
-                            Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                            onClicked: remove()
-                            contentItem: Image {
-                                source: "qrc:/images/ic_delete.png"
-                                anchors.centerIn: parent
-                            }
-                        }
-                    }
-
-                    LabelPrim {
-                        rightPadding: 8
-                        text: qsTr("Menge")
-                        font.weight: Font.DemiBold
-                    }
-
-                    SpinBoxReal {
-                        Layout.fillWidth: true
-                        decimals: 2
-                        realValue: _model.Menge
-                        onRealValueChanged: _model.Menge = realValue
-                    }
-
-                    LabelSec {
-                        text: qsTr("kg")
-                    }
-
-                    LabelPrim {
-                        rightPadding: 8
-                        text: qsTr("Farbe")
-                        font.weight: Font.DemiBold
-                    }
-
-                    SpinBoxReal {
-                        Layout.fillWidth: true
-                        decimals: 1
-                        realValue: _model.Farbe
-                        onRealValueChanged: _model.Farbe = realValue
-                    }
-
-                    LabelSec {
-                        text: qsTr("EBC")
-                    }
-
-                    LabelPrim {
-                        rightPadding: 8
-                        text: qsTr("Max. Anteil")
-                        font.weight: Font.DemiBold
-                    }
-
-                    SpinBoxReal {
-                        Layout.fillWidth: true
-                        decimals: 0
-                        realValue: _model.MaxProzent
-                        onRealValueChanged: _model.MaxProzent = realValue
-                    }
-
-                    LabelSec {
-                        text: qsTr("%")
-                    }
-
-                    LabelPrim {
-                        Layout.columnSpan: 3
-                        Layout.fillWidth: true
-                        rightPadding: 8
-                        text: qsTr("Anwendung")
-                        font.weight: Font.DemiBold
-                    }
-
-                    TextArea {
-                        Layout.columnSpan: 3
-                        Layout.fillWidth: true
-                        wrapMode: TextArea.Wrap
-                        placeholderText: qsTr("Anwendung")
-                        text: _model.Anwendung
-                        onTextChanged: if (activeFocus) _model.Anwendung = text
-                    }
-
-                    LabelPrim {
-                        Layout.columnSpan: 3
-                        Layout.fillWidth: true
-                        rightPadding: 8
-                        text: qsTr("Bemerkung")
-                        font.weight: Font.DemiBold
-                    }
-
-                    TextArea {
-                        Layout.columnSpan: 3
-                        Layout.fillWidth: true
-                        wrapMode: TextArea.Wrap
-                        placeholderText: qsTr("Bemerkung")
-                        text: _model.Bemerkung
-                        onTextChanged: if (activeFocus) _model.Bemerkung = text
-                    }
-
-                    LabelPrim {
-                        rightPadding: 8
-                        text: qsTr("Preis")
-                        font.weight: Font.DemiBold
-                    }
-
-                    SpinBoxReal {
-                        Layout.fillWidth: true
-                        decimals: 2
-                        realValue: _model.Preis
-                        onRealValueChanged: _model.Preis = realValue
-                    }
-
-                    LabelSec {
-                        text: Qt.locale().currencySymbol() + "/" + qsTr("kg")
-                    }
-
-                    LabelPrim {
-                        rightPadding: 8
-                        text: qsTr("Eingelagert")
-                        font.weight: Font.DemiBold
-                    }
-
-                    TextFieldDate {
-                        Layout.columnSpan: 2
-                        Layout.fillWidth: true
-                        date: _model.Eingelagert
-                        onNewDate: _model.Eingelagert = date
-                    }
-
-                    LabelPrim {
-                        rightPadding: 8
-                        text: qsTr("Haltbar")
-                        font.weight: Font.DemiBold
-                    }
-
-                    TextFieldDate {
-                        Layout.columnSpan: 2
-                        Layout.fillWidth: true
-                        date: _model.Mindesthaltbar
-                        onNewDate: _model.Mindesthaltbar = date
                     }
                 }
             }

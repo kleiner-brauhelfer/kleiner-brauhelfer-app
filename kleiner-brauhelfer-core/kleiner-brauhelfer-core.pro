@@ -25,7 +25,7 @@ OBJECTS_DIR = tmp
 MOC_DIR = tmp
 UI_DIR = tmp
 RCC_DIR = tmp
-DESTDIR = ../bin
+win32: DESTDIR = ../bin
 
 # header files
 HEADERS += src/biercalc.h \

@@ -12,7 +12,7 @@ Popup {
     parent: page
 
     width: Math.min(maxWidth, parent.width - margin)
-    height: Math.min(placeholder.childrenRect.height + 2 * padding, parent.height - margin)
+    height: Math.min(flickable.contentHeight + 2 * padding, parent.height - margin)
     x: (parent.width - width) / 2
     y: (parent.height - height) / 2
     modal: true

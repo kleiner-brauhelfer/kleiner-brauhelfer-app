@@ -45,5 +45,7 @@
         <file>qml/PageTestarea.qml</file>
         <file>qml/common/PopupBase.qml</file>
         <file>qml/common/SpinBoxReal.qml</file>
+        <file>qml/pagesSud/PageSudInfo.qml</file>
+        <file>qml/common/LabelUnit.qml</file>
     </qresource>
 </RCC>
