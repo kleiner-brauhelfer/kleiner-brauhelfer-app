@@ -13,6 +13,7 @@ PageBase {
     title: qsTr("Info")
     icon: "ic_info_outline.png"
     enabled: Brauhelfer.sud.loaded
+    readOnly: Brauhelfer.readonly || !app.brewForceEditable
 
     component: Flickable {
         anchors.fill: parent
@@ -49,27 +50,229 @@ PageBase {
                     LabelDate {
                         date: Brauhelfer.sud.Erstellt
                     }
-                    LabelPrim {
-                        Layout.fillWidth: true
+                    Switch {
+                        visible: Brauhelfer.sud.BierWurdeGebraut
+                        enabled: !page.readOnly
                         text: qsTr("Gebraut")
+                        checked: Brauhelfer.sud.BierWurdeGebraut
+                        onClicked: Brauhelfer.sud.BierWurdeGebraut = checked
                     }
                     LabelDate {
-                        date: Brauhelfer.sud.BierWurdeGebraut ? Brauhelfer.sud.Braudatum : new Date("")
+                        visible: Brauhelfer.sud.BierWurdeGebraut
+                        date: Brauhelfer.sud.Braudatum
                     }
                     LabelPrim {
+                        visible: Brauhelfer.sud.BierWurdeGebraut
                         Layout.fillWidth: true
                         text: qsTr("Angestellt")
                     }
                     LabelDate {
-                        date: Brauhelfer.sud.BierWurdeGebraut ? Brauhelfer.sud.Anstelldatum : new Date("")
+                        visible: Brauhelfer.sud.BierWurdeGebraut
+                        date: Brauhelfer.sud.Anstelldatum
+                    }
+                    Switch {
+                        visible: Brauhelfer.sud.BierWurdeAbgefuellt
+                        enabled: !page.readOnly
+                        text: qsTr("Abgefüllt")
+                        checked: Brauhelfer.sud.BierWurdeAbgefuellt
+                        onClicked: Brauhelfer.sud.BierWurdeAbgefuellt = checked
+                    }
+                    LabelDate {
+                        visible: Brauhelfer.sud.BierWurdeAbgefuellt
+                        date: Brauhelfer.sud.Abfuelldatum
+                    }
+                    Switch {
+                        visible: Brauhelfer.sud.BierWurdeAbgefuellt
+                        text: qsTr("Verbraucht")
+                        checked: Brauhelfer.sud.BierWurdeVerbraucht
+                        onClicked: Brauhelfer.sud.BierWurdeVerbraucht = checked
+                    }
+                }
+            }
+
+            GroupBox {
+                Layout.fillWidth: true
+                label: LabelSubheader {
+                    text: Brauhelfer.sud.BierWurdeGebraut ? qsTr("Zusammenfassung") : qsTr("Rezept")
+                }
+                GridLayout {
+                    anchors.fill: parent
+                    columns: 3
+                    LabelPrim {
+                        Layout.fillWidth: true
+                        text: qsTr("Status")
+                    }
+                    LabelPrim {
+                        Layout.columnSpan: 2
+                        text: {
+                            if (!Brauhelfer.sud.BierWurdeGebraut)
+                                return qsTr("nicht gebraut")
+                            if (Brauhelfer.sud.BierWurdeVerbraucht)
+                                return qsTr("verbraucht")
+                            if (!Brauhelfer.sud.BierWurdeAbgefuellt)
+                                return qsTr("nicht abgefüllt")
+                            var tage = Brauhelfer.sud.ReifezeitDelta
+                            if (tage > 0)
+                                return qsTr("reif in") + " " + tage + " " + qsTr("Tage")
+                            else
+                                return qsTr("reif seit") + " " + (-tage) + " " + qsTr("Tage")
+                        }
                     }
                     LabelPrim {
                         Layout.fillWidth: true
-                        text: qsTr("Abgefüllt")
+                        text: qsTr("Anlage")
                     }
-                    LabelDate {
-                        date: Brauhelfer.sud.BierWurdeAbgefuellt ? Brauhelfer.sud.Abfuelldatum : new Date("")
+                    LabelPrim {
+                        Layout.columnSpan: 2
+                        text: Brauhelfer.sud.AuswahlBrauanlageName
                     }
+                    LabelPrim {
+                        Layout.fillWidth: true
+                        text: qsTr("Menge")
+                    }
+                    LabelNumber {
+                        precision: 1
+                        value: Brauhelfer.sud.BierWurdeGebraut ? Brauhelfer.sud.erg_AbgefuellteBiermenge : Brauhelfer.sud.Menge
+                    }
+                    LabelUnit {
+                        text: qsTr("Liter")
+                    }
+                    LabelPrim {
+                        Layout.fillWidth: true
+                        text: qsTr("Stammwürze")
+                    }
+                    LabelPlato {
+                        value: Brauhelfer.sud.BierWurdeGebraut ? Brauhelfer.sud.SWIst : Brauhelfer.sud.SW
+                    }
+                    LabelUnit {
+                        text: qsTr("°P")
+                    }
+                    LabelPrim {
+                        visible: Brauhelfer.sud.BierWurdeGebraut
+                        Layout.fillWidth: true
+                        text: qsTr("Restextrakt")
+                    }
+                    LabelPlato {
+                        visible: Brauhelfer.sud.BierWurdeGebraut
+                        value: Brauhelfer.sud.SREIst
+                    }
+                    LabelUnit {
+                        visible: Brauhelfer.sud.BierWurdeGebraut
+                        text: qsTr("°P")
+                    }
+                    LabelPrim {
+                        visible: Brauhelfer.sud.BierWurdeGebraut
+                        Layout.fillWidth: true
+                        text: qsTr("Vergärungsgrad (scheinbar)")
+                    }
+                    LabelNumber {
+                        visible: Brauhelfer.sud.BierWurdeGebraut
+                        value: Brauhelfer.calc.vergaerungsgrad(Brauhelfer.sud.SWIst, Brauhelfer.sud.SREIst)
+                    }
+                    LabelUnit {
+                        visible: Brauhelfer.sud.BierWurdeGebraut
+                        text: qsTr("%")
+                    }
+                    LabelPrim {
+                        visible: Brauhelfer.sud.BierWurdeGebraut
+                        Layout.fillWidth: true
+                        text: qsTr("Alkohol")
+                    }
+                    LabelNumber {
+                        visible: Brauhelfer.sud.BierWurdeGebraut
+                        precision: 1
+                        value: Brauhelfer.sud.erg_Alkohol
+                    }
+                    LabelUnit {
+                        visible: Brauhelfer.sud.BierWurdeGebraut
+                        text: qsTr("%")
+                    }
+                    LabelPrim {
+                        visible: Brauhelfer.sud.BierWurdeGebraut
+                        Layout.fillWidth: true
+                        text: qsTr("Ausbeute")
+                    }
+                    LabelNumber {
+                        visible: Brauhelfer.sud.BierWurdeGebraut
+                        value: Brauhelfer.sud.erg_EffektiveAusbeute
+                    }
+                    LabelUnit {
+                        visible: Brauhelfer.sud.BierWurdeGebraut
+                        text: qsTr("%")
+                    }
+                    LabelPrim {
+                        Layout.fillWidth: true
+                        text: qsTr("Bittere")
+                    }
+                    LabelNumber {
+                        precision: 0
+                        value: Brauhelfer.sud.IBU
+                    }
+                    LabelUnit {
+                        text: qsTr("IBU")
+                    }
+                    LabelPrim {
+                        Layout.fillWidth: true
+                        text: qsTr("Farbe")
+                    }
+                    LabelNumber {
+                        precision: 0
+                        value: Brauhelfer.sud.erg_Farbe
+                    }
+                    LabelUnit {
+                        text: qsTr("EBC")
+                    }
+                    LabelPrim {
+                        Layout.fillWidth: true
+                        visible: Brauhelfer.sud.RestalkalitaetSoll > 0.0
+                        text: qsTr("Restalkalität")
+                    }
+                    LabelNumber {
+                        visible: Brauhelfer.sud.RestalkalitaetSoll > 0.0
+                        precision: 2
+                        value: Brauhelfer.sud.RestalkalitaetSoll
+                    }
+                    LabelUnit {
+                        visible: Brauhelfer.sud.RestalkalitaetSoll > 0.0
+                        text: qsTr("°dH")
+                    }
+                    LabelPrim {
+                        Layout.fillWidth: true
+                        text: qsTr("CO2")
+                    }
+                    LabelNumber {
+                        precision: 1
+                        value: Brauhelfer.sud.BierWurdeGebraut ? Brauhelfer.sud.CO2Ist : Brauhelfer.sud.CO2
+                    }
+                    LabelUnit {
+                        text: qsTr("g/Liter")
+                    }
+                    LabelPrim {
+                        Layout.fillWidth: true
+                        text: qsTr("Preis")
+                    }
+                    LabelNumber {
+                        precision: 2
+                        value: Brauhelfer.sud.erg_Preis
+                    }
+                    LabelUnit {
+                        text: Qt.locale().currencySymbol() + "/" + qsTr("Liter")
+                    }
+                }
+            }
+
+            GroupBox {
+                Layout.fillWidth: true
+                label: LabelSubheader {
+                    text: qsTr("Bemerkung")
+                }
+                TextArea {
+                    anchors.fill: parent
+                    opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
+                    wrapMode: TextArea.Wrap
+                    placeholderText: qsTr("Bemerkung")
+                    text: Brauhelfer.sud.Kommentar
+                    onTextChanged: if (activeFocus) Brauhelfer.sud.Kommentar = text
                 }
             }
 
@@ -201,18 +404,6 @@ PageBase {
                             value: Brauhelfer.sud.HefeAnzahlEinheiten
                         }
                     }
-                }
-            }
-
-            GroupBox {
-                Layout.fillWidth: true
-                label: LabelSubheader {
-                    text: qsTr("Abschluss")
-                }
-                Switch {
-                    text: qsTr("Sud verbraucht")
-                    checked: Brauhelfer.sud.BierWurdeVerbraucht
-                    onClicked: Brauhelfer.sud.BierWurdeVerbraucht = checked
                 }
             }
         }

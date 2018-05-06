@@ -481,16 +481,16 @@ QVariant ModelSud::SpeiseNoetig(const QModelIndex &index) const
     double sreJungbier = data(index.row(), "SWJungbier").toDouble();
     double T = data(index.row(), "TemperaturJungbier").toDouble();
     double sreSchnellgaerprobe = data(index.row(), "SREIst").toDouble();
-    return BierCalc::speise(co2Soll, sw, sreSchnellgaerprobe, sreJungbier, T);
+    double jungbiermenge = data(index.row(), "JungbiermengeAbfuellen").toDouble();
+    return BierCalc::speise(co2Soll, sw, sreSchnellgaerprobe, sreJungbier, T) * jungbiermenge * 1000;
 }
 
 QVariant ModelSud::SpeiseAnteil(const QModelIndex &index) const
 {
     if (data(index.row(), "Spunden").toBool())
         return 0.0;
-    double jungbiermenge = data(index.row(), "JungbiermengeAbfuellen").toDouble();
     double speiseVerfuegbar = data(index.row(), "Speisemenge").toDouble() * 1000;
-    double speise = SpeiseNoetig(index).toDouble() * jungbiermenge * 1000;
+    double speise = SpeiseNoetig(index).toDouble();
     if (speise > speiseVerfuegbar)
         speise = speiseVerfuegbar;
     return speise;
@@ -500,11 +500,10 @@ QVariant ModelSud::ZuckerAnteil(const QModelIndex &index) const
 {
     if (data(index.row(), "Spunden").toBool())
         return 0.0;
-    double jungbiermenge = data(index.row(), "JungbiermengeAbfuellen").toDouble();
     double speiseVerfuegbar = data(index.row(), "Speisemenge").toDouble() * 1000;
     double sw = data(index.row(), "SWIst").toDouble();
     double sre = data(index.row(), "SREIst").toDouble();
-    double speise = SpeiseNoetig(index).toDouble() * jungbiermenge * 1000 - speiseVerfuegbar;
+    double speise = SpeiseNoetig(index).toDouble() - speiseVerfuegbar;
     if (speise <= 0.0)
         return 0.0;
     return BierCalc::speiseToZucker(sw, sre, speise);

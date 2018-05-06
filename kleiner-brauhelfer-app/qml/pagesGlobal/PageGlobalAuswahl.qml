@@ -310,22 +310,17 @@ PageBase {
 
         function getStatus(model)
         {
-            if (!model.BierWurdeGebraut) {
+            if (!model.BierWurdeGebraut)
                 return qsTr("nicht gebraut")
-            }
-            if (model.BierWurdeVerbraucht) {
+            if (model.BierWurdeVerbraucht)
                 return qsTr("verbraucht")
-            }
-            if (!model.BierWurdeAbgefuellt) {
+            if (!model.BierWurdeAbgefuellt)
                 return qsTr("nicht abgefüllt")
-            }
             var tage = model.ReifezeitDelta
-            if (tage > 0){
+            if (tage > 0)
                 return qsTr("reif in") + " " + tage + " " + qsTr("Tage")
-            }
-            else {
+            else
                 return qsTr("reif seit") + " " + (-tage) + " " + qsTr("Tage")
-            }
         }
 
         function getColor(model)

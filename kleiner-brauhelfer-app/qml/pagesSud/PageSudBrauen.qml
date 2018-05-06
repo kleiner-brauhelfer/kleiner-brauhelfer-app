@@ -246,12 +246,7 @@ PageBase {
                             }
                             TextArea {
                                 Layout.fillWidth: true
-                                opacity: {
-                                    if (enabled)
-                                        Material.theme === Material.Dark ? 1.00 : 0.87
-                                    else
-                                        Material.theme === Material.Dark ? 0.50 : 0.38
-                                }
+                                opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
                                 wrapMode: TextArea.Wrap
                                 placeholderText: qsTr("Bemerkung")
                                 text: Brauhelfer.sud.Kommentar

@@ -371,10 +371,11 @@ PageBase {
                         text: qsTr("Speise")
                     }
                     LabelNumber {
+                        id: tbSpeiseTotal
                         Layout.preferredWidth: 60
                         visible: !ctrlSpunden.checked
                         precision: 0
-                        value: Brauhelfer.sud.SpeiseAnteil
+                        value: Brauhelfer.sud.SpeiseNoetig
                     }
                     LabelPrim {
                         Layout.preferredWidth: 30
@@ -386,7 +387,7 @@ PageBase {
                         horizontalAlignment: Text.AlignHCenter
                         visible: !ctrlSpunden.checked
                         precision: 0
-                        value: Brauhelfer.sud.JungbiermengeAbfuellen > 0.0 ? Brauhelfer.sud.SpeiseAnteil / Brauhelfer.sud.JungbiermengeAbfuellen : 0.0
+                        value: Brauhelfer.sud.JungbiermengeAbfuellen > 0.0 ? Brauhelfer.sud.SpeiseNoetig / Brauhelfer.sud.JungbiermengeAbfuellen : 0.0
                     }
                     LabelPrim {
                         Layout.preferredWidth: 70
@@ -395,30 +396,60 @@ PageBase {
                     }
                     LabelPrim {
                         Layout.fillWidth: true
-                        visible: !ctrlSpunden.checked
-                        text: qsTr("Zucker")
+                        visible: tbSpeiseAnteil.visible
+                        text: qsTr("Speiseanteil")
+                    }
+                    LabelNumber {
+                        id: tbSpeiseAnteil
+                        Layout.preferredWidth: 60
+                        visible: !ctrlSpunden.checked && value < tbSpeiseTotal.value
+                        precision: 0
+                        value: Brauhelfer.sud.SpeiseAnteil
+                    }
+                    LabelPrim {
+                        Layout.preferredWidth: 30
+                        visible: tbSpeiseAnteil.visible
+                        text: qsTr("ml")
                     }
                     LabelNumber {
                         Layout.preferredWidth: 60
-                        visible: !ctrlSpunden.checked
+                        horizontalAlignment: Text.AlignHCenter
+                        visible: tbSpeiseAnteil.visible
+                        precision: 0
+                        value: Brauhelfer.sud.JungbiermengeAbfuellen > 0.0 ? Brauhelfer.sud.SpeiseAnteil / Brauhelfer.sud.JungbiermengeAbfuellen : 0.0
+                    }
+                    LabelPrim {
+                        Layout.preferredWidth: 70
+                        visible: tbSpeiseAnteil.visible
+                        text: qsTr("ml/Liter")
+                    }
+                    LabelPrim {
+                        Layout.fillWidth: true
+                        visible: tbZuckerAnteil.visible
+                        text: qsTr("Zuckeranteil")
+                    }
+                    LabelNumber {
+                        id: tbZuckerAnteil
+                        Layout.preferredWidth: 60
+                        visible: !ctrlSpunden.checked && value > 0.0
                         precision: 1
                         value: Brauhelfer.sud.ZuckerAnteil / ctrlFaktor.value
                     }
                     LabelPrim {
                         Layout.preferredWidth: 30
-                        visible: !ctrlSpunden.checked
+                        visible: tbZuckerAnteil.visible
                         text: qsTr("g")
                     }
                     LabelNumber {
                         Layout.preferredWidth: 60
                         horizontalAlignment: Text.AlignHCenter
-                        visible: !ctrlSpunden.checked
+                        visible: tbZuckerAnteil.visible
                         precision: 1
                         value: Brauhelfer.sud.JungbiermengeAbfuellen > 0.0 ? Brauhelfer.sud.ZuckerAnteil / ctrlFaktor.value / Brauhelfer.sud.JungbiermengeAbfuellen : 0.0
                     }
                     LabelPrim {
                         Layout.preferredWidth: 70
-                        visible: !ctrlSpunden.checked
+                        visible: tbZuckerAnteil.visible
                         text: qsTr("g/Liter")
                     }
                 }
