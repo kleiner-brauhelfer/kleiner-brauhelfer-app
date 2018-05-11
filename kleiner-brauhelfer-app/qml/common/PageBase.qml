@@ -6,7 +6,7 @@ import brauhelfer 1.0
 Page {
     property string icon: ""
     property bool readOnly: false
-    property alias component: loader.sourceComponent
+    default property alias component: loader.sourceComponent
 
     signal loaded()
     signal unloaded()

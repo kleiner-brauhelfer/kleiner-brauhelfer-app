@@ -15,7 +15,7 @@ PageBase {
     icon: "brauen.png"
     readOnly: Brauhelfer.readonly || (Brauhelfer.sud.BierWurdeGebraut && !app.brewForceEditable)
 
-    component: ColumnLayout {
+    ColumnLayout {
         anchors.fill: parent
         anchors.margins: 4
 
@@ -109,7 +109,7 @@ PageBase {
                             }
                             TextField {
                                 Layout.fillWidth: true
-                                enabled: !page.readOnly
+                                enabled: !Brauhelfer.readonly
                                 placeholderText: qsTr("Sudname")
                                 text: Brauhelfer.sud.Sudname
                                 onTextChanged: if (activeFocus) Brauhelfer.sud.Sudname = text
@@ -1156,8 +1156,6 @@ PageBase {
                         GridLayout {
                             columns: 3
                             Layout.leftMargin: 8
-
-
                             LabelPrim {
                                 Layout.fillWidth: true
                                 text: qsTr("Würzemenge")
@@ -1169,10 +1167,9 @@ PageBase {
                                 value: 0
                                 onNewValue: setValue(value)
                                 function setValue(value) {
-                                    var factor = Brauhelfer.calc.speise(Brauhelfer.sud.CO2, Brauhelfer.sud.SWAnstellen, 3.0, 3.0, 20.0)
                                     this.value = value
-                                    tfSpeise.value = factor * value / (factor + 1)
-                                    Brauhelfer.sud.WuerzemengeAnstellen = value - tfSpeise.value
+                                    Brauhelfer.sud.WuerzemengeAnstellen = value - Brauhelfer.sud.Speisemenge
+                                    tfSpeiseNoetig.update()
                                 }
                             }
                             LabelPrim {
@@ -1184,9 +1181,32 @@ PageBase {
                                 text: qsTr("Benötigte Speisemenge geschätzt (SRE 3°P, 20°C)")
                             }
                             LabelNumber {
-                                id: tfSpeise
+                                id: tfSpeiseNoetig
                                 Layout.preferredWidth: 60
                                 value: 0
+                                function update() {
+                                    var factor = Brauhelfer.calc.speise(Brauhelfer.sud.CO2, Brauhelfer.sud.SWAnstellen, 3.0, 3.0, 20.0)
+                                    value = factor * Brauhelfer.sud.WuerzemengeAnstellen
+                                }
+                            }
+                            LabelPrim {
+                                Layout.preferredWidth: 70
+                                text: qsTr("Liter")
+                            }
+                            LabelPrim {
+                                Layout.fillWidth: true
+                                text: qsTr("Abgefüllte Speisemenge")
+                            }
+                            TextFieldVolume {
+                                Layout.preferredWidth: 60
+                                enabled: !page.readOnly
+                                value: Brauhelfer.sud.Speisemenge
+                                max: tfWuerzemenge.value
+                                onNewValue: {
+                                    Brauhelfer.sud.Speisemenge = value
+                                    Brauhelfer.sud.WuerzemengeAnstellen = tfWuerzemenge.value - value
+                                    tfSpeiseNoetig.update()
+                                }
                             }
                             LabelPrim {
                                 Layout.preferredWidth: 70
@@ -1201,16 +1221,14 @@ PageBase {
                                 enabled: !page.readOnly
                                 value: Brauhelfer.sud.WuerzemengeAnstellen
                                 onNewValue: {
-                                    var factor = Brauhelfer.calc.speise(Brauhelfer.sud.CO2, Brauhelfer.sud.SWAnstellen, 3.0, 3.0, 20.0)
                                     Brauhelfer.sud.WuerzemengeAnstellen = value
                                     Brauhelfer.sud.JungbiermengeAbfuellen = value
-                                    tfSpeise.value = factor * value
-                                    tfWuerzemenge.value = value + tfSpeise.value
+                                    tfWuerzemenge.value = value + Brauhelfer.sud.Speisemenge
+                                    tfSpeiseNoetig.update()
                                 }
                                 Component.onCompleted: {
-                                    var factor = Brauhelfer.calc.speise(Brauhelfer.sud.CO2, Brauhelfer.sud.SWAnstellen, 3.0, 3.0, 20.0)
-                                    tfSpeise.value = factor * value
-                                    tfWuerzemenge.value = value + tfSpeise.value
+                                    tfWuerzemenge.value = value + Brauhelfer.sud.Speisemenge
+                                    tfSpeiseNoetig.update()
                                 }
                             }
                             LabelPrim {
