@@ -451,7 +451,6 @@ QVariant ModelSud::SREIst(const QModelIndex &index) const
 
 QVariant ModelSud::CO2Ist(const QModelIndex &index) const
 {
-    Q_UNUSED(index);
     if (globalList)
         return ((ModelNachgaerverlauf*)bh->sud()->modelNachgaerverlauf())->getLastCO2(data(index.row(), "ID").toString());
     else
@@ -545,17 +544,8 @@ QVariant ModelSud::AbfuellenBereitZutaten(const QModelIndex &index) const
     {
         SqlTableModel* model = bh->sud()->modelWeitereZutatenGaben();
         for (int i = 0; i < model->rowCount(); ++i)
-        {
-            if (model->data(i, "Zeitpunkt").toInt() == EWZ_Zeitpunkt_Gaerung)
-            {
-                int Zugabestatus = model->data(i, "Zugabestatus").toInt();
-                int Entnahmeindex = model->data(i, "Entnahmeindex").toInt();
-                if (Zugabestatus == EWZ_Zugabestatus_nichtZugegeben)
-                  return false;
-                if (Zugabestatus == EWZ_Zugabestatus_Zugegeben && Entnahmeindex == EWZ_Entnahmeindex_MitEntnahme)
-                    return false;
-            }
-        }
+            if (!model->data(i, "Abfuellbereit").toBool())
+                return false;
     }
     return true;
 }

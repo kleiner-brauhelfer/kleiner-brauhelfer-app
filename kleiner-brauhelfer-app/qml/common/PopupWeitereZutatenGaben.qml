@@ -95,7 +95,6 @@ PopupBase {
                                     this.date = date
                                 else
                                     model.Zeitpunkt_von = date
-                                model.Zeitpunkt_bis = tfDateTo.addDays(model.Zeitpunkt_von, model.Zugabedauer / 1440)
                             }
                         }
 
@@ -106,13 +105,6 @@ PopupBase {
                             font.weight: Font.DemiBold
                         }
                         TextFieldDate {
-
-                            function addDays(date, days) {
-                              var result = new Date(date);
-                              result.setDate(result.getDate() + days);
-                              return result;
-                            }
-
                             id: tfDateTo
                             Layout.columnSpan: 2
                             Layout.fillWidth: true
@@ -134,14 +126,13 @@ PopupBase {
                         Button {
                             function addIngredient() {
                                 model.Zeitpunkt_von = tfDateFrom.date
-                                model.Zeitpunkt_bis = tfDateTo.addDays(model.Zeitpunkt_von, model.Zugabedauer / 1440)
                                 model.Zugabestatus = 1
                                 messageDialog.open()
                             }
 
                             function removeIngredient() {
+                                model.Zeitpunkt_bis = tfDateTo.date
                                 model.Zugabestatus = 2
-                                model.Zugabedauer = (new Date().getTime() - model.Zeitpunkt_von.getTime()) / 60000
                             }
 
                             MessageDialog {
