@@ -32,6 +32,7 @@ ApplicationWindow {
         id: settings
         category: "App"
         property int ingredientsFilter: 0
+        property real sugarFactor: 1.0
     }
 
     // scheduler to do stuff in the background, use run() or runExt()

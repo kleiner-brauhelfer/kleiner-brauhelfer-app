@@ -40,7 +40,8 @@ HEADERS += src/biercalc.h \
     src/sqltablemodel.h \
     src/sudobject.h \
     src/modelbewertungen.h \
-    src/modelwasser.h
+    src/modelwasser.h \
+    src/modelweiterezutatengaben.h
 
 # source files
 SOURCES += src/biercalc.cpp \
@@ -55,4 +56,5 @@ SOURCES += src/biercalc.cpp \
     src/sqltablemodel.cpp \
     src/sudobject.cpp \
     src/modelbewertungen.cpp \
-    src/modelwasser.cpp
+    src/modelwasser.cpp \
+    src/modelweiterezutatengaben.cpp

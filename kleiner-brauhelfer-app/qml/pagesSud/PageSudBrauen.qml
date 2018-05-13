@@ -1360,69 +1360,69 @@ PageBase {
                         id: label7
                         text: qsTr("Abschluss")
                     }
-                    ColumnLayout {
+                    GridLayout {
                         anchors.fill: parent
-                        GridLayout {
-                            columns: 2
-                            LabelPrim {
-                                Layout.fillWidth: true
-                                text: qsTr("Braudatum")
-                            }
-                            TextFieldDate {
-                                enabled: !page.readOnly
-                                date: Brauhelfer.sud.BierWurdeGebraut ? Brauhelfer.sud.Braudatum : new Date()
-                                onNewDate: {
-                                    this.date = date
-                                    Brauhelfer.sud.Braudatum = date
-                                    tfAnstelldatum.date = date
-                                    Brauhelfer.sud.Anstelldatum = date
-                                }
-                            }
-                            LabelPrim {
-                                Layout.fillWidth: true
-                                text: qsTr("Anstelldatum")
-                            }
-                            TextFieldDate {
-                                id: tfAnstelldatum
-                                enabled: !page.readOnly
-                                date: Brauhelfer.sud.BierWurdeGebraut ? Brauhelfer.sud.Anstelldatum : new Date()
-                                onNewDate: {
-                                    this.date = date
-                                    Brauhelfer.sud.Anstelldatum = date
-                                }
+                        columns: 3
+                        LabelPrim {
+                            Layout.fillWidth: true
+                            text: qsTr("Braudatum")
+                        }
+                        TextFieldDate {
+                            Layout.columnSpan: 2
+                            Layout.fillWidth: true
+                            enabled: !page.readOnly
+                            date: Brauhelfer.sud.BierWurdeGebraut ? Brauhelfer.sud.Braudatum : new Date()
+                            onNewDate: {
+                                this.date = date
+                                Brauhelfer.sud.Braudatum = date
+                                tfAnstelldatum.date = date
+                                Brauhelfer.sud.Anstelldatum = date
                             }
                         }
-                        GridLayout {
-                            columns: 3
-                            LabelPrim {
-                                Layout.fillWidth: true
-                                text: qsTr("Nebenkosten")
+                        LabelPrim {
+                            Layout.fillWidth: true
+                            text: qsTr("Anstelldatum")
+                        }
+                        TextFieldDate {
+                            id: tfAnstelldatum
+                            Layout.columnSpan: 2
+                            Layout.fillWidth: true
+                            enabled: !page.readOnly
+                            date: Brauhelfer.sud.BierWurdeGebraut ? Brauhelfer.sud.Anstelldatum : new Date()
+                            onNewDate: {
+                                this.date = date
+                                Brauhelfer.sud.Anstelldatum = date
                             }
-                            TextFieldNumber {
-                                enabled: !page.readOnly
-                                precision: 2
-                                value: Brauhelfer.sud.KostenWasserStrom
-                                onNewValue: Brauhelfer.sud.KostenWasserStrom = value
-                            }
-                            LabelPrim {
-                               Layout.preferredWidth: 70
-                                text: Qt.locale().currencySymbol()
-                            }
-                            LabelPrim {
-                                Layout.fillWidth: true
-                                text: qsTr("Preis")
-                            }
-                            LabelNumber {
-                                Layout.preferredWidth: 60
-                                precision: 2
-                                value: Brauhelfer.sud.erg_Preis
-                            }
-                            LabelPrim {
-                                Layout.preferredWidth: 70
-                                text: Qt.locale().currencySymbol() + "/" + qsTr("Liter")
-                            }
+                        }
+                        LabelPrim {
+                            Layout.fillWidth: true
+                            text: qsTr("Nebenkosten")
+                        }
+                        TextFieldNumber {
+                            enabled: !page.readOnly
+                            precision: 2
+                            value: Brauhelfer.sud.KostenWasserStrom
+                            onNewValue: Brauhelfer.sud.KostenWasserStrom = value
+                        }
+                        LabelPrim {
+                           Layout.preferredWidth: 70
+                            text: Qt.locale().currencySymbol()
+                        }
+                        LabelPrim {
+                            Layout.fillWidth: true
+                            text: qsTr("Preis")
+                        }
+                        LabelNumber {
+                            Layout.preferredWidth: 60
+                            precision: 2
+                            value: Brauhelfer.sud.erg_Preis
+                        }
+                        LabelPrim {
+                            Layout.preferredWidth: 70
+                            text: Qt.locale().currencySymbol() + "/" + qsTr("Liter")
                         }
                         CheckBox {
+                            Layout.columnSpan: 3
                             Layout.fillWidth: true
                             enabled: !page.readOnly
                             text: qsTr("Ausbeute für Durchschnitt nicht einbeziehen")
@@ -1430,6 +1430,7 @@ PageBase {
                             onClicked: Brauhelfer.sud.AusbeuteIgnorieren = checked
                         }
                         Button {
+                            Layout.columnSpan: 3
                             Layout.fillWidth: true
                             text: qsTr("Sud gebraut")
                             enabled: !page.readOnly

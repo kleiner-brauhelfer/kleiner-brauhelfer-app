@@ -2,8 +2,7 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 
 SpinBox {
-    property real realValue: 0
-
+    property real realValue: Number.NaN
     property int decimals: 1
 
     from: 0

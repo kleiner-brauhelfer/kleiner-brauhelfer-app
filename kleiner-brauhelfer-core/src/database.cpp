@@ -13,6 +13,7 @@
 #include "modelnachgaerverlauf.h"
 #include "modelbewertungen.h"
 #include "modelwasser.h"
+#include "modelweiterezutatengaben.h"
 #include "brauhelfer.h"
 
 Database::Database(Brauhelfer* bh) :
@@ -26,7 +27,7 @@ Database::Database(Brauhelfer* bh) :
     modelRastauswahl = new SqlTableModel(bh);
     modelMalzschuettung = new SqlTableModel(bh);
     modelHopfengaben = new SqlTableModel(bh);
-    modelWeitereZutatenGaben = new SqlTableModel(bh);
+    modelWeitereZutatenGaben = new ModelWeitereZutatenGaben(bh);
     modelSchnellgaerverlauf = new ModelSchnellgaerverlauf(bh);
     modelHauptgaerverlauf = new ModelHauptgaerverlauf(bh);
     modelNachgaerverlauf = new ModelNachgaerverlauf(bh);
@@ -41,20 +42,20 @@ Database::Database(Brauhelfer* bh) :
     modelWasser = new ModelWasser(bh);
     QObject::connect(modelSudAuswahl, SIGNAL(modified()), bh, SIGNAL(modified()));
     QObject::connect(modelSud, SIGNAL(modified()), bh, SIGNAL(modified()));
-    QObject::connect(modelRasten, SIGNAL(modified()), bh, SIGNAL(modified()));
+    QObject::connect(modelRasten, SIGNAL(modified()), modelSud, SIGNAL(modified()));
     QObject::connect(modelRastauswahl, SIGNAL(modified()), bh, SIGNAL(modified()));
-    QObject::connect(modelMalzschuettung, SIGNAL(modified()), bh, SIGNAL(modified()));
-    QObject::connect(modelHopfengaben, SIGNAL(modified()), bh, SIGNAL(modified()));
-    QObject::connect(modelWeitereZutatenGaben, SIGNAL(modified()), bh, SIGNAL(modified()));
-    QObject::connect(modelSchnellgaerverlauf, SIGNAL(modified()), bh, SIGNAL(modified()));
-    QObject::connect(modelHauptgaerverlauf, SIGNAL(modified()), bh, SIGNAL(modified()));
-    QObject::connect(modelNachgaerverlauf, SIGNAL(modified()), bh, SIGNAL(modified()));
-    QObject::connect(modelBewertungen, SIGNAL(modified()), bh, SIGNAL(modified()));
+    QObject::connect(modelMalzschuettung, SIGNAL(modified()), modelSud, SIGNAL(modified()));
+    QObject::connect(modelHopfengaben, SIGNAL(modified()), modelSud, SIGNAL(modified()));
+    QObject::connect(modelWeitereZutatenGaben, SIGNAL(modified()), modelSud, SIGNAL(modified()));
+    QObject::connect(modelSchnellgaerverlauf, SIGNAL(modified()), modelSud, SIGNAL(modified()));
+    QObject::connect(modelHauptgaerverlauf, SIGNAL(modified()), modelSud, SIGNAL(modified()));
+    QObject::connect(modelNachgaerverlauf, SIGNAL(modified()), modelSud, SIGNAL(modified()));
+    QObject::connect(modelBewertungen, SIGNAL(modified()), modelSud, SIGNAL(modified()));
     QObject::connect(modelMalz, SIGNAL(modified()), bh, SIGNAL(modified()));
     QObject::connect(modelHopfen, SIGNAL(modified()), bh, SIGNAL(modified()));
     QObject::connect(modelHefe, SIGNAL(modified()), bh, SIGNAL(modified()));
     QObject::connect(modelWeitereZutaten, SIGNAL(modified()), bh, SIGNAL(modified()));
-    QObject::connect(modelAnhang, SIGNAL(modified()), bh, SIGNAL(modified()));
+    QObject::connect(modelAnhang, SIGNAL(modified()), modelSud, SIGNAL(modified()));
     QObject::connect(modelAusruestung, SIGNAL(modified()), bh, SIGNAL(modified()));
     QObject::connect(modelGeraete, SIGNAL(modified()), bh, SIGNAL(modified()));
     QObject::connect(modelWasser, SIGNAL(modified()), bh, SIGNAL(modified()));

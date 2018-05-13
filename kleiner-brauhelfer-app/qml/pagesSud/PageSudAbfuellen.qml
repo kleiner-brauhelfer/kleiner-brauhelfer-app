@@ -6,6 +6,7 @@ import QtGraphicalEffects 1.0
 
 import "../common"
 import brauhelfer 1.0
+import SortFilterProxyModel 1.0
 
 PageBase {
     id: page
@@ -21,35 +22,17 @@ PageBase {
         boundsBehavior: Flickable.OvershootBounds
         ScrollIndicator.vertical: ScrollIndicator {}
 
-        property bool bereit: false
-
-        Component.onCompleted: updateStatus()
-
-        Connections {
-            target: Brauhelfer.sud
-            onModified: updateStatus()
-        }
-
-        function updateStatus() {
-            bereit = true;
+        function abgefuellt() {
+            var bereit = true;
             if (!Brauhelfer.sud.AbfuellenBereitZutaten) {
-                ctrlStatus.text = qsTr("Zutaten noch nicht zugegeben oder entnommen.")
                 bereit = false;
             }
             else if (Brauhelfer.sud.SchnellgaerprobeAktiv) {
-                if (Brauhelfer.sud.SWJungbier > Brauhelfer.sud.Gruenschlauchzeitpunkt) {
-                    ctrlStatus.text = qsTr("Grünschlauchzeitpunkt noch nicht erreicht.")
+                if (Brauhelfer.sud.SWJungbier > Brauhelfer.sud.Gruenschlauchzeitpunkt)
                     bereit = false;
-                }
-                else if (Brauhelfer.sud.SWJungbier < Brauhelfer.sud.SWSchnellgaerprobe) {
-                    ctrlStatus.text = qsTr("Schnellgärprobe liegt tiefer als Jungbier.")
+                else if (Brauhelfer.sud.SWJungbier < Brauhelfer.sud.SWSchnellgaerprobe)
                     bereit = false;
-                }
             }
-            ctrlStatus.visible = !bereit;
-        }
-
-        function abgefuellt() {
             if (bereit) {
                 Brauhelfer.sud.BierWurdeAbgefuellt = true
                 Brauhelfer.sud.modelNachgaerverlauf.append({"Temp": ctrlTemp.text })
@@ -63,11 +46,97 @@ PageBase {
             anchors.right: parent.right
 
             GroupBox {
-                property alias name: label0.text
-                id: group0
+                visible: listViewWeitereZutaten.count > 0
+                Layout.fillWidth: true
+                contentHeight: contentLayout.height
+                label: LabelSubheader {
+                    text: qsTr("Weitere Zutaten")
+                }
+                ColumnLayout {
+                    id: contentLayout
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    ListView {
+                        id: listViewWeitereZutaten
+                        Layout.fillWidth: true
+                        height: contentHeight
+                        model: SortFilterProxyModel {
+                            sourceModel: Brauhelfer.sud.modelWeitereZutatenGaben
+                            filterKeyColumn: sourceModel.fieldIndex("Zeitpunkt")
+                            filterRegExp: /0/
+                        }
+                        delegate: ItemDelegate {
+                            width: parent.width
+                            height: dataColumn.implicitHeight
+                            onClicked: {
+                                listViewWeitereZutaten.currentIndex = index
+                                popuploaderWeitereZutaten.active = true
+                            }
+                            ColumnLayout {
+                                id: dataColumn
+                                anchors.left: parent.left
+                                anchors.right: parent.right
+                                RowLayout {
+                                    Layout.topMargin: 4
+                                    Layout.bottomMargin: 4
+                                    Layout.fillWidth: true
+                                    LabelPrim {
+                                        Layout.fillWidth: true
+                                        text: model.Name
+                                    }
+                                    LabelPrim {
+                                        text: {
+                                            switch (model.Zugabestatus)
+                                            {
+                                            case 0: return qsTr("nicht zugegeben")
+                                            case 1: return model.Entnahmeindex === 0 ? qsTr("zugegeben seit") : qsTr("zugegeben")
+                                            case 2: return qsTr("entnommen nach")
+                                            default: return ""
+                                            }
+                                        }
+                                    }
+                                    LabelNumber {
+                                        visible: model.Zugabestatus > 0 && model.Entnahmeindex === 0
+                                        precision: 0
+                                        value: {
+                                            switch (model.Zugabestatus)
+                                            {
+                                            case 1: return (new Date().getTime() - model.Zeitpunkt_von.getTime()) / 1440 / 60000
+                                            case 2: return model.Zugabedauer/ 1440
+                                            default: return 0.0
+                                            }
+                                        }
+                                        unit: qsTr("Tage")
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    LabelPrim {
+                        id: statuss
+                        visible: !Brauhelfer.sud.AbfuellenBereitZutaten
+                        Layout.fillWidth: true
+                        horizontalAlignment: Text.AlignHCenter
+                        color: Material.accent
+                        text: qsTr("Zutaten noch nicht zugegeben oder entnommen.")
+                    }
+                }
+
+                Loader {
+                    id: popuploaderWeitereZutaten
+                    active: false
+                    onLoaded: item.open()
+                    sourceComponent: PopupWeitereZutatenGaben {
+                        model: listViewWeitereZutaten.model
+                        currentIndex: listViewWeitereZutaten.currentIndex
+                        onClosed: popuploaderWeitereZutaten.active = false
+                    }
+                }
+            }
+
+            GroupBox {
                 Layout.fillWidth: true
                 label: LabelSubheader {
-                    id: label0
                     text: qsTr("Restextrakt Schnellgärprobe")
                 }
                 GridLayout {
@@ -132,15 +201,20 @@ PageBase {
                         visible: ctrlSGPen.checked
                         text: qsTr("°P")
                     }
+                    LabelPrim {
+                        visible: ctrlSGPen.checked && Brauhelfer.sud.SWJungbier < Brauhelfer.sud.SWSchnellgaerprobe
+                        Layout.columnSpan: 3
+                        Layout.fillWidth: true
+                        horizontalAlignment: Text.AlignHCenter
+                        color: Material.accent
+                        text: qsTr("Schnellgärprobe liegt tiefer als Jungbier.")
+                    }
                 }
             }
 
             GroupBox {
-                property alias name: label1.text
-                id: group1
                 Layout.fillWidth: true
                 label: LabelSubheader {
-                    id: label1
                     text: qsTr("Restextrakt Jungbier")
                 }
                 GridLayout {
@@ -174,15 +248,20 @@ PageBase {
                         Layout.preferredWidth: 70
                         text: qsTr("°P")
                     }
+                    LabelPrim {
+                        visible: ctrlSGPen.checked && Brauhelfer.sud.SWJungbier > Brauhelfer.sud.Gruenschlauchzeitpunkt
+                        Layout.columnSpan: 3
+                        Layout.fillWidth: true
+                        horizontalAlignment: Text.AlignHCenter
+                        color: Material.accent
+                        text: qsTr("Grünschlauchzeitpunkt noch nicht erreicht.")
+                    }
                 }
             }
 
             GroupBox {
-                property alias name: label2.text
-                id: group2
                 Layout.fillWidth: true
                 label: LabelSubheader {
-                    id: label2
                     text: qsTr("Bierwerte")
                 }
                 GridLayout {
@@ -243,11 +322,8 @@ PageBase {
             }
 
             GroupBox {
-                property alias name: label3.text
-                id: group3
                 Layout.fillWidth: true
                 label: LabelSubheader {
-                    id: label3
                     text: qsTr("Druck")
                 }
                 GridLayout {
@@ -285,11 +361,8 @@ PageBase {
             }
 
             GroupBox {
-                property alias name: label4.text
-                id: group4
                 Layout.fillWidth: true
                 label: LabelSubheader {
-                    id: label4
                     text: qsTr("Menge")
                 }
                 GridLayout {
@@ -329,11 +402,8 @@ PageBase {
             }
 
             GroupBox {
-                property alias name: label5.text
-                id: group5
                 Layout.fillWidth: true
                 label: LabelSubheader {
-                    id: label5
                     text: qsTr("Speise & Zucker")
                 }
                 GridLayout {
@@ -354,7 +424,6 @@ PageBase {
                         text: qsTr("Zuckerfaktor")
                     }
                     TextFieldNumber {
-                        id: ctrlFaktor
                         Layout.columnSpan: 2
                         Layout.preferredWidth: 60
                         visible: !ctrlSpunden.checked
@@ -362,8 +431,8 @@ PageBase {
                         max: 2.0
                         precision: 2
                         enabled: !page.readOnly
-                        value: 1.0
-                        onNewValue: this.value = value
+                        value: app.settings.sugarFactor
+                        onNewValue: app.settings.sugarFactor = value
                     }
                     LabelPrim {
                         Layout.fillWidth: true
@@ -433,7 +502,7 @@ PageBase {
                         Layout.preferredWidth: 60
                         visible: !ctrlSpunden.checked && value > 0.0
                         precision: 1
-                        value: Brauhelfer.sud.ZuckerAnteil / ctrlFaktor.value
+                        value: Brauhelfer.sud.ZuckerAnteil / app.settings.sugarFactor
                     }
                     LabelPrim {
                         Layout.preferredWidth: 30
@@ -445,7 +514,7 @@ PageBase {
                         horizontalAlignment: Text.AlignHCenter
                         visible: tbZuckerAnteil.visible
                         precision: 1
-                        value: Brauhelfer.sud.JungbiermengeAbfuellen > 0.0 ? Brauhelfer.sud.ZuckerAnteil / ctrlFaktor.value / Brauhelfer.sud.JungbiermengeAbfuellen : 0.0
+                        value: Brauhelfer.sud.JungbiermengeAbfuellen > 0.0 ? tbZuckerAnteil.value / Brauhelfer.sud.JungbiermengeAbfuellen : 0.0
                     }
                     LabelPrim {
                         Layout.preferredWidth: 70
@@ -456,11 +525,8 @@ PageBase {
             }
 
             GroupBox {
-                property alias name: label6.text
-                id: group6
                 Layout.fillWidth: true
                 label: LabelSubheader {
-                    id: label6
                     text: qsTr("Abschluss")
                 }
                 GridLayout {
@@ -472,6 +538,7 @@ PageBase {
                     }
                     TextFieldDate {
                         Layout.columnSpan: 2
+                        Layout.fillWidth: true
                         enabled: !page.readOnly
                         date: Brauhelfer.sud.BierWurdeAbgefuellt ? Brauhelfer.sud.Abfuelldatum : new Date()
                         onNewDate: {
@@ -513,13 +580,6 @@ PageBase {
                         text: qsTr("Abgefüllt")
                         enabled: !page.readOnly
                         onClicked: abgefuellt()
-                    }
-                    LabelPrim {
-                        id: ctrlStatus
-                        Layout.columnSpan: 3
-                        Layout.fillWidth: true
-                        horizontalAlignment: Text.AlignHCenter
-                        color: Material.accent
                     }
                 }
             }

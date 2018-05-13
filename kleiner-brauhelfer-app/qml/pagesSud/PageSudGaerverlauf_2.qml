@@ -181,145 +181,84 @@ PageBase {
             anchors.right: parent.right
             anchors.bottom: parent.bottom
             HorizontalDivider {
-                visible: layoutIngredientsList.count > 0
+                visible: listViewWeitereZutaten.count > 0
             }
             LabelSubheader {
                 Layout.fillWidth: true
                 Layout.leftMargin: 4
                 Layout.rightMargin: 4
-                visible: layoutIngredientsList.count > 0
+                visible: listViewWeitereZutaten.count > 0
                 text: qsTr("Weitere Zutaten")
             }
             ListView {
-
-                function addIngredient(item, date) {
-                    item.Zeitpunkt_von = date
-                    item.Zugabestatus = 1
-                    messageDialog.item = item
-                    messageDialog.open()
-                }
-
-                function removeIngredient(item, date, date2) {
-                    item.Zeitpunkt_bis = date
-                    item.Zugabestatus = 2
-                    item.Zugabedauer = (Math.ceil(date.getTime() / 1440 / 60000) - Math.floor(date2.getTime() / 1440 / 60000)) * 1440
-                }
-
-                // message dialog
-                MessageDialog {
-                    property var item: null
-                    id: messageDialog
-                    icon: StandardIcon.Question
-                    text: qsTr("Rohstoff vom Bestand abziehen?")
-                    standardButtons: StandardButton.Yes | StandardButton.No
-                    //buttons: MessageDialog.Yes | MessageDialog.No
-                    onYes: Brauhelfer.sud.substractIngredient(item.Name, item.Typ, item.erg_Menge)
-                }
-
-                id: layoutIngredientsList
-                clip: true
-                snapMode: ListView.SnapOneItem
+                id: listViewWeitereZutaten
                 Layout.fillWidth: true
                 Layout.leftMargin: 4
                 Layout.rightMargin: 4
-                height: 92
-                visible: layoutIngredientsList.count > 0
+                height: Math.min(contentHeight, 80)
+                clip: true
                 boundsBehavior: Flickable.OvershootBounds
+                ScrollIndicator.vertical: ScrollIndicator {}
                 model: SortFilterProxyModel {
                     sourceModel: Brauhelfer.sud.modelWeitereZutatenGaben
                     filterKeyColumn: sourceModel.fieldIndex("Zeitpunkt")
                     filterRegExp: /0/
                 }
-                ScrollIndicator.vertical: ScrollIndicator {}
-                Component.onCompleted: height = count > 0 ? itemAt(0, 0).height : 0
-                delegate: ColumnLayout {
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    RowLayout {
-                        Layout.fillWidth: true
-                        LabelPrim {
-                            Layout.fillWidth: true
-                            text: model.Name
-                        }
-                        LabelNumber {
-                            value: model.Einheit === 0 ? model.erg_Menge/1000 : model.erg_Menge
-                        }
-                        LabelPrim {
-                            text: model.Einheit === 0 ? qsTr("kg") : qsTr("g")
-                        }
-                        Item {
-                            Layout.preferredWidth: 10
-                            visible: model.Entnahmeindex !== 1
-                        }
-                        LabelNumber {
-                            visible: model.Entnahmeindex !== 1
-                            precision: 0
-                            value: model.Zugabedauer / 1440
-                        }
-                        LabelPrim {
-                            visible: model.Entnahmeindex !== 1
-                            text: qsTr("Tage")
-                        }
+                delegate: ItemDelegate {
+                    width: parent.width
+                    height: dataColumn2.implicitHeight
+                    onClicked: {
+                        listViewWeitereZutaten.currentIndex = index
+                        popuploaderWeitereZutaten.active = true
                     }
-                    RowLayout {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 8
-                        LabelPrim {
-                            text: qsTr("von")
-                        }
-                        TextFieldDate {
-                            id: tfDateAdded
+                    ColumnLayout {
+                        id: dataColumn2
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        RowLayout {
+                            Layout.topMargin: 4
+                            Layout.bottomMargin: 4
                             Layout.fillWidth: true
-                            enabled: !page.readOnly
-                            readOnly: model.Zugabestatus !== 0
-                            date: model.Zugabestatus === 0 ? new Date() : model.Zeitpunkt_von
-                            onNewDate: {
-                                this.date = date
-                                model.Zeitpunkt_von = date
+                            LabelPrim {
+                                Layout.fillWidth: true
+                                text: model.Name
                             }
-                        }
-                        LabelPrim {
-                            visible: model.Entnahmeindex !== 1
-                            text: qsTr("bis")
-                        }
-                        TextFieldDate {
-                            function addDays(date, days) {
-                              var result = new Date(date);
-                              result.setDate(result.getDate() + days);
-                              return result;
-                            }
-                            id: tfDateRemoved
-                            Layout.fillWidth: true
-                            enabled: !page.readOnly
-                            visible: model.Entnahmeindex !== 1
-                            readOnly: model.Zugabestatus !== 1
-                            date: model.Zugabestatus === 0 ? addDays(tfDateAdded.date, model.Zugabedauer / 1440) : model.Zugabestatus === 1 ? new Date() : model.Zeitpunkt_bis
-                            onNewDate: {
-                                this.date = date
-                                model.Zeitpunkt_bis = date
-                            }
-                        }
-                        RoundButton {
-                            visible: !page.readOnly && (model.Zugabestatus === 0 || (model.Zugabestatus === 1 && model.Entnahmeindex !== 1))
-                            contentItem: Image {
-                                source: model.Zugabestatus === 0 ? "qrc:/images/ic_add.png" : "qrc:/images/ic_remove.png"
-                                anchors.centerIn: parent
-                            }
-                            enabled: !page.readOnly
-                            onClicked: {
-                                if (model.Zugabestatus === 0) {
-                                    layoutIngredientsList.addIngredient(model, tfDateAdded.date)
+                            LabelPrim {
+                                text: {
+                                    switch (model.Zugabestatus)
+                                    {
+                                    case 0: return qsTr("nicht zugegeben")
+                                    case 1: return model.Entnahmeindex === 0 ? qsTr("zugegeben seit") : qsTr("zugegeben")
+                                    case 2: return qsTr("entnommen nach")
+                                    default: return ""
+                                    }
                                 }
-                                else if (model.Zugabestatus === 1) {
-                                    layoutIngredientsList.removeIngredient(model, tfDateRemoved.date, tfDateAdded.date)
+                            }
+                            LabelNumber {
+                                visible: model.Zugabestatus > 0 && model.Entnahmeindex === 0
+                                precision: 0
+                                value: {
+                                    switch (model.Zugabestatus)
+                                    {
+                                    case 1: return (new Date().getTime() - model.Zeitpunkt_von.getTime()) / 1440 / 60000
+                                    case 2: return model.Zugabedauer/ 1440
+                                    default: return 0.0
+                                    }
                                 }
+                                unit: qsTr("Tage")
                             }
                         }
                     }
-                    LabelPrim {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 8
-                        text: model.Bemerkung
+                }
+
+                Loader {
+                    id: popuploaderWeitereZutaten
+                    active: false
+                    onLoaded: item.open()
+                    sourceComponent: PopupWeitereZutatenGaben {
+                        model: listViewWeitereZutaten.model
+                        currentIndex: listViewWeitereZutaten.currentIndex
+                        onClosed: popuploaderWeitereZutaten.active = false
                     }
                 }
             }

@@ -98,11 +98,11 @@ PageBase {
 
             ColumnLayout {
                 id: dataColumn
-                parent: rowDelegate.contentItem
                 anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.verticalCenter: parent.verticalCenter
                 RowLayout {
+                    Layout.topMargin: 4
+                    Layout.bottomMargin: 4
                     Layout.fillWidth: true
                     LabelPrim {
                         Layout.fillWidth: true
@@ -354,6 +354,7 @@ PageBase {
             imageSource: "qrc:/images/ic_add_white.png"
             visible: !page.readOnly
             onClicked: {
+                app.settings.ingredientsFilter = 0
                 listView.model.sourceModel.append()
                 listView.currentIndex = listView.count - 1
                 popuploader.active = true

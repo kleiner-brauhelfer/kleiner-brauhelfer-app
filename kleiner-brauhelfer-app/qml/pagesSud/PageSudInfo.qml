@@ -10,7 +10,7 @@ import SortFilterProxyModel 1.0
 
 PageBase {
     id: page
-    title: qsTr("Info")
+    title: qsTr("Sudinfo")
     icon: "ic_info_outline.png"
     enabled: Brauhelfer.sud.loaded
     readOnly: Brauhelfer.readonly || !app.brewForceEditable
