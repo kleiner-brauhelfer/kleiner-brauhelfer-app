@@ -3,6 +3,8 @@ import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.2
 
+import "common"
+
 ToolBar {
 
     property alias text: lblMain.text
@@ -13,12 +15,12 @@ ToolBar {
     signal clickedLeft()
     signal clickedRight()
 
+    MouseAreaCatcher { }
+
     RowLayout {
         anchors.fill: parent
-
-        Item {
-            width: 4
-        }
+        Layout.leftMargin: 4
+        Layout.rightMargin: 4
 
         ToolButton {
             onClicked: clickedLeft()
@@ -59,10 +61,6 @@ ToolBar {
                 source: parent.enabled ? "qrc:/images/" + iconRight : ""
                 anchors.centerIn: parent
             }
-        }
-
-        Item {
-            width: 4
         }
     }
 }

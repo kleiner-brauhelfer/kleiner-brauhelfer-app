@@ -3,6 +3,8 @@ import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.2
 
+import "common"
+
 Pane {
 
     property var swipeView : null
@@ -14,6 +16,8 @@ Pane {
     Material.elevation: 8
     height: layout.height
     padding: 0
+
+    MouseAreaCatcher { }
 
     RowLayout {
         id: layout

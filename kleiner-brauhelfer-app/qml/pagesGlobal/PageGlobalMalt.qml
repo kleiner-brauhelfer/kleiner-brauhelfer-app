@@ -34,7 +34,7 @@ PageBase {
                 width: parent.width
                 RowLayout {
                     Layout.fillWidth: true
-                    Layout.topMargin: 4
+                    Layout.topMargin: 8
                     Layout.bottomMargin: 4
                     Layout.leftMargin: 8
                     Layout.rightMargin: 8
@@ -104,7 +104,7 @@ PageBase {
                 anchors.right: parent.right
                 RowLayout {
                     Layout.fillWidth: true
-                    Layout.topMargin: 4
+                    Layout.topMargin: 8
                     Layout.bottomMargin: 4
                     Layout.leftMargin: 8
                     Layout.rightMargin: 8

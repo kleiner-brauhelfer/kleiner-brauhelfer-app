@@ -13,27 +13,30 @@ PageBase {
     icon: "ic_star.png"
     readOnly: Brauhelfer.readonly || (!Brauhelfer.sud.BierWurdeAbgefuellt && !app.brewForceEditable)
 
-    component: ListView {
+    ListView {
         id: listView
         clip: true
         anchors.fill: parent
         boundsBehavior: Flickable.OvershootBounds
         model: Brauhelfer.sud.modelBewertungen
         headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
+        ScrollIndicator.vertical: ScrollIndicator {}
         header: Rectangle {
             z: 2
             width: parent.width
             height: header.height
             color: Material.background
-
             ColumnLayout {
                 id: header
                 width: parent.width
                 RowLayout {
                     Layout.fillWidth: true
+                    Layout.topMargin: 8
+                    Layout.bottomMargin: 4
+                    Layout.leftMargin: 8
+                    Layout.rightMargin: 8
                     LabelPrim {
                         Layout.fillWidth: true
-                        leftPadding: 8
                         font.bold: true
                         text: qsTr("Datum")
                     }
@@ -53,8 +56,7 @@ PageBase {
                 HorizontalDivider {}
             }
         }
-
-        footerPositioning: ListView.InlineFooter
+        footerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackFooter : ListView.OverlayFooter
         footer: Item {
             height: !page.readOnly ? btnAdd.height + 12 : 0
         }
@@ -65,6 +67,10 @@ PageBase {
             height: dataColumn.implicitHeight
             padding: 0
             text: " "
+            onClicked: {
+                listView.currentIndex = index
+                popuploader.active = true
+            }
 
             NumberAnimation {
                 id: removeFake
@@ -75,11 +81,6 @@ PageBase {
                 onStopped: rowDelegate.visible = false
             }
 
-            onClicked: {
-                listView.currentIndex = index
-                popuploader.active = true
-            }
-
             function remove() {
                 removeFake.start()
                 listView.model.remove(index)
@@ -87,15 +88,16 @@ PageBase {
 
             ColumnLayout {
                 id: dataColumn
-                parent: rowDelegate.contentItem
                 anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.verticalCenter: parent.verticalCenter
                 RowLayout {
                     Layout.fillWidth: true
+                    Layout.topMargin: 8
+                    Layout.bottomMargin: 4
+                    Layout.leftMargin: 8
+                    Layout.rightMargin: 8
                     LabelDate {
                         Layout.fillWidth: true
-                        leftPadding: 8
                         verticalAlignment: Qt.AlignVCenter
                         date: model.Datum
                     }
@@ -125,16 +127,13 @@ PageBase {
                         }
                     }
                 }
-                HorizontalDivider { }
+                HorizontalDivider {}
             }
         }
-
-        ScrollIndicator.vertical: ScrollIndicator { }
 
         Loader {
             id: popuploader
             active: false
-            focus: true
             onLoaded: item.open()
             sourceComponent: PopupBase {
                 onClosed: popuploader.active = false
