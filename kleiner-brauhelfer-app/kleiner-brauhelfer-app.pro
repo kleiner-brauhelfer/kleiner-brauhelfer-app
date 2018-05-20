@@ -58,14 +58,16 @@ HEADERS += \
     src/qmlutils.h \
     src/syncservicemanager.h \
     src/syncservicedropbox.h \
-    src/sortfilterproxymodel.h
+    src/sortfilterproxymodel.h \
+    src/sortfilterproxymodelsud.h
 
 # source files
 SOURCES += src\main.cpp \
     src/qmlutils.cpp \
     src/syncservicemanager.cpp \
     src/syncservicedropbox.cpp \
-    src/sortfilterproxymodel.cpp
+    src/sortfilterproxymodel.cpp \
+    src/sortfilterproxymodelsud.cpp
 
 # resource files
 RESOURCES += qml.qrc \

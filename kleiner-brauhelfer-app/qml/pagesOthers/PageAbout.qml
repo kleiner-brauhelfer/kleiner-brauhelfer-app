@@ -7,13 +7,12 @@ import "../common"
 import brauhelfer 1.0
 
 PageBase {
-    id: page
     title: qsTr("Über")
     icon: "ic_help.png"
 
-    component: Flickable {
-        anchors.margins: 8
+    Flickable {
         anchors.fill: parent
+        anchors.margins: 8
         boundsBehavior: Flickable.OvershootBounds
         contentHeight: layout.height
         clip: true

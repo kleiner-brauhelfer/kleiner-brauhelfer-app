@@ -8,13 +8,13 @@ import "../common"
 import brauhelfer 1.0
 
 PageBase {
-    id: page
     title: qsTr("Auswahl")
     icon: "ic_view_module.png"
     enabled: Brauhelfer.sud.loaded
 
-    component: ColumnLayout {
+    ColumnLayout {
         anchors.fill: parent
+        anchors.margins: 0
 
         GridView {
             id: grid
@@ -25,6 +25,7 @@ PageBase {
             clip: true
             cellWidth: app.width/(Math.floor(app.width/100))
             cellHeight: cellWidth
+            ScrollIndicator.vertical: ScrollIndicator {}
 
             Component.onCompleted: {
                 for (var i = 1; i < viewSud.count; ++i)
@@ -66,11 +67,10 @@ PageBase {
                     }
                 }
             }
-
-            ScrollIndicator.vertical: ScrollIndicator {}
         }
 
         Switch {
+            Layout.fillWidth: true
             text: qsTr("Alle Eingabefelder entsperren")
             checked: app.brewForceEditable
             onCheckedChanged: app.brewForceEditable = checked

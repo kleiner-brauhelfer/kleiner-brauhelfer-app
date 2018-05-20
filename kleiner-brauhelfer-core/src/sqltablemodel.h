@@ -3,10 +3,16 @@
 
 #include <QSqlTableModel>
 
+#if defined(KBCORE_LIBRARY)
+  #define KBCORE_EXPORT Q_DECL_EXPORT
+#else
+  #define KBCORE_EXPORT Q_DECL_IMPORT
+#endif
+
 /**
  * @brief Wrapper for QSqlTableModel adding support for addressing columns by the header name
  */
-class SqlTableModel : public QSqlTableModel
+class KBCORE_EXPORT SqlTableModel : public QSqlTableModel
 {
     Q_OBJECT
 

@@ -152,9 +152,9 @@ public:
     Q_INVOKABLE void discard(bool skipSelect = false);
 
     /**
-     * @brief Selects all tables excluding the brew tables
+     * @brief Selects the main tables
      */
-    void select();
+    Q_INVOKABLE void select();
 
     /**
      * @brief Clears the database cache

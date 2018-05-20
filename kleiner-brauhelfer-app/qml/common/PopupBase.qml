@@ -38,11 +38,7 @@ Popup {
         clip: true
         onVisibleChanged: contentY = 0
         ScrollIndicator.vertical: ScrollIndicator {}
-        MouseArea {
-            anchors.fill: parent
-            anchors.margins: 0
-            onClicked: forceActiveFocus()
-        }
+        MouseAreaCatcher { }
         Item {
             id: placeholder
             anchors.top: parent.top

@@ -14,16 +14,17 @@ PageBase {
     title: qsTr("Einstellungen")
     icon: "ic_settings.png"
 
-    component: Flickable {
-        anchors.margins: 8
+    Flickable {
         anchors.fill: parent
+        anchors.margins: 8
         boundsBehavior: Flickable.OvershootBounds
         contentHeight: layout.height
         clip: true
+        ScrollIndicator.vertical: ScrollIndicator {}
 
         ColumnLayout {
             id: layout
-            spacing: 0
+            spacing: 8
             anchors.top: parent.top
             anchors.left: parent.left
             anchors.right: parent.right
@@ -219,7 +220,5 @@ PageBase {
                 }
             }
         }
-
-        ScrollIndicator.vertical: ScrollIndicator {}
     }
 }

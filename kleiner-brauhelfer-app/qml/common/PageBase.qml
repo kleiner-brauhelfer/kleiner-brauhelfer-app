@@ -8,31 +8,25 @@ Page {
     property bool readOnly: false
     default property alias component: loader.sourceComponent
 
-    signal loaded()
-    signal unloaded()
-
-    id: page
     enabled: true
-    bottomPadding: 6
-    topPadding: 6
-    onFocusChanged: loader.active = (app.loaded && focus) || loader.active
-    onVisibleChanged: loader.active = (app.loaded && focus) || loader.active
+    padding: 0
+    spacing: 0
+    onFocusChanged: loader.active |= (app.loaded && focus)
+    onVisibleChanged: loader.active |= (app.loaded && focus)
 
     function unload() {
         if (loader.active) {
-            page.unloaded()
             loader.active = false
             Brauhelfer.message("Page unloaded: " + title)
         }
     }
 
+    MouseAreaCatcher { }
+
     Loader {
         id: loader
         active: false
         anchors.fill: parent
-        onLoaded: {
-            Brauhelfer.message("Page loaded: " + title)
-            page.loaded()
-        }
+        onLoaded: Brauhelfer.message("Page loaded: " + title)
     }
 }

@@ -16,16 +16,14 @@ PageBase {
     icon: "hauptgaerung.png"
     readOnly: Brauhelfer.readonly || ((!Brauhelfer.sud.BierWurdeGebraut || Brauhelfer.sud.BierWurdeAbgefuellt) && !app.brewForceEditable)
 
-    component: ColumnLayout {
+    ColumnLayout {
         property alias listView: listView
         anchors.fill: parent
 
         Chart {
             id: chart
-            implicitHeight: parent.height / 2
-            anchors.top: parent.top
-            anchors.left: parent.left
-            anchors.right: parent.right
+            Layout.fillWidth: true
+            Layout.fillHeight: true
             title1: qsTr("Alkohol")
             color1: "#741EA6"
             title2: qsTr("Extrakt")
@@ -56,11 +54,9 @@ PageBase {
 
         ListView {
             id: listView
+            Layout.fillWidth: true
+            Layout.fillHeight: true
             clip: true
-            anchors.top: chart.bottom
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.bottom: layoutIngredients.top
             boundsBehavior: Flickable.OvershootBounds
             model: Brauhelfer.sud.modelHauptgaerverlauf
             headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
@@ -174,92 +170,102 @@ PageBase {
                     HorizontalDivider {}
                 }
             }
-        }
-        ColumnLayout {
-            id: layoutIngredients
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.bottom: parent.bottom
-            HorizontalDivider {
-                visible: listViewWeitereZutaten.count > 0
-            }
-            LabelSubheader {
-                Layout.fillWidth: true
-                Layout.leftMargin: 4
-                Layout.rightMargin: 4
-                visible: listViewWeitereZutaten.count > 0
-                text: qsTr("Weitere Zutaten")
-            }
-            ListView {
-                id: listViewWeitereZutaten
-                Layout.fillWidth: true
-                Layout.leftMargin: 4
-                Layout.rightMargin: 4
-                height: Math.min(contentHeight, 80)
-                clip: true
-                boundsBehavior: Flickable.OvershootBounds
-                ScrollIndicator.vertical: ScrollIndicator {}
-                model: SortFilterProxyModel {
-                    sourceModel: Brauhelfer.sud.modelWeitereZutatenGaben
-                    filterKeyColumn: sourceModel.fieldIndex("Zeitpunkt")
-                    filterRegExp: /0/
+
+            FloatingButton {
+                id: btnAdd
+                anchors.right: parent.right
+                anchors.rightMargin: 16
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 8
+                imageSource: "qrc:/images/ic_add_white.png"
+                visible: !page.readOnly
+                onClicked: {
+                    listView.model.append()
+                    listView.currentIndex = listView.count - 1
+                    popuploader.active = true
                 }
-                delegate: ItemDelegate {
-                    width: parent.width
-                    height: dataColumn2.implicitHeight
-                    onClicked: {
-                        listViewWeitereZutaten.currentIndex = index
-                        popuploaderWeitereZutaten.active = true
-                    }
-                    ColumnLayout {
-                        id: dataColumn2
-                        anchors.left: parent.left
-                        anchors.right: parent.right
-                        RowLayout {
-                            Layout.topMargin: 4
-                            Layout.bottomMargin: 4
+            }
+        }
+
+        HorizontalDivider {
+            visible: listViewWeitereZutaten.count > 0
+        }
+        LabelSubheader {
+            Layout.fillWidth: true
+            Layout.leftMargin: 8
+            Layout.rightMargin: 8
+            visible: listViewWeitereZutaten.count > 0
+            text: qsTr("Weitere Zutaten")
+        }
+        ListView {
+            id: listViewWeitereZutaten
+            Layout.fillWidth: true
+            Layout.leftMargin: 8
+            Layout.rightMargin: 8
+            height: Math.min(contentHeight, 80)
+            clip: true
+            boundsBehavior: Flickable.OvershootBounds
+            ScrollIndicator.vertical: ScrollIndicator {}
+            model: SortFilterProxyModel {
+                sourceModel: Brauhelfer.sud.modelWeitereZutatenGaben
+                filterKeyColumn: sourceModel.fieldIndex("Zeitpunkt")
+                filterRegExp: /0/
+            }
+            delegate: ItemDelegate {
+                width: parent.width
+                height: dataColumn2.implicitHeight
+                onClicked: {
+                    listViewWeitereZutaten.currentIndex = index
+                    popuploaderWeitereZutaten.active = true
+                }
+                ColumnLayout {
+                    id: dataColumn2
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    RowLayout {
+                        Layout.topMargin: 4
+                        Layout.bottomMargin: 4
+                        Layout.fillWidth: true
+                        LabelPrim {
                             Layout.fillWidth: true
-                            LabelPrim {
-                                Layout.fillWidth: true
-                                text: model.Name
-                            }
-                            LabelPrim {
-                                text: {
-                                    switch (model.Zugabestatus)
-                                    {
-                                    case 0: return qsTr("nicht zugegeben")
-                                    case 1: return model.Entnahmeindex === 0 ? qsTr("zugegeben seit") : qsTr("zugegeben")
-                                    case 2: return qsTr("entnommen nach")
-                                    default: return ""
-                                    }
+                            text: model.Name
+                        }
+                        LabelPrim {
+                            text: {
+                                switch (model.Zugabestatus)
+                                {
+                                case 0: return qsTr("nicht zugegeben")
+                                case 1: return model.Entnahmeindex === 0 ? qsTr("zugegeben seit") : qsTr("zugegeben")
+                                case 2: return qsTr("entnommen nach")
+                                default: return ""
                                 }
                             }
-                            LabelNumber {
-                                visible: model.Zugabestatus > 0 && model.Entnahmeindex === 0
-                                precision: 0
-                                value: {
-                                    switch (model.Zugabestatus)
-                                    {
-                                    case 1: return (new Date().getTime() - model.Zeitpunkt_von.getTime()) / 1440 / 60000
-                                    case 2: return model.Zugabedauer/ 1440
-                                    default: return 0.0
-                                    }
+                        }
+                        LabelNumber {
+                            visible: model.Zugabestatus > 0 && model.Entnahmeindex === 0
+                            precision: 0
+                            value: {
+                                switch (model.Zugabestatus)
+                                {
+                                case 1: return (new Date().getTime() - model.Zeitpunkt_von.getTime()) / 1440 / 60000
+                                case 2: return model.Zugabedauer/ 1440
+                                default: return 0.0
                                 }
-                                unit: qsTr("Tage")
                             }
+                            unit: qsTr("Tage")
                         }
                     }
                 }
+            }
 
-                Loader {
-                    id: popuploaderWeitereZutaten
-                    active: false
-                    onLoaded: item.open()
-                    sourceComponent: PopupWeitereZutatenGaben {
-                        model: listViewWeitereZutaten.model
-                        currentIndex: listViewWeitereZutaten.currentIndex
-                        onClosed: popuploaderWeitereZutaten.active = false
-                    }
+            Loader {
+                id: popuploaderWeitereZutaten
+                active: false
+                onLoaded: item.open()
+                sourceComponent: PopupWeitereZutatenGaben {
+                    model: listViewWeitereZutaten.model
+                    currentIndex: listViewWeitereZutaten.currentIndex
+                    onClosed: popuploaderWeitereZutaten.active = false
                 }
             }
         }
@@ -405,21 +411,6 @@ PageBase {
                         }
                     }
                 }
-            }
-        }
-
-        FloatingButton {
-            id: btnAdd
-            anchors.right: parent.right
-            anchors.rightMargin: 16
-            anchors.bottom: listView.bottom
-            anchors.bottomMargin: 8
-            imageSource: "qrc:/images/ic_add_white.png"
-            visible: !page.readOnly
-            onClicked: {
-                listView.model.append()
-                listView.currentIndex = listView.count - 1
-                popuploader.active = true
             }
         }
     }

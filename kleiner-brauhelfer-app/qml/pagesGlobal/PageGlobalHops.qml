@@ -12,7 +12,7 @@ PageBase {
     title: qsTr("Rohstoff Hopfen")
     icon: "hops.png"
 
-    component: ListView {
+    ListView {
         id: listView
         clip: true
         anchors.fill: parent
@@ -34,15 +34,17 @@ PageBase {
                 width: parent.width
                 RowLayout {
                     Layout.fillWidth: true
+                    Layout.topMargin: 4
+                    Layout.bottomMargin: 4
+                    Layout.leftMargin: 8
+                    Layout.rightMargin: 8
                     LabelPrim {
                         Layout.fillWidth: true
-                        leftPadding: 8
                         font.bold: true
                         text: qsTr("Beschreibung")
                     }
                     LabelPrim {
                         Layout.fillWidth: true
-                        rightPadding: 8
                         horizontalAlignment: Text.AlignRight
                         font.bold: true
                         text: qsTr("Menge")
@@ -58,7 +60,7 @@ PageBase {
             height: btnAdd.height + 12
             color: Material.background
             Flow {
-                width: parent.width
+                anchors.verticalCenter: parent.verticalCenter
                 RadioButton {
                     checked: app.settings.ingredientsFilter === 0
                     text: qsTr("alle")
@@ -101,18 +103,18 @@ PageBase {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 RowLayout {
+                    Layout.fillWidth: true
                     Layout.topMargin: 4
                     Layout.bottomMargin: 4
-                    Layout.fillWidth: true
+                    Layout.leftMargin: 8
+                    Layout.rightMargin: 8
                     LabelPrim {
                         Layout.fillWidth: true
-                        leftPadding: 8
                         opacity: model.Menge > 0 ? app.config.textOpacityFull : app.config.textOpacityHalf
                         text: model.Beschreibung
                     }
                     LabelNumber {
                         Layout.fillWidth: true
-                        rightPadding: 8
                         horizontalAlignment: Text.AlignRight
                         opacity: model.Menge > 0 ? app.config.textOpacityFull : app.config.textOpacityHalf
                         precision: 0

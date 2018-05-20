@@ -123,6 +123,26 @@ void ModelSud::updateIntermediateValues(int row)
 QVariant ModelSud::dataExt(const QModelIndex &index) const
 {
     QString field = fieldName(index.column());
+    if (field == "Braudatum")
+    {
+        return QDateTime::fromString(QSqlTableModel::data(index).toString(), Qt::ISODate);
+    }
+    if (field == "Anstelldatum")
+    {
+        return QDateTime::fromString(QSqlTableModel::data(index).toString(), Qt::ISODate);
+    }
+    if (field == "Abfuelldatum")
+    {
+        return QDateTime::fromString(QSqlTableModel::data(index).toString(), Qt::ISODate);
+    }
+    if (field == "Erstellt")
+    {
+        return QDateTime::fromString(QSqlTableModel::data(index).toString(), Qt::ISODate);
+    }
+    if (field == "Gespeichert")
+    {
+        return QDateTime::fromString(QSqlTableModel::data(index).toString(), Qt::ISODate);
+    }
     if (field == "SWIst")
     {
         return SWIst(index);
@@ -209,6 +229,26 @@ QVariant ModelSud::dataExt(const QModelIndex &index) const
 bool ModelSud::setDataExt(const QModelIndex &index, const QVariant &value)
 {
     QString field = fieldName(index.column());
+    if (field == "Braudatum")
+    {
+        return QSqlTableModel::setData(index, value.toDateTime().toString(Qt::ISODate));
+    }
+    if (field == "Anstelldatum")
+    {
+        return QSqlTableModel::setData(index, value.toDateTime().toString(Qt::ISODate));
+    }
+    if (field == "Abfuelldatum")
+    {
+        return QSqlTableModel::setData(index, value.toDateTime().toString(Qt::ISODate));
+    }
+    if (field == "Erstellt")
+    {
+        return QSqlTableModel::setData(index, value.toDateTime().toString(Qt::ISODate));
+    }
+    if (field == "Gespeichert")
+    {
+        return QSqlTableModel::setData(index, value.toDateTime().toString(Qt::ISODate));
+    }
     if (field == "erg_AbgefuellteBiermenge")
     {
         if (QSqlTableModel::setData(index, value))

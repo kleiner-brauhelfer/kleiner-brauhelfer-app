@@ -3,6 +3,7 @@ import QtQuick.Controls 2.2
 import QtCharts 2.2
 
 ChartView {
+    property alias timeformat: dAxisX.format
     property alias series1: series1
     property alias title1: series1.name
     property alias color1: series1.color

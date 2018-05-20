@@ -5,7 +5,8 @@
 #include "brauhelfer.h"
 #include "syncservicemanager.h"
 #include "qmlutils.h"
-#include "SortFilterProxyModel.h"
+#include "sortfilterproxymodel.h"
+#include "sortfilterproxymodelsud.h"
 
 static Brauhelfer *bh;
 static SyncServiceManager *syncMan;
@@ -56,6 +57,7 @@ int main(int argc, char *argv[])
     qmlRegisterSingletonType<SyncServiceManager>("brauhelfer", 1, 0, "SyncService", getInstanceSyncServiceManager);
     qmlRegisterSingletonType<QmlUtils>("qmlutils", 1, 0, "Utils", getInstanceUtils);
     qmlRegisterType<SortFilterProxyModel>("SortFilterProxyModel", 1, 0, "SortFilterProxyModel");
+    qmlRegisterType<SortFilterProxyModelSud>("SortFilterProxyModelSud", 1, 0, "SortFilterProxyModelSud");
 
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));

@@ -36,11 +36,12 @@ PopupBase {
                         anchors.top: parent.top
                         anchors.left: parent.left
                         anchors.right: parent.right
-                        columns: 3
+                        columns: 2
 
                         RowLayout {
-                            Layout.columnSpan: 3
+                            Layout.columnSpan: 2
                             Layout.fillWidth: true
+                            Layout.bottomMargin: 8
                             Image {
                                 id: imgType
                                 source: {
@@ -72,11 +73,8 @@ PopupBase {
                         }
                         LabelNumber {
                             Layout.fillWidth: true
-                            horizontalAlignment: Text.AlignRight
+                            unit: model.Einheit === 0 ? qsTr("kg") : qsTr("g")
                             value: model.Einheit === 0 ? model.erg_Menge/1000 : model.erg_Menge
-                        }
-                        LabelUnit {
-                            text: model.Einheit === 0 ? qsTr("kg") : qsTr("g")
                         }
 
                         LabelPrim {
@@ -86,7 +84,6 @@ PopupBase {
                         }
                         TextFieldDate {
                             id: tfDateFrom
-                            Layout.columnSpan: 2
                             Layout.fillWidth: true
                             readOnly: model.Zugabestatus !== 0
                             date: model.Zugabestatus === 0 ? new Date() : model.Zeitpunkt_von
@@ -106,7 +103,6 @@ PopupBase {
                         }
                         TextFieldDate {
                             id: tfDateTo
-                            Layout.columnSpan: 2
                             Layout.fillWidth: true
                             visible: model.Zugabestatus > 0 && model.Entnahmeindex === 0
                             readOnly: model.Zugabestatus !== 1
@@ -115,7 +111,7 @@ PopupBase {
                         }
 
                         TextArea {
-                            Layout.columnSpan: 3
+                            Layout.columnSpan: 2
                             Layout.fillWidth: true
                             wrapMode: TextArea.Wrap
                             placeholderText: qsTr("Bemerkung")
@@ -145,7 +141,7 @@ PopupBase {
                                 onYes: Brauhelfer.sud.substractIngredient(model.Name, model.Typ, model.erg_Menge)
                             }
 
-                            Layout.columnSpan: 3
+                            Layout.columnSpan: 2
                             Layout.fillWidth: true
                             visible: model.Zugabestatus === 0 || (model.Zugabestatus === 1 && model.Entnahmeindex === 0)
                             text: model.Zugabestatus === 0 ? qsTr("Zugeben") : qsTr("Entnehmen")

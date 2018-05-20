@@ -31,6 +31,8 @@ ApplicationWindow {
     Settings {
         id: settings
         category: "App"
+        property int brewsFilter: 0
+        property bool brewsMerklisteFilter: false
         property int ingredientsFilter: 0
         property real sugarFactor: 1.0
     }
@@ -208,6 +210,7 @@ ApplicationWindow {
         id: viewGlobal
         visible: false
         PageGlobalAuswahl { onClicked: loadBrew(id) }
+        PageGlobalUebersicht { onClicked: loadBrew(id) }
         PageGlobalMalt { }
         PageGlobalHops { }
         PageGlobalYeast { }

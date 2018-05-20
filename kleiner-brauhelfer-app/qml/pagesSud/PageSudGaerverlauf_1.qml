@@ -12,18 +12,16 @@ PageBase {
     id: page
     title: qsTr("Schnellgärung")
     icon: "schnellgaerverlauf.png"
-    readOnly: Brauhelfer.readonly || ((!Brauhelfer.sud.BierWurdeGebraut || Brauhelfer.sud.BierWurdeAbgefuellt || !Brauhelfer.sud.SchnellgaerprobeAktiv) && !app.brewForceEditable)
+    readOnly: Brauhelfer.readonly || ((!Brauhelfer.sud.BierWurdeGebraut || Brauhelfer.sud.BierWurdeAbgefuellt) && !app.brewForceEditable)
 
-    component: ColumnLayout {
+    ColumnLayout {
         property alias listView: listView
         anchors.fill: parent
 
         Chart {
             id: chart
-            implicitHeight: parent.height / 2
-            anchors.top: parent.top
-            anchors.left: parent.left
-            anchors.right: parent.right
+            Layout.fillWidth: true
+            Layout.fillHeight: true
             title1: qsTr("Alkohol")
             color1: "#741EA6"
             title2: qsTr("Extrakt")
@@ -53,11 +51,9 @@ PageBase {
 
         ListView {
             id: listView
+            Layout.fillWidth: true
+            Layout.fillHeight: true
             clip: true
-            anchors.top: chart.bottom
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.bottom: parent.bottom
             boundsBehavior: Flickable.OvershootBounds
             model: Brauhelfer.sud.modelSchnellgaerverlauf
             headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
@@ -169,6 +165,21 @@ PageBase {
                         }
                     }
                     HorizontalDivider {}
+                }
+            }
+
+            FloatingButton {
+                id: btnAdd
+                anchors.right: parent.right
+                anchors.rightMargin: 16
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 8
+                imageSource: "qrc:/images/ic_add_white.png"
+                visible: !page.readOnly
+                onClicked: {
+                    listView.model.append()
+                    listView.currentIndex = listView.count - 1
+                    popuploader.active = true
                 }
             }
         }
@@ -314,21 +325,6 @@ PageBase {
                         }
                     }
                 }
-            }
-        }
-
-        FloatingButton {
-            id: btnAdd
-            anchors.right: parent.right
-            anchors.rightMargin: 16
-            anchors.bottom: listView.bottom
-            anchors.bottomMargin: 8
-            imageSource: "qrc:/images/ic_add_white.png"
-            visible: !page.readOnly
-            onClicked: {
-                listView.model.append()
-                listView.currentIndex = listView.count - 1
-                popuploader.active = true
             }
         }
     }
