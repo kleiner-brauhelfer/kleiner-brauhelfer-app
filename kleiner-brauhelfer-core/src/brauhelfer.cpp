@@ -18,6 +18,29 @@ Brauhelfer::Brauhelfer(SyncService *service, QObject *parent) :
     _db = new Database(this);
     _calc = new BierCalc();
     _sud = new SudObject(this);
+
+    QObject::connect(_db->modelSudAuswahl, SIGNAL(modified()), this, SIGNAL(modified()));
+    QObject::connect(_db->modelRastauswahl, SIGNAL(modified()), this, SIGNAL(modified()));
+    QObject::connect(_db->modelMalz, SIGNAL(modified()), this, SIGNAL(modified()));
+    QObject::connect(_db->modelHopfen, SIGNAL(modified()), this, SIGNAL(modified()));
+    QObject::connect(_db->modelHefe, SIGNAL(modified()), this, SIGNAL(modified()));
+    QObject::connect(_db->modelWeitereZutaten, SIGNAL(modified()), this, SIGNAL(modified()));
+    QObject::connect(_db->modelAusruestung, SIGNAL(modified()), this, SIGNAL(modified()));
+    QObject::connect(_db->modelGeraete, SIGNAL(modified()), this, SIGNAL(modified()));
+    QObject::connect(_db->modelWasser, SIGNAL(modified()), this, SIGNAL(modified()));
+
+    QObject::connect(_sud, SIGNAL(modified()), this, SIGNAL(modified()));
+    QObject::connect(_db->modelSud, SIGNAL(modified()), _sud, SIGNAL(modified()));
+    QObject::connect(_db->modelRasten, SIGNAL(modified()), _sud, SIGNAL(modified()));
+    QObject::connect(_db->modelMalzschuettung, SIGNAL(modified()), _sud, SIGNAL(modified()));
+    QObject::connect(_db->modelHopfengaben, SIGNAL(modified()), _sud, SIGNAL(modified()));
+    QObject::connect(_db->modelWeitereZutatenGaben, SIGNAL(modified()), _sud, SIGNAL(modified()));
+    QObject::connect(_db->modelSchnellgaerverlauf, SIGNAL(modified()), _sud, SIGNAL(modified()));
+    QObject::connect(_db->modelHauptgaerverlauf, SIGNAL(modified()), _sud, SIGNAL(modified()));
+    QObject::connect(_db->modelNachgaerverlauf, SIGNAL(modified()), _sud, SIGNAL(modified()));
+    QObject::connect(_db->modelBewertungen, SIGNAL(modified()), _sud, SIGNAL(modified()));
+    QObject::connect(_db->modelAnhang, SIGNAL(modified()), _sud, SIGNAL(modified()));
+
     setSyncService(service);
 }
 

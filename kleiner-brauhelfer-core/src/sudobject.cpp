@@ -9,7 +9,6 @@ SudObject::SudObject(Brauhelfer *bh) :
     bh(bh),
     id(-1)
 {
-    connect(modelSud(), SIGNAL(modified()), this, SIGNAL(modified()));
 }
 
 void SudObject::load(int id)
@@ -18,13 +17,14 @@ void SudObject::load(int id)
     {
         QString strId = QString::number(id);
         bool first = !loaded();
-        this->id = id;
-
-        // discard database changes
-        bh->discard(true);
 
         // show information
-        bh->message("Load brew with ID: " + strId);
+        if (id == -1)
+            bh->message("Unload brew: " + QString::number(this->id));
+        else
+            bh->message("Load brew with ID: " + strId);
+
+        this->id = id;
 
         // select brew tables
         modelSud()->setFilter("ID=" + strId);
@@ -45,18 +45,26 @@ void SudObject::load(int id)
 
 void SudObject::unload()
 {
-    if (id != -1)
-    {
-        bh->message("Unload brew: " + QString::number(id));
-        bh->discard();
-        id = -1;
-        emit modified();
-    }
+    load(-1);
 }
 
 bool SudObject::loaded() const
 {
     return id != -1;
+}
+
+bool SudObject::isDirty() const
+{
+    return modelSud()->isDirty() |
+           modelRasten()->isDirty() |
+           modelMalzschuettung()->isDirty() |
+           modelHopfengaben()->isDirty() |
+           modelWeitereZutatenGaben()->isDirty() |
+           modelSchnellgaerverlauf()->isDirty() |
+           modelHauptgaerverlauf()->isDirty() |
+           modelNachgaerverlauf()->isDirty() |
+           modelBewertungen()->isDirty() |
+           modelAnhang()->isDirty();
 }
 
 void SudObject::select()

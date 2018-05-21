@@ -44,6 +44,8 @@ ApplicationWindow {
         readonly property int save: 1
         readonly property int discard: 2
         readonly property int loadBrew: 3
+        readonly property int saveAndLoadBrew: 4
+        readonly property int saveAndQuit: 5
 
         property int schedule: -1
         property var param: null
@@ -107,6 +109,16 @@ ApplicationWindow {
                 navPane.goTo(viewSud, 0)
                 brewForceEditable = false
                 break
+            case saveAndLoadBrew:
+                Brauhelfer.save()
+                brewForceEditable = false
+                app.loadBrewNow(param)
+                break
+            case saveAndQuit:
+                Brauhelfer.save()
+                brewForceEditable = false
+                Qt.quit()
+                break;
             }
             busyIndicator.running = false
         }
@@ -137,15 +149,33 @@ ApplicationWindow {
 
     function loadBrew(id) {
         if (Brauhelfer.sud.id !== id) {
-            busyIndicator.running = true
-            navPane.goHome()
-            for (var i = 0; i < viewSud.count; ++i)
-                viewSud.itemAt(i).unload()
-            scheduler.runExt(scheduler.loadBrew, id)
+            if (Brauhelfer.sud.isModified) {
+                messageDialogSave.brewId = id
+                messageDialogSave.open()
+            }
+            else {
+                loadBrewNow(id)
+            }
         }
         else {
             navPane.goTo(viewSud, 0)
         }
+    }
+
+    function loadBrewNow(id) {
+        busyIndicator.running = true
+        navPane.goHome()
+        for (var i = 0; i < viewSud.count; ++i)
+            viewSud.itemAt(i).unload()
+        scheduler.runExt(scheduler.loadBrew, id)
+    }
+
+    function saveAndLoadBrew(id) {
+        scheduler.runExt(scheduler.saveAndLoadBrew, id)
+    }
+
+    function saveAndQuit() {
+        scheduler.run(scheduler.saveAndQuit)
     }
 
     function buildMenus() {
@@ -171,7 +201,7 @@ ApplicationWindow {
     // message dialog to show readonly message
     MessageDialog {
         id: messageDialogReadonly
-        icon: StandardIcon.Information
+        icon: MessageDialog.Information
         text: qsTr("Synchronisationsdienst ist nicht verfügbar.")
         informativeText: qsTr("Datenbank wird nur lesend geöffnet.")
     }
@@ -179,20 +209,40 @@ ApplicationWindow {
     // message dialog going to the settings
     MessageDialog {
         id: messageDialogGotoSettings
-        icon: StandardIcon.Warning
+        icon: MessageDialog.Warning
         text: qsTr("Verbindung mit der Datenbank fehlgeschlagen.")
         informativeText: qsTr("Einstellungen überprüfen.")
         onAccepted: navPane.goSettings()
     }
 
+    // message dialog to ask for saving brew
+    MessageDialog {
+        property int brewId: -1
+        id: messageDialogSave
+        icon: MessageDialog.Question
+        text: qsTr("Änderungen speichern?")
+        standardButtons: StandardButton.Save | StandardButton.Discard | StandardButton.Cancel
+        onAccepted: app.saveAndLoadBrew(brewId)
+        onDiscard: loadBrewNow(brewId)
+    }
+
     // message dialog to ask for quit
     MessageDialog {
         id: messageDialogQuit
-        icon: StandardIcon.Question
+        icon: MessageDialog.Question
         text: qsTr("Soll das Programm geschlossen werden?")
         standardButtons: StandardButton.Ok | StandardButton.Cancel
-        //buttons: MessageDialog.Ok | MessageDialog.Cancel
         onAccepted: Qt.quit()
+    }
+
+    // message dialog to ask for save and quit
+    MessageDialog {
+        id: messageDialogQuitSave
+        icon: MessageDialog.Question
+        text: qsTr("Änderungen vor dem Schliessen speichern?")
+        standardButtons: StandardButton.Save | StandardButton.Discard | StandardButton.Cancel
+        onAccepted: app.saveAndQuit()
+        onDiscard: Qt.quit()
     }
 
     // header
@@ -277,7 +327,7 @@ ApplicationWindow {
         Keys.onReleased: {
             if (event.key === Qt.Key_Back || event.key === Qt.Key_Escape) {
                 if (isHome()) {
-                    messageDialogQuit.open()
+                    Brauhelfer.modified ? messageDialogQuitSave.open() : messageDialogQuit.open()
                 }
                 if (lastView === null || currentItem === viewGlobal || currentItem == viewSud) {
                     goHome()

@@ -22,6 +22,7 @@ class SudObject : public QObject
     Q_OBJECT
 
     Q_PROPERTY(bool loaded READ loaded NOTIFY modified)
+    Q_PROPERTY(bool isModified READ isDirty NOTIFY modified)
     Q_PROPERTY(int id READ getId NOTIFY modified)
 
     // real fields in table Sud
@@ -143,6 +144,12 @@ public:
     bool loaded() const;
 
     /**
+     * @brief Modification state of the database
+     * @return True if database was modified
+     */
+    bool isDirty() const;
+
+    /**
      * @brief Selects all tables related to the brew
      */
     void select();
@@ -172,7 +179,6 @@ public:
      * @brief Gets the different tables
      * @return Table model
      */
-    SqlTableModel* modelSud() const;
     SqlTableModel* modelRasten() const;
     SqlTableModel* modelMalzschuettung() const;
     SqlTableModel* modelHopfengaben() const;
@@ -202,6 +208,9 @@ signals:
      * @brief Emitted when something was modified
      */
     void modified();
+
+private:
+    SqlTableModel* modelSud() const;
 
 private:
     Brauhelfer *bh;

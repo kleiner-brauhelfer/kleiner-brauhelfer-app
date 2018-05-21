@@ -40,25 +40,6 @@ Database::Database(Brauhelfer* bh) :
     modelAusruestung = new SqlTableModel(bh);
     modelGeraete = new SqlTableModel(bh);
     modelWasser = new ModelWasser(bh);
-    QObject::connect(modelSudAuswahl, SIGNAL(modified()), bh, SIGNAL(modified()));
-    QObject::connect(modelSud, SIGNAL(modified()), bh, SIGNAL(modified()));
-    QObject::connect(modelRasten, SIGNAL(modified()), modelSud, SIGNAL(modified()));
-    QObject::connect(modelRastauswahl, SIGNAL(modified()), bh, SIGNAL(modified()));
-    QObject::connect(modelMalzschuettung, SIGNAL(modified()), modelSud, SIGNAL(modified()));
-    QObject::connect(modelHopfengaben, SIGNAL(modified()), modelSud, SIGNAL(modified()));
-    QObject::connect(modelWeitereZutatenGaben, SIGNAL(modified()), modelSud, SIGNAL(modified()));
-    QObject::connect(modelSchnellgaerverlauf, SIGNAL(modified()), modelSud, SIGNAL(modified()));
-    QObject::connect(modelHauptgaerverlauf, SIGNAL(modified()), modelSud, SIGNAL(modified()));
-    QObject::connect(modelNachgaerverlauf, SIGNAL(modified()), modelSud, SIGNAL(modified()));
-    QObject::connect(modelBewertungen, SIGNAL(modified()), modelSud, SIGNAL(modified()));
-    QObject::connect(modelMalz, SIGNAL(modified()), bh, SIGNAL(modified()));
-    QObject::connect(modelHopfen, SIGNAL(modified()), bh, SIGNAL(modified()));
-    QObject::connect(modelHefe, SIGNAL(modified()), bh, SIGNAL(modified()));
-    QObject::connect(modelWeitereZutaten, SIGNAL(modified()), bh, SIGNAL(modified()));
-    QObject::connect(modelAnhang, SIGNAL(modified()), modelSud, SIGNAL(modified()));
-    QObject::connect(modelAusruestung, SIGNAL(modified()), bh, SIGNAL(modified()));
-    QObject::connect(modelGeraete, SIGNAL(modified()), bh, SIGNAL(modified()));
-    QObject::connect(modelWasser, SIGNAL(modified()), bh, SIGNAL(modified()));
 }
 
 void Database::onConnect()
