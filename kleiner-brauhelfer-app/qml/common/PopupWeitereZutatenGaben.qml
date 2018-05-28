@@ -69,7 +69,6 @@ PopupBase {
                         LabelPrim {
                             rightPadding: 8
                             text: qsTr("Menge")
-                            font.weight: Font.DemiBold
                         }
                         LabelNumber {
                             Layout.fillWidth: true
@@ -80,7 +79,6 @@ PopupBase {
                         LabelPrim {
                             rightPadding: 8
                             text: qsTr("Zugegeben")
-                            font.weight: Font.DemiBold
                         }
                         TextFieldDate {
                             id: tfDateFrom
@@ -99,7 +97,6 @@ PopupBase {
                             rightPadding: 8
                             visible: model.Zugabestatus > 0 && model.Entnahmeindex === 0
                             text: qsTr("Entnommen")
-                            font.weight: Font.DemiBold
                         }
                         TextFieldDate {
                             id: tfDateTo

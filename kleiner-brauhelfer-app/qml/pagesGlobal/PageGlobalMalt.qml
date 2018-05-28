@@ -215,14 +215,13 @@ PageBase {
                                     LabelPrim {
                                         rightPadding: 8
                                         text: qsTr("Menge")
-                                        font.weight: Font.DemiBold
                                     }
 
                                     SpinBoxReal {
                                         Layout.fillWidth: true
                                         decimals: 2
                                         realValue: model.Menge
-                                        onRealValueChanged: model.Menge = realValue
+                                        onNewValue: model.Menge = value
                                     }
 
                                     LabelUnit {
@@ -232,14 +231,13 @@ PageBase {
                                     LabelPrim {
                                         rightPadding: 8
                                         text: qsTr("Farbe")
-                                        font.weight: Font.DemiBold
                                     }
 
                                     SpinBoxReal {
                                         Layout.fillWidth: true
                                         decimals: 1
                                         realValue: model.Farbe
-                                        onRealValueChanged: model.Farbe = realValue
+                                        onNewValue: model.Farbe = value
                                     }
 
                                     LabelUnit {
@@ -249,14 +247,13 @@ PageBase {
                                     LabelPrim {
                                         rightPadding: 8
                                         text: qsTr("Max. Anteil")
-                                        font.weight: Font.DemiBold
                                     }
 
                                     SpinBoxReal {
                                         Layout.fillWidth: true
                                         decimals: 0
                                         realValue: model.MaxProzent
-                                        onRealValueChanged: model.MaxProzent = realValue
+                                        onNewValue: model.MaxProzent = value
                                     }
 
                                     LabelUnit {
@@ -268,7 +265,6 @@ PageBase {
                                         Layout.fillWidth: true
                                         rightPadding: 8
                                         text: qsTr("Anwendung")
-                                        font.weight: Font.DemiBold
                                     }
 
                                     TextArea {
@@ -285,7 +281,6 @@ PageBase {
                                         Layout.fillWidth: true
                                         rightPadding: 8
                                         text: qsTr("Bemerkung")
-                                        font.weight: Font.DemiBold
                                     }
 
                                     TextArea {
@@ -300,14 +295,13 @@ PageBase {
                                     LabelPrim {
                                         rightPadding: 8
                                         text: qsTr("Preis")
-                                        font.weight: Font.DemiBold
                                     }
 
                                     SpinBoxReal {
                                         Layout.fillWidth: true
                                         decimals: 2
                                         realValue: model.Preis
-                                        onRealValueChanged: model.Preis = realValue
+                                        onNewValue: model.Preis = value
                                     }
 
                                     LabelUnit {
@@ -317,7 +311,6 @@ PageBase {
                                     LabelPrim {
                                         rightPadding: 8
                                         text: qsTr("Eingelagert")
-                                        font.weight: Font.DemiBold
                                     }
 
                                     TextFieldDate {
@@ -330,7 +323,6 @@ PageBase {
                                     LabelPrim {
                                         rightPadding: 8
                                         text: qsTr("Haltbar")
-                                        font.weight: Font.DemiBold
                                     }
 
                                     TextFieldDate {

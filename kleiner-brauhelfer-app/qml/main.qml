@@ -253,6 +253,7 @@ ApplicationWindow {
         onClickedLeft: navigation.open()
         iconRight: navPane.isHome() ? "" : "ic_home_white.png"
         onClickedRight: navPane.goHome()
+        Keys.onReleased: navPane.keyPressed(event)
     }
 
     // global pages
@@ -324,10 +325,15 @@ ApplicationWindow {
         initialItem: viewGlobal
         focus: true
 
-        Keys.onReleased: {
+        Keys.onReleased: keyPressed(event)
+
+        function keyPressed(event) {
             if (event.key === Qt.Key_Back || event.key === Qt.Key_Escape) {
                 if (isHome()) {
-                    Brauhelfer.modified ? messageDialogQuitSave.open() : messageDialogQuit.open()
+                    if (Brauhelfer.modified)
+                        messageDialogQuitSave.open()
+                    else
+                        messageDialogQuit.open()
                 }
                 if (lastView === null || currentItem === viewGlobal || currentItem == viewSud) {
                     goHome()
@@ -402,7 +408,7 @@ ApplicationWindow {
         function setFocus()
         {
             focus = true
-            forceActiveFocus()
+            header.forceActiveFocus()
         }
     }
 
@@ -411,6 +417,7 @@ ApplicationWindow {
         swipeView: navPane.currentItem
         onClickedLeft: navPane.previous()
         onClickedRight: navPane.next()
+        Keys.onReleased: navPane.keyPressed(event)
     }
 
     // busy indicator
@@ -429,8 +436,8 @@ ApplicationWindow {
         visible: Brauhelfer.modified
         imageSource: "qrc:/images/ic_clear_white.png"
         onClicked: {
-            app.discard()
             navPane.setFocus()
+            app.discard()
         }
     }
 
@@ -443,8 +450,8 @@ ApplicationWindow {
         visible: Brauhelfer.modified
         imageSource: "qrc:/images/ic_save_white.png"
         onClicked: {
-            app.save()
             navPane.setFocus()
+            app.save()
         }
     }
 

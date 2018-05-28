@@ -2,15 +2,21 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 
 SpinBox {
+
+    signal newValue(real value)
+
     property real realValue: Number.NaN
     property int decimals: 1
+    property real min: 0.0
+    property real max: 99999.9
+    readonly property int factor: Math.pow(10, decimals)
 
-    from: 0
-    to: 999999
     editable: true
 
     stepSize: decimals === 0 ? 1 : 10
-    value: realValue * Math.pow(10, decimals)
+    from: min * factor
+    to: max * factor
+    value: realValue * factor
 
     validator: DoubleValidator {
         bottom: Math.min(from, to)
@@ -20,16 +26,16 @@ SpinBox {
     }
 
     textFromValue: function(value, locale) {
-        return Number(value / Math.pow(10, decimals)).toLocaleString(locale, 'f', decimals)
+        return Number(value / factor).toLocaleString(locale, 'f', decimals)
     }
 
     valueFromText: function(text, locale) {
-        return Number.fromLocaleString(locale, text) * Math.pow(10, decimals)
+        return Number.fromLocaleString(locale, text) * factor
     }
 
     onValueModified: {
-        var _value = value / Math.pow(10, decimals)
+        var _value = value / factor
         if (realValue !== _value)
-            realValue = _value
+            newValue(_value)
     }
 }

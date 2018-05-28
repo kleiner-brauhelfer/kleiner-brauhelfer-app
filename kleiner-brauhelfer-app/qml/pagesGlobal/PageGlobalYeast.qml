@@ -215,14 +215,13 @@ PageBase {
                                     LabelPrim {
                                         rightPadding: 8
                                         text: qsTr("Menge")
-                                        font.weight: Font.DemiBold
                                     }
 
                                     SpinBoxReal {
                                         Layout.fillWidth: true
                                         decimals: 0
                                         realValue: model.Menge
-                                        onRealValueChanged: model.Menge = realValue
+                                        onNewValue: model.Menge = value
                                     }
 
                                     LabelUnit {
@@ -232,14 +231,13 @@ PageBase {
                                     LabelPrim {
                                         rightPadding: 8
                                         text: qsTr("Würzemenge")
-                                        font.weight: Font.DemiBold
                                     }
 
                                     SpinBoxReal {
                                         Layout.fillWidth: true
                                         decimals: 0
                                         realValue: model.Wuerzemenge
-                                        onRealValueChanged: model.Wuerzemenge = realValue
+                                        onNewValue: model.Wuerzemenge = value
                                     }
 
                                     LabelUnit {
@@ -249,7 +247,6 @@ PageBase {
                                     LabelPrim {
                                         rightPadding: 8
                                         text: qsTr("OG / UG")
-                                        font.weight: Font.DemiBold
                                     }
 
                                     ComboBox {
@@ -264,7 +261,6 @@ PageBase {
                                     LabelPrim {
                                         rightPadding: 8
                                         text: qsTr("Trocken / flüssig")
-                                        font.weight: Font.DemiBold
                                     }
 
                                     ComboBox {
@@ -279,7 +275,6 @@ PageBase {
                                     LabelPrim {
                                         rightPadding: 8
                                         text: qsTr("Verpackung")
-                                        font.weight: Font.DemiBold
                                     }
 
                                     TextField {
@@ -292,7 +287,6 @@ PageBase {
                                     LabelPrim {
                                         rightPadding: 8
                                         text: qsTr("Sedimentation")
-                                        font.weight: Font.DemiBold
                                     }
 
                                     ComboBox {
@@ -307,7 +301,6 @@ PageBase {
                                     LabelPrim {
                                         rightPadding: 8
                                         text: qsTr("Vergärungsgrad")
-                                        font.weight: Font.DemiBold
                                     }
 
                                     TextField {
@@ -320,7 +313,6 @@ PageBase {
                                     LabelPrim {
                                         rightPadding: 8
                                         text: qsTr("Temperatur")
-                                        font.weight: Font.DemiBold
                                     }
 
                                     TextField {
@@ -335,7 +327,6 @@ PageBase {
                                         Layout.fillWidth: true
                                         rightPadding: 8
                                         text: qsTr("Eigenschaften")
-                                        font.weight: Font.DemiBold
                                     }
 
                                     TextArea {
@@ -352,7 +343,6 @@ PageBase {
                                         Layout.fillWidth: true
                                         rightPadding: 8
                                         text: qsTr("Bemerkung")
-                                        font.weight: Font.DemiBold
                                     }
 
                                     TextArea {
@@ -367,14 +357,13 @@ PageBase {
                                     LabelPrim {
                                         rightPadding: 8
                                         text: qsTr("Preis")
-                                        font.weight: Font.DemiBold
                                     }
 
                                     SpinBoxReal {
                                         Layout.fillWidth: true
                                         decimals: 2
                                         realValue: model.Preis
-                                        onRealValueChanged: model.Preis = realValue
+                                        onNewValue: model.Preis = value
                                     }
 
                                     LabelUnit {
@@ -384,7 +373,6 @@ PageBase {
                                     LabelPrim {
                                         rightPadding: 8
                                         text: qsTr("Eingelagert")
-                                        font.weight: Font.DemiBold
                                     }
 
                                     TextFieldDate {
@@ -397,7 +385,6 @@ PageBase {
                                     LabelPrim {
                                         rightPadding: 8
                                         text: qsTr("Haltbar")
-                                        font.weight: Font.DemiBold
                                     }
 
                                     TextFieldDate {

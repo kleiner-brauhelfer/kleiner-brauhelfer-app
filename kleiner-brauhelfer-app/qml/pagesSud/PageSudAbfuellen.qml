@@ -164,8 +164,8 @@ PageBase {
                         value: Brauhelfer.sud.SWSchnellgaerprobe
                         onNewValue: Brauhelfer.sud.SWSchnellgaerprobe = value
                     }
-                    LabelPrim {
-                        Layout.preferredWidth: 70
+                    LabelUnit {
+                        Layout.preferredWidth: 60
                         visible: ctrlSGPen.checked
                         text: qsTr("°P")
                     }
@@ -179,8 +179,8 @@ PageBase {
                         visible: ctrlSGPen.checked
                         value: Brauhelfer.calc.toTRE(Brauhelfer.sud.SWIst, Brauhelfer.sud.SWSchnellgaerprobe)
                     }
-                    LabelPrim {
-                        Layout.preferredWidth: 70
+                    LabelUnit {
+                        Layout.preferredWidth: 60
                         visible: ctrlSGPen.checked
                         text: qsTr("°P")
                     }
@@ -196,8 +196,8 @@ PageBase {
                         visible: ctrlSGPen.checked
                         value: Brauhelfer.sud.Gruenschlauchzeitpunkt
                     }
-                    LabelPrim {
-                        Layout.preferredWidth: 70
+                    LabelUnit {
+                        Layout.preferredWidth: 60
                         visible: ctrlSGPen.checked
                         text: qsTr("°P")
                     }
@@ -232,8 +232,8 @@ PageBase {
                         value: Brauhelfer.sud.SWJungbier
                         onNewValue: Brauhelfer.sud.SWJungbier = value
                     }
-                    LabelPrim {
-                        Layout.preferredWidth: 70
+                    LabelUnit {
+                        Layout.preferredWidth: 60
                         text: qsTr("°P")
                     }
                     LabelPrim {
@@ -244,8 +244,8 @@ PageBase {
                         Layout.preferredWidth: 60
                         value: Brauhelfer.calc.toTRE(Brauhelfer.sud.SWIst, Brauhelfer.sud.SWJungbier)
                     }
-                    LabelPrim {
-                        Layout.preferredWidth: 70
+                    LabelUnit {
+                        Layout.preferredWidth: 60
                         text: qsTr("°P")
                     }
                     LabelPrim {
@@ -276,8 +276,8 @@ PageBase {
                         horizontalAlignment: Text.AlignHCenter
                         value: Brauhelfer.sud.SWIst
                     }
-                    LabelPrim {
-                        Layout.preferredWidth: 70
+                    LabelUnit {
+                        Layout.preferredWidth: 60
                         text: qsTr("°P")
                     }
                     LabelPrim {
@@ -288,8 +288,8 @@ PageBase {
                         Layout.preferredWidth: 60
                         value: Brauhelfer.calc.vergaerungsgrad(Brauhelfer.sud.SWIst, Brauhelfer.sud.SREIst)
                     }
-                    LabelPrim {
-                        Layout.preferredWidth: 70
+                    LabelUnit {
+                        Layout.preferredWidth: 60
                         text: qsTr("%")
                     }
                     LabelPrim {
@@ -300,8 +300,8 @@ PageBase {
                         Layout.preferredWidth: 60
                         value: Brauhelfer.calc.vergaerungsgrad(Brauhelfer.sud.SWIst, Brauhelfer.calc.toTRE(Brauhelfer.sud.SWIst, Brauhelfer.sud.SREIst))
                     }
-                    LabelPrim {
-                        Layout.preferredWidth: 70
+                    LabelUnit {
+                        Layout.preferredWidth: 60
                         text: qsTr("%")
                     }
                     LabelPrim {
@@ -314,8 +314,8 @@ PageBase {
                         precision: 1
                         value: Brauhelfer.sud.erg_Alkohol
                     }
-                    LabelPrim {
-                        Layout.preferredWidth: 70
+                    LabelUnit {
+                        Layout.preferredWidth: 60
                         text: qsTr("%")
                     }
                 }
@@ -340,8 +340,8 @@ PageBase {
                         value: Brauhelfer.sud.TemperaturJungbier
                         onNewValue: Brauhelfer.sud.TemperaturJungbier = value
                     }
-                    LabelPrim {
-                        Layout.preferredWidth: 70
+                    LabelUnit {
+                        Layout.preferredWidth: 60
                         text: qsTr("°C")
                     }
                     LabelPrim {
@@ -349,12 +349,11 @@ PageBase {
                         text: qsTr("Spundungsdruck")
                     }
                     LabelNumber {
-                        id: ctrlSpund
                         Layout.preferredWidth: 60
                         value: Brauhelfer.sud.Spundungsdruck
                     }
-                    LabelPrim {
-                        Layout.preferredWidth: 70
+                    LabelUnit {
+                        Layout.preferredWidth: 60
                         text: qsTr("bar")
                     }
                 }
@@ -379,8 +378,8 @@ PageBase {
                         value: Brauhelfer.sud.JungbiermengeAbfuellen
                         onNewValue: Brauhelfer.sud.JungbiermengeAbfuellen = value
                     }
-                    LabelPrim {
-                        Layout.preferredWidth: 70
+                    LabelUnit {
+                        Layout.preferredWidth: 60
                         text: qsTr("Liter")
                     }
                     LabelPrim {
@@ -394,8 +393,8 @@ PageBase {
                         value: Brauhelfer.sud.erg_AbgefuellteBiermenge
                         onNewValue: Brauhelfer.sud.erg_AbgefuellteBiermenge = value
                     }
-                    LabelPrim {
-                        Layout.preferredWidth: 70
+                    LabelUnit {
+                        Layout.preferredWidth: 60
                         text: qsTr("Liter")
                     }
                 }
@@ -446,7 +445,7 @@ PageBase {
                         precision: 0
                         value: Brauhelfer.sud.SpeiseNoetig
                     }
-                    LabelPrim {
+                    LabelUnit {
                         Layout.preferredWidth: 30
                         visible: !ctrlSpunden.checked
                         text: qsTr("ml")
@@ -458,8 +457,8 @@ PageBase {
                         precision: 0
                         value: Brauhelfer.sud.JungbiermengeAbfuellen > 0.0 ? Brauhelfer.sud.SpeiseNoetig / Brauhelfer.sud.JungbiermengeAbfuellen : 0.0
                     }
-                    LabelPrim {
-                        Layout.preferredWidth: 70
+                    LabelUnit {
+                        Layout.preferredWidth: 60
                         visible: !ctrlSpunden.checked
                         text: qsTr("ml/Liter")
                     }
@@ -475,7 +474,7 @@ PageBase {
                         precision: 0
                         value: Brauhelfer.sud.SpeiseAnteil
                     }
-                    LabelPrim {
+                    LabelUnit {
                         Layout.preferredWidth: 30
                         visible: tbSpeiseAnteil.visible
                         text: qsTr("ml")
@@ -487,8 +486,8 @@ PageBase {
                         precision: 0
                         value: Brauhelfer.sud.JungbiermengeAbfuellen > 0.0 ? Brauhelfer.sud.SpeiseAnteil / Brauhelfer.sud.JungbiermengeAbfuellen : 0.0
                     }
-                    LabelPrim {
-                        Layout.preferredWidth: 70
+                    LabelUnit {
+                        Layout.preferredWidth: 60
                         visible: tbSpeiseAnteil.visible
                         text: qsTr("ml/Liter")
                     }
@@ -504,7 +503,7 @@ PageBase {
                         precision: 1
                         value: Brauhelfer.sud.ZuckerAnteil / app.settings.sugarFactor
                     }
-                    LabelPrim {
+                    LabelUnit {
                         Layout.preferredWidth: 30
                         visible: tbZuckerAnteil.visible
                         text: qsTr("g")
@@ -516,8 +515,8 @@ PageBase {
                         precision: 1
                         value: Brauhelfer.sud.JungbiermengeAbfuellen > 0.0 ? tbZuckerAnteil.value / Brauhelfer.sud.JungbiermengeAbfuellen : 0.0
                     }
-                    LabelPrim {
-                        Layout.preferredWidth: 70
+                    LabelUnit {
+                        Layout.preferredWidth: 60
                         visible: tbZuckerAnteil.visible
                         text: qsTr("g/Liter")
                     }
@@ -556,8 +555,8 @@ PageBase {
                         value: Brauhelfer.sud.KostenWasserStrom
                         onNewValue: Brauhelfer.sud.KostenWasserStrom = value
                     }
-                    LabelPrim {
-                       Layout.preferredWidth: 70
+                    LabelUnit {
+                       Layout.preferredWidth: 60
                         text: Qt.locale().currencySymbol()
                     }
                     LabelPrim {
@@ -569,8 +568,8 @@ PageBase {
                         precision: 2
                         value: Brauhelfer.sud.erg_Preis
                     }
-                    LabelPrim {
-                        Layout.preferredWidth: 70
+                    LabelUnit {
+                        Layout.preferredWidth: 60
                         text: Qt.locale().currencySymbol() + "/" + qsTr("Liter")
                     }
                     Button {
