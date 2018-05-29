@@ -17,44 +17,80 @@ PageBase {
     icon: "timeline.png"
 
     ColumnLayout {
+        property var item1: selectionModel.get(app.settings.uebersichtIndex1)
+        property var item2: selectionModel.get(app.settings.uebersichtIndex2)
         property alias listView: listView
         anchors.fill: parent
+
+        ListModel {
+            id: selectionModel
+            ListElement {
+                text: qsTr("Menge")
+                field: "erg_AbgefuellteBiermenge"
+                unit: qsTr("Liter")
+                precision: 1
+            }
+            ListElement {
+                text: qsTr("Stammwürze")
+                field: "SWAnstellen"
+                unit: qsTr("°P")
+                precision: 2
+            }
+            ListElement {
+                text: qsTr("Ausbeute")
+                field: "erg_Sudhausausbeute"
+                unit: qsTr("%")
+                precision: 1
+            }
+            ListElement {
+                text: qsTr("Eff. Ausbeute")
+                field: "erg_EffektiveAusbeute"
+                unit: qsTr("%")
+                precision: 1
+            }
+            ListElement {
+                text: qsTr("Kosten")
+                field: "erg_Preis"
+                unit: qsTr("/Liter")
+                precision: 2
+            }
+            ListElement {
+                text: qsTr("Schüttung")
+                field: "erg_S_Gesammt"
+                unit: qsTr("kg")
+                precision: 2
+            }
+            ListElement {
+                text: qsTr("Alkohol")
+                field: "erg_Alkohol"
+                unit: qsTr("%")
+                precision: 1
+            }
+        }
 
         Chart {
             id: chart
             Layout.fillWidth: true
             Layout.fillHeight: true
             timeformat: "MM.yy"
-            title1: qsTr("Menge")
+            title1: item1.text
             color1: "#741EA6"
-            //title2: qsTr("Druck")
-            //color2: "#2E4402"
-            //title3: qsTr("Temp")
-            //color3: "#780000"
+            title2: item2.text
+            color2: "#2E4402"
+            series2.width: 2
             legend.visible: false
             VXYModelMapper {
                 model: listView.model
                 series: chart.series1
                 xColumn: listView.model.sourceModel.fieldIndex("Braudatum")
-                yColumn: listView.model.sourceModel.fieldIndex("erg_AbgefuellteBiermenge")
-                //model: Brauhelfer.modelSudAuswahl
-                //xColumn: model.fieldIndex("Braudatum")
-                //yColumn: model.fieldIndex("erg_AbgefuellteBiermenge")
+                yColumn: listView.model.sourceModel.fieldIndex(item1.field)
             }
-            /*
             VXYModelMapper {
                 model: listView.model
                 series: chart.series2
-                xColumn: model.fieldIndex("Zeitstempel")
-                yColumn: model.fieldIndex("Druck")
+                xColumn: listView.model.sourceModel.fieldIndex("Braudatum")
+                yColumn: listView.model.sourceModel.fieldIndex(item2.field)
             }
-            VXYModelMapper {
-                model: listView.model
-                series: chart.series3
-                xColumn: model.fieldIndex("Zeitstempel")
-                yColumn: model.fieldIndex("Temp")
-            }
-            */
             Component.onCompleted: listView.model.invalidate()
         }
 
@@ -81,16 +117,28 @@ PageBase {
                     width: parent.width
                     RowLayout {
                         Layout.fillWidth: true
+                        Layout.leftMargin: 8
+                        Layout.rightMargin: 8
                         LabelPrim {
                             Layout.fillWidth: true
-                            leftPadding: 8
                             font.bold: true
                             text: qsTr("Braudatum")
                         }
-                        LabelPrim {
-                            Layout.preferredWidth: 70
-                            font.bold: true
-                            text: qsTr("Menge")
+                        ComboBox {
+                            Layout.preferredWidth: 120
+                            flat: true
+                            textRole: "text"
+                            model: selectionModel
+                            currentIndex: app.settings.uebersichtIndex1
+                            onCurrentIndexChanged: app.settings.uebersichtIndex1 = currentIndex
+                        }
+                        ComboBox {
+                            Layout.preferredWidth: 120
+                            flat: true
+                            textRole: "text"
+                            model: selectionModel
+                            currentIndex: app.settings.uebersichtIndex2
+                            onCurrentIndexChanged: app.settings.uebersichtIndex2 = currentIndex
                         }
                     }
                     HorizontalDivider {}
@@ -127,10 +175,18 @@ PageBase {
                             date: model.Braudatum
                         }
                         LabelNumber {
-                            Layout.preferredWidth: 70
-                            precision: 1
-                            unit: qsTr("Liter")
-                            value: model.erg_AbgefuellteBiermenge
+                            Layout.preferredWidth: 120
+                            color: chart.color1
+                            precision: item1.precision
+                            unit: item1.unit
+                            value: model[item1.field]
+                        }
+                        LabelNumber {
+                            Layout.preferredWidth: 120
+                            color: chart.color2
+                            precision: item2.precision
+                            unit: item2.unit
+                            value: model[item2.field]
                         }
                     }
                     HorizontalDivider {}
