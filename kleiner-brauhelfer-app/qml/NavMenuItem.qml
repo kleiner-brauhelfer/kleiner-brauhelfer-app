@@ -21,15 +21,11 @@ ToolButton {
     }
 
     RowLayout {
-        spacing: 0
+        spacing: 16
         anchors.verticalCenter: parent.verticalCenter
 
         Item {
-            width: 16
-        }
-
-        Item {
-            anchors.verticalCenter: parent.verticalCenter
+            Layout.leftMargin: 8
             width: 24
             height: 24
 
@@ -49,12 +45,7 @@ ToolButton {
             }
         }
 
-        Item {
-            width: 32
-        }
-
         Label {
-            anchors.verticalCenter: parent.verticalCenter
             text: page.title
             opacity: currentPage ? 1.0 : enabled ? 0.87 : 0.37
             color: currentPage ? Material.primary : Material.foreground

@@ -35,8 +35,7 @@ PageBase {
             HorizontalDivider {}
 
             GridLayout {
-                anchors.left: parent.left
-                anchors.right: parent.right
+                Layout.fillWidth: true
                 columns: 3
                 columnSpacing: 20
 

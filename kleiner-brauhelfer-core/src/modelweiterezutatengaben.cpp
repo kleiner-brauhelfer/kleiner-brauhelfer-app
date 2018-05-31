@@ -2,6 +2,7 @@
 #include "brauhelfer.h"
 #include "modelsud.h"
 #include <QDateTime>
+#include <cmath>
 
 ModelWeitereZutatenGaben::ModelWeitereZutatenGaben(Brauhelfer* bh) :
     SqlTableModel(bh),

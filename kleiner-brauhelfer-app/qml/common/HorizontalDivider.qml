@@ -8,9 +8,8 @@ Rectangle {
     property alias color: rect.color
 
     id: rect
+    width: parent.width
     height: 1
-    anchors.left: parent.left
-    anchors.right: parent.right
     color: Material.foreground
     opacity: 0.12
 }

@@ -50,7 +50,9 @@ PageBase {
                         text: qsTr("Menge")
                     }
                 }
-                HorizontalDivider {}
+                HorizontalDivider {
+                    Layout.fillWidth: true
+                }
             }
         }
         footerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackFooter : ListView.OverlayFooter

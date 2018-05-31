@@ -111,7 +111,6 @@ PageBase {
                 width: parent.width
                 height: header.height
                 color: Material.background
-
                 ColumnLayout {
                     id: header
                     width: parent.width
@@ -141,7 +140,9 @@ PageBase {
                             onCurrentIndexChanged: app.settings.uebersichtIndex2 = currentIndex
                         }
                     }
-                    HorizontalDivider {}
+                    HorizontalDivider {
+                        Layout.fillWidth: true
+                    }
                 }
             }
 
