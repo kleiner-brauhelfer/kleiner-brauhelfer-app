@@ -71,8 +71,7 @@ void Brauhelfer::setVerbose(bool verbose)
 
 void Brauhelfer::errorOccurred(int code, const QString& msg)
 {
-    Q_UNUSED(code);
-    message(msg);
+    message("Error " + QString::number(code) + ": " + msg);
 }
 
 void Brauhelfer::progress(qint64 current, qint64 total)

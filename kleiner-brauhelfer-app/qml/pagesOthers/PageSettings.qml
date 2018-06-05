@@ -22,6 +22,10 @@ PageBase {
         clip: true
         ScrollIndicator.vertical: ScrollIndicator {}
 
+        MouseAreaCatcher {
+            anchors.fill: parent
+        }
+
         ColumnLayout {
             id: layout
             spacing: 8
@@ -29,19 +33,42 @@ PageBase {
             anchors.left: parent.left
             anchors.right: parent.right
 
+            function connect() {
+                switch (SyncService.serviceId)
+                {
+                case SyncService.Local:
+                    if (SyncService.syncServiceLocal.filePathLocal !== "")
+                        app.connect()
+                    break
+                case SyncService.Dropbox:
+                    if (SyncService.syncServiceDropbox.accessToken !== "" &&
+                        SyncService.syncServiceDropbox.filePathServer !== "")
+                        app.connect()
+                    break
+                case SyncService.WebDav:
+                    if (SyncService.syncServiceWebDav.filePathServer !== "") {
+                        if (SyncService.syncServiceWebDav.user === "" &&
+                            SyncService.syncServiceWebDav.password === "")
+                            app.connect()
+                        else if (SyncService.syncServiceWebDav.user !== "" &&
+                                 SyncService.syncServiceWebDav.password !== "")
+                            app.connect()
+                    }
+                    break
+                }
+            }
+
             Item {
                 Layout.fillWidth: true
-                height: lblDatabase.height
+                Layout.topMargin: 8
+                height: childrenRect.height
 
-                Label {
+                LabelSubheader {
                     id: lblDatabase
                     anchors.top: parent.top
                     anchors.left: parent.left
                     anchors.right: imgDatabase.left
                     text: qsTr("Datenbank")
-                    color: Material.primary
-                    font.pixelSize: 16
-                    font.bold: true
                 }
 
                 Image {
@@ -60,131 +87,220 @@ PageBase {
                 }
             }
 
-            RadioButton {
-                id: radioLocal
+            ComboBox {
                 Layout.fillWidth: true
-                text: qsTr("Lokale Datenbank")
-                checked: SyncService.serviceId === SyncService.Local
-                onClicked: {
-                    SyncService.serviceId = SyncService.Local
-                    app.connect()
+                model: [qsTr("Lokal"), qsTr("Dropbox"), qsTr("WebDav")]
+                currentIndex: SyncService.serviceId
+                onCurrentIndexChanged: {
+                    SyncService.serviceId = currentIndex
+                    layout.connect()
                 }
             }
 
-            Label {
+            ColumnLayout {
                 Layout.fillWidth: true
-                color: Material.primary
-                text: qsTr("Pfad zur Datenbank") + ":"
-            }
-
-            Item {
-                Layout.fillWidth: true
-                height: tfDatabasePathLocal.height
-
-                TextField {
-                    property bool reconnect: false
-                    id: tfDatabasePathLocal
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    anchors.right: btnDatabasePathLocal.left
-                    anchors.rightMargin: 8
-                    text: SyncService.syncServiceLocal.filePathLocal
-                    selectByMouse: true
-                    enabled: radioLocal.checked
-                    onTextChanged: {
-                        if (activeFocus)
-                            reconnect = true
-                    }
-                    onEditingFinished: {
-                        SyncService.syncServiceLocal.filePathLocal = text
-                        if (reconnect)
-                            app.connect()
-                        reconnect = false
-                    }
+                visible: SyncService.serviceId === SyncService.Local
+                LabelPrim {
+                    Layout.fillWidth: true
+                    Layout.topMargin: 8
+                    Layout.bottomMargin: 8
+                    font.italic: true
+                    text: qsTr("Benötigt Berechtigung für den Speicher.")
                 }
-
-                ToolButton {
-                    id: btnDatabasePathLocal
-                    width: 50
-                    anchors.right: parent.right
-                    anchors.verticalCenter: tfDatabasePathLocal.verticalCenter
-                    enabled: radioLocal.checked
-                    onClicked: openDialog.open()
-                    contentItem: Image {
-                        source: "qrc:/images/ic_folder.png"
-                        anchors.centerIn: parent
-                        opacity: parent.enabled ? 1 : 0.5
+                Label {
+                    Layout.fillWidth: true
+                    color: Material.primary
+                    text: qsTr("Pfad zur lokalen Datenbank")
+                }
+                Item {
+                    Layout.fillWidth: true
+                    height: tfDatabasePathLocal.height
+                    TextField {
+                        property bool reconnect: false
+                        id: tfDatabasePathLocal
+                        anchors.top: parent.top
+                        anchors.left: parent.left
+                        anchors.right: btnDatabasePathLocal.left
+                        anchors.rightMargin: 8
+                        inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase
+                        placeholderText: "kb_daten.sqlite"
+                        text: SyncService.syncServiceLocal.filePathLocal
+                        selectByMouse: true
+                        onTextChanged: {
+                            if (activeFocus)
+                                reconnect = true
+                        }
+                        onEditingFinished: {
+                            SyncService.syncServiceLocal.filePathLocal = text
+                            if (reconnect)
+                                layout.connect()
+                            reconnect = false
+                        }
                     }
-
-                    FileDialog {
-                        id: openDialog
-                        title: qsTr("Pfad zur Datenbank")
-                        nameFilters: [qsTr("Datenbank") +  " (*.sqlite)", qsTr("Alle Dateien") + " (*)"]
-                        onAccepted: {
-                            tfDatabasePathLocal.text = Utils.toLocalFile(openDialog.file)
-                            SyncService.syncServiceLocal.filePathLocal = tfDatabasePathLocal.text
-                            app.connect()
+                    ToolButton {
+                        id: btnDatabasePathLocal
+                        width: 50
+                        anchors.right: parent.right
+                        anchors.verticalCenter: tfDatabasePathLocal.verticalCenter
+                        onClicked: openDialog.open()
+                        contentItem: Image {
+                            source: "qrc:/images/ic_folder.png"
+                            anchors.centerIn: parent
+                            opacity: parent.enabled ? 1 : 0.5
+                        }
+                        FileDialog {
+                            id: openDialog
+                            title: qsTr("Pfad zur Datenbank")
+                            nameFilters: [qsTr("Datenbank") +  " (*.sqlite)", qsTr("Alle Dateien") + " (*)"]
+                            onAccepted: {
+                                tfDatabasePathLocal.text = Utils.toLocalFile(openDialog.file)
+                                SyncService.syncServiceLocal.filePathLocal = tfDatabasePathLocal.text
+                                layout.connect()
+                            }
                         }
                     }
                 }
             }
 
-            RadioButton {
-                id: radioRemote
+            ColumnLayout {
                 Layout.fillWidth: true
-                text: qsTr("Datenbank auf Dropbox")
-                checked: SyncService.serviceId === SyncService.Dropbox
-                onClicked: {
-                    SyncService.serviceId = SyncService.Dropbox
-                    app.connect()
+                visible: SyncService.serviceId === SyncService.Dropbox
+                LabelPrim {
+                    Layout.fillWidth: true
+                    Layout.topMargin: 8
+                    Layout.bottomMargin: 8
+                    font.italic: true
+                    text: qsTr("Benötigt eine Dropbox App.")
+                }
+                Label {
+                    Layout.fillWidth: true
+                    color: Material.primary
+                    text: qsTr("Dropbox Access Token")
+                }
+                TextField {
+                    property bool reconnect: false
+                    Layout.fillWidth: true
+                    placeholderText: "token"
+                    inputMethodHints: Qt.ImhNoAutoUppercase
+                    text: SyncService.syncServiceDropbox.accessToken
+                    selectByMouse: true
+                    onTextChanged: {
+                        if (activeFocus)
+                            reconnect = true
+                    }
+                    onEditingFinished: {
+                        SyncService.syncServiceDropbox.accessToken = text
+                        if (reconnect)
+                            layout.connect()
+                        reconnect = false
+                    }
+                }
+                Label {
+                    Layout.fillWidth: true
+                    color: Material.primary
+                    text: qsTr("Pfad auf dem Server")
+                }
+                TextField {
+                    property bool reconnect: false
+                    Layout.fillWidth: true
+                    inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase
+                    placeholderText: "/kb_daten.sqlite"
+                    text: SyncService.syncServiceDropbox.filePathServer
+                    selectByMouse: true
+                    onTextChanged: {
+                        if (activeFocus)
+                            reconnect = true
+                    }
+                    onEditingFinished: {
+                        SyncService.syncServiceDropbox.filePathServer = text
+                        if (reconnect)
+                            layout.connect()
+                        reconnect = false
+                    }
                 }
             }
 
-            Label {
+            ColumnLayout {
                 Layout.fillWidth: true
-                color: Material.primary
-                text: qsTr("Dropbox Access Token") + ":"
-            }
-
-            TextField {
-                property bool reconnect: false
-                Layout.fillWidth: true
-                text: SyncService.syncServiceDropbox.accessToken
-                selectByMouse: true
-                enabled: radioRemote.checked
-                onTextChanged: {
-                    if (activeFocus)
-                        reconnect = true
+                visible: SyncService.serviceId === SyncService.WebDav
+                LabelPrim {
+                    Layout.fillWidth: true
+                    Layout.topMargin: 8
+                    Layout.bottomMargin: 8
+                    font.italic: true
+                    text: qsTr("Benötigt einen WebDav Server.")
                 }
-                onEditingFinished: {
-                    SyncService.syncServiceDropbox.accessToken = text
-                    if (reconnect)
-                        app.connect()
-                    reconnect = false
+                Label {
+                    Layout.fillWidth: true
+                    color: Material.primary
+                    text: qsTr("URL")
                 }
-            }
-
-            Label {
-                Layout.fillWidth: true
-                color: Material.primary
-                text: qsTr("Pfad auf Server") + ":"
-            }
-
-            TextField {
-                property bool reconnect: false
-                Layout.fillWidth: true
-                text: SyncService.syncServiceDropbox.filePathServer
-                selectByMouse: true
-                enabled: radioRemote.checked
-                onTextChanged: {
-                    if (activeFocus)
-                        reconnect = true
+                TextField {
+                    property bool reconnect: false
+                    Layout.fillWidth: true
+                    inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhUrlCharactersOnly
+                    placeholderText: "http://server:port/kb_daten.sqlite"
+                    text: SyncService.syncServiceWebDav.filePathServer
+                    selectByMouse: true
+                    onTextChanged: {
+                        if (activeFocus)
+                            reconnect = true
+                    }
+                    onEditingFinished: {
+                        SyncService.syncServiceWebDav.filePathServer = text
+                        if (reconnect)
+                            layout.connect()
+                        reconnect = false
+                    }
                 }
-                onEditingFinished: {
-                    SyncService.syncServiceDropbox.filePathServer = text
-                    if (reconnect)
-                        app.connect()
-                    reconnect = false
+
+                Label {
+                    Layout.fillWidth: true
+                    color: Material.primary
+                    text: qsTr("Benutzername")
+                }
+
+                TextField {
+                    property bool reconnect: false
+                    Layout.fillWidth: true
+                    inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase
+                    text: SyncService.syncServiceWebDav.user
+                    selectByMouse: true
+                    onTextChanged: {
+                        if (activeFocus)
+                            reconnect = true
+                    }
+                    onEditingFinished: {
+                        SyncService.syncServiceWebDav.user = text
+                        if (reconnect)
+                            layout.connect()
+                        reconnect = false
+                    }
+                }
+
+                Label {
+                    Layout.fillWidth: true
+                    color: Material.primary
+                    text: qsTr("Passwort")
+                }
+
+                TextField {
+                    property bool reconnect: false
+                    Layout.fillWidth: true
+                    inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase
+                    text: SyncService.syncServiceWebDav.password
+                    echoMode: TextInput.Password
+                    selectByMouse: true
+                    onTextChanged: {
+                        if (activeFocus)
+                            reconnect = true
+                    }
+                    onEditingFinished: {
+                        SyncService.syncServiceWebDav.password = text
+                        if (reconnect)
+                            layout.connect()
+                        reconnect = false
+                    }
                 }
             }
 

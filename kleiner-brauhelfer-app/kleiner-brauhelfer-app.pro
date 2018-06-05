@@ -64,7 +64,8 @@ HEADERS += \
     src/syncservicemanager.h \
     src/syncservicedropbox.h \
     src/sortfilterproxymodel.h \
-    src/sortfilterproxymodelsud.h
+    src/sortfilterproxymodelsud.h \
+    src/syncservicewebdav.h
 
 # source files
 SOURCES += src\main.cpp \
@@ -72,7 +73,8 @@ SOURCES += src\main.cpp \
     src/syncservicemanager.cpp \
     src/syncservicedropbox.cpp \
     src/sortfilterproxymodel.cpp \
-    src/sortfilterproxymodelsud.cpp
+    src/sortfilterproxymodelsud.cpp \
+    src/syncservicewebdav.cpp
 
 # resource files
 RESOURCES += qml.qrc \

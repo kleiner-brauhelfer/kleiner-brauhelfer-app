@@ -18,6 +18,7 @@ class SyncServiceManager : public QObject
   #if DROPBOX_EN
     Q_PROPERTY(SyncService* syncServiceDropbox MEMBER syncServiceDropbox CONSTANT)
   #endif
+    Q_PROPERTY(SyncService* syncServiceWebDav MEMBER syncServiceWebDav CONSTANT)
 
 public:
 
@@ -27,9 +28,8 @@ public:
     enum SyncServiceId
     {
         Local,
-      #if DROPBOX_EN
-        Dropbox
-      #endif
+        Dropbox,
+        WebDav
     };
     Q_ENUM(SyncServiceId)
 
@@ -89,6 +89,7 @@ private:
   #if DROPBOX_EN
     SyncService* syncServiceDropbox;
   #endif
+    SyncService* syncServiceWebDav;
 };
 
 #endif // SYNCSERVICEMANAGER_H

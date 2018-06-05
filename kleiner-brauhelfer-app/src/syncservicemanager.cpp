@@ -4,6 +4,7 @@
 #if DROPBOX_EN
   #include "syncservicedropbox.h"
 #endif
+#include "syncservicewebdav.h"
 
 SyncServiceManager::SyncServiceManager(QSettings *settings, QObject *parent) :
     QObject(parent),
@@ -15,6 +16,8 @@ SyncServiceManager::SyncServiceManager(QSettings *settings, QObject *parent) :
     syncServiceDropbox = new SyncServiceDropbox(_settings);
     _services.append(syncServiceDropbox);
   #endif
+    syncServiceWebDav = new SyncServiceWebDav(_settings);
+    _services.append(syncServiceWebDav);
     setServiceId((SyncServiceId)_settings->value("SyncService/Id").toInt());
 }
 

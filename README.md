@@ -19,6 +19,16 @@ This is a cross platform app (Android, iOS) that goes along with the brewing sof
 ![Screenshot 05](doc/Screenshot_05.png)
 ![Screenshot 06](doc/Screenshot_06.png)
 ![Screenshot 07](doc/Screenshot_07.png)
+## Demo
+A demo database can be access with these Dropbox credentials:
+Access Token:
+```
+r6PQldEWZ4AAAAAAAAAAQtQGRtK9IEf4SENgALueaoG38_KM_YM8MrrustkJYgCW
+```
+Path:
+```
+/kb_daten.sqlite
+```
 ## Setup
 ### Synchronizing with Dropbox
 1. Access the Dropbox developer area https://www.dropbox.com/developers.
