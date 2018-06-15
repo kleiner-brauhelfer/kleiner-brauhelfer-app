@@ -32,6 +32,7 @@ ApplicationWindow {
         id: settings
         category: "App"
         property int brewsFilter: 0
+        property int brewsSortColumn: 0
         property bool brewsMerklisteFilter: false
         property int ingredientsFilter: 0
         property real sugarFactor: 1.0
@@ -110,6 +111,7 @@ ApplicationWindow {
                 buildMenus()
                 navPane.goTo(viewSud, 0)
                 brewForceEditable = false
+                pageToolBieranalyse.takeValuesFromBrew()
                 break
             case saveAndLoadBrew:
                 Brauhelfer.save()
@@ -304,7 +306,7 @@ ApplicationWindow {
     SwipeView {
         id: viewTools
         visible: false
-        PageToolBieranalyse {}
+        PageToolBieranalyse {id: pageToolBieranalyse }
         PageToolCrossMix {}
     }
 

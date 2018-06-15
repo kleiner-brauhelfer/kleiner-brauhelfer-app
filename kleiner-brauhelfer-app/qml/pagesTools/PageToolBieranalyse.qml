@@ -7,9 +7,20 @@ import "../common"
 import brauhelfer 1.0
 
 PageBase {
+    property real brixStart: 12.0
+    property real brixEnd: 6.0
+
     id: page
     title: qsTr("Bieranalyse")
     icon: "ic_colorize.png"
+
+    function takeValuesFromBrew() {
+        var value = Brauhelfer.sud.SW
+        if (Brauhelfer.sud.BierWurdeGebraut)
+            value = Brauhelfer.sud.SWAnstellen
+        brixStart = Brauhelfer.calc.platoToBrix(value)
+        brixEnd = brixStart
+    }
 
     component: Flickable {
         anchors.margins: 8
@@ -32,7 +43,9 @@ PageBase {
                 text: qsTr("Bieranalyse mit dem Refraktometer") 
             }
 
-            HorizontalDivider {}
+            HorizontalDivider {
+                Layout.fillWidth: true
+            }
 
             GridLayout {
                 Layout.fillWidth: true
@@ -48,9 +61,11 @@ PageBase {
                     Layout.columnSpan: 2
                     model: [ "Terrill", "Terrill Linear", "Standard" ]
                     opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
+                    onCurrentIndexChanged: navPane.setFocus()
                 }
 
                 HorizontalDivider {
+                    Layout.fillWidth: true
                     Layout.columnSpan: 3
                 }
 
@@ -60,11 +75,11 @@ PageBase {
 
                 TextFieldPlato {
                     id: tfVor
-                    value: 12.0
+                    value: brixStart
                     onNewValue: this.value = value
                 }
 
-                LabelPrim {
+                LabelUnit {
                     Layout.fillWidth: true
                     text: qsTr("°Brix")
                 }
@@ -75,15 +90,16 @@ PageBase {
 
                 TextFieldPlato {
                     id: tfNach
-                    value: 6.0
+                    value: brixEnd
                     onNewValue: this.value = value
                 }
 
-                LabelPrim {
+                LabelUnit {
                     text: qsTr("°Brix")
                 }
 
                 HorizontalDivider {
+                    Layout.fillWidth: true
                     Layout.columnSpan: 3
                 }
 
@@ -97,7 +113,7 @@ PageBase {
                     value: Brauhelfer.calc.brixToPlato(tfVor.value)
                 }
 
-                LabelPrim {
+                LabelUnit {
                     text: qsTr("°P")
                 }
 
@@ -112,7 +128,7 @@ PageBase {
                     value: Brauhelfer.calc.brixToDichte(lblSW.value, tfNach.value, cbFormel.currentIndex)
                 }
 
-                LabelPrim {
+                LabelUnit {
                     text: qsTr("g/ml")
                 }
 
@@ -126,7 +142,7 @@ PageBase {
                     value: Brauhelfer.calc.dichteToPlato(lblDichte.value)
                 }
 
-                LabelPrim {
+                LabelUnit {
                     text: qsTr("°P")
                 }
 
@@ -140,7 +156,7 @@ PageBase {
                     value: Brauhelfer.calc.vergaerungsgrad(lblSW.value, lblSRE.value)
                 }
 
-                LabelPrim {
+                LabelUnit {
                     text: qsTr("%")
                 }
 
@@ -154,7 +170,7 @@ PageBase {
                     value: Brauhelfer.calc.toTRE(lblSW.value, lblSRE.value)
                 }
 
-                LabelPrim {
+                LabelUnit {
                     text: qsTr("°P")
                 }
 
@@ -168,7 +184,7 @@ PageBase {
                     value: Brauhelfer.calc.vergaerungsgrad(lblSW.value, lblTRE.value)
                 }
 
-                LabelPrim {
+                LabelUnit {
                     text: qsTr("%")
                 }
 
@@ -182,29 +198,34 @@ PageBase {
                     value: Brauhelfer.calc.alkohol(lblSW.value, lblSRE.value)
                 }
 
-                LabelPrim {
+                LabelUnit {
                     text: qsTr("vol%")
                 }
             }
 
-            HorizontalDivider {}
+            HorizontalDivider {
+                Layout.fillWidth: true
+            }
 
             LabelPrim {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
+                font.italic: true
                 text: qsTr("Die Terrill-Formel arbeitet in endvergorenen Proben genauer, in wenig oder unvergorenen Proben zum Teil nicht zu gebrauchen.")
             }
 
             LabelPrim {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
+                font.italic: true
                 text: qsTr("Die Terrill-Linear-Formel ist eine linearisierte Version der Terrill-Formel.")
             }
 
             LabelPrim {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Standardformel liefert gleichmässig gute Werte, in endvergorenen Proben aber etwas zu hoch.")
+                font.italic: true
+                text: qsTr("Die Standardformel liefert gleichmässig gute Werte, in endvergorenen Proben aber etwas zu hoch.")
             }
         }
     }

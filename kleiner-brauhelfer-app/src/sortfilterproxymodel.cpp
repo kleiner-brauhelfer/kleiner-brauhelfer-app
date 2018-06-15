@@ -13,6 +13,40 @@ SortFilterProxyModel::~SortFilterProxyModel()
 {
 }
 
+void SortFilterProxyModel::setSourceModel(QAbstractItemModel *sourceModel)
+{
+    QSortFilterProxyModel::setSourceModel(sourceModel);
+    connect(sourceModel, SIGNAL(modelReset()), this, SLOT(onModelReset()));
+}
+
+void SortFilterProxyModel::onModelReset()
+{
+    sort(sortColumn(), sortOrder());
+    emit sortChanged();
+}
+
+int SortFilterProxyModel::sortColumn() const
+{
+    return QSortFilterProxyModel::sortColumn();
+}
+
+void SortFilterProxyModel::setSortColumn(int column)
+{
+    sort(column, sortOrder());
+    emit sortChanged();
+}
+
+Qt::SortOrder SortFilterProxyModel::sortOrder() const
+{
+    return QSortFilterProxyModel::sortOrder();
+}
+
+void SortFilterProxyModel::setSortOrder(Qt::SortOrder order)
+{
+    sort(sortColumn(), order);
+    emit sortChanged();
+}
+
 int SortFilterProxyModel::filterDateColumn() const
 {
     return mDateColumn;

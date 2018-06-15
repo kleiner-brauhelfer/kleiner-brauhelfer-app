@@ -20,13 +20,35 @@ PageBase {
         anchors.fill: parent
         spacing: 0
 
-        TextField {
-            Layout.fillWidth: true
-            Layout.leftMargin: 8
-            Layout.rightMargin: 8
-            placeholderText: qsTr("Suche")
-            inputMethodHints: Qt.ImhNoPredictiveText
-            onTextChanged: listView.model.filterRegExp = new RegExp(text + "(.*)", "i")
+        RowLayout {
+            TextField {
+                Layout.fillWidth: true
+                Layout.leftMargin: 8
+                Layout.rightMargin: 8
+                placeholderText: qsTr("Suche")
+                inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhLowercaseOnly
+                onTextChanged: listView.model.filterRegExp = new RegExp(text + "(.*)", "i")
+            }
+            ComboBox {
+                property string fieldName: ""
+                id: sortComboBox
+                Layout.preferredWidth: 150
+                Layout.leftMargin: 8
+                Layout.rightMargin: 8
+                flat: true
+                model: [qsTr("Braudatum"), qsTr("Gespeichert"), qsTr("Erstellt")]
+                currentIndex: app.settings.brewsSortColumn
+                onCurrentIndexChanged: {
+                    app.settings.brewsSortColumn = currentIndex
+                    switch (currentIndex) {
+                        case 0: fieldName = "Braudatum"; break;
+                        case 1: fieldName = "Gespeichert"; break;
+                        case 2: fieldName = "Erstellt"; break;
+                        default: fieldName = ""; break;
+                    }
+                    navPane.setFocus()
+                }
+            }
         }
 
         ListView {
@@ -40,6 +62,8 @@ PageBase {
                 filterKeyColumn: sourceModel.fieldIndex("Sudname")
                 filterValue: app.settings.brewsFilter
                 filterMerkliste: app.settings.brewsMerklisteFilter
+                sortOrder: Qt.DescendingOrder
+                sortColumn: sourceModel.fieldIndex(sortComboBox.fieldName)
             }
 
             ScrollIndicator.vertical: ScrollIndicator {}

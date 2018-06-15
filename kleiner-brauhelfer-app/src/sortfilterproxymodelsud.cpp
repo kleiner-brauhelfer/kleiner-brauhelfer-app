@@ -29,7 +29,6 @@ void SortFilterProxyModelSud::onSourceModelChanged()
     }
 }
 
-
 bool SortFilterProxyModelSud::filterMerkliste() const
 {
     return mFilterMerkliste;

@@ -226,6 +226,7 @@ PageBase {
 
                     TextFieldNumber {
                         id: tfDruck
+                        Layout.alignment: Qt.AlignHCenter
                         min: 0.0
                         max: 99.9
                         precision: 2
@@ -233,9 +234,8 @@ PageBase {
                         onNewValue: model.Druck = value
                     }
 
-                    LabelPrim {
-                        text: "bar"
-                        Layout.fillWidth: true
+                    LabelUnit {
+                        text: qsTr("bar")
                     }
 
                     Image {
@@ -243,13 +243,13 @@ PageBase {
                     }
 
                     TextFieldTemperature {
+                        Layout.alignment: Qt.AlignHCenter
                         value: model.Temp
                         onNewValue: model.Temp = value
                     }
 
-                    LabelPrim {
-                        text: "°C"
-                        Layout.fillWidth: true
+                    LabelUnit {
+                        text: qsTr("°C")
                     }
 
                     ToolButton {

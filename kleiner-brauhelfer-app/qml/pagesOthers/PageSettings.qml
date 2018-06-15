@@ -94,6 +94,7 @@ PageBase {
                 onCurrentIndexChanged: {
                     SyncService.serviceId = currentIndex
                     layout.connect()
+                    navPane.setFocus()
                 }
             }
 

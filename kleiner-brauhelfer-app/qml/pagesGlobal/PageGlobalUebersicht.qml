@@ -129,7 +129,10 @@ PageBase {
                             textRole: "text"
                             model: selectionModel
                             currentIndex: app.settings.uebersichtIndex1
-                            onCurrentIndexChanged: app.settings.uebersichtIndex1 = currentIndex
+                            onCurrentIndexChanged: {
+                                app.settings.uebersichtIndex1 = currentIndex
+                                navPane.setFocus()
+                            }
                         }
                         ComboBox {
                             Layout.preferredWidth: 120
@@ -137,7 +140,10 @@ PageBase {
                             textRole: "text"
                             model: selectionModel
                             currentIndex: app.settings.uebersichtIndex2
-                            onCurrentIndexChanged: app.settings.uebersichtIndex2 = currentIndex
+                            onCurrentIndexChanged: {
+                                app.settings.uebersichtIndex2 = currentIndex
+                                navPane.setFocus()
+                            }
                         }
                     }
                     HorizontalDivider {

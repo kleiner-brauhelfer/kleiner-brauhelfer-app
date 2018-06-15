@@ -313,6 +313,7 @@ PageBase {
 
                     TextFieldPlato {
                         id: tfBrix
+                        Layout.alignment: Qt.AlignHCenter
                         onNewValue: {
                             this.value = value
                             var brix = value
@@ -329,9 +330,8 @@ PageBase {
                         }
                     }
 
-                    LabelPrim {
-                        text: "°Brix"
-                        Layout.fillWidth: true
+                    LabelUnit {
+                        text: qsTr("°Brix")
                     }
 
                     Image {
@@ -340,6 +340,7 @@ PageBase {
 
                     TextFieldNumber {
                         id: tfDensity
+                        Layout.alignment: Qt.AlignHCenter
                         min: 0.0
                         max: 2.0
                         precision: 4
@@ -357,9 +358,8 @@ PageBase {
                         }
                     }
 
-                    LabelPrim {
-                        text: "g/ml"
-                        Layout.fillWidth: true
+                    LabelUnit {
+                        text: qsTr("g/ml")
                     }
 
                     Image {
@@ -368,6 +368,7 @@ PageBase {
 
                     TextFieldPlato {
                         id: tfSW
+                        Layout.alignment: Qt.AlignHCenter
                         value: model.SW
                         onNewValue: {
                             model.SW = value
@@ -382,9 +383,8 @@ PageBase {
                         }
                     }
 
-                    LabelPrim {
-                        text: "°P"
-                        Layout.fillWidth: true
+                    LabelUnit {
+                        text: qsTr("°P")
                     }
 
                     Image {
@@ -392,13 +392,13 @@ PageBase {
                     }
 
                     TextFieldTemperature {
+                        Layout.alignment: Qt.AlignHCenter
                         value: model.Temp
                         onNewValue: model.Temp = value
                     }
 
-                    LabelPrim {
-                        text: "°C"
-                        Layout.fillWidth: true
+                    LabelUnit {
+                        text: qsTr("°C")
                     }
 
                     ToolButton {
