@@ -93,7 +93,6 @@ public:
 
 private:
     QSqlDatabase* db;
-    bool connected;
     int version;
 };
 

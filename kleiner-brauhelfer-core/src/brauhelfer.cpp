@@ -83,11 +83,6 @@ bool Brauhelfer::connect()
 {
     bool doConnect = true;
 
-    // show some information
-    message("Synchronization service: " + (QString)(isServiceAvailable() ? "available" : "not available"));
-    message("Database path: " + databasePath());
-    message("Database readonly: " + (QString)(readonly() ? "true" : "false"));
-
     // disconnect if necessary
     if (connected())
     {
@@ -96,6 +91,11 @@ bool Brauhelfer::connect()
 
     // check if service available
     _fs->checkIfServiceAvailable();
+
+    // show some information
+    message("Synchronization service: " + (QString)(isServiceAvailable() ? "available" : "not available"));
+    message("Database path: " + databasePath());
+    message("Database readonly: " + (QString)(readonly() ? "true" : "false"));
 
     // synchronize database
     message("Synchronize database: download");

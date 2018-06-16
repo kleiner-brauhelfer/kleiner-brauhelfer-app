@@ -17,7 +17,6 @@
 #include "brauhelfer.h"
 
 Database::Database(Brauhelfer* bh) :
-    connected(false),
     version(-1)
 {
     db = new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"));
@@ -114,17 +113,16 @@ bool Database::connect(const QString &dbPath, bool readonly)
                 {
                     if (query.first())
                     {
-                        connected = true;
                         version = query.value(0).toInt();
                         onConnect();
-                        return isConnected();
+                        return true;
                     }
                 }
             }
             disconnect();
         }
     }
-    return isConnected();
+    return false;
 }
 
 void Database::disconnect()
@@ -151,14 +149,13 @@ void Database::disconnect()
         modelGeraete->clear();
         modelWasser->clear();
         db->close();
-        connected = false;
         version = -1;
     }
 }
 
 bool Database::isConnected() const
 {
-    return connected;
+    return db->isOpen();
 }
 
 bool Database::isDirty() const

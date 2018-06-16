@@ -92,9 +92,11 @@ PageBase {
                 model: [qsTr("Lokal"), qsTr("Dropbox"), qsTr("WebDav")]
                 currentIndex: SyncService.serviceId
                 onCurrentIndexChanged: {
-                    SyncService.serviceId = currentIndex
-                    layout.connect()
-                    navPane.setFocus()
+                    if (activeFocus) {
+                        SyncService.serviceId = currentIndex
+                        layout.connect()
+                        navPane.setFocus()
+                    }
                 }
             }
 
