@@ -92,7 +92,10 @@ PageBase {
                             text: chart.title1
                         }
                     }
-                    HorizontalDivider {}
+                    HorizontalDivider {
+                        Layout.fillWidth: true
+                        height: 2
+                    }
                 }
             }
 
@@ -164,7 +167,9 @@ PageBase {
                             color: chart.color1
                         }
                     }
-                    HorizontalDivider {}
+                    HorizontalDivider {
+                        Layout.fillWidth: true
+                    }
                 }
             }
 

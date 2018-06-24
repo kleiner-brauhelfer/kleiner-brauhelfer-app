@@ -30,21 +30,36 @@ PageBase {
                 onTextChanged: listView.model.filterRegExp = new RegExp(text + "(.*)", "i")
             }
             ComboBox {
-                property string fieldName: ""
+                property string sortFieldName: ""
+                property int sortOrder: Qt.DescendingOrder
                 id: sortComboBox
                 Layout.preferredWidth: 150
                 Layout.leftMargin: 8
                 Layout.rightMargin: 8
                 flat: true
-                model: [qsTr("Braudatum"), qsTr("Gespeichert"), qsTr("Erstellt")]
+                model: [
+                    qsTr("Sudname  \u2193"),
+                    qsTr("Sudname  \u2191"),
+                    qsTr("Braudatum  \u2193"),
+                    qsTr("Braudatum  \u2191"),
+                    qsTr("Gespeichert  \u2193"),
+                    qsTr("Gespeichert  \u2191"),
+                    qsTr("Erstellt  \u2193"),
+                    qsTr("Erstellt  \u2191")
+                ]
                 currentIndex: app.settings.brewsSortColumn
                 onCurrentIndexChanged: {
                     app.settings.brewsSortColumn = currentIndex
                     switch (currentIndex) {
-                        case 0: fieldName = "Braudatum"; break;
-                        case 1: fieldName = "Gespeichert"; break;
-                        case 2: fieldName = "Erstellt"; break;
-                        default: fieldName = ""; break;
+                        case 0: sortFieldName = "Sudname"; sortOrder = Qt.AscendingOrder; break;
+                        case 1: sortFieldName = "Sudname"; sortOrder = Qt.DescendingOrder; break;
+                        case 2: sortFieldName = "Braudatum"; sortOrder = Qt.AscendingOrder; break;
+                        case 3: sortFieldName = "Braudatum"; sortOrder = Qt.DescendingOrder; break;
+                        case 4: sortFieldName = "Gespeichert"; sortOrder = Qt.AscendingOrder; break;
+                        case 5: sortFieldName = "Gespeichert"; sortOrder = Qt.DescendingOrder; break;
+                        case 6: sortFieldName = "Erstellt"; sortOrder = Qt.AscendingOrder; break;
+                        case 7: sortFieldName = "Erstellt"; sortOrder = Qt.DescendingOrder; break;
+                        default: sortFieldName = ""; sortOrder = Qt.DescendingOrder; break;
                     }
                     navPane.setFocus()
                 }
@@ -62,8 +77,8 @@ PageBase {
                 filterKeyColumn: sourceModel.fieldIndex("Sudname")
                 filterValue: app.settings.brewsFilter
                 filterMerkliste: app.settings.brewsMerklisteFilter
-                sortOrder: Qt.DescendingOrder
-                sortColumn: sourceModel.fieldIndex(sortComboBox.fieldName)
+                sortOrder: sortComboBox.sortOrder
+                sortColumn: sourceModel.fieldIndex(sortComboBox.sortFieldName)
             }
 
             ScrollIndicator.vertical: ScrollIndicator {}

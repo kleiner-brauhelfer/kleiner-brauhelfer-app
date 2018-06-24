@@ -53,7 +53,10 @@ PageBase {
                         text: qsTr("Bewertung")
                     }
                 }
-                HorizontalDivider {}
+                HorizontalDivider {
+                    Layout.fillWidth: true
+                    height: 2
+                }
             }
         }
         footerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackFooter : ListView.OverlayFooter
@@ -127,7 +130,9 @@ PageBase {
                         }
                     }
                 }
-                HorizontalDivider {}
+                HorizontalDivider {
+                    Layout.fillWidth: true
+                }
             }
         }
 
@@ -224,7 +229,9 @@ PageBase {
                                     onTextChanged: if (activeFocus) model.Bemerkung = text
                                 }
 
-                                HorizontalDivider { Layout.fillWidth: true }
+                                HorizontalDivider {
+                                    Layout.fillWidth: true
+                                }
 
                                 LabelPrim {
                                     text: qsTr("Gesamteindruck")
@@ -288,7 +295,9 @@ PageBase {
                                     onTextChanged: if (activeFocus) model.GesamteindruckBemerkung = text
                                 }
 
-                                HorizontalDivider { Layout.fillWidth: true }
+                                HorizontalDivider {
+                                    Layout.fillWidth: true
+                                }
 
                                 LabelPrim {
                                     text: qsTr("Farbe & Klarheit")
@@ -374,7 +383,9 @@ PageBase {
                                     onTextChanged: if (activeFocus) model.FarbeBemerkung = text
                                 }
 
-                                HorizontalDivider { Layout.fillWidth: true }
+                                HorizontalDivider {
+                                    Layout.fillWidth: true
+                                }
 
                                 LabelPrim {
                                     text: qsTr("Schaum")
@@ -474,7 +485,9 @@ PageBase {
                                     onTextChanged: if (activeFocus) model.SchaumBemerkung = text
                                 }
 
-                                HorizontalDivider { Layout.fillWidth: true }
+                                HorizontalDivider {
+                                    Layout.fillWidth: true
+                                }
 
                                 LabelPrim {
                                     text: qsTr("Geruch")
@@ -558,7 +571,9 @@ PageBase {
                                     onTextChanged: if (activeFocus) model.GeruchBemerkung = text
                                 }
 
-                                HorizontalDivider { Layout.fillWidth: true }
+                                HorizontalDivider {
+                                    Layout.fillWidth: true
+                                }
 
                                 LabelPrim {
                                     text: qsTr("Geschmack")
@@ -647,7 +662,9 @@ PageBase {
                                     onTextChanged: if (activeFocus) model.GeschmackBemerkung = text
                                 }
 
-                                HorizontalDivider { Layout.fillWidth: true }
+                                HorizontalDivider {
+                                    Layout.fillWidth: true
+                                }
 
                                 LabelPrim {
                                     text: qsTr("Antrunk")
@@ -711,7 +728,9 @@ PageBase {
                                     onTextChanged: if (activeFocus) model.AntrunkBemerkung = text
                                 }
 
-                                HorizontalDivider { Layout.fillWidth: true }
+                                HorizontalDivider {
+                                    Layout.fillWidth: true
+                                }
 
                                 LabelPrim {
                                     text: qsTr("Haupttrunk")
@@ -760,7 +779,9 @@ PageBase {
                                     onTextChanged: if (activeFocus) model.HaupttrunkBemerkung = text
                                 }
 
-                                HorizontalDivider { Layout.fillWidth: true }
+                                HorizontalDivider {
+                                    Layout.fillWidth: true
+                                }
 
                                 LabelPrim {
                                     text: qsTr("Nachtrunk")
