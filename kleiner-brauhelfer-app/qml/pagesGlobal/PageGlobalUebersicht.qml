@@ -148,6 +148,7 @@ PageBase {
                     }
                     HorizontalDivider {
                         Layout.fillWidth: true
+                        height: 2
                     }
                 }
             }
@@ -196,7 +197,9 @@ PageBase {
                             value: model[item2.field]
                         }
                     }
-                    HorizontalDivider {}
+                    HorizontalDivider {
+                        Layout.fillWidth: true
+                    }
                 }
             }
         }

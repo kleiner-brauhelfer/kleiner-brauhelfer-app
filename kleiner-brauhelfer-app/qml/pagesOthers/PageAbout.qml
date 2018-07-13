@@ -16,6 +16,7 @@ PageBase {
         boundsBehavior: Flickable.OvershootBounds
         contentHeight: layout.height
         clip: true
+        onMovementStarted: forceActiveFocus()
         ScrollIndicator.vertical: ScrollIndicator {}
 
         ColumnLayout {
@@ -39,10 +40,6 @@ PageBase {
                 textFormat: Text.RichText
                 text: qsTr("<p>Diese App dient als Ergänzung zum Program
                     <a href=\"http://www.joerum.de/kleiner-brauhelfer\">kleiner-brauhelfer</a> von gremmel.</p>
-                    <p>Um beide Programme parallel benuzten zu können, muss die Datenbank synchronisiert werden.
-                    Zurzeit kann zwischen einer Synchronisation via lokale Datei und einer automatischen Synchronisation
-                    via Dropbox ausgewählt werden. Weitere Informationen zur Dropbox Synchronisation gibt es
-                    <a href=\"http://www.dropbox.com/developers\">hier</a>.</p>
                     <p>Die App wird von <a href=\"mailto:bourgeoislab@gmail.com\">BourgeoisLab</a> entwickelt.</p>
                 ")
                 onLinkActivated: Qt.openUrlExternally(link)

@@ -44,6 +44,7 @@ PageBase {
             clip: true
             contentHeight: layout.height
             boundsBehavior: Flickable.OvershootBounds
+            onMovementStarted: forceActiveFocus()
             ScrollIndicator.vertical: ScrollIndicator {}
 
             Behavior on contentY {

@@ -23,7 +23,6 @@
         <file>qml/pagesSud/PageSudGaerverlauf_3.qml</file>
         <file>qml/pagesSud/PageSudBewertung.qml</file>
         <file>qml/pagesTools/PageToolBieranalyse.qml</file>
-        <file>qml/pagesTools/PageToolCrossMix.qml</file>
         <file>qml/common/Chart.qml</file>
         <file>qml/common/FloatingButton.qml</file>
         <file>qml/common/HorizontalDivider.qml</file>
@@ -50,5 +49,6 @@
         <file>qml/common/PopupWeitereZutatenGaben.qml</file>
         <file>qml/pagesGlobal/PageGlobalUebersicht.qml</file>
         <file>qml/common/MouseAreaCatcher.qml</file>
+        <file>qml/pagesGlobal/PageGlobalWater.qml</file>
     </qresource>
 </RCC>

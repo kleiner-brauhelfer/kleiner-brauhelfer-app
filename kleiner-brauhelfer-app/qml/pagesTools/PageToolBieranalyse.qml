@@ -22,12 +22,13 @@ PageBase {
         brixEnd = brixStart
     }
 
-    component: Flickable {
+    Flickable {
         anchors.margins: 8
         anchors.fill: parent
         boundsBehavior: Flickable.OvershootBounds
         contentHeight: layout.height
         clip: true
+        onMovementStarted: forceActiveFocus()
         ScrollIndicator.vertical: ScrollIndicator {}
 
         ColumnLayout {
@@ -47,157 +48,156 @@ PageBase {
                 Layout.fillWidth: true
             }
 
-            GridLayout {
+            RowLayout {
                 Layout.fillWidth: true
-                columns: 3
-                columnSpacing: 20
-
+                Layout.leftMargin: 8
+                Layout.rightMargin: 8
                 LabelPrim {
+                    Layout.fillWidth: true
                     text: qsTr("Formel")
                 }
-
                 ComboBox {
                     id: cbFormel
-                    Layout.columnSpan: 2
+                    Layout.fillWidth: true
+                    Layout.leftMargin: 8
+                    Layout.rightMargin: 8
                     model: [ "Terrill", "Terrill Linear", "Standard" ]
                     opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
                     onCurrentIndexChanged: navPane.setFocus()
                 }
+            }
 
-                HorizontalDivider {
-                    Layout.fillWidth: true
-                    Layout.columnSpan: 3
-                }
+            HorizontalDivider {
+                Layout.fillWidth: true
+            }
 
+            GridLayout {
+                Layout.fillWidth: true
+                Layout.leftMargin: 8
+                Layout.rightMargin: 8
+                columns: 3
                 LabelPrim {
                     text: qsTr("Vor der Vergärung")
                 }
-
-                TextFieldPlato {
-                    id: tfVor
-                    value: brixStart
-                    onNewValue: this.value = value
-                }
-
-                LabelUnit {
+                SpinBoxReal {
                     Layout.fillWidth: true
+                    decimals: 2
+                    min: 0.0
+                    max: 50.0
+                    realValue: brixStart
+                    onNewValue: brixStart = value
+                }
+                LabelUnit {
                     text: qsTr("°Brix")
                 }
 
                 LabelPrim {
                     text: qsTr("Nach der Vergärung")
                 }
-
-                TextFieldPlato {
-                    id: tfNach
-                    value: brixEnd
-                    onNewValue: this.value = value
+                SpinBoxReal {
+                    Layout.fillWidth: true
+                    decimals: 2
+                    min: 0.0
+                    max: brixStart
+                    realValue: brixEnd
+                    onNewValue: brixEnd = value
                 }
-
                 LabelUnit {
                     text: qsTr("°Brix")
                 }
+            }
 
-                HorizontalDivider {
-                    Layout.fillWidth: true
-                    Layout.columnSpan: 3
-                }
+            HorizontalDivider {
+                Layout.fillWidth: true
+            }
 
+            GridLayout {
+                Layout.fillWidth: true
+                Layout.leftMargin: 8
+                Layout.rightMargin: 8
+                columns: 3
                 LabelPrim {
                     text: qsTr("Stammwürze")
                 }
-
                 LabelPlato {
                     id: lblSW
+                    Layout.fillWidth: true
                     Layout.alignment: Qt.AlignRight
-                    value: Brauhelfer.calc.brixToPlato(tfVor.value)
+                    value: Brauhelfer.calc.brixToPlato(brixStart)
                 }
-
                 LabelUnit {
                     text: qsTr("°P")
                 }
-
                 LabelPrim {
                     text: qsTr("Dichte")
                 }
-
                 LabelNumber {
                     id: lblDichte
+                    Layout.fillWidth: true
                     Layout.alignment: Qt.AlignRight
                     precision: 4
-                    value: Brauhelfer.calc.brixToDichte(lblSW.value, tfNach.value, cbFormel.currentIndex)
+                    value: Brauhelfer.calc.brixToDichte(lblSW.value, brixEnd, cbFormel.currentIndex)
                 }
-
                 LabelUnit {
                     text: qsTr("g/ml")
                 }
-
                 LabelPrim {
                     text: qsTr("Restextrakt scheinbar")
                 }
-
                 LabelPlato {
                     id: lblSRE
+                    Layout.fillWidth: true
                     Layout.alignment: Qt.AlignRight
                     value: Brauhelfer.calc.dichteToPlato(lblDichte.value)
                 }
-
                 LabelUnit {
                     text: qsTr("°P")
                 }
-
                 LabelPrim {
                     text: qsTr("Vergärungsgrad scheinbar")
                 }
-
                 LabelNumber {
                     id: lblSVG
+                    Layout.fillWidth: true
                     Layout.alignment: Qt.AlignRight
                     value: Brauhelfer.calc.vergaerungsgrad(lblSW.value, lblSRE.value)
                 }
-
                 LabelUnit {
                     text: qsTr("%")
                 }
-
                 LabelPrim {
                     text: qsTr("Restextrakt wirklich")
                 }
-
                 LabelPlato {
                     id: lblTRE
+                    Layout.fillWidth: true
                     Layout.alignment: Qt.AlignRight
                     value: Brauhelfer.calc.toTRE(lblSW.value, lblSRE.value)
                 }
-
                 LabelUnit {
                     text: qsTr("°P")
                 }
-
                 LabelPrim {
                     text: qsTr("Vergärungsgrad wirklich")
                 }
-
                 LabelNumber {
                     id: lblTVG
+                    Layout.fillWidth: true
                     Layout.alignment: Qt.AlignRight
                     value: Brauhelfer.calc.vergaerungsgrad(lblSW.value, lblTRE.value)
                 }
-
                 LabelUnit {
                     text: qsTr("%")
                 }
-
                 LabelPrim {
                     text: qsTr("Alkohol")
                 }
-
                 LabelNumber {
                     id: lblAlcVol
+                    Layout.fillWidth: true
                     Layout.alignment: Qt.AlignRight
                     value: Brauhelfer.calc.alkohol(lblSW.value, lblSRE.value)
                 }
-
                 LabelUnit {
                     text: qsTr("vol%")
                 }

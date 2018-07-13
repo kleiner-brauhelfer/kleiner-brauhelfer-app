@@ -14,12 +14,13 @@ PageBase {
     icon: "abfuellen.png"
     readOnly: Brauhelfer.readonly || ((!Brauhelfer.sud.BierWurdeGebraut || Brauhelfer.sud.BierWurdeAbgefuellt) && !app.brewForceEditable)
 
-    component: Flickable {
+    Flickable {
         anchors.fill: parent
         anchors.margins: 4
         clip: true
         contentHeight: layout.height
         boundsBehavior: Flickable.OvershootBounds
+        onMovementStarted: forceActiveFocus()
         ScrollIndicator.vertical: ScrollIndicator {}
 
         function abgefuellt() {

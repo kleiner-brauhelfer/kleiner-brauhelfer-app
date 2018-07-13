@@ -89,6 +89,8 @@ PageBase {
 
             ComboBox {
                 Layout.fillWidth: true
+                Layout.leftMargin: 8
+                Layout.rightMargin: 8
                 model: [qsTr("Lokal"), qsTr("Dropbox"), qsTr("WebDav")]
                 currentIndex: SyncService.serviceId
                 onCurrentIndexChanged: {

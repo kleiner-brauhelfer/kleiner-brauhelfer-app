@@ -270,6 +270,7 @@ ApplicationWindow {
         PageGlobalHops { }
         PageGlobalYeast { }
         PageGlobalIngredients { }
+        PageGlobalWater { }
     }
 
     // brew pages
@@ -307,7 +308,6 @@ ApplicationWindow {
         id: viewTools
         visible: false
         PageToolBieranalyse {id: pageToolBieranalyse }
-        PageToolCrossMix {}
     }
 
     // other pages

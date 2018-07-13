@@ -99,5 +99,7 @@
         <file>images/timeline@2x.png</file>
         <file>images/yeast.png</file>
         <file>images/yeast@2x.png</file>
+        <file>images/water.png</file>
+        <file>images/water@2x.png</file>
     </qresource>
 </RCC>

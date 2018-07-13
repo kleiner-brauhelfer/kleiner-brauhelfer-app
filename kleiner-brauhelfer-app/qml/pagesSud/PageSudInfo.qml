@@ -15,12 +15,13 @@ PageBase {
     enabled: Brauhelfer.sud.loaded
     readOnly: Brauhelfer.readonly || !app.brewForceEditable
 
-    component: Flickable {
+    Flickable {
         anchors.fill: parent
         anchors.margins: 4
         clip: true
         contentHeight: layout.height
         boundsBehavior: Flickable.OvershootBounds
+        onMovementStarted: forceActiveFocus()
         ScrollIndicator.vertical: ScrollIndicator {}
         ColumnLayout {
             id: layout

@@ -5,8 +5,8 @@ ModelWasser::ModelWasser(Brauhelfer* bh) :
     SqlTableModel(bh),
     bh(bh)
 {
-    additionalFieldNames.append("CalciumMg");
-    additionalFieldNames.append("MagnesiumMg");
+    additionalFieldNames.append("CalciumMmol");
+    additionalFieldNames.append("MagnesiumMmol");
     additionalFieldNames.append("Calciumhaerte");
     additionalFieldNames.append("Magnesiumhaerte");
     additionalFieldNames.append("Carbonathaerte");
@@ -16,11 +16,11 @@ ModelWasser::ModelWasser(Brauhelfer* bh) :
 QVariant ModelWasser::dataExt(const QModelIndex &index) const
 {
     QString field = fieldName(index.column());
-    if (field == "CalciumMg")
+    if (field == "CalciumMmol")
     {
         return data(index.row(), "Calcium").toDouble() / 40.8;
     }
-    if (field == "MagnesiumMg")
+    if (field == "MagnesiumMmol")
     {
         return data(index.row(), "Magnesium").toDouble() / 24.3;
     }
@@ -49,11 +49,11 @@ QVariant ModelWasser::dataExt(const QModelIndex &index) const
  bool ModelWasser::setDataExt(const QModelIndex &index, const QVariant &value)
  {
      QString field = fieldName(index.column());
-     if (field == "CalciumMg")
+     if (field == "CalciumMmol")
      {
          return setData(index.row(), "Calcium", value.toDouble() * 40.8);
      }
-     if (field == "MagnesiumMg")
+     if (field == "MagnesiumMmol")
      {
          return setData(index.row(), "Magnesium", value.toDouble() * 24.3);
      }
