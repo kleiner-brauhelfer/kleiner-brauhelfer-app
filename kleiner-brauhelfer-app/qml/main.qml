@@ -271,6 +271,7 @@ ApplicationWindow {
         PageGlobalYeast { }
         PageGlobalIngredients { }
         PageGlobalWater { }
+        PageGlobalEquipment { }
     }
 
     // brew pages

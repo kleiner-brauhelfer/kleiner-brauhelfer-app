@@ -12,8 +12,8 @@ ModelSud::ModelSud(Brauhelfer *bh, bool globalList) :
     swWzKochen(Q_NULLPTR),
     swWzGaerung(Q_NULLPTR)
 {
-    connect(this, SIGNAL(modelReset()), this, SLOT(init()));
-    connect(this, SIGNAL(valueChanged(const QModelIndex&, const QVariant&)), this, SLOT(valueChanged(const QModelIndex&, const QVariant&)));
+    connect(this, SIGNAL(modelReset()), this, SLOT(onModelReset()));
+    connect(this, SIGNAL(valueChanged(const QModelIndex&, const QVariant&)), this, SLOT(onValueChanged(const QModelIndex&, const QVariant&)));
     additionalFieldNames.append("SWIst");
     additionalFieldNames.append("SREIst");
     additionalFieldNames.append("CO2Ist");
@@ -46,7 +46,7 @@ ModelSud::~ModelSud()
         delete[] swWzGaerung;
 }
 
-void ModelSud::init()
+void ModelSud::onModelReset()
 {
     int rows = rowCount();
     if (swWzMaischen)
@@ -268,7 +268,7 @@ bool ModelSud::setDataExt(const QModelIndex &index, const QVariant &value)
     return false;
 }
 
-void ModelSud::valueChanged(const QModelIndex &index, const QVariant &value)
+void ModelSud::onValueChanged(const QModelIndex &index, const QVariant &value)
 {
     Q_UNUSED(value);
 
@@ -276,52 +276,54 @@ void ModelSud::valueChanged(const QModelIndex &index, const QVariant &value)
         return;
     updating = true;
 
+    int row = index.row();
+
     // update intermediate values
-    updateIntermediateValues(index.row());
+    updateIntermediateValues(row);
 
     // erg_WHauptguss
-    double schuet = data(index.row(), "erg_S_Gesammt").toDouble();
-    double fac = data(index.row(), "FaktorHauptguss").toDouble();
-    setData(index.row(), "erg_WHauptguss", schuet * fac);
+    double schuet = data(row, "erg_S_Gesammt").toDouble();
+    double fac = data(row, "FaktorHauptguss").toDouble();
+    setData(row, "erg_WHauptguss", schuet * fac);
 
     // erg_WNachguss
-    double hg = data(index.row(), "erg_WHauptguss").toDouble();
-    double KorrekturWasser = data(index.row(), "KorrekturWasser").toDouble();
-    double menge = data(index.row(), "MengeSollKochbegin").toDouble();
-    setData(index.row(), "erg_WNachguss", menge + schuet * 0.96 - hg + KorrekturWasser);
+    double hg = data(row, "erg_WHauptguss").toDouble();
+    double KorrekturWasser = data(row, "KorrekturWasser").toDouble();
+    double menge = data(row, "MengeSollKochbegin").toDouble();
+    setData(row, "erg_WNachguss", menge + schuet * 0.96 - hg + KorrekturWasser);
 
     // erg_W_Gesammt
-    double ng = data(index.row(), "erg_WNachguss").toDouble();
-    setData(index.row(), "erg_W_Gesammt", hg + ng);
+    double ng = data(row, "erg_WNachguss").toDouble();
+    setData(row, "erg_W_Gesammt", hg + ng);
 
     // erg_Sudhausausbeute
-    double sw = data(index.row(), "SWKochende").toDouble();
-    menge = data(index.row(), "WuerzemengeKochende").toDouble();
-    setData(index.row(), "erg_Sudhausausbeute", BierCalc::sudhausausbeute(sw - swWzMaischen[index.row()] - swWzKochen[index.row()], menge, schuet));
+    double sw = data(row, "SWKochende").toDouble();
+    menge = data(row, "WuerzemengeKochende").toDouble();
+    setData(row, "erg_Sudhausausbeute", BierCalc::sudhausausbeute(sw - swWzMaischen[row] - swWzKochen[row], menge, schuet));
 
     // erg_EffektiveAusbeute
-    double hgf = 1 + data(index.row(), "highGravityFaktor").toDouble() / 100;
-    sw = data(index.row(), "SWAnstellen").toDouble();
-    menge = data(index.row(), "WuerzemengeAnstellen").toDouble() + data(index.row(), "Speisemenge").toDouble();
-    setData(index.row(), "erg_EffektiveAusbeute", BierCalc::sudhausausbeute(sw * hgf - swWzMaischen[index.row()] - swWzKochen[index.row()], menge/hgf, schuet));
+    double hgf = 1 + data(row, "highGravityFaktor").toDouble() / 100;
+    sw = data(row, "SWAnstellen").toDouble();
+    menge = data(row, "WuerzemengeAnstellen").toDouble() + data(row, "Speisemenge").toDouble();
+    setData(row, "erg_EffektiveAusbeute", BierCalc::sudhausausbeute(sw * hgf - swWzMaischen[row] - swWzKochen[row], menge/hgf, schuet));
 
     // erg_Alkohol
-    double sre = data(index.row(), "SREIst").toDouble();
-    sw = data(index.row(), "SWAnstellen").toDouble();
-    sw += swWzGaerung[index.row()];
-    menge = data(index.row(), "WuerzemengeAnstellen").toDouble();
+    double sre = data(row, "SREIst").toDouble();
+    sw = data(row, "SWAnstellen").toDouble();
+    sw += swWzGaerung[row];
+    menge = data(row, "WuerzemengeAnstellen").toDouble();
     if (menge > 0.0)
-        sw += (data(index.row(), "ZuckerAnteil").toDouble() / 10) / menge;
-    setData(index.row(), "erg_Alkohol", BierCalc::alkohol(sw, sre));
+        sw += (data(row, "ZuckerAnteil").toDouble() / 10) / menge;
+    setData(row, "erg_Alkohol", BierCalc::alkohol(sw, sre));
 
     // erg_AbgefuellteBiermenge
-    double jungbier = data(index.row(), "JungbiermengeAbfuellen").toDouble();
-    double speise = data(index.row(), "SpeiseAnteil").toDouble() / 1000;
-    setData(index.row(), "erg_AbgefuellteBiermenge", jungbier + speise);
+    double jungbier = data(row, "JungbiermengeAbfuellen").toDouble();
+    double speise = data(row, "SpeiseAnteil").toDouble() / 1000;
+    setData(row, "erg_AbgefuellteBiermenge", jungbier + speise);
 
     // erg_Preis (todo: support globalList)
     if (!globalList)
-        setData(index.row(), "erg_Preis", erg_Preis(index).toDouble());
+        setData(row, "erg_Preis", erg_Preis(index).toDouble());
 
     updating = false;
 }

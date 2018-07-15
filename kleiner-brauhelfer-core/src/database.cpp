@@ -14,6 +14,7 @@
 #include "modelbewertungen.h"
 #include "modelwasser.h"
 #include "modelweiterezutatengaben.h"
+#include "modelausruestung.h"
 #include "brauhelfer.h"
 
 Database::Database(Brauhelfer* bh) :
@@ -36,7 +37,7 @@ Database::Database(Brauhelfer* bh) :
     modelHefe = new SqlTableModel(bh);
     modelWeitereZutaten = new SqlTableModel(bh);
     modelAnhang = new SqlTableModel(bh);
-    modelAusruestung = new SqlTableModel(bh);
+    modelAusruestung = new ModelAusruestung(bh);
     modelGeraete = new SqlTableModel(bh);
     modelWasser = new ModelWasser(bh);
 }

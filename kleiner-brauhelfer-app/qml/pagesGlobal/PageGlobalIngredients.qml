@@ -91,7 +91,7 @@ PageBase {
             }
             delegate: ItemDelegate {
                 id: rowDelegate
-                visible: app.settings.ingredientsFilter === 0 || model.Menge > 0.0
+                visible: (app.settings.ingredientsFilter === 0 || model.Menge > 0.0) && !model.deleted
                 width: parent.width
                 height: visible ? dataColumn.implicitHeight : 0
                 padding: 0

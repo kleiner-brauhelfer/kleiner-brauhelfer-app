@@ -113,6 +113,7 @@ PageBase {
                 width: parent.width
                 height: dataColumn.implicitHeight
                 padding: 0
+                visible: !model.deleted
                 text: " "
 
                 NumberAnimation {

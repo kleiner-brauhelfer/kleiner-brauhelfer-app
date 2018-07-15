@@ -5,6 +5,7 @@ SqlTableModel::SqlTableModel(QObject *parent) :
     QSqlTableModel(parent)
 {
     setEditStrategy(EditStrategy::OnManualSubmit);
+    additionalFieldNames.append("deleted");
 }
 
 QVariant SqlTableModel::data(const QModelIndex &index, int role) const
@@ -12,11 +13,18 @@ QVariant SqlTableModel::data(const QModelIndex &index, int role) const
     QVariant value;
     if (role == Qt::DisplayRole || role > Qt::UserRole)
     {
-        int col = (role > Qt::UserRole) ? (role - Qt::UserRole - 1) : index.column();
-        const QModelIndex index2 = this->index(index.row(), col);
-        value = dataExt(index2);
-        if (!value.isValid())
-            value = QSqlTableModel::data(index2);
+        if (role == Qt::UserRole + QSqlTableModel::columnCount() + 1)
+        {
+            value = headerData(index.row(), Qt::Vertical).toString() == "!";
+        }
+        else
+        {
+            int col = (role > Qt::UserRole) ? (role - Qt::UserRole - 1) : index.column();
+            const QModelIndex index2 = this->index(index.row(), col);
+            value = dataExt(index2);
+            if (!value.isValid())
+                value = QSqlTableModel::data(index2);
+        }
     }
     else
     {
@@ -35,16 +43,23 @@ bool SqlTableModel::setData(const QModelIndex &index, const QVariant &value, int
     bool ret;
     if (role == Qt::EditRole || role > Qt::UserRole)
     {
-        int col = (role > Qt::UserRole) ? (role - Qt::UserRole - 1) : index.column();
-        const QModelIndex index2 = this->index(index.row(), col);
-        QVariant oldValue = data(index2);
-        ret = setDataExt(index2, value);
-        if (!ret)
-            ret = QSqlTableModel::setData(index2, value);
-        if (ret && oldValue != value)
+        if (role == Qt::UserRole + QSqlTableModel::columnCount() + 1)
         {
-            emit valueChanged(index, value);
-            emit modified();
+            ret = false;
+        }
+        else
+        {
+            int col = (role > Qt::UserRole) ? (role - Qt::UserRole - 1) : index.column();
+            const QModelIndex index2 = this->index(index.row(), col);
+            QVariant oldValue = data(index2);
+            ret = setDataExt(index2, value);
+            if (!ret)
+                ret = QSqlTableModel::setData(index2, value);
+            if (ret && oldValue != value)
+            {
+                emit valueChanged(index, value);
+                emit modified();
+            }
         }
     }
     else
@@ -78,10 +93,17 @@ QHash<int, QByteArray> SqlTableModel::roleNames() const
 
 QVariant SqlTableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    if (section < QSqlTableModel::columnCount())
-        return QSqlTableModel::headerData(section, orientation, role);
+    if ((role == Qt::DisplayRole || role > Qt::UserRole) && orientation == Qt::Horizontal)
+    {
+        if (section < QSqlTableModel::columnCount())
+            return QSqlTableModel::headerData(section, orientation, role);
+        else
+            return QVariant(additionalFieldNames.at(section - QSqlTableModel::columnCount()));
+    }
     else
-        return QVariant(additionalFieldNames.at(section - QSqlTableModel::columnCount()));
+    {
+        return QSqlTableModel::headerData(section, orientation, role);
+    }
 }
 
 int SqlTableModel::columnCount(const QModelIndex &index) const
@@ -145,6 +167,8 @@ void SqlTableModel::remove(int row)
 {
     if (removeRow(row))
     {
+        QModelIndex index = this->index(row, fieldIndex("deleted"));
+        emit dataChanged(index, index, QVector<int>(Qt::DisplayRole));
         emit modified();
     }
 }

@@ -54,8 +54,8 @@ public:
     QVariant dataExt(const QModelIndex &index) const Q_DECL_OVERRIDE;
     bool setDataExt(const QModelIndex &index, const QVariant &value) Q_DECL_OVERRIDE;
 private slots:
-    void init();
-    void valueChanged(const QModelIndex &index, const QVariant &value);
+    void onModelReset();
+    void onValueChanged(const QModelIndex &index, const QVariant &value);
 private:
     void updateIntermediateValues(int row);
     QVariant erg_Preis(const QModelIndex &index) const;
