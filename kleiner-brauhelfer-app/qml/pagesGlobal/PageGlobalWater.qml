@@ -39,6 +39,7 @@ PageBase {
                             anchors.fill: parent
                             columns: 3
                             LabelPrim {
+                                Layout.fillWidth: true
                                 text: qsTr("Calcium")
                             }
                             SpinBoxReal {
@@ -47,9 +48,11 @@ PageBase {
                                 onNewValue: model.Calcium = value
                             }
                             LabelUnit {
+                                Layout.preferredWidth: 60
                                 text: qsTr("mg/l")
                             }
                             LabelPrim {
+                                Layout.fillWidth: true
                             }
                             SpinBoxReal {
                                 decimals: 3
@@ -57,17 +60,20 @@ PageBase {
                                 onNewValue: model.CalciumMmol = value
                             }
                             LabelUnit {
+                                Layout.preferredWidth: 60
                                 text: qsTr("mmol/l")
                             }
                             LabelPrim {
+                                Layout.fillWidth: true
                                 text: qsTr("Härtegrad")
                             }
                             LabelNumber {
-                                Layout.fillWidth: true
+                                Layout.alignment: Qt.AlignHCenter
                                 precision: 2
                                 value: model.Calciumhaerte
                             }
                             LabelUnit {
+                                Layout.preferredWidth: 60
                                 text: qsTr("°dH")
                             }
                         }
@@ -82,6 +88,7 @@ PageBase {
                             anchors.fill: parent
                             columns: 3
                             LabelPrim {
+                                Layout.fillWidth: true
                                 text: qsTr("Magnesium")
                             }
                             SpinBoxReal {
@@ -90,9 +97,11 @@ PageBase {
                                 onNewValue: model.Magnesium = value
                             }
                             LabelUnit {
+                                Layout.preferredWidth: 60
                                 text: qsTr("mg/l")
                             }
                             LabelPrim {
+                                Layout.fillWidth: true
                             }
                             SpinBoxReal {
                                 decimals: 3
@@ -100,17 +109,20 @@ PageBase {
                                 onNewValue: model.MagnesiumMmol = value
                             }
                             LabelUnit {
+                                Layout.preferredWidth: 60
                                 text: qsTr("mmol/l")
                             }
                             LabelPrim {
+                                Layout.fillWidth: true
                                 text: qsTr("Härtegrad")
                             }
                             LabelNumber {
-                                Layout.fillWidth: true
+                                Layout.alignment: Qt.AlignHCenter
                                 precision: 2
                                 value: model.Magnesiumhaerte
                             }
                             LabelUnit {
+                                Layout.preferredWidth: 60
                                 text: qsTr("°dH")
                             }
                         }
@@ -125,6 +137,7 @@ PageBase {
                             anchors.fill: parent
                             columns: 3
                             LabelPrim {
+                                Layout.fillWidth: true
                                 text: qsTr("Säurekapazität")
                             }
                             SpinBoxReal {
@@ -133,9 +146,11 @@ PageBase {
                                 onNewValue: model.Saeurekapazitaet = value
                             }
                             LabelUnit {
+                                Layout.preferredWidth: 60
                                 text: qsTr("mmol/l")
                             }
                             LabelPrim {
+                                Layout.fillWidth: true
                                 text: qsTr("Carbonhärte")
                             }
                             SpinBoxReal {
@@ -144,6 +159,7 @@ PageBase {
                                 onNewValue: model.Carbonathaerte = value
                             }
                             LabelUnit {
+                                Layout.preferredWidth: 60
                                 text: qsTr("°dH")
                             }
                         }
@@ -158,14 +174,16 @@ PageBase {
                             anchors.fill: parent
                             columns: 3
                             LabelPrim {
+                                Layout.fillWidth: true
                                 text: qsTr("Restalkalität")
                             }
                             LabelNumber {
-                                Layout.fillWidth: true
+                                Layout.preferredWidth: 160
                                 precision: 2
                                 value: model.Restalkalitaet
                             }
                             LabelUnit {
+                                Layout.preferredWidth: 60
                                 text: qsTr("°dH")
                             }
                         }
