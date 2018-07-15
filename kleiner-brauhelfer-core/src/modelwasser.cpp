@@ -46,8 +46,8 @@ QVariant ModelWasser::dataExt(const QModelIndex &index) const
     return QVariant();
 }
 
- bool ModelWasser::setDataExt(const QModelIndex &index, const QVariant &value)
- {
+bool ModelWasser::setDataExt(const QModelIndex &index, const QVariant &value)
+{
      QString field = fieldName(index.column());
      if (field == "CalciumMmol")
      {

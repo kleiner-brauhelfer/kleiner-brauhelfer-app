@@ -25,6 +25,18 @@ void SortFilterProxyModel::onModelReset()
     emit sortChanged();
 }
 
+int SortFilterProxyModel::mapRowToSource(int row) const
+{
+    QModelIndex index = mapToSource(this->index(row, 0));
+    return index.row();
+}
+
+int SortFilterProxyModel::mapRowFromSource(int row) const
+{
+    QModelIndex index = mapFromSource(sourceModel()->index(row, 0));
+    return index.row();
+}
+
 int SortFilterProxyModel::sortColumn() const
 {
     return QSortFilterProxyModel::sortColumn();

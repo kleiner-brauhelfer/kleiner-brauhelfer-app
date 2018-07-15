@@ -87,7 +87,6 @@ QVariant SqlTableModel::headerData(int section, Qt::Orientation orientation, int
 int SqlTableModel::columnCount(const QModelIndex &index) const
 {
     return QSqlTableModel::columnCount(index) + additionalFieldNames.size();
-
 }
 
 int SqlTableModel::fieldIndex(const QString &fieldName) const

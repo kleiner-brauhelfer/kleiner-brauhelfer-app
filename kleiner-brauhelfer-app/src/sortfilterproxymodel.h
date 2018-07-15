@@ -20,6 +20,9 @@ public:
 
     virtual void setSourceModel(QAbstractItemModel *sourceModel) Q_DECL_OVERRIDE;
 
+    Q_INVOKABLE int mapRowToSource(int row) const;
+    Q_INVOKABLE int mapRowFromSource(int row) const;
+
     int sortColumn() const;
     void setSortColumn(int column);
 

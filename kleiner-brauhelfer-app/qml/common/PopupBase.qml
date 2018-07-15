@@ -6,7 +6,7 @@ import QtQuick.Controls.Material 2.2
 Popup {
     default property alias contents: placeholder.children
     property int margin: 20
-    property int maxWidth: 350
+    property int maxWidth: 500
 
     id: popup
     parent: page

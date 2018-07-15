@@ -112,7 +112,7 @@ PageBase {
 
                 function remove() {
                     removeFake.start()
-                    listView.model.sourceModel.remove(index)
+                    listView.model.sourceModel.remove(listView.model.mapRowToSource(index))
                 }
 
                 ColumnLayout {
@@ -162,7 +162,7 @@ PageBase {
                         anchors.right: parent.right
                         anchors.margins: 8
                         spacing: 16
-                        height: contentChildren[currentIndex].implicitHeight
+                        height: contentChildren[currentIndex].implicitHeight + 2 * anchors.margins
                         clip: true
                         currentIndex: listView.currentIndex
                         Repeater {

@@ -154,11 +154,10 @@ PageBase {
                     anchors.right: parent.right
                     anchors.margins: 8
                     spacing: 16
-                    height: contentChildren[currentIndex].implicitHeight
+                    height: contentChildren[currentIndex].implicitHeight + 2 * anchors.margins
                     clip: true
                     currentIndex: listView.currentIndex
                     Repeater {
-                        id: repeater
                         model: listView.model
                         Loader {
                             active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
