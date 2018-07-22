@@ -18,7 +18,7 @@ SyncServiceManager::SyncServiceManager(QSettings *settings, QObject *parent) :
   #endif
     syncServiceWebDav = new SyncServiceWebDav(_settings);
     _services.append(syncServiceWebDav);
-    setServiceId((SyncServiceId)_settings->value("SyncService/Id").toInt());
+    setServiceId((SyncServiceId)_settings->value("SyncService/Id", 0).toInt());
 }
 
 SyncServiceManager::~SyncServiceManager()

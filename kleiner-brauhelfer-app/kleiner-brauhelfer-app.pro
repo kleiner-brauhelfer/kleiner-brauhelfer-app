@@ -65,20 +65,30 @@ HEADERS += \
     src/syncservicedropbox.h \
     src/sortfilterproxymodel.h \
     src/sortfilterproxymodelsud.h \
-    src/syncservicewebdav.h
+    src/syncservicewebdav.h \
+    src/languageselector.h
 
 # source files
-SOURCES += src\main.cpp \
+SOURCES += \
+    src/main.cpp \
     src/qmlutils.cpp \
     src/syncservicemanager.cpp \
     src/syncservicedropbox.cpp \
     src/sortfilterproxymodel.cpp \
     src/sortfilterproxymodelsud.cpp \
-    src/syncservicewebdav.cpp
+    src/syncservicewebdav.cpp \
+    src/languageselector.cpp
 
 # resource files
 RESOURCES += qml.qrc \
-    images.qrc
+    images.qrc \
+    languages.qrc
+
+# translation files
+TRANSLATIONS += languages/kb_app_en.ts
+lupdate_only {
+    SOURCES += qml/*.qml
+}
 
 # distribution files
 DISTFILES += \

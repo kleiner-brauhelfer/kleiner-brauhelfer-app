@@ -69,10 +69,10 @@ private:
     QVariant ZuckerAnteil(const QModelIndex &index) const;
     QVariant ReifezeitDelta(const QModelIndex &index) const;
     QVariant AbfuellenBereitZutaten(const QModelIndex &index) const;
-    QVariant MengeSollKochbegin(const QModelIndex &index) const;
+    QVariant MengeSollKochbeginn(const QModelIndex &index) const;
     QVariant MengeSollKochende(const QModelIndex &index) const;
     QVariant SWSollLautern(const QModelIndex &index) const;
-    QVariant SWSollKochbegin(const QModelIndex &index) const;
+    QVariant SWSollKochbeginn(const QModelIndex &index) const;
     QVariant SWSollKochende(const QModelIndex &index) const;
     QVariant SWSollAnstellen(const QModelIndex &index) const;
     QVariant KorrekturWasser(const QModelIndex &index) const;

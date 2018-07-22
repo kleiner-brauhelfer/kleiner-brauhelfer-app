@@ -81,7 +81,7 @@ TextFieldNumber {
                 }
 
                 LabelPrim {
-                    text: qsTr("Liter")
+                    text: qsTr("l")
                     Layout.fillWidth: true
                 }
 
@@ -124,7 +124,7 @@ TextFieldNumber {
                 }
 
                 LabelPrim {
-                    text: qsTr("Liter")
+                    text: qsTr("l")
                     Layout.fillWidth: true
                 }
             }

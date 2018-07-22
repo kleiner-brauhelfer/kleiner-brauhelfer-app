@@ -381,7 +381,7 @@ PageBase {
                     }
                     LabelUnit {
                         Layout.preferredWidth: 60
-                        text: qsTr("Liter")
+                        text: qsTr("l")
                     }
                     LabelPrim {
                         Layout.fillWidth: true
@@ -396,7 +396,7 @@ PageBase {
                     }
                     LabelUnit {
                         Layout.preferredWidth: 60
-                        text: qsTr("Liter")
+                        text: qsTr("l")
                     }
                 }
             }
@@ -461,7 +461,7 @@ PageBase {
                     LabelUnit {
                         Layout.preferredWidth: 60
                         visible: !ctrlSpunden.checked
-                        text: qsTr("ml/Liter")
+                        text: qsTr("ml/l")
                     }
                     LabelPrim {
                         Layout.fillWidth: true
@@ -490,7 +490,7 @@ PageBase {
                     LabelUnit {
                         Layout.preferredWidth: 60
                         visible: tbSpeiseAnteil.visible
-                        text: qsTr("ml/Liter")
+                        text: qsTr("ml/l")
                     }
                     LabelPrim {
                         Layout.fillWidth: true
@@ -519,7 +519,7 @@ PageBase {
                     LabelUnit {
                         Layout.preferredWidth: 60
                         visible: tbZuckerAnteil.visible
-                        text: qsTr("g/Liter")
+                        text: qsTr("g/l")
                     }
                 }
             }
@@ -571,7 +571,7 @@ PageBase {
                     }
                     LabelUnit {
                         Layout.preferredWidth: 60
-                        text: Qt.locale().currencySymbol() + "/" + qsTr("Liter")
+                        text: Qt.locale().currencySymbol() + "/" + qsTr("l")
                     }
                     Button {
                         id: ctrlAbgefuellt

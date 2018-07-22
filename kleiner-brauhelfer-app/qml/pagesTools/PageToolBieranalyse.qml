@@ -61,7 +61,7 @@ PageBase {
                     Layout.fillWidth: true
                     Layout.leftMargin: 8
                     Layout.rightMargin: 8
-                    model: [ "Terrill", "Terrill Linear", "Standard" ]
+                    model: [ qsTr("Terrill"), qsTr("Terrill Linear"), qsTr("Standard") ]
                     opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
                     onCurrentIndexChanged: navPane.setFocus()
                 }

@@ -136,7 +136,7 @@ PageBase {
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
-                                text: qsTr("Liter")
+                                text: qsTr("l")
                             }
                             LabelPrim {
                                 Layout.fillWidth: true
@@ -186,7 +186,7 @@ PageBase {
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
-                                text: qsTr("g/Liter")
+                                text: qsTr("g/l")
                             }
                             LabelPrim {
                                 Layout.fillWidth: true
@@ -300,12 +300,12 @@ PageBase {
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
-                                text: qsTr("Liter")
+                                text: qsTr("l")
                             }
                             LabelPrim {
                                 Layout.fillWidth: true
                                 visible: Brauhelfer.sud.RestalkalitaetSoll > 0.0
-                                text: qsTr("Michlsäure 80%")
+                                text: qsTr("Milchsäure 80%")
                             }
                             LabelNumber {
                                 Layout.preferredWidth: 80
@@ -533,12 +533,12 @@ PageBase {
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
-                                text: qsTr("Liter")
+                                text: qsTr("l")
                             }
                             LabelPrim {
                                 Layout.fillWidth: true
                                 visible: Brauhelfer.sud.RestalkalitaetSoll > 0.0
-                                text: qsTr("Michlsäure 80%")
+                                text: qsTr("Milchsäure 80%")
                             }
                             LabelNumber {
                                 Layout.preferredWidth: 80
@@ -609,11 +609,11 @@ PageBase {
                             }
                             LabelNumber {
                                 Layout.preferredWidth: 80
-                                value: Brauhelfer.calc.volumenWasser(20.0, 100.0, Brauhelfer.sud.MengeSollKochbegin)
+                                value: Brauhelfer.calc.volumenWasser(20.0, 100.0, Brauhelfer.sud.MengeSollKochbeginn)
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
-                                text: qsTr("Liter")
+                                text: qsTr("l")
                             }
                             LabelPrim {
                                 Layout.fillWidth: true
@@ -747,7 +747,7 @@ PageBase {
                         HorizontalDivider { }
                         LabelPrim {
                             Layout.fillWidth: true
-                            text: qsTr("Kochbegin")
+                            text: qsTr("Kochbeginn")
                         }
                         GridLayout {
                             Layout.leftMargin: 8
@@ -757,9 +757,9 @@ PageBase {
                                 text: qsTr("Zielstammwürze")
                             }
                             LabelPlato {
-                                id: lblSWSollKochbegin
+                                id: lblSWSollKochbeginn
                                 Layout.preferredWidth: 80
-                                value: Brauhelfer.sud.SWSollKochbegin
+                                value: Brauhelfer.sud.SWSollKochbeginn
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
@@ -770,7 +770,7 @@ PageBase {
                             }
                             LabelPlato {
                                 Layout.preferredWidth: 80
-                                value: Brauhelfer.calc.platoToBrix(lblSWSollKochbegin.value)
+                                value: Brauhelfer.calc.platoToBrix(lblSWSollKochbeginn.value)
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
@@ -782,7 +782,7 @@ PageBase {
                             LabelPlato {
                                 Layout.preferredWidth: 80
                                 precision: 4
-                                value: Brauhelfer.calc.platoToDichte(lblSWSollKochbegin.value)
+                                value: Brauhelfer.calc.platoToDichte(lblSWSollKochbeginn.value)
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
@@ -794,11 +794,11 @@ PageBase {
                             }
                             LabelNumber {
                                 Layout.preferredWidth: 80
-                                value: Brauhelfer.calc.volumenWasser(20.0, 100.0, Brauhelfer.sud.MengeSollKochbegin)
+                                value: Brauhelfer.calc.volumenWasser(20.0, 100.0, Brauhelfer.sud.MengeSollKochbeginn)
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
-                                text: qsTr("Liter")
+                                text: qsTr("l")
                             }
                             LabelPrim {
                                 Layout.fillWidth: true
@@ -806,11 +806,11 @@ PageBase {
                             }
                             LabelNumber {
                                 Layout.preferredWidth: 80
-                                value: Brauhelfer.sud.MengeSollKochbegin
+                                value: Brauhelfer.sud.MengeSollKochbeginn
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
-                                text: qsTr("Liter")
+                                text: qsTr("l")
                             }
                             LabelPrim {
                                 Layout.fillWidth: true
@@ -828,7 +828,7 @@ PageBase {
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
-                                text: qsTr("Liter")
+                                text: qsTr("l")
                             }
                         }
                         HorizontalDivider { }
@@ -935,7 +935,7 @@ PageBase {
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
-                                text: qsTr("Liter")
+                                text: qsTr("l")
                             }
                             LabelPrim {
                                 Layout.fillWidth: true
@@ -947,7 +947,7 @@ PageBase {
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
-                                text: qsTr("Liter")
+                                text: qsTr("l")
                             }
                             LabelPrim {
                                 Layout.fillWidth: true
@@ -968,7 +968,7 @@ PageBase {
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
-                                text: qsTr("Liter")
+                                text: qsTr("l")
                             }
                         }
                         HorizontalDivider { }
@@ -1104,7 +1104,7 @@ PageBase {
                             LabelUnit {
                                 Layout.preferredWidth: 60
                                 visible: Brauhelfer.sud.highGravityFaktor > 0.0
-                                text: qsTr("Liter")
+                                text: qsTr("l")
                             }
                             LabelPrim {
                                 Layout.fillWidth: true
@@ -1118,7 +1118,7 @@ PageBase {
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
-                                text: qsTr("Liter")
+                                text: qsTr("l")
                             }
                             LabelPrim {
                                 Layout.fillWidth: true
@@ -1162,7 +1162,7 @@ PageBase {
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
-                                text: qsTr("Liter")
+                                text: qsTr("l")
                             }
                             LabelPrim {
                                 Layout.fillWidth: true
@@ -1179,7 +1179,7 @@ PageBase {
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
-                                text: qsTr("Liter")
+                                text: qsTr("l")
                             }
                             LabelPrim {
                                 Layout.fillWidth: true
@@ -1198,7 +1198,7 @@ PageBase {
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
-                                text: qsTr("Liter")
+                                text: qsTr("l")
                             }
                             LabelPrim {
                                 Layout.fillWidth: true
@@ -1221,7 +1221,7 @@ PageBase {
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
-                                text: qsTr("Liter")
+                                text: qsTr("l")
                             }
                         }
                         HorizontalDivider { }
@@ -1404,7 +1404,7 @@ PageBase {
                         }
                         LabelUnit {
                             Layout.preferredWidth: 60
-                            text: Qt.locale().currencySymbol() + "/" + qsTr("Liter")
+                            text: Qt.locale().currencySymbol() + "/" + qsTr("l")
                         }
                         CheckBox {
                             Layout.columnSpan: 3

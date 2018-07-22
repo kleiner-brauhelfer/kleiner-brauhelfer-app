@@ -101,7 +101,7 @@ PageBase {
                         Layout.fillWidth: true
                         horizontalAlignment: Text.AlignRight
                         precision: 0
-                        unit: qsTr("Liter")
+                        unit: qsTr("l")
                         value: model.Vermoegen
                     }
                 }
@@ -200,7 +200,7 @@ PageBase {
                                     GroupBox {
                                         Layout.fillWidth: true
                                         label: LabelSubheader {
-                                            text: qsTr("Korrektuwerte")
+                                            text: qsTr("Korrekturwerte")
                                         }
 
                                         GridLayout {
@@ -243,7 +243,7 @@ PageBase {
                                                 onNewValue: model.KorrekturWasser = value
                                             }
                                             LabelUnit {
-                                                text: qsTr("Liter")
+                                                text: qsTr("l")
                                             }
                                             LabelPrim {
                                                 Layout.fillWidth: true
@@ -318,7 +318,7 @@ PageBase {
                                                 value: model.Maischebottich_Volumen
                                             }
                                             LabelUnit {
-                                                text: qsTr("Liter")
+                                                text: qsTr("l")
                                             }
                                             HorizontalDivider {
                                                 Layout.fillWidth: true
@@ -347,7 +347,7 @@ PageBase {
                                                 value: model.Maischebottich_MaxFuelvolumen
                                             }
                                             LabelUnit {
-                                                text: qsTr("Liter")
+                                                text: qsTr("l")
                                             }
                                         }
                                     }
@@ -398,7 +398,7 @@ PageBase {
                                                 value: model.Sudpfanne_Volumen
                                             }
                                             LabelUnit {
-                                                text: qsTr("Liter")
+                                                text: qsTr("l")
                                             }
                                             HorizontalDivider {
                                                 Layout.fillWidth: true
@@ -427,7 +427,7 @@ PageBase {
                                                 value: model.Sudpfanne_MaxFuelvolumen
                                             }
                                             LabelUnit {
-                                                text: qsTr("Liter")
+                                                text: qsTr("l")
                                             }
                                         }
                                     }

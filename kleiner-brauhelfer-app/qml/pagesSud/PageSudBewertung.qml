@@ -270,7 +270,7 @@ PageBase {
                                             onClicked: model.Gesamteindruck = (1 << 4)
                                         }
                                         RadioButton {
-                                            text: qsTr("unauffälig, gewöhnlich")
+                                            text: qsTr("unauffällig, gewöhnlich")
                                             checked: model.Gesamteindruck & (1 << 5)
                                             onClicked: model.Gesamteindruck = (1 << 5)
                                         }
@@ -698,7 +698,7 @@ PageBase {
                                             onClicked: model.Antrunk = (1 << 3)
                                         }
                                         RadioButton {
-                                            text: qsTr("stark prickelnd, aufdrindlich")
+                                            text: qsTr("stark prickelnd, aufdringlich")
                                             checked: model.Antrunk & (1 << 4)
                                             onClicked: model.Antrunk = (1 << 4)
                                         }
@@ -830,7 +830,7 @@ PageBase {
                                             onClicked: model.Nachtrunk = (1 << 6)
                                         }
                                         RadioButton {
-                                            text: qsTr("nicht/kaum warnehmbar")
+                                            text: qsTr("nicht/kaum wahrnehmbar")
                                             checked: model.Nachtrunk & (1 << 7)
                                             onClicked: model.Nachtrunk = (1 << 7)
                                         }

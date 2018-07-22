@@ -24,10 +24,10 @@ ModelSud::ModelSud(Brauhelfer *bh, bool globalList) :
     additionalFieldNames.append("ZuckerAnteil");
     additionalFieldNames.append("ReifezeitDelta");
     additionalFieldNames.append("AbfuellenBereitZutaten");
-    additionalFieldNames.append("MengeSollKochbegin");
+    additionalFieldNames.append("MengeSollKochbeginn");
     additionalFieldNames.append("MengeSollKochende");
     additionalFieldNames.append("SWSollLautern");
-    additionalFieldNames.append("SWSollKochbegin");
+    additionalFieldNames.append("SWSollKochbeginn");
     additionalFieldNames.append("SWSollKochende");
     additionalFieldNames.append("SWSollAnstellen");
     additionalFieldNames.append("KorrekturWasser");
@@ -183,9 +183,9 @@ QVariant ModelSud::dataExt(const QModelIndex &index) const
     {
         return AbfuellenBereitZutaten(index);
     }
-    if (field == "MengeSollKochbegin")
+    if (field == "MengeSollKochbeginn")
     {
-        return MengeSollKochbegin(index);
+        return MengeSollKochbeginn(index);
     }
     if (field == "MengeSollKochende")
     {
@@ -195,9 +195,9 @@ QVariant ModelSud::dataExt(const QModelIndex &index) const
     {
         return SWSollLautern(index);
     }
-    if (field == "SWSollKochbegin")
+    if (field == "SWSollKochbeginn")
     {
-        return SWSollKochbegin(index);
+        return SWSollKochbeginn(index);
     }
     if (field == "SWSollKochende")
     {
@@ -289,7 +289,7 @@ void ModelSud::onValueChanged(const QModelIndex &index, const QVariant &value)
     // erg_WNachguss
     double hg = data(row, "erg_WHauptguss").toDouble();
     double KorrekturWasser = data(row, "KorrekturWasser").toDouble();
-    double menge = data(row, "MengeSollKochbegin").toDouble();
+    double menge = data(row, "MengeSollKochbeginn").toDouble();
     setData(row, "erg_WNachguss", menge + schuet * 0.96 - hg + KorrekturWasser);
 
     // erg_W_Gesammt
@@ -592,7 +592,7 @@ QVariant ModelSud::AbfuellenBereitZutaten(const QModelIndex &index) const
     return true;
 }
 
-QVariant ModelSud::MengeSollKochbegin(const QModelIndex &index) const
+QVariant ModelSud::MengeSollKochbeginn(const QModelIndex &index) const
 {
     double mengeSollKochEnde = data(index.row(), "MengeSollKochende").toDouble();
     double kochdauer = data(index.row(), "KochdauerNachBitterhopfung").toDouble();
@@ -613,16 +613,16 @@ QVariant ModelSud::SWSollLautern(const QModelIndex &index) const
     double hgf = 1 + data(index.row(), "highGravityFaktor").toDouble() / 100;
     double sw = (swSoll - swWzKochen[index.row()] - swWzGaerung[index.row()]) * hgf;
     double menge = data(index.row(), "Menge").toDouble();
-    double mengeKochbegin = data(index.row(), "MengeSollKochbegin").toDouble();
-    return sw * menge / mengeKochbegin;
+    double mengeKochbeginn = data(index.row(), "MengeSollKochbeginn").toDouble();
+    return sw * menge / mengeKochbeginn;
 }
 
-QVariant ModelSud::SWSollKochbegin(const QModelIndex &index) const
+QVariant ModelSud::SWSollKochbeginn(const QModelIndex &index) const
 {
     double sw = data(index.row(), "SWSollKochende").toDouble();
     double menge = data(index.row(), "Menge").toDouble();
-    double mengeKochbegin = data(index.row(), "MengeSollKochbegin").toDouble();
-    return sw * menge / mengeKochbegin;
+    double mengeKochbeginn = data(index.row(), "MengeSollKochbeginn").toDouble();
+    return sw * menge / mengeKochbeginn;
 }
 
 QVariant ModelSud::SWSollKochende(const QModelIndex &index) const

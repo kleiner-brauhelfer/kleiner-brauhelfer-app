@@ -340,6 +340,35 @@ PageBase {
                     }
                 }
             }
+
+            HorizontalDivider {
+                Layout.fillWidth: true
+            }
+
+            LabelSubheader {
+                Layout.fillWidth: true
+                Layout.topMargin: 8
+                text: qsTr("Sprache")
+            }
+
+            ComboBox {
+                Layout.fillWidth: true
+                Layout.leftMargin: 8
+                Layout.rightMargin: 8
+                model: ["Deutsch", "English"]
+                currentIndex: app.settings.languageIndex
+                onCurrentIndexChanged: {
+                    if (activeFocus) {
+                        app.settings.languageIndex = currentIndex
+                        app.updateLanguage()
+                        navPane.setFocus()
+                    }
+                }
+            }
+
+            HorizontalDivider {
+                Layout.fillWidth: true
+            }
         }
     }
 }

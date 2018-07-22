@@ -27,7 +27,7 @@ PageBase {
             ListElement {
                 text: qsTr("Menge")
                 field: "erg_AbgefuellteBiermenge"
-                unit: qsTr("Liter")
+                unit: qsTr("l")
                 precision: 1
             }
             ListElement {
@@ -51,7 +51,7 @@ PageBase {
             ListElement {
                 text: qsTr("Kosten")
                 field: "erg_Preis"
-                unit: qsTr("/Liter")
+                unit: qsTr("/l")
                 precision: 2
             }
             ListElement {

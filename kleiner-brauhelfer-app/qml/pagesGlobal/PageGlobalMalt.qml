@@ -232,12 +232,12 @@ PageBase {
                                         }
 
                                         LabelPrim {
+                                            Layout.fillWidth: true
                                             rightPadding: 8
                                             text: qsTr("Menge")
                                         }
 
                                         SpinBoxReal {
-                                            Layout.fillWidth: true
                                             decimals: 2
                                             realValue: model.Menge
                                             onNewValue: model.Menge = value
@@ -248,12 +248,12 @@ PageBase {
                                         }
 
                                         LabelPrim {
+                                            Layout.fillWidth: true
                                             rightPadding: 8
                                             text: qsTr("Farbe")
                                         }
 
                                         SpinBoxReal {
-                                            Layout.fillWidth: true
                                             decimals: 1
                                             realValue: model.Farbe
                                             onNewValue: model.Farbe = value
@@ -264,12 +264,12 @@ PageBase {
                                         }
 
                                         LabelPrim {
+                                            Layout.fillWidth: true
                                             rightPadding: 8
                                             text: qsTr("Max. Anteil")
                                         }
 
                                         SpinBoxReal {
-                                            Layout.fillWidth: true
                                             decimals: 0
                                             realValue: model.MaxProzent
                                             onNewValue: model.MaxProzent = value
@@ -312,12 +312,12 @@ PageBase {
                                         }
 
                                         LabelPrim {
+                                            Layout.fillWidth: true
                                             rightPadding: 8
                                             text: qsTr("Preis")
                                         }
 
                                         SpinBoxReal {
-                                            Layout.fillWidth: true
                                             decimals: 2
                                             realValue: model.Preis
                                             onNewValue: model.Preis = value
@@ -328,27 +328,33 @@ PageBase {
                                         }
 
                                         LabelPrim {
+                                            Layout.fillWidth: true
                                             rightPadding: 8
                                             text: qsTr("Eingelagert")
                                         }
 
                                         TextFieldDate {
-                                            Layout.columnSpan: 2
-                                            Layout.fillWidth: true
+                                            Layout.alignment: Qt.AlignHCenter
                                             date: model.Eingelagert
                                             onNewDate: model.Eingelagert = date
                                         }
 
+                                        LabelUnit {
+                                        }
+
                                         LabelPrim {
+                                            Layout.fillWidth: true
                                             rightPadding: 8
                                             text: qsTr("Haltbar")
                                         }
 
                                         TextFieldDate {
-                                            Layout.columnSpan: 2
-                                            Layout.fillWidth: true
+                                            Layout.alignment: Qt.AlignHCenter
                                             date: model.Mindesthaltbar
                                             onNewDate: model.Mindesthaltbar = date
+                                        }
+
+                                        LabelUnit {
                                         }
                                     }
                                 }

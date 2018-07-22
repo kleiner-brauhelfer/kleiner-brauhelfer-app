@@ -38,14 +38,14 @@ PageBase {
                 Layout.rightMargin: 8
                 flat: true
                 model: [
-                    qsTr("Sudname  \u2193"),
-                    qsTr("Sudname  \u2191"),
-                    qsTr("Braudatum  \u2193"),
-                    qsTr("Braudatum  \u2191"),
-                    qsTr("Gespeichert  \u2193"),
-                    qsTr("Gespeichert  \u2191"),
-                    qsTr("Erstellt  \u2193"),
-                    qsTr("Erstellt  \u2191")
+                    qsTr("Sudname") + "  \u2193",
+                    qsTr("Sudname") + "  \u2191",
+                    qsTr("Braudatum") + "  \u2193",
+                    qsTr("Braudatum") + "  \u2191",
+                    qsTr("Gespeichert") + "  \u2193",
+                    qsTr("Gespeichert") + "  \u2191",
+                    qsTr("Erstellt") + "  \u2193",
+                    qsTr("Erstellt") + "  \u2191"
                 ]
                 currentIndex: app.settings.brewsSortColumn
                 onCurrentIndexChanged: {
@@ -162,7 +162,7 @@ PageBase {
                         Layout.leftMargin: 8
                         LabelSec {
                             Layout.fillWidth: true
-                            text: model.BierWurdeGebraut ? qsTr("Gebraut ") + Qt.formatDate(model.Braudatum) : qsTr("Rezept")
+                            text: model.BierWurdeGebraut ? qsTr("Gebraut") + " " + Qt.formatDate(model.Braudatum) : qsTr("Rezept")
                         }
                         LabelSec {
                             Layout.fillWidth: true
@@ -199,6 +199,7 @@ PageBase {
                                 ColorOverlay {
                                     anchors.fill: parent
                                     source: parent
+                                    cached: true
                                     color: Brauhelfer.calc.ebcToColor(model.erg_Farbe)
                                 }
                             }
@@ -221,7 +222,7 @@ PageBase {
                                 value: model.BierWurdeGebraut ? model.erg_AbgefuellteBiermenge : model.Menge
                             }
                             LabelUnit {
-                                text: qsTr("Liter")
+                                text: qsTr("l")
                             }
 
                             LabelPrim {
@@ -275,7 +276,7 @@ PageBase {
                                 value: model.BierWurdeGebraut ? model.CO2Ist : model.CO2
                             }
                             LabelUnit {
-                                text: qsTr("g/Liter")
+                                text: qsTr("g/l")
                             }
                         }
                     }

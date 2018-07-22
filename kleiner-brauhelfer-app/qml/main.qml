@@ -9,6 +9,7 @@ import "pagesSud"
 import "pagesTools"
 import "pagesOthers"
 
+import languageSelector 1.0
 import brauhelfer 1.0
 
 ApplicationWindow {
@@ -31,6 +32,7 @@ ApplicationWindow {
     Settings {
         id: settings
         category: "App"
+        property int languageIndex: 0
         property int brewsFilter: 0
         property int brewsSortColumn: 0
         property bool brewsMerklisteFilter: false
@@ -78,7 +80,7 @@ ApplicationWindow {
                     toast.start(qsTr("Datenbank aktualisiert."))
                     break;
                 case Brauhelfer.Offline:
-                    toast.start(qsTr("Gerät ist nicht mit dem Internet verbunden."))
+                    toast.start(qsTr("Synchronisationsdienst nicht erreichbar."))
                     break;
                 case Brauhelfer.NotFound:
                     toast.start(qsTr("Datenbank nicht gefunden."))
@@ -139,6 +141,17 @@ ApplicationWindow {
         }
     }
 
+    function updateLanguage() {
+        switch (settings.languageIndex) {
+        case 0:
+            LanguageSelector.selectLanguage("de")
+            break
+        case 1:
+            LanguageSelector.selectLanguage("en")
+            break
+        }
+    }
+
     function connect() {
         scheduler.run(scheduler.connect)
     }
@@ -188,7 +201,13 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
-        app.connect()
+        updateLanguage()
+        connect()
+    }
+
+    Connections {
+        target: LanguageSelector
+        onLanguageChanged: console.info("Language changed: " + language)
     }
 
     // connect debug message to console

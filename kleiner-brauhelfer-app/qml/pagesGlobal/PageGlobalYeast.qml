@@ -232,12 +232,12 @@ PageBase {
                                         }
 
                                         LabelPrim {
+                                            Layout.fillWidth: true
                                             rightPadding: 8
                                             text: qsTr("Menge")
                                         }
 
                                         SpinBoxReal {
-                                            Layout.fillWidth: true
                                             decimals: 0
                                             realValue: model.Menge
                                             onNewValue: model.Menge = value
@@ -248,22 +248,23 @@ PageBase {
                                         }
 
                                         LabelPrim {
+                                            Layout.fillWidth: true
                                             rightPadding: 8
                                             text: qsTr("Würzemenge")
                                         }
 
                                         SpinBoxReal {
-                                            Layout.fillWidth: true
                                             decimals: 0
                                             realValue: model.Wuerzemenge
                                             onNewValue: model.Wuerzemenge = value
                                         }
 
                                         LabelUnit {
-                                            text: qsTr("Liter")
+                                            text: qsTr("l")
                                         }
 
                                         LabelPrim {
+                                            Layout.fillWidth: true
                                             rightPadding: 8
                                             text: qsTr("OG / UG")
                                         }
@@ -278,6 +279,7 @@ PageBase {
                                         }
 
                                         LabelPrim {
+                                            Layout.fillWidth: true
                                             rightPadding: 8
                                             text: qsTr("Trocken / flüssig")
                                         }
@@ -292,6 +294,7 @@ PageBase {
                                         }
 
                                         LabelPrim {
+                                            Layout.fillWidth: true
                                             rightPadding: 8
                                             text: qsTr("Verpackung")
                                         }
@@ -304,6 +307,7 @@ PageBase {
                                         }
 
                                         LabelPrim {
+                                            Layout.fillWidth: true
                                             rightPadding: 8
                                             text: qsTr("Sedimentation")
                                         }
@@ -318,6 +322,7 @@ PageBase {
                                         }
 
                                         LabelPrim {
+                                            Layout.fillWidth: true
                                             rightPadding: 8
                                             text: qsTr("Vergärungsgrad")
                                         }
@@ -330,6 +335,7 @@ PageBase {
                                         }
 
                                         LabelPrim {
+                                            Layout.fillWidth: true
                                             rightPadding: 8
                                             text: qsTr("Temperatur")
                                         }
@@ -374,12 +380,12 @@ PageBase {
                                         }
 
                                         LabelPrim {
+                                            Layout.fillWidth: true
                                             rightPadding: 8
                                             text: qsTr("Preis")
                                         }
 
                                         SpinBoxReal {
-                                            Layout.fillWidth: true
                                             decimals: 2
                                             realValue: model.Preis
                                             onNewValue: model.Preis = value
@@ -390,27 +396,33 @@ PageBase {
                                         }
 
                                         LabelPrim {
+                                            Layout.fillWidth: true
                                             rightPadding: 8
                                             text: qsTr("Eingelagert")
                                         }
 
                                         TextFieldDate {
-                                            Layout.columnSpan: 2
-                                            Layout.fillWidth: true
+                                            Layout.alignment: Qt.AlignHCenter
                                             date: model.Eingelagert
                                             onNewDate: model.Eingelagert = date
                                         }
 
                                         LabelPrim {
+                                        }
+
+                                        LabelPrim {
+                                            Layout.fillWidth: true
                                             rightPadding: 8
                                             text: qsTr("Haltbar")
                                         }
 
                                         TextFieldDate {
-                                            Layout.columnSpan: 2
-                                            Layout.fillWidth: true
+                                            Layout.alignment: Qt.AlignHCenter
                                             date: model.Mindesthaltbar
                                             onNewDate: model.Mindesthaltbar = date
+                                        }
+
+                                        LabelPrim {
                                         }
                                     }
                                 }

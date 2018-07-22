@@ -2,17 +2,26 @@
 #include <QQmlApplicationEngine>
 #include <QSettings>
 
+#include "languageselector.h"
 #include "brauhelfer.h"
 #include "syncservicemanager.h"
 #include "qmlutils.h"
 #include "sortfilterproxymodel.h"
 #include "sortfilterproxymodelsud.h"
 
+static LanguageSelector* langSel;
 static Brauhelfer *bh;
 static SyncServiceManager *syncMan;
 static QmlUtils *utils;
 
-static QObject *getInstance(QQmlEngine *engine, QJSEngine *scriptEngine)
+static QObject *getInstanceLanguageSelector(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+    return langSel;
+}
+
+static QObject *getInstanceBrauhelfer(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
     Q_UNUSED(engine)
     Q_UNUSED(scriptEngine)
@@ -41,9 +50,11 @@ int main(int argc, char *argv[])
 	
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication app(argc, argv);
+    QQmlApplicationEngine engine;
 
     // create singleton instance
     QSettings *settings = new QSettings();
+    langSel = new LanguageSelector(&app, &engine);
     syncMan = new SyncServiceManager(settings);
     bh = new Brauhelfer(syncMan->service());
     QObject::connect(syncMan, SIGNAL(serviceChanged(SyncService*)), bh, SLOT(setSyncService(SyncService*)));
@@ -53,13 +64,13 @@ int main(int argc, char *argv[])
     utils = new QmlUtils();
 
     // register classes to QML
-    qmlRegisterSingletonType<Brauhelfer>("brauhelfer", 1, 0, "Brauhelfer", getInstance);
+    qmlRegisterSingletonType<LanguageSelector>("languageSelector", 1, 0, "LanguageSelector", getInstanceLanguageSelector);
+    qmlRegisterSingletonType<Brauhelfer>("brauhelfer", 1, 0, "Brauhelfer", getInstanceBrauhelfer);
     qmlRegisterSingletonType<SyncServiceManager>("brauhelfer", 1, 0, "SyncService", getInstanceSyncServiceManager);
     qmlRegisterSingletonType<QmlUtils>("qmlutils", 1, 0, "Utils", getInstanceUtils);
     qmlRegisterType<SortFilterProxyModel>("SortFilterProxyModel", 1, 0, "SortFilterProxyModel");
     qmlRegisterType<SortFilterProxyModelSud>("SortFilterProxyModelSud", 1, 0, "SortFilterProxyModelSud");
 
-    QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;

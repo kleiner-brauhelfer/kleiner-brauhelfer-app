@@ -136,7 +136,7 @@ PageBase {
                         value: Brauhelfer.sud.BierWurdeGebraut ? Brauhelfer.sud.erg_AbgefuellteBiermenge : Brauhelfer.sud.Menge
                     }
                     LabelUnit {
-                        text: qsTr("Liter")
+                        text: qsTr("l")
                     }
                     LabelPrim {
                         Layout.fillWidth: true
@@ -246,7 +246,7 @@ PageBase {
                         value: Brauhelfer.sud.BierWurdeGebraut ? Brauhelfer.sud.CO2Ist : Brauhelfer.sud.CO2
                     }
                     LabelUnit {
-                        text: qsTr("g/Liter")
+                        text: qsTr("g/l")
                     }
                     LabelPrim {
                         Layout.fillWidth: true
@@ -257,7 +257,7 @@ PageBase {
                         value: Brauhelfer.sud.erg_Preis
                     }
                     LabelUnit {
-                        text: Qt.locale().currencySymbol() + "/" + qsTr("Liter")
+                        text: Qt.locale().currencySymbol() + "/" + qsTr("l")
                     }
                 }
             }
@@ -314,7 +314,7 @@ PageBase {
                 Layout.fillWidth: true
                 visible: repeaterHopfen.count > 0
                 label: LabelSubheader {
-                    text: qsTr("Hopen")
+                    text: qsTr("Hopfen")
                 }
                 ColumnLayout {
                     anchors.fill: parent

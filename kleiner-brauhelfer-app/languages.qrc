@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>languages/kb_app_en.qm</file>
+    </qresource>
+</RCC>
