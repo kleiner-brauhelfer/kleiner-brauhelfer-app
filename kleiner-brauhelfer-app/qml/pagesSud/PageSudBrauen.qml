@@ -35,7 +35,9 @@ PageBase {
             }
         }
 
-        HorizontalDivider { }
+        HorizontalDivider {
+            Layout.fillWidth: true
+        }
 
         Flickable {
             id: flickable
@@ -71,6 +73,8 @@ PageBase {
 
             function gebraut() {
                 messageDialog.open()
+                Brauhelfer.sud.Braudatum = tfBraudatum.date
+                Brauhelfer.sud.Anstelldatum = tfAnstelldatum.date
                 Brauhelfer.sud.BierWurdeGebraut = true
                 Brauhelfer.sud.modelSchnellgaerverlauf.append({"SW": Brauhelfer.sud.SWAnstellen, "Temp": tfTemperature.value })
                 Brauhelfer.sud.modelHauptgaerverlauf.append({"SW": Brauhelfer.sud.SWAnstellen, "Temp": tfTemperature.value })
@@ -123,7 +127,9 @@ PageBase {
                                 Layout.preferredWidth: 60
                             }
                         }
-                        HorizontalDivider { }
+                        HorizontalDivider {
+                            Layout.fillWidth: true
+                        }
                         GridLayout {
                             columns: 3
                             LabelPrim {
@@ -234,7 +240,9 @@ PageBase {
                                 text: qsTr("Wochen")
                             }
                         }
-                        HorizontalDivider { }
+                        HorizontalDivider {
+                            Layout.fillWidth: true
+                        }
                         TextArea {
                             Layout.fillWidth: true
                             opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
@@ -258,6 +266,7 @@ PageBase {
                         anchors.fill: parent
                         LabelPrim {
                             Layout.fillWidth: true
+                            font.bold: true
                             text: qsTr("Hauptguss")
                         }
                         GridLayout {
@@ -332,9 +341,12 @@ PageBase {
                                 text: qsTr("°C")
                             }
                         }
-                        HorizontalDivider { }
+                        HorizontalDivider {
+                            Layout.fillWidth: true
+                        }
                         LabelPrim {
                             Layout.fillWidth: true
+                            font.bold: true
                             text: qsTr("Malz schroten")
                         }
                         Repeater {
@@ -389,6 +401,7 @@ PageBase {
                         RowLayout{
                             LabelPrim {
                                 Layout.fillWidth: true
+                                font.bold: true
                                 text: qsTr("Einmaischen")
                             }
                             LabelNumber {
@@ -402,11 +415,13 @@ PageBase {
                             }
                         }
                         HorizontalDivider {
+                            Layout.fillWidth: true
                             visible: repeaterModelWeitereZutatenGabenMaischen.count > 0
                         }
                         LabelPrim {
                             Layout.fillWidth: true
                             visible: repeaterModelWeitereZutatenGabenMaischen.count > 0
+                            font.bold: true
                             text: qsTr("Weitere Zutaten")
                         }
                         Repeater {
@@ -440,9 +455,12 @@ PageBase {
                                 }
                             }
                         }
-                        HorizontalDivider { }
+                        HorizontalDivider {
+                            Layout.fillWidth: true
+                        }
                         LabelPrim {
                             Layout.fillWidth: true
+                            font.bold: true
                             text: qsTr("Rasten")
                         }
                         Repeater {
@@ -473,9 +491,12 @@ PageBase {
                                 }
                             }
                         }
-                        HorizontalDivider { }
+                        HorizontalDivider {
+                            Layout.fillWidth: true
+                        }
                         LabelPrim {
                             Layout.fillWidth: true
+                            font.bold: true
                             text: qsTr("Jodprobe")
                         }
                         GridLayout {
@@ -518,6 +539,7 @@ PageBase {
                         anchors.fill: parent
                         LabelPrim {
                             Layout.fillWidth: true
+                            font.bold: true
                             text: qsTr("Nachguss")
                         }
                         GridLayout {
@@ -566,11 +588,13 @@ PageBase {
                             }
                         }
                         HorizontalDivider {
+                            Layout.fillWidth: true
                             visible: repVWH.countVisible > 0
                         }
                         LabelPrim {
                             Layout.fillWidth: true
                             visible: repVWH.countVisible > 0
+                            font.bold: true
                             text: qsTr("Vorderwürzehopfung")
                         }
                         Repeater {
@@ -595,9 +619,12 @@ PageBase {
                                 }
                             }
                         }
-                        HorizontalDivider { }
+                        HorizontalDivider {
+                            Layout.fillWidth: true
+                        }
                         LabelPrim {
                             Layout.fillWidth: true
+                            font.bold: true
                             text: qsTr("Zielwerte")
                         }
                         GridLayout {
@@ -667,6 +694,7 @@ PageBase {
                         anchors.fill: parent
                         LabelPrim {
                             Layout.fillWidth: true
+                            font.bold: true
                             text: qsTr("Hopfen")
                         }
                         Repeater {
@@ -698,11 +726,13 @@ PageBase {
                             }
                         }
                         HorizontalDivider {
+                            Layout.fillWidth: true
                             visible: repeaterModelWeitereZutatenGabenKochen.count > 0
                         }
                         LabelPrim {
                             Layout.fillWidth: true
                             visible: repeaterModelWeitereZutatenGabenKochen.count > 0
+                            font.bold: true
                             text: qsTr("Weitere Zutaten")
                         }
                         Repeater {
@@ -744,9 +774,12 @@ PageBase {
                                 }
                             }
                         }
-                        HorizontalDivider { }
+                        HorizontalDivider {
+                            Layout.fillWidth: true
+                        }
                         LabelPrim {
                             Layout.fillWidth: true
+                            font.bold: true
                             text: qsTr("Kochbeginn")
                         }
                         GridLayout {
@@ -831,10 +864,13 @@ PageBase {
                                 text: qsTr("l")
                             }
                         }
-                        HorizontalDivider { }
+                        HorizontalDivider {
+                            Layout.fillWidth: true
+                        }
                         RowLayout{
                             LabelPrim {
                                 Layout.fillWidth: true
+                                font.bold: true
                                 text: qsTr("Kochdauer")
                             }
                             LabelNumber {
@@ -847,25 +883,12 @@ PageBase {
                                 text: qsTr("min")
                             }
                         }
-                        RowLayout {
-                            visible: Brauhelfer.sud.Nachisomerisierungszeit > 0.0
-                            LabelPrim {
-                                Layout.fillWidth: true
-                                text: qsTr("Nachisomerisierung")
-                            }
-                            LabelNumber {
-                                Layout.preferredWidth: 80
-                                precision: 0
-                                value: Brauhelfer.sud.Nachisomerisierungszeit
-                            }
-                            LabelUnit {
-                                Layout.preferredWidth: 60
-                                text: qsTr("min")
-                            }
+                        HorizontalDivider {
+                            Layout.fillWidth: true
                         }
-                        HorizontalDivider { }
                         LabelPrim {
                             Layout.fillWidth: true
+                            font.bold: true
                             text: qsTr("Kochende")
                         }
                         GridLayout {
@@ -971,9 +994,12 @@ PageBase {
                                 text: qsTr("l")
                             }
                         }
-                        HorizontalDivider { }
+                        HorizontalDivider {
+                            Layout.fillWidth: true
+                        }
                         LabelPrim {
                             Layout.fillWidth: true
+                            font.bold: true
                             text: qsTr("Verdampfung")
                         }
                         GridLayout {
@@ -1007,11 +1033,14 @@ PageBase {
                                 text: qsTr("%")
                             }
                         }
-                        HorizontalDivider { }
+                        HorizontalDivider {
+                            Layout.fillWidth: true
+                        }
                         GridLayout {
                             columns: 3
                             LabelPrim {
                                 Layout.fillWidth: true
+                                font.bold: true
                                 text: qsTr("Sudhausausbeute")
                             }
                             LabelNumber {
@@ -1021,6 +1050,26 @@ PageBase {
                             LabelUnit {
                                 Layout.preferredWidth: 60
                                 text: qsTr("%")
+                            }
+                        }
+                        HorizontalDivider {
+                            Layout.fillWidth: true
+                        }
+                        RowLayout {
+                            visible: Brauhelfer.sud.Nachisomerisierungszeit > 0.0
+                            LabelPrim {
+                                Layout.fillWidth: true
+                                font.bold: true
+                                text: qsTr("Nachisomerisierung")
+                            }
+                            LabelNumber {
+                                Layout.preferredWidth: 80
+                                precision: 0
+                                value: Brauhelfer.sud.Nachisomerisierungszeit
+                            }
+                            LabelUnit {
+                                Layout.preferredWidth: 60
+                                text: qsTr("min")
                             }
                         }
                     }
@@ -1038,6 +1087,7 @@ PageBase {
                         anchors.fill: parent
                         LabelPrim {
                             Layout.fillWidth: true
+                            font.bold: true
                             text: qsTr("Stammwürze")
                         }
                         GridLayout {
@@ -1136,9 +1186,12 @@ PageBase {
                                 text: qsTr("°P")
                             }
                         }
-                        HorizontalDivider { }
+                        HorizontalDivider {
+                            Layout.fillWidth: true
+                        }
                         LabelPrim {
                             Layout.fillWidth: true
+                            font.bold: true
                             text: qsTr("Menge")
                         }
                         GridLayout {
@@ -1224,10 +1277,13 @@ PageBase {
                                 text: qsTr("l")
                             }
                         }
-                        HorizontalDivider { }
+                        HorizontalDivider {
+                            Layout.fillWidth: true
+                        }
                         RowLayout {
                             LabelPrim {
                                 Layout.fillWidth: true
+                                font.bold: true
                                 text: qsTr("Effektive Sudhausausbeute")
                             }
                             LabelNumber {
@@ -1239,10 +1295,13 @@ PageBase {
                                 text: qsTr("%")
                             }
                         }
-                        HorizontalDivider { }
+                        HorizontalDivider {
+                            Layout.fillWidth: true
+                        }
                         RowLayout {
                             LabelPrim {
                                 Layout.fillWidth: true
+                                font.bold: true
                                 text: qsTr("Temperatur")
                             }
                             TextFieldTemperature {
@@ -1272,6 +1331,7 @@ PageBase {
                         LabelPrim {
                             Layout.fillWidth: true
                             visible: Brauhelfer.sud.AuswahlHefe !== ""
+                            font.bold: true
                             text: qsTr("Hefe")
                         }
                         RowLayout {
@@ -1288,11 +1348,13 @@ PageBase {
                             }
                         }
                         HorizontalDivider {
+                            Layout.fillWidth: true
                             visible: Brauhelfer.sud.AuswahlHefe !== "" && repeaterModelWeitereZutatenGabenGaerung.count > 0
                         }
                         LabelPrim {
                             Layout.fillWidth: true
                             visible: repeaterModelWeitereZutatenGabenGaerung.count > 0
+                            font.bold: true
                             text: qsTr("Weitere Zutaten")
                         }
                         Repeater {
@@ -1353,15 +1415,14 @@ PageBase {
                             text: qsTr("Braudatum")
                         }
                         TextFieldDate {
+                            id: tfBraudatum
                             Layout.columnSpan: 2
                             Layout.fillWidth: true
                             enabled: !page.readOnly
                             date: Brauhelfer.sud.BierWurdeGebraut ? Brauhelfer.sud.Braudatum : new Date()
                             onNewDate: {
                                 this.date = date
-                                Brauhelfer.sud.Braudatum = date
                                 tfAnstelldatum.date = date
-                                Brauhelfer.sud.Anstelldatum = date
                             }
                         }
                         LabelPrim {
@@ -1376,7 +1437,6 @@ PageBase {
                             date: Brauhelfer.sud.BierWurdeGebraut ? Brauhelfer.sud.Anstelldatum : new Date()
                             onNewDate: {
                                 this.date = date
-                                Brauhelfer.sud.Anstelldatum = date
                             }
                         }
                         LabelPrim {

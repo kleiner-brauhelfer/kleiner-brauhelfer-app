@@ -87,6 +87,7 @@ TextFieldNumber {
 
                 HorizontalDivider {
                     Layout.columnSpan: 3
+                    Layout.fillWidth: true
                 }
 
                 LabelPrim {

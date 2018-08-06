@@ -35,6 +35,7 @@ PageBase {
                     bereit = false;
             }
             if (bereit) {
+                Brauhelfer.sud.Abfuelldatum = tfAbfuelldatum.date
                 Brauhelfer.sud.BierWurdeAbgefuellt = true
                 Brauhelfer.sud.modelNachgaerverlauf.append({"Temp": ctrlTemp.text })
             }
@@ -537,13 +538,13 @@ PageBase {
                         text: qsTr("Abfülldatum")
                     }
                     TextFieldDate {
+                        id: tfAbfuelldatum
                         Layout.columnSpan: 2
                         Layout.fillWidth: true
                         enabled: !page.readOnly
                         date: Brauhelfer.sud.BierWurdeAbgefuellt ? Brauhelfer.sud.Abfuelldatum : new Date()
                         onNewDate: {
                             this.date = date
-                            Brauhelfer.sud.Abfuelldatum = date
                         }
                     }
                     LabelPrim {

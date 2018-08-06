@@ -32,7 +32,9 @@ PageBase {
                 horizontalAlignment: Label.AlignHCenter
             }
 
-            HorizontalDivider {}
+            HorizontalDivider {
+                Layout.fillWidth: true
+            }
 
             LabelPrim {
                 wrapMode: Text.Wrap
