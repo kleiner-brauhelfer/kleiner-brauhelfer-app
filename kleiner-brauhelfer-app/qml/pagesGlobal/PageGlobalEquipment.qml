@@ -2,6 +2,7 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.2
+import QtGraphicalEffects 1.0
 
 import "../common"
 import brauhelfer 1.0
@@ -173,7 +174,7 @@ PageBase {
                                                     onClicked: itName.editing = true
                                                 }
                                             }
-                                            TextField {
+                                            TextFieldBase {
                                                 anchors.fill: parent
                                                 visible: itName.editing
                                                 horizontalAlignment: Text.AlignHCenter
@@ -446,35 +447,48 @@ PageBase {
                                                     filterKeyColumn: sourceModel.fieldIndex("AusruestungAnlagenID")
                                                     filterRegExp: new RegExp(anlagenID)
                                                 }
-                                                delegate: RowLayout{
+                                                delegate: RowLayout {
                                                     Layout.leftMargin: 8
                                                     visible: !model.deleted
-                                                    LabelPrim {
+                                                    TextFieldBase {
                                                         Layout.fillWidth: true
                                                         text: model.Bezeichnung
+                                                        onTextChanged: if (activeFocus) model.Bezeichnung = text
                                                     }
-                                                    /*
-                                                    Button {
-                                                        Layout.preferredWidth: 48
+                                                    ToolButton {
                                                         contentItem: Image {
                                                             source: "qrc:/images/ic_remove.png"
                                                             anchors.centerIn: parent
                                                         }
                                                         onClicked: repeater.model.sourceModel.remove(repeater.model.mapRowToSource(index))
                                                     }
-                                                    */
                                                 }
                                             }
-                                            /*
-                                            Button {
-                                                Layout.preferredWidth: 48
-                                                contentItem: Image {
-                                                    source: "qrc:/images/ic_add.png"
-                                                    anchors.centerIn: parent
+                                            RowLayout {
+                                                Layout.leftMargin: 8
+                                                visible: !model.deleted
+                                                TextFieldBase {
+                                                    id: tfNewGear
+                                                    Layout.fillWidth: true
+                                                    placeholderText: qsTr("Neues Gerät")
                                                 }
-                                                onClicked: repeater.model.sourceModel.append({"AusruestungAnlagenID": anlagenID, "Bezeichnung": qsTr("Gerät")})
+                                                ToolButton {
+                                                    contentItem: Image {
+                                                        source: "qrc:/images/ic_add.png"
+                                                        anchors.centerIn: parent
+                                                        layer.enabled: !parent.enabled
+                                                        layer.effect: ColorOverlay {
+                                                            color: "gray"
+                                                        }
+                                                    }
+                                                    enabled: tfNewGear.text !== ""
+                                                    onClicked: {
+                                                        repeater.model.sourceModel.append({"AusruestungAnlagenID": anlagenID, "Bezeichnung": tfNewGear.text})
+                                                        tfNewGear.text = ""
+                                                        repeater.model.invalidate()
+                                                    }
+                                                }
                                             }
-                                            */
                                         }
                                     }
                                 }

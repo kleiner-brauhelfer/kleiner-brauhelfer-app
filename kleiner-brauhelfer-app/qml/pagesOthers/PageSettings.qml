@@ -78,12 +78,10 @@ PageBase {
                     anchors.right: parent.right
                     anchors.verticalCenter: lblDatabase.verticalCenter
                     source: Brauhelfer.connected ? "qrc:/images/ic_check_circle.png" : "qrc:/images/ic_cancel.png"
-                }
-
-                ColorOverlay {
-                    anchors.fill: imgDatabase
-                    source: imgDatabase
-                    color: Brauhelfer.connected ? "green" : "red"
+                    layer.enabled: true
+                    layer.effect: ColorOverlay {
+                        color: Brauhelfer.connected ? "green" : "red"
+                    }
                 }
             }
 
@@ -120,7 +118,7 @@ PageBase {
                 Item {
                     Layout.fillWidth: true
                     height: tfDatabasePathLocal.height
-                    TextField {
+                    TextFieldBase {
                         property bool reconnect: false
                         id: tfDatabasePathLocal
                         anchors.top: parent.top
@@ -182,7 +180,7 @@ PageBase {
                     color: Material.primary
                     text: qsTr("Dropbox Access Token")
                 }
-                TextField {
+                TextFieldBase {
                     property bool reconnect: false
                     Layout.fillWidth: true
                     placeholderText: "token"
@@ -205,7 +203,7 @@ PageBase {
                     color: Material.primary
                     text: qsTr("Pfad auf dem Server")
                 }
-                TextField {
+                TextFieldBase {
                     property bool reconnect: false
                     Layout.fillWidth: true
                     inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase
@@ -240,7 +238,7 @@ PageBase {
                     color: Material.primary
                     text: qsTr("URL")
                 }
-                TextField {
+                TextFieldBase {
                     property bool reconnect: false
                     Layout.fillWidth: true
                     inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhUrlCharactersOnly
@@ -265,7 +263,7 @@ PageBase {
                     text: qsTr("Benutzername")
                 }
 
-                TextField {
+                TextFieldBase {
                     property bool reconnect: false
                     Layout.fillWidth: true
                     inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase
@@ -289,7 +287,7 @@ PageBase {
                     text: qsTr("Passwort")
                 }
 
-                TextField {
+                TextFieldBase {
                     property bool reconnect: false
                     Layout.fillWidth: true
                     inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase

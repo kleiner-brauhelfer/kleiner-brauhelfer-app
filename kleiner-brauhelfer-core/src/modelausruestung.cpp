@@ -53,3 +53,11 @@ QVariant ModelAusruestung::dataExt(const QModelIndex &index) const
     }
     return QVariant();
 }
+
+QVariantMap ModelAusruestung::defaultValues() const
+{
+    QVariantMap values;
+    values.insert("AnlagenID", (int)time(nullptr) + rand());
+    return values;
+}
+

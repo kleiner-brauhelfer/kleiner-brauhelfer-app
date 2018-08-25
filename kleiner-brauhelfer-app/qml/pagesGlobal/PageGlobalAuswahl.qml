@@ -21,7 +21,7 @@ PageBase {
         spacing: 0
 
         RowLayout {
-            TextField {
+            TextFieldBase {
                 Layout.fillWidth: true
                 Layout.leftMargin: 8
                 Layout.rightMargin: 8

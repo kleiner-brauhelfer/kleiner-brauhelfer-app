@@ -10,6 +10,7 @@ class ModelAusruestung : public SqlTableModel
 public:
     ModelAusruestung(Brauhelfer* bh);
     QVariant dataExt(const QModelIndex &index) const Q_DECL_OVERRIDE;
+    QVariantMap defaultValues() const Q_DECL_OVERRIDE;
 private:
     Brauhelfer* bh;
 };

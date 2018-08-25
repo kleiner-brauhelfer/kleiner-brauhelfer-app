@@ -106,7 +106,7 @@ PageBase {
                     }
                     ColumnLayout {
                         anchors.fill: parent
-                        TextField {
+                        TextFieldBase {
                             Layout.fillWidth: true
                             enabled: !Brauhelfer.readonly
                             placeholderText: qsTr("Sudname")

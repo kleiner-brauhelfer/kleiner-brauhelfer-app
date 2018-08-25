@@ -16,7 +16,7 @@ PageBase {
         anchors.fill: parent
         spacing: 0
 
-        TextField {
+        TextFieldBase {
             Layout.fillWidth: true
             Layout.leftMargin: 8
             Layout.rightMargin: 8
@@ -207,7 +207,7 @@ PageBase {
                                                         onClicked: itBeschreibung.editing = true
                                                     }
                                                 }
-                                                TextField {
+                                                TextFieldBase {
                                                     anchors.fill: parent
                                                     visible: itBeschreibung.editing
                                                     horizontalAlignment: Text.AlignHCenter

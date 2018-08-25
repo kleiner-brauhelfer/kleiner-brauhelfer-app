@@ -51,5 +51,6 @@
         <file>qml/common/MouseAreaCatcher.qml</file>
         <file>qml/pagesGlobal/PageGlobalWater.qml</file>
         <file>qml/pagesGlobal/PageGlobalEquipment.qml</file>
+        <file>qml/common/TextFieldBase.qml</file>
     </qresource>
 </RCC>

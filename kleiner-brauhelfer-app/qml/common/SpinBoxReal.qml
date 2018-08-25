@@ -19,6 +19,8 @@ SpinBox {
     to: max * factor
     value: realValue * factor
 
+    font.pointSize: 11
+
     validator: DoubleValidator {
         bottom: Math.min(from, to)
         top:  Math.max(from, to)
