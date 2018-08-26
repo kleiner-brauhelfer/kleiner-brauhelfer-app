@@ -57,8 +57,10 @@ private slots:
     void onModelReset();
     void onValueChanged(const QModelIndex &index, const QVariant &value);
 private:
+    QVariant dataAnlage(int row, const QString& fieldName) const;
     void updateIntermediateValues(int row);
-    QVariant erg_Preis(const QModelIndex &index) const;
+    void updateFarbe(int row);
+    void updatePreis(int row);
     QVariant SWIst(const QModelIndex &index) const;
     QVariant SREIst(const QModelIndex &index) const;
     QVariant CO2Ist(const QModelIndex &index) const;
@@ -75,7 +77,6 @@ private:
     QVariant SWSollKochbeginn(const QModelIndex &index) const;
     QVariant SWSollKochende(const QModelIndex &index) const;
     QVariant SWSollAnstellen(const QModelIndex &index) const;
-    QVariant KorrekturWasser(const QModelIndex &index) const;
     QVariant Verdampfungsziffer(const QModelIndex &index) const;
     QVariant RestalkalitaetFaktor(const QModelIndex &index) const;
     QVariant FaktorHauptgussEmpfehlung(const QModelIndex &index) const;
@@ -83,9 +84,10 @@ private:
     Brauhelfer* bh;
     bool updating;
     bool globalList;
-    double *swWzMaischen;
-    double *swWzKochen;
-    double *swWzGaerung;
+    double *swWzMaischenRecipe;
+    double *swWzKochenRecipe;
+    double *swWzGaerungRecipe;
+    double *swWzGaerungCurrent;
 };
 
 #endif // MODELSUD_H

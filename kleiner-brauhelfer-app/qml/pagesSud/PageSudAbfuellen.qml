@@ -386,17 +386,35 @@ PageBase {
                     }
                     LabelPrim {
                         Layout.fillWidth: true
+                        visible: !ctrlSpunden.checked
+                        text: qsTr("Speise")
+                    }
+                    LabelNumber {
+                        Layout.preferredWidth: 60
+                        visible: !ctrlSpunden.checked
+                        value: Brauhelfer.sud.SpeiseAnteil / 1000
+                    }
+                    LabelUnit {
+                        Layout.preferredWidth: 60
+                        visible: !ctrlSpunden.checked
+                        text: qsTr("l")
+                    }
+                    LabelPrim {
+                        Layout.fillWidth: true
+                        visible: !ctrlSpunden.checked
                         text: qsTr("Biermenge")
                     }
                     TextFieldVolume {
                         id: ctrlBiermenge
                         Layout.preferredWidth: 60
+                        visible: !ctrlSpunden.checked
                         enabled: !page.readOnly
                         value: Brauhelfer.sud.erg_AbgefuellteBiermenge
                         onNewValue: Brauhelfer.sud.erg_AbgefuellteBiermenge = value
                     }
                     LabelUnit {
                         Layout.preferredWidth: 60
+                        visible: !ctrlSpunden.checked
                         text: qsTr("l")
                     }
                 }

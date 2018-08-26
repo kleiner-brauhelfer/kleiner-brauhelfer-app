@@ -102,7 +102,6 @@ class SudObject : public QObject
     Q_PROPERTY_SUD_READONLY(double, SWSollKochbeginn, toDouble())
     Q_PROPERTY_SUD_READONLY(double, SWSollKochende, toDouble())
     Q_PROPERTY_SUD_READONLY(double, SWSollAnstellen, toDouble())
-    Q_PROPERTY_SUD_READONLY(double, KorrekturWasser, toDouble())
     Q_PROPERTY_SUD_READONLY(double, Verdampfungsziffer, toDouble())
     Q_PROPERTY_SUD_READONLY(double, RestalkalitaetFaktor, toDouble())
     Q_PROPERTY_SUD_READONLY(double, FaktorHauptgussEmpfehlung, toDouble())
