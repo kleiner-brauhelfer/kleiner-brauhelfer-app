@@ -1,6 +1,7 @@
 #include "brauhelfer.h"
 #include "syncservicelocal.h"
 #include "database.h"
+#include <QSqlQuery>
 
 const int Brauhelfer::versionMajor = VER_MAJ;
 const int Brauhelfer::verionMinor = VER_MIN;
@@ -317,4 +318,58 @@ SqlTableModel* Brauhelfer::modelGeraete() const
 SqlTableModel* Brauhelfer::modelWasser() const
 {
     return _db->modelWasser;
+}
+
+bool Brauhelfer::allowedToDeleteIngredient(IngredientType type, const QString& ingredient)
+{
+    if (ingredient.isEmpty())
+        return  false;
+
+    QSqlQuery querySud("SELECT * FROM Sud WHERE BierWurdeGebraut == 0");
+    if (querySud.exec())
+    {
+        QSqlQuery query;
+        QString ing = ingredient;
+        ing.replace("'", "''");
+        while (querySud.next())
+        {
+            QString sudid = querySud.value("Id").toString();
+            if (type == IngredientType::IngredientTypeMalt)
+            {
+                if (query.exec("SELECT * FROM Malzschuettung WHERE Name='" + ing + "' AND SudID=" + sudid))
+                {
+                    if (query.size() > 0)
+                        return false;
+                }
+            }
+            else if (type == IngredientType::IngredientTypeHops)
+            {
+                QString sql = "SELECT * FROM Hopfengaben WHERE Name='" + ing + "' AND SudID=" + sudid;
+                if (query.exec(sql))
+                {
+                    if (query.next())
+                        return false;
+                }
+                if (query.exec("SELECT * FROM WeitereZutatenGaben WHERE Name='" + ing + "' AND SudID=" + sudid))
+                {
+                    if (query.next())
+                        return false;
+                }
+            }
+            else if (type == IngredientType::IngredientTypeYeast)
+            {
+                if (ingredient == querySud.value("AuswahlHefe").toString())
+                    return false;
+            }
+            else if (type == IngredientType::IngredientTypeAdditive)
+            {
+                if (query.exec("SELECT * FROM WeitereZutatenGaben WHERE Name='" + ing + "' AND SudID=" + sudid))
+                {
+                    if (query.next())
+                        return false;
+                }
+            }
+        }
+    }
+    return true;
 }

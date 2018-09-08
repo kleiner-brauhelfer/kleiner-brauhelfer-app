@@ -2,6 +2,7 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.2
+import QtQuick.Dialogs 1.3
 
 import "../common"
 import brauhelfer 1.0
@@ -145,6 +146,13 @@ PageBase {
                 }
             }
 
+            MessageDialog {
+                id: messageDialogDelete
+                icon: MessageDialog.Warning
+                text: qsTr("Rohstoff kann nicht gelöscht werden.")
+                informativeText: qsTr("Der Rohstoff wird von einem nichtgebrauten Sud verwendet.")
+            }
+
             Loader {
                 id: popuploader
                 active: false
@@ -152,9 +160,14 @@ PageBase {
                 sourceComponent: PopupBase {
                     onClosed: popuploader.active = false
 
-                    function remove() {
-                        listView.currentItem.remove()
-                        close()
+                    function tryRemove(ingredient) {
+                        if (Brauhelfer.allowedToDeleteIngredient(Brauhelfer.IngredientTypeMalt, ingredient)) {
+                            listView.currentItem.remove()
+                            close()
+                        }
+                        else {
+                            messageDialogDelete.open()
+                        }
                     }
 
                     SwipeView {
@@ -223,7 +236,7 @@ PageBase {
                                             ToolButton {
                                                 id: btnRemove
                                                 Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                                                onClicked: remove()
+                                                onClicked: tryRemove(model.Beschreibung)
                                                 contentItem: Image {
                                                     source: "qrc:/images/ic_delete.png"
                                                     anchors.centerIn: parent

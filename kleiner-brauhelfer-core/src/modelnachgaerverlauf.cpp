@@ -62,9 +62,9 @@ QVariantMap ModelNachgaerverlauf::defaultValues() const
     return values;
 }
 
-QDateTime ModelNachgaerverlauf::getLastDateTime(QString id) const
+QDateTime ModelNachgaerverlauf::getLastDateTime(const QString &id) const
 {
-    if (id == Q_NULLPTR)
+    if (id.isEmpty())
     {
         if (rowCount() > 0)
         {
@@ -88,9 +88,9 @@ QDateTime ModelNachgaerverlauf::getLastDateTime(QString id) const
     return QDateTime();
 }
 
-double ModelNachgaerverlauf::getLastCO2(QString id) const
+double ModelNachgaerverlauf::getLastCO2(const QString &id) const
 {
-    if (id == Q_NULLPTR)
+    if (id.isEmpty())
     {
         if (rowCount() > 0)
         {

@@ -1,4 +1,5 @@
 #include "modelsud.h"
+#include "database_defs.h"
 #include "brauhelfer.h"
 #include "modelnachgaerverlauf.h"
 #include <QSqlQuery>

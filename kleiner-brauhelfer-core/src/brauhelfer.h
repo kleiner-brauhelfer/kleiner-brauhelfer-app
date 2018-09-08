@@ -64,6 +64,11 @@ public:
      */
     static const int versionPatch;
 
+    /**
+     * @brief Ingredient types
+     */
+    enum class IngredientType { IngredientTypeMalt, IngredientTypeHops, IngredientTypeYeast, IngredientTypeAdditive}; Q_ENUM(IngredientType)
+
 public:
 
     /**
@@ -198,6 +203,14 @@ public:
     SqlTableModel* modelAusruestung() const;
     SqlTableModel* modelGeraete() const;
     SqlTableModel* modelWasser() const;
+
+    /**
+     * @brief Cheks if an ingredient is allowed to be deleted
+     * @param type Ingredient type
+     * @param ingredient Ingredient name
+     * @return True if allowed to be deleted
+     */
+    Q_INVOKABLE bool allowedToDeleteIngredient(IngredientType type, const QString& ingredient);
 
 public slots:
 

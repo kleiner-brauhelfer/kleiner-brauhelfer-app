@@ -1,7 +1,7 @@
 #include "sudobject.h"
 #include "database.h"
+#include "database_defs.h"
 #include "brauhelfer.h"
-#include "modelsud.h"
 #include <QDateTime>
 
 SudObject::SudObject(Brauhelfer *bh) :

@@ -42,7 +42,8 @@ HEADERS += src/biercalc.h \
     src/modelbewertungen.h \
     src/modelwasser.h \
     src/modelweiterezutatengaben.h \
-    src/modelausruestung.h
+    src/modelausruestung.h \
+    src/database_defs.h
 
 # source files
 SOURCES += src/biercalc.cpp \
