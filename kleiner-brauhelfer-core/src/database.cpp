@@ -8,6 +8,10 @@
 #include <QSortFilterProxyModel>
 #include "sqltablemodel.h"
 #include "modelsud.h"
+#include "modelmalz.h"
+#include "modelhopfen.h"
+#include "modelhefe.h"
+#include "modelweiterezutaten.h"
 #include "modelschnellgaerverlauf.h"
 #include "modelhauptgaerverlauf.h"
 #include "modelnachgaerverlauf.h"
@@ -32,10 +36,10 @@ Database::Database(Brauhelfer* bh) :
     modelHauptgaerverlauf = new ModelHauptgaerverlauf(bh);
     modelNachgaerverlauf = new ModelNachgaerverlauf(bh);
     modelBewertungen = new ModelBewertungen(bh);
-    modelMalz = new SqlTableModel(bh);
-    modelHopfen = new SqlTableModel(bh);
-    modelHefe = new SqlTableModel(bh);
-    modelWeitereZutaten = new SqlTableModel(bh);
+    modelMalz = new ModelMalz(bh);
+    modelHopfen = new ModelHopfen(bh);
+    modelHefe = new ModelHefe(bh);
+    modelWeitereZutaten = new ModelWeitereZutaten(bh);
     modelAnhang = new SqlTableModel(bh);
     modelAusruestung = new ModelAusruestung(bh);
     modelGeraete = new SqlTableModel(bh);

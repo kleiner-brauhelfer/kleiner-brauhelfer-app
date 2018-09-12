@@ -338,14 +338,13 @@ bool Brauhelfer::allowedToDeleteIngredient(IngredientType type, const QString& i
             {
                 if (query.exec("SELECT * FROM Malzschuettung WHERE Name='" + ing + "' AND SudID=" + sudid))
                 {
-                    if (query.size() > 0)
+                    if (query.next())
                         return false;
                 }
             }
             else if (type == IngredientType::IngredientTypeHops)
             {
-                QString sql = "SELECT * FROM Hopfengaben WHERE Name='" + ing + "' AND SudID=" + sudid;
-                if (query.exec(sql))
+                if (query.exec("SELECT * FROM Hopfengaben WHERE Name='" + ing + "' AND SudID=" + sudid))
                 {
                     if (query.next())
                         return false;

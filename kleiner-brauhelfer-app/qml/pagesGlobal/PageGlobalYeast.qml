@@ -405,7 +405,7 @@ PageBase {
                                         }
 
                                         LabelUnit {
-                                            text: Qt.locale().currencySymbol() + "/" + qsTr("kg")
+                                            text: Qt.locale().currencySymbol()
                                         }
 
                                         LabelPrim {

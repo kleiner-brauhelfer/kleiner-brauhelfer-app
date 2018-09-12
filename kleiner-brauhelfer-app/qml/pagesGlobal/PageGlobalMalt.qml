@@ -284,6 +284,8 @@ PageBase {
 
                                         SpinBoxReal {
                                             decimals: 0
+                                            min: 0
+                                            max: 100
                                             realValue: model.MaxProzent
                                             onNewValue: model.MaxProzent = value
                                         }

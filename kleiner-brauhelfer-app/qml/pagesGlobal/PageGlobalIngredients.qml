@@ -287,6 +287,8 @@ PageBase {
                                         }
 
                                         SpinBoxReal {
+                                            min: 0
+                                            max: 100
                                             decimals: 0
                                             realValue: model.Ausbeute
                                             onNewValue: model.Ausbeute = value
@@ -341,7 +343,7 @@ PageBase {
                                         }
 
                                         LabelUnit {
-                                            text: Qt.locale().currencySymbol()
+                                            text: Qt.locale().currencySymbol() + "/" + (model.Einheiten === 0 ? qsTr("kg") : qsTr("g"))
                                         }
 
                                         LabelPrim {
