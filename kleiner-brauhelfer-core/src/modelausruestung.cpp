@@ -61,3 +61,18 @@ QVariantMap ModelAusruestung::defaultValues() const
     return values;
 }
 
+QString ModelAusruestung::name(int id) const
+{
+    for (int i = 0; i < rowCount(); ++i)
+        if (data(i, "AnlagenID").toInt() == id)
+            return data(i, "Name").toString();
+    return QString();
+}
+
+int ModelAusruestung::id(const QString& name) const
+{
+    for (int i = 0; i < rowCount(); ++i)
+        if (data(i, "Name").toString() == name)
+            return data(i, "AnlagenID").toInt();
+    return 0;
+}

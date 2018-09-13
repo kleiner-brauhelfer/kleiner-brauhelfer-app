@@ -2,10 +2,21 @@
 #define DATABASE_H
 
 #include <QString>
+#include "sqltablemodel.h"
+#include "modelsud.h"
+#include "modelmalz.h"
+#include "modelhopfen.h"
+#include "modelhefe.h"
+#include "modelweiterezutaten.h"
+#include "modelschnellgaerverlauf.h"
+#include "modelhauptgaerverlauf.h"
+#include "modelnachgaerverlauf.h"
+#include "modelbewertungen.h"
+#include "modelwasser.h"
+#include "modelweiterezutatengaben.h"
+#include "modelausruestung.h"
 
 class QSqlDatabase;
-class SqlTableModel;
-class QSortFilterProxyModel;
 class Brauhelfer;
 
 /**
@@ -71,25 +82,25 @@ private:
     void onConnect();
 
 public:
-    SqlTableModel* modelSudAuswahl;
-    SqlTableModel* modelSud;
+    ModelSud* modelSudAuswahl;
+    ModelSud* modelSud;
     SqlTableModel* modelRasten;
     SqlTableModel* modelRastauswahl;
     SqlTableModel* modelMalzschuettung;
     SqlTableModel* modelHopfengaben;
-    SqlTableModel* modelWeitereZutatenGaben;
-    SqlTableModel* modelSchnellgaerverlauf;
-    SqlTableModel* modelHauptgaerverlauf;
-    SqlTableModel* modelNachgaerverlauf;
-    SqlTableModel* modelBewertungen;
-    SqlTableModel* modelMalz;
-    SqlTableModel* modelHopfen;
-    SqlTableModel* modelHefe;
-    SqlTableModel* modelWeitereZutaten;
+    ModelWeitereZutatenGaben* modelWeitereZutatenGaben;
+    ModelSchnellgaerverlauf* modelSchnellgaerverlauf;
+    ModelHauptgaerverlauf* modelHauptgaerverlauf;
+    ModelNachgaerverlauf* modelNachgaerverlauf;
+    ModelBewertungen* modelBewertungen;
+    ModelMalz* modelMalz;
+    ModelHopfen* modelHopfen;
+    ModelHefe* modelHefe;
+    ModelWeitereZutaten* modelWeitereZutaten;
     SqlTableModel* modelAnhang;
-    SqlTableModel* modelAusruestung;
+    ModelAusruestung* modelAusruestung;
     SqlTableModel* modelGeraete;
-    SqlTableModel* modelWasser;
+    ModelWasser* modelWasser;
 
 private:
     QSqlDatabase* db;

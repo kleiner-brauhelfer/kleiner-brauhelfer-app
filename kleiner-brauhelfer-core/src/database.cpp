@@ -5,20 +5,6 @@
 #include <QFile>
 #include <QSqlDatabase>
 #include <QSqlQuery>
-#include <QSortFilterProxyModel>
-#include "sqltablemodel.h"
-#include "modelsud.h"
-#include "modelmalz.h"
-#include "modelhopfen.h"
-#include "modelhefe.h"
-#include "modelweiterezutaten.h"
-#include "modelschnellgaerverlauf.h"
-#include "modelhauptgaerverlauf.h"
-#include "modelnachgaerverlauf.h"
-#include "modelbewertungen.h"
-#include "modelwasser.h"
-#include "modelweiterezutatengaben.h"
-#include "modelausruestung.h"
 #include "brauhelfer.h"
 
 Database::Database(Brauhelfer* bh) :

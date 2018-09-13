@@ -98,6 +98,7 @@ class SudObject : public QObject
     Q_PROPERTY_SUD_READONLY(bool, AbfuellenBereitZutaten, toBool())
     Q_PROPERTY_SUD_READONLY(double, MengeSollKochbeginn, toDouble())
     Q_PROPERTY_SUD_READONLY(double, MengeSollKochende, toDouble())
+    Q_PROPERTY_SUD(double, WuerzemengeAnstellenTotal, toDouble())
     Q_PROPERTY_SUD_READONLY(double, SWSollLautern, toDouble())
     Q_PROPERTY_SUD_READONLY(double, SWSollKochbeginn, toDouble())
     Q_PROPERTY_SUD_READONLY(double, SWSollKochende, toDouble())

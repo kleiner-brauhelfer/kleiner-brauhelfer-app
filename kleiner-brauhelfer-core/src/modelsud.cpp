@@ -1,7 +1,7 @@
 #include "modelsud.h"
+#include "database.h"
 #include "database_defs.h"
 #include "brauhelfer.h"
-#include "modelnachgaerverlauf.h"
 #include <QSqlQuery>
 #include <math.h>
 
@@ -29,6 +29,7 @@ ModelSud::ModelSud(Brauhelfer *bh, bool globalList) :
     additionalFieldNames.append("AbfuellenBereitZutaten");
     additionalFieldNames.append("MengeSollKochbeginn");
     additionalFieldNames.append("MengeSollKochende");
+    additionalFieldNames.append("WuerzemengeAnstellenTotal");
     additionalFieldNames.append("SWSollLautern");
     additionalFieldNames.append("SWSollKochbeginn");
     additionalFieldNames.append("SWSollKochende");
@@ -67,6 +68,7 @@ void ModelSud::onModelReset()
     swWzGaerungCurrent = new double[rows];
     for (int r = 0; r < rows; ++r)
         updateIntermediateValues(r);
+    emit modified();
 }
 
 QVariant ModelSud::dataExt(const QModelIndex &index) const
@@ -140,6 +142,10 @@ QVariant ModelSud::dataExt(const QModelIndex &index) const
     {
         return MengeSollKochende(index);
     }
+    if (field == "WuerzemengeAnstellenTotal")
+    {
+        return data(index.row(), "WuerzemengeAnstellen").toDouble() + data(index.row(), "Speisemenge").toDouble();
+    }
     if (field == "SWSollLautern")
     {
         return SWSollLautern(index);
@@ -194,6 +200,88 @@ bool ModelSud::setDataExt(const QModelIndex &index, const QVariant &value)
     {
         return QSqlTableModel::setData(index, value.toDateTime().toString(Qt::ISODate));
     }
+    if (field == "Menge")
+    {
+        if (QSqlTableModel::setData(index, value))
+        {
+            if (!data(index.row(), "BierWurdeGebraut").toBool())
+                setData(index.row(), "WuerzemengeVorHopfenseihen", data(index.row(), "MengeSollKochbeginn"));
+            return true;
+        }
+        return false;
+    }
+    if (field == "WuerzemengeVorHopfenseihen")
+    {
+        if (QSqlTableModel::setData(index, value))
+        {
+            setData(index.row(), "WuerzemengeKochende", value);
+            return true;
+        }
+        return false;
+    }
+    if (field == "WuerzemengeKochende")
+    {
+        if (QSqlTableModel::setData(index, value))
+        {
+            double m = value.toDouble() + data(index.row(), "Menge").toDouble() - data(index.row(), "MengeSollKochende").toDouble();
+            setData(index.row(), "WuerzemengeAnstellenTotal", m);
+            return true;
+        }
+        return false;
+    }
+    if (field == "WuerzemengeAnstellenTotal")
+    {
+        double v = value.toDouble() - data(index.row(), "Speisemenge").toDouble();
+        return QSqlTableModel::setData(this->index(index.row(), fieldIndex("WuerzemengeAnstellen")), v);
+    }
+    if (field == "WuerzemengeAnstellen")
+    {
+        if (QSqlTableModel::setData(index, value))
+        {
+            setData(index.row(), "JungbiermengeAbfuellen", value);
+            return true;
+        }
+        return false;
+    }
+    if (field == "Speisemenge")
+    {
+        double v = data(index.row(), "WuerzemengeAnstellenTotal").toDouble() - value.toDouble();
+        if (QSqlTableModel::setData(index, value))
+        {
+            QSqlTableModel::setData(this->index(index.row(), fieldIndex("WuerzemengeAnstellen")), v);
+            return true;
+        }
+        return false;
+    }
+    if (field == "KochdauerNachBitterhopfung")
+    {
+        if (QSqlTableModel::setData(index, value))
+        {
+            updateKochdauer(value);
+            return true;
+        }
+        return false;
+    }
+    if (field == "AuswahlBrauanlage")
+    {
+        if (QSqlTableModel::setData(index, value))
+        {
+            QString name = bh->db()->modelAusruestung->name(value.toInt());
+            QSqlTableModel::setData(this->index(index.row(), fieldIndex("AuswahlBrauanlageName")), name);
+            return true;
+        }
+        return false;
+    }
+    if (field == "AuswahlBrauanlageName")
+    {
+        if (QSqlTableModel::setData(index, value))
+        {
+            int id = bh->db()->modelAusruestung->id(value.toString());
+            QSqlTableModel::setData(this->index(index.row(), fieldIndex("AuswahlBrauanlage")), id);
+            return true;
+        }
+        return false;
+    }
     if (field == "erg_AbgefuellteBiermenge")
     {
         double speise = data(index.row(), "SpeiseAnteil").toDouble() / 1000;
@@ -209,6 +297,7 @@ bool ModelSud::setDataExt(const QModelIndex &index, const QVariant &value)
             }
             return true;
         }
+        return false;
     }
     return false;
 }
@@ -216,7 +305,7 @@ bool ModelSud::setDataExt(const QModelIndex &index, const QVariant &value)
 QVariant ModelSud::dataAnlage(int row, const QString& fieldName) const
 {
     int anlage = data(row, "AuswahlBrauanlage").toInt();
-    SqlTableModel* model = bh->modelAusruestung();
+    SqlTableModel* model = bh->db()->modelAusruestung;
     int col = model->fieldIndex("AnlagenID");
     for (int i = 0; i < model->rowCount(); ++i)
         if (model->data(model->index(i, col)).toInt() == anlage)
@@ -337,7 +426,7 @@ void ModelSud::updateIntermediateValues(int row)
     }
     else
     {
-        SqlTableModel* model = bh->sud()->modelWeitereZutatenGaben();
+        SqlTableModel* model = bh->db()->modelWeitereZutatenGaben;
         for (int i = 0; i < model->rowCount(); ++i)
         {
             if (model->data(i, "Typ").toInt() != EWZ_Typ_Hopfen)
@@ -366,13 +455,16 @@ void ModelSud::updateIntermediateValues(int row)
 void ModelSud::updateFarbe(int row)
 {
     if (globalList)
+    {
+        bh->message("updateFarbe() not supported for globalList.");
         return;
+    }
 
     double ebc = 0.0;
     double d = 0.0;
     double gs = 0.0;
-    SqlTableModel* model = bh->sud()->modelMalzschuettung();
-    SqlTableModel* modelMalz = bh->modelMalz();
+    SqlTableModel* model = bh->db()->modelMalzschuettung;
+    SqlTableModel* modelMalz = bh->db()->modelMalz;
     for (int i = 0; i < model->rowCount(); ++i)
     {
         QString name = model->data(i, "Name").toString();
@@ -393,8 +485,8 @@ void ModelSud::updateFarbe(int row)
             gs += menge;
         }
     }
-    model = bh->sud()->modelWeitereZutatenGaben();
-    SqlTableModel* modelWz = bh->modelWeitereZutaten();
+    model = bh->db()->modelWeitereZutatenGaben;
+    SqlTableModel* modelWz = bh->db()->modelWeitereZutaten;
     for (int i = 0; i < model->rowCount(); ++i)
     {
         if (model->data(i, "Typ").toInt() != EWZ_Typ_Hopfen)
@@ -418,7 +510,7 @@ void ModelSud::updateFarbe(int row)
             }
         }
     }
-    ebc = 1.97 * (1.4922 *  pow((d / gs), 0.6859));
+    ebc = (d / gs) * data(row, "SW").toDouble() / 10 + 2;
     ebc += dataAnlage(row, "KorrekturFarbe").toDouble();
     setData(row, "erg_Farbe", ebc);
 }
@@ -426,7 +518,10 @@ void ModelSud::updateFarbe(int row)
 void ModelSud::updatePreis(int row)
 {
     if (globalList)
+    {
+        bh->message("updatePreis() not supported for globalList.");
         return;
+    }
 
     SqlTableModel *model, *modelAll;
     double summe = 0.0;
@@ -439,8 +534,8 @@ void ModelSud::updatePreis(int row)
     int gefunden;
 
     double kostenSchuettung = 0.0;
-    model = bh->sud()->modelMalzschuettung();
-    modelAll = bh->modelMalz();
+    model = bh->db()->modelMalzschuettung;
+    modelAll = bh->db()->modelMalz;
     z = 0;
     gefunden = 0;
     for (int o = 0; o < model->rowCount(); ++o)
@@ -466,8 +561,8 @@ void ModelSud::updatePreis(int row)
     summe += kostenSchuettung;
 
     double kostenHopfen = 0.0;
-    model = bh->sud()->modelHopfengaben();
-    modelAll = bh->modelHopfen();
+    model = bh->db()->modelHopfengaben;
+    modelAll = bh->db()->modelHopfen;
     z = 0;
     gefunden = 0;
     for (int o = 0; o < model->rowCount(); ++o)
@@ -492,9 +587,8 @@ void ModelSud::updatePreis(int row)
         KostenrechnungIO = false;
     summe += kostenHopfen;
 
-
     double kostenHefe = 0.0;
-    modelAll = bh->modelHefe();
+    modelAll = bh->db()->modelHefe;
     int anzahl = 0;
     gefunden = 0;
     s = data(row, "AuswahlHefe").toString();
@@ -521,7 +615,7 @@ void ModelSud::updatePreis(int row)
 
     //Kosten der Weiteren Zutaten
     double kostenWeitereZutaten = 0.0;
-    model = bh->sud()->modelWeitereZutatenGaben();
+    model = bh->db()->modelWeitereZutatenGaben;
     for (int o = 0; o < model->rowCount(); ++o)
     {
         s = model->data(o, "Name").toString();
@@ -529,9 +623,9 @@ void ModelSud::updatePreis(int row)
         {
             kg = model->data(o, "erg_Menge").toDouble() / 1000;
             if (model->data(o, "Typ").toInt() == EWZ_Typ_Hopfen)
-                modelAll = bh->modelHopfen();
+                modelAll = bh->db()->modelHopfen;
             else
-                modelAll = bh->modelWeitereZutaten();
+                modelAll = bh->db()->modelWeitereZutaten;
             for (int i = 0; i < modelAll->rowCount(); ++i)
             {
                 if (s == modelAll->data(i, "Beschreibung").toString())
@@ -553,7 +647,36 @@ void ModelSud::updatePreis(int row)
     summe += kostenAnlage;
 
     if (KostenrechnungIO)
-        setData(row, "erg_Preis", summe / data(row, "erg_AbgefuellteBiermenge").toDouble());
+    {
+        if (data(row, "BierWurdeGebraut").toBool())
+            setData(row, "erg_Preis", summe / data(row, "erg_AbgefuellteBiermenge").toDouble());
+        else
+            setData(row, "erg_Preis", summe / data(row, "Menge").toDouble());
+    }
+}
+
+void ModelSud::updateKochdauer(const QVariant &value)
+{
+    if (globalList)
+    {
+        bh->message("updateKochdauer() not supported for globalList.");
+        return;
+    }
+
+    double T = value.toDouble();
+    SqlTableModel* model = bh->db()->modelHopfengaben;
+    for (int i = 0; i < model->rowCount(); ++i)
+    {
+        if (model->data(i, "Voderwuerze").toBool())
+        {
+            model->setData(i, "Zeit", value);
+        }
+        else
+        {
+           if (model->data(i, "Zeit").toDouble() >= T)
+               model->setData(i, "Zeit", value);
+        }
+    }
 }
 
 QVariant ModelSud::SWIst(const QModelIndex &index) const
@@ -574,9 +697,9 @@ QVariant ModelSud::SREIst(const QModelIndex &index) const
 QVariant ModelSud::CO2Ist(const QModelIndex &index) const
 {
     if (globalList)
-        return ((ModelNachgaerverlauf*)bh->sud()->modelNachgaerverlauf())->getLastCO2(data(index.row(), "ID").toString());
+        return bh->db()->modelNachgaerverlauf->getLastCO2(data(index.row(), "ID").toString());
     else
-        return ((ModelNachgaerverlauf*)bh->sud()->modelNachgaerverlauf())->getLastCO2();
+        return bh->db()->modelNachgaerverlauf->getLastCO2();
 }
 
 QVariant ModelSud::Spundungsdruck(const QModelIndex &index) const
@@ -636,10 +759,10 @@ QVariant ModelSud::ReifezeitDelta(const QModelIndex &index) const
     {
         QDateTime dt;
         if (globalList)
-            dt = ((ModelNachgaerverlauf*)bh->sud()->modelNachgaerverlauf())->getLastDateTime(data(index.row(), "ID").toString());
+            dt = bh->db()->modelNachgaerverlauf->getLastDateTime(data(index.row(), "ID").toString());
         else
-            dt = ((ModelNachgaerverlauf*)bh->sud()->modelNachgaerverlauf())->getLastDateTime();
-        int tageReifung = dt.daysTo(QDateTime::currentDateTime());
+            dt = bh->db()->modelNachgaerverlauf->getLastDateTime();
+        int tageReifung = (int)dt.daysTo(QDateTime::currentDateTime());
         int tageReifungSoll = data(index.row(), "Reifezeit").toInt() * 7;
         return tageReifungSoll - tageReifung;
     }
@@ -664,7 +787,7 @@ QVariant ModelSud::AbfuellenBereitZutaten(const QModelIndex &index) const
     }
     else
     {
-        SqlTableModel* model = bh->sud()->modelWeitereZutatenGaben();
+        SqlTableModel* model = bh->db()->modelWeitereZutatenGaben;
         for (int i = 0; i < model->rowCount(); ++i)
             if (!model->data(i, "Abfuellbereit").toBool())
                 return false;
@@ -725,7 +848,7 @@ QVariant ModelSud::Verdampfungsziffer(const QModelIndex &index) const
 
 QVariant ModelSud::RestalkalitaetFaktor(const QModelIndex &index) const
 {
-    double ist = bh->modelWasser()->data(0, "Restalkalitaet").toDouble();
+    double ist = bh->db()->modelWasser->data(0, "Restalkalitaet").toDouble();
     double soll = data(index.row(), "RestalkalitaetSoll").toDouble();
     double fac = (ist -  soll) * 0.033333333;
     if (fac < 0.0)
