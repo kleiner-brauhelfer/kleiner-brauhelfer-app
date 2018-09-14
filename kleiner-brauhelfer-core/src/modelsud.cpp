@@ -182,7 +182,13 @@ bool ModelSud::setDataExt(const QModelIndex &index, const QVariant &value)
     QString field = fieldName(index.column());
     if (field == "Braudatum")
     {
-        return QSqlTableModel::setData(index, value.toDateTime().toString(Qt::ISODate));
+        if (QSqlTableModel::setData(index, value.toDateTime().toString(Qt::ISODate)))
+        {
+            setData(index.row(), "Anstelldatum", value);
+            setData(index.row(), "Abfuelldatum", value);
+            return true;
+        }
+        return false;
     }
     if (field == "Anstelldatum")
     {
@@ -232,7 +238,7 @@ bool ModelSud::setDataExt(const QModelIndex &index, const QVariant &value)
     if (field == "WuerzemengeAnstellenTotal")
     {
         double v = value.toDouble() - data(index.row(), "Speisemenge").toDouble();
-        return QSqlTableModel::setData(this->index(index.row(), fieldIndex("WuerzemengeAnstellen")), v);
+        return setData(index.row(), "WuerzemengeAnstellen", v);
     }
     if (field == "WuerzemengeAnstellen")
     {
@@ -249,6 +255,49 @@ bool ModelSud::setDataExt(const QModelIndex &index, const QVariant &value)
         if (QSqlTableModel::setData(index, value))
         {
             QSqlTableModel::setData(this->index(index.row(), fieldIndex("WuerzemengeAnstellen")), v);
+            return true;
+        }
+        return false;
+    }
+    if (field == "erg_AbgefuellteBiermenge")
+    {
+        double speise = data(index.row(), "SpeiseAnteil").toDouble() / 1000;
+        double jungbiermenge = data(index.row(), "JungbiermengeAbfuellen").toDouble();
+        if (QSqlTableModel::setData(index, value))
+        {
+            if (jungbiermenge > 0.0)
+                QSqlTableModel::setData(this->index(index.row(), fieldIndex("JungbiermengeAbfuellen")), value.toDouble() / (1 + speise / jungbiermenge));
+            else
+                QSqlTableModel::setData(this->index(index.row(), fieldIndex("JungbiermengeAbfuellen")), value.toDouble() - speise);
+            return true;
+        }
+        return false;
+    }
+    if (field == "SW")
+    {
+        if (QSqlTableModel::setData(index, value))
+        {
+            if (!data(index.row(), "BierWurdeGebraut").toBool())
+                setData(index.row(), "SWKochende", value);
+            return true;
+        }
+        return false;
+    }
+    if (field == "SWKochende")
+    {
+        if (QSqlTableModel::setData(index, value))
+        {
+            setData(index.row(), "SWAnstellen", value);
+            return true;
+        }
+        return false;
+    }
+    if (field == "SWAnstellen")
+    {
+        if (QSqlTableModel::setData(index, value))
+        {
+            setData(index.row(), "SWSchnellgaerprobe", value);
+            setData(index.row(), "SWJungbier", value);
             return true;
         }
         return false;
@@ -282,23 +331,6 @@ bool ModelSud::setDataExt(const QModelIndex &index, const QVariant &value)
         }
         return false;
     }
-    if (field == "erg_AbgefuellteBiermenge")
-    {
-        double speise = data(index.row(), "SpeiseAnteil").toDouble() / 1000;
-        double jungbiermenge = data(index.row(), "JungbiermengeAbfuellen").toDouble();
-        if (QSqlTableModel::setData(index, value))
-        {
-            if (!updating)
-            {
-                if (jungbiermenge > 0.0)
-                    QSqlTableModel::setData(this->index(index.row(), fieldIndex("JungbiermengeAbfuellen")), value.toDouble() / (1 + speise / jungbiermenge));
-                else
-                    QSqlTableModel::setData(this->index(index.row(), fieldIndex("JungbiermengeAbfuellen")), value.toDouble() - speise);
-            }
-            return true;
-        }
-        return false;
-    }
     return false;
 }
 
@@ -323,19 +355,17 @@ void ModelSud::onValueChanged(const QModelIndex &index, const QVariant &value)
 
     double menge, sw;
     int row = index.row();
-    bool gebraut = data(row, "BierWurdeGebraut").toBool();
-    bool abgefuellt = data(row, "BierWurdeAbgefuellt").toBool();
 
     // update intermediate values
     updateIntermediateValues(row);
 
-    // recipe
-    double mengeRecipe = data(row, "Menge").toDouble();
-    double swRecipe = data(row, "SW").toDouble();
-    double hgf = 1 + data(row, "highGravityFaktor").toDouble() / 100;
-
-    if (!gebraut)
+    if (!data(row, "BierWurdeGebraut").toBool())
     {
+        // recipe
+        double mengeRecipe = data(row, "Menge").toDouble();
+        double swRecipe = data(row, "SW").toDouble();
+        double hgf = 1 + data(row, "highGravityFaktor").toDouble() / 100;
+
         // erg_S_Gesammt
         sw = swRecipe - swWzMaischenRecipe[row] - swWzKochenRecipe[row] - swWzGaerungRecipe[row];
         double ausb = dataAnlage(row, "Sudhausausbeute").toDouble();
@@ -369,7 +399,7 @@ void ModelSud::onValueChanged(const QModelIndex &index, const QVariant &value)
         menge = (data(row, "WuerzemengeAnstellen").toDouble() + data(row, "Speisemenge").toDouble()) / hgf;
         setData(row, "erg_EffektiveAusbeute", BierCalc::sudhausausbeute(sw , menge, schuet));
     }
-    else if (!abgefuellt)
+    if (!data(row, "BierWurdeAbgefuellt").toBool())
     {
         // erg_Alkohol
         double sre = data(row, "SREIst").toDouble();
@@ -380,13 +410,13 @@ void ModelSud::onValueChanged(const QModelIndex &index, const QVariant &value)
         setData(row, "erg_Alkohol", BierCalc::alkohol(sw, sre));
 
         // erg_AbgefuellteBiermenge
-        double jungbier = data(row, "JungbiermengeAbfuellen").toDouble();
+        double jungbiermenge = data(row, "JungbiermengeAbfuellen").toDouble();
         double speise = data(row, "SpeiseAnteil").toDouble() / 1000;
-        setData(row, "erg_AbgefuellteBiermenge", jungbier + speise);
-    }
+        setData(row, "erg_AbgefuellteBiermenge", jungbiermenge + speise);
 
-    // erg_Preis
-    updatePreis(row);
+        // erg_Preis
+        updatePreis(row);
+    }
 
     updating = false;
 }
@@ -681,9 +711,7 @@ void ModelSud::updateKochdauer(const QVariant &value)
 
 QVariant ModelSud::SWIst(const QModelIndex &index) const
 {
-    if (data(index.row(), "BierWurdeGebraut").toBool())
-        return data(index.row(), "SWAnstellen").toDouble() + swWzGaerungCurrent[index.row()];
-    return 0.0;
+    return data(index.row(), "SWAnstellen").toDouble() + swWzGaerungCurrent[index.row()];
 }
 
 QVariant ModelSud::SREIst(const QModelIndex &index) const

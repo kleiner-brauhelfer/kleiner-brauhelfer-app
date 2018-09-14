@@ -40,9 +40,15 @@ PageBase {
                 wrapMode: Text.Wrap
                 Layout.fillWidth: true
                 textFormat: Text.RichText
-                text: qsTr("<p>Diese App dient als Ergänzung zum Programm
-                    <a href=\"http://www.joerum.de/kleiner-brauhelfer\">kleiner-brauhelfer</a> von gremmel.</p>
-                    <p>Die App wird von <a href=\"mailto:bourgeoislab@gmail.com\">BourgeoisLab</a> entwickelt.</p>")
+                text: qsTr("Diese App dient als Ergänzung zum Programm <a href=\"http://www.joerum.de/kleiner-brauhelfer\">kleiner-brauhelfer</a> von gremmel.")
+                onLinkActivated: Qt.openUrlExternally(link)
+            }
+
+            LabelPrim {
+                wrapMode: Text.Wrap
+                Layout.fillWidth: true
+                textFormat: Text.RichText
+                text: qsTr("Die App wird von <a href=\"mailto:bourgeoislab@gmail.com\">BourgeoisLab</a> entwickelt.")
                 onLinkActivated: Qt.openUrlExternally(link)
             }
         }

@@ -74,7 +74,6 @@ PageBase {
             function gebraut() {
                 messageDialog.open()
                 Brauhelfer.sud.Braudatum = tfBraudatum.date
-                Brauhelfer.sud.Anstelldatum = tfAnstelldatum.date
                 Brauhelfer.sud.BierWurdeGebraut = true
                 Brauhelfer.sud.modelSchnellgaerverlauf.append({"SW": Brauhelfer.sud.SWAnstellen, "Temp": tfTemperature.value })
                 Brauhelfer.sud.modelHauptgaerverlauf.append({"SW": Brauhelfer.sud.SWAnstellen, "Temp": tfTemperature.value })
@@ -946,10 +945,7 @@ PageBase {
                                 enabled: !page.readOnly
                                 useDialog: true
                                 value: Brauhelfer.sud.SWKochende
-                                onNewValue: {
-                                    Brauhelfer.sud.SWKochende = value
-                                    Brauhelfer.sud.SWAnstellen = value
-                                }
+                                onNewValue: Brauhelfer.sud.SWKochende = value
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
@@ -1391,24 +1387,7 @@ PageBase {
                             Layout.fillWidth: true
                             enabled: !page.readOnly
                             date: Brauhelfer.sud.BierWurdeGebraut ? Brauhelfer.sud.Braudatum : new Date()
-                            onNewDate: {
-                                this.date = date
-                                tfAnstelldatum.date = date
-                            }
-                        }
-                        LabelPrim {
-                            Layout.fillWidth: true
-                            text: qsTr("Anstelldatum")
-                        }
-                        TextFieldDate {
-                            id: tfAnstelldatum
-                            Layout.columnSpan: 2
-                            Layout.fillWidth: true
-                            enabled: !page.readOnly
-                            date: Brauhelfer.sud.BierWurdeGebraut ? Brauhelfer.sud.Anstelldatum : new Date()
-                            onNewDate: {
-                                this.date = date
-                            }
+                            onNewDate: this.date = date
                         }
                         LabelPrim {
                             Layout.fillWidth: true
