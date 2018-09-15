@@ -466,7 +466,6 @@ PageBase {
                                             }
                                             RowLayout {
                                                 Layout.leftMargin: 8
-                                                visible: !model.deleted
                                                 TextFieldBase {
                                                     id: tfNewGear
                                                     Layout.fillWidth: true

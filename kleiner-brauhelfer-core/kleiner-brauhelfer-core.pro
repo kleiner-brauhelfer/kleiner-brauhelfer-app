@@ -47,7 +47,8 @@ HEADERS += src/biercalc.h \
     src/modelmalz.h \
     src/modelhefe.h \
     src/modelhopfen.h \
-    src/modelweiterezutaten.h
+    src/modelweiterezutaten.h \
+    src/modelrasten.h
 
 # source files
 SOURCES += src/biercalc.cpp \
@@ -68,4 +69,5 @@ SOURCES += src/biercalc.cpp \
     src/modelmalz.cpp \
     src/modelhefe.cpp \
     src/modelhopfen.cpp \
-    src/modelweiterezutaten.cpp
+    src/modelweiterezutaten.cpp \
+    src/modelrasten.cpp

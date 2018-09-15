@@ -15,6 +15,7 @@
 #include "modelwasser.h"
 #include "modelweiterezutatengaben.h"
 #include "modelausruestung.h"
+#include "modelrasten.h"
 
 class QSqlDatabase;
 class Brauhelfer;
@@ -84,7 +85,7 @@ private:
 public:
     ModelSud* modelSudAuswahl;
     ModelSud* modelSud;
-    SqlTableModel* modelRasten;
+    ModelRasten* modelRasten;
     SqlTableModel* modelRastauswahl;
     SqlTableModel* modelMalzschuettung;
     SqlTableModel* modelHopfengaben;

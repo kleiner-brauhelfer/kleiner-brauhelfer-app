@@ -13,7 +13,7 @@ Database::Database(Brauhelfer* bh) :
     db = new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"));
     modelSudAuswahl = new ModelSud(bh, true);
     modelSud = new ModelSud(bh, false);
-    modelRasten = new SqlTableModel(bh);
+    modelRasten = new ModelRasten(bh);
     modelRastauswahl = new SqlTableModel(bh);
     modelMalzschuettung = new SqlTableModel(bh);
     modelHopfengaben = new SqlTableModel(bh);

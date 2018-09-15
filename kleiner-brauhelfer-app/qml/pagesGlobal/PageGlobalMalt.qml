@@ -92,7 +92,7 @@ PageBase {
             }
             delegate: ItemDelegate {
                 id: rowDelegate
-                visible: (app.settings.ingredientsFilter === 0 || model.Menge > 0.0) && !model.deleted
+                visible: (app.settings.ingredientsFilter === 0 || model.Menge > 0) && !model.deleted
                 width: parent.width
                 height: visible ? dataColumn.implicitHeight : 0
                 padding: 0
@@ -127,9 +127,14 @@ PageBase {
                         Layout.leftMargin: 8
                         Layout.rightMargin: 8
                         LabelPrim {
+                            id: tfBeschreibung
                             Layout.fillWidth: true
                             opacity: model.Menge > 0 ? app.config.textOpacityFull : app.config.textOpacityHalf
                             text: model.Beschreibung
+                            states: State {
+                                when: model.Menge > 0 && model.Mindesthaltbar < new Date()
+                                PropertyChanges { target: tfBeschreibung; color: Material.accent }
+                            }
                         }
                         LabelNumber {
                             Layout.fillWidth: true
@@ -350,6 +355,7 @@ PageBase {
 
                                         TextFieldDate {
                                             Layout.alignment: Qt.AlignHCenter
+                                            enabled: model.Menge > 0
                                             date: model.Eingelagert
                                             onNewDate: model.Eingelagert = date
                                         }
@@ -364,9 +370,15 @@ PageBase {
                                         }
 
                                         TextFieldDate {
+                                            id: tfMindesthaltbar
                                             Layout.alignment: Qt.AlignHCenter
+                                            enabled: model.Menge > 0
                                             date: model.Mindesthaltbar
                                             onNewDate: model.Mindesthaltbar = date
+                                            states: State {
+                                                when: tfMindesthaltbar.enabled && tfMindesthaltbar.date < new Date()
+                                                PropertyChanges { target: tfMindesthaltbar; color: Material.accent }
+                                            }
                                         }
 
                                         LabelUnit {
