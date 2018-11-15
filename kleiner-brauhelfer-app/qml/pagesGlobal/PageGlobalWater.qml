@@ -5,7 +5,6 @@ import QtQuick.Controls.Material 2.2
 
 import "../common"
 import brauhelfer 1.0
-import SortFilterProxyModel 1.0
 
 PageBase {
     id: page

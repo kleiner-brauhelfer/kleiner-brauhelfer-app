@@ -260,6 +260,11 @@ QString Brauhelfer::databasePath() const
     return _fs->getFilePath();
 }
 
+int Brauhelfer::databaseVersion() const
+{
+    return _db->getVersion();
+}
+
 Database* Brauhelfer::db() const
 {
     return _db;
@@ -329,14 +334,14 @@ bool Brauhelfer::allowedToDeleteIngredient(IngredientType type, const QString& i
     if (querySud.exec())
     {
         QSqlQuery query;
-        QString ing = ingredient;
-        ing.replace("'", "''");
         while (querySud.next())
         {
-            QString sudid = querySud.value("Id").toString();
+            int sudid = querySud.value("Id").toInt();
             if (type == IngredientType::IngredientTypeMalt)
             {
-                if (query.exec("SELECT * FROM Malzschuettung WHERE Name='" + ing + "' AND SudID=" + sudid))
+                query.prepare("SELECT * FROM Malzschuettung WHERE Name=:ingredient AND SudID=" + QString::number(sudid));
+                query.bindValue(":ingredient", ingredient);
+                if (query.exec())
                 {
                     if (query.next())
                         return false;
@@ -344,12 +349,16 @@ bool Brauhelfer::allowedToDeleteIngredient(IngredientType type, const QString& i
             }
             else if (type == IngredientType::IngredientTypeHops)
             {
-                if (query.exec("SELECT * FROM Hopfengaben WHERE Name='" + ing + "' AND SudID=" + sudid))
+                query.prepare("SELECT * FROM Hopfengaben WHERE Name=:ingredient AND SudID=" + QString::number(sudid));
+                query.bindValue(":ingredient", ingredient);
+                if (query.exec())
                 {
                     if (query.next())
                         return false;
                 }
-                if (query.exec("SELECT * FROM WeitereZutatenGaben WHERE Name='" + ing + "' AND SudID=" + sudid))
+                query.prepare("SELECT * FROM WeitereZutatenGaben WHERE Name=:ingredient AND SudID=" + QString::number(sudid));
+                query.bindValue(":ingredient", ingredient);
+                if (query.exec())
                 {
                     if (query.next())
                         return false;
@@ -362,7 +371,9 @@ bool Brauhelfer::allowedToDeleteIngredient(IngredientType type, const QString& i
             }
             else if (type == IngredientType::IngredientTypeAdditive)
             {
-                if (query.exec("SELECT * FROM WeitereZutatenGaben WHERE Name='" + ing + "' AND SudID=" + sudid))
+                query.prepare("SELECT * FROM WeitereZutatenGaben WHERE Name=:ingredient AND SudID=" + QString::number(sudid));
+                query.bindValue(":ingredient", ingredient);
+                if (query.exec())
                 {
                     if (query.next())
                         return false;

@@ -63,8 +63,6 @@ HEADERS += \
     src/qmlutils.h \
     src/syncservicemanager.h \
     src/syncservicedropbox.h \
-    src/sortfilterproxymodel.h \
-    src/sortfilterproxymodelsud.h \
     src/syncservicewebdav.h \
     src/languageselector.h
 
@@ -74,8 +72,6 @@ SOURCES += \
     src/qmlutils.cpp \
     src/syncservicemanager.cpp \
     src/syncservicedropbox.cpp \
-    src/sortfilterproxymodel.cpp \
-    src/sortfilterproxymodelsud.cpp \
     src/syncservicewebdav.cpp \
     src/languageselector.cpp
 

@@ -6,7 +6,7 @@ import QtGraphicalEffects 1.0
 
 import "../common"
 import brauhelfer 1.0
-import SortFilterProxyModel 1.0
+import ProxyModel 1.0
 
 PageBase {
     id: page
@@ -62,7 +62,7 @@ PageBase {
                         id: listViewWeitereZutaten
                         Layout.fillWidth: true
                         height: contentHeight
-                        model: SortFilterProxyModel {
+                        model: ProxyModel {
                             sourceModel: Brauhelfer.sud.modelWeitereZutatenGaben
                             filterKeyColumn: sourceModel.fieldIndex("Zeitpunkt")
                             filterRegExp: /0/

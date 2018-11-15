@@ -4,11 +4,17 @@
 #include <QObject>
 #include <QColor>
 
+#if defined(KBCORE_LIBRARY)
+  #define KBCORE_EXPORT Q_DECL_EXPORT
+#else
+  #define KBCORE_EXPORT Q_DECL_IMPORT
+#endif
+
 /**
  * @brief Berechnungen rund um die Bierherstellung
  * @note Wird von QObject abgeleitet, damit die Klasse in QML aufgerufen werden kann
  */
-class BierCalc : public QObject
+class KBCORE_EXPORT BierCalc : public QObject
 {
     Q_OBJECT
 

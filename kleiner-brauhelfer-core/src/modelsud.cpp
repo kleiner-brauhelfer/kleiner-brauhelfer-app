@@ -429,8 +429,8 @@ void ModelSud::updateIntermediateValues(int row)
     swWzGaerungCurrent[row] = 0.0;
     if (globalList)
     {
-        QString id = data(row, "ID").toString();
-        QSqlQuery query("SELECT Typ, Menge, Ausbeute, Zeitpunkt, Zugabestatus FROM WeitereZutatenGaben WHERE SudID = " + id);
+        int id = data(row, "ID").toInt();
+        QSqlQuery query("SELECT Typ, Menge, Ausbeute, Zeitpunkt, Zugabestatus FROM WeitereZutatenGaben WHERE SudID = " + QString::number(id));
         while (query.next())
         {
             if (query.value("Typ").toInt() != EWZ_Typ_Hopfen)
@@ -725,7 +725,7 @@ QVariant ModelSud::SREIst(const QModelIndex &index) const
 QVariant ModelSud::CO2Ist(const QModelIndex &index) const
 {
     if (globalList)
-        return bh->db()->modelNachgaerverlauf->getLastCO2(data(index.row(), "ID").toString());
+        return bh->db()->modelNachgaerverlauf->getLastCO2(data(index.row(), "ID").toInt());
     else
         return bh->db()->modelNachgaerverlauf->getLastCO2();
 }
@@ -787,7 +787,7 @@ QVariant ModelSud::ReifezeitDelta(const QModelIndex &index) const
     {
         QDateTime dt;
         if (globalList)
-            dt = bh->db()->modelNachgaerverlauf->getLastDateTime(data(index.row(), "ID").toString());
+            dt = bh->db()->modelNachgaerverlauf->getLastDateTime(data(index.row(), "ID").toInt());
         else
             dt = bh->db()->modelNachgaerverlauf->getLastDateTime();
         int tageReifung = (int)dt.daysTo(QDateTime::currentDateTime());
@@ -801,8 +801,8 @@ QVariant ModelSud::AbfuellenBereitZutaten(const QModelIndex &index) const
 {
     if (globalList)
     {
-        QString id = data(index.row(), "ID").toString();
-        QSqlQuery query("SELECT Zugabestatus, Entnahmeindex FROM WeitereZutatenGaben WHERE SudID = " + id + " AND Zeitpunkt=" + QString::number(EWZ_Zeitpunkt_Gaerung));
+        int id = data(index.row(), "ID").toInt();
+        QSqlQuery query("SELECT Zugabestatus, Entnahmeindex FROM WeitereZutatenGaben WHERE SudID = " + QString::number(id) + " AND Zeitpunkt=" + QString::number(EWZ_Zeitpunkt_Gaerung));
         while (query.next())
         {
             int Zugabestatus = query.value("Zugabestatus").toInt();

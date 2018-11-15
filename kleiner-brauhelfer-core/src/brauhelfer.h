@@ -30,6 +30,7 @@ class KBCORE_EXPORT Brauhelfer : public QObject
     Q_PROPERTY(bool isServiceAvailable READ isServiceAvailable NOTIFY connectionChanged)
     Q_PROPERTY(bool readonly READ readonly NOTIFY connectionChanged)
     Q_PROPERTY(QString databasePath READ databasePath NOTIFY connectionChanged)
+    Q_PROPERTY(int databaseVersion READ databaseVersion NOTIFY connectionChanged)
     Q_PROPERTY(bool modified READ isDirty NOTIFY modified)
     Q_PROPERTY(SyncService::SyncState syncState READ syncState NOTIFY modified)
 
@@ -171,6 +172,12 @@ public:
      * @return Database path
      */
     QString databasePath() const;
+
+    /**
+     * @brief Gets the database version
+     * @return Database version
+     */
+    int databaseVersion() const;
 
     /**
      * @brief Gets the database

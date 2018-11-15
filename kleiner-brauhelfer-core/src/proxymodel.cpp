@@ -1,101 +1,103 @@
-#include "sortfilterproxymodel.h"
+#include "proxymodel.h"
 
-SortFilterProxyModel::SortFilterProxyModel(QObject *parent) :
+ProxyModel::ProxyModel(QObject *parent) :
     QSortFilterProxyModel(parent),
     mDateColumn(-1),
     mMinDate(QDateTime()),
     mMaxDate(QDateTime())
 {
     setDynamicSortFilter(false);
+    setFilterCaseSensitivity(Qt::CaseSensitivity::CaseInsensitive);
 }
 
-SortFilterProxyModel::~SortFilterProxyModel()
-{
-}
-
-void SortFilterProxyModel::setSourceModel(QAbstractItemModel *sourceModel)
+void ProxyModel::setSourceModel(QAbstractItemModel *sourceModel)
 {
     QSortFilterProxyModel::setSourceModel(sourceModel);
     connect(sourceModel, SIGNAL(modelReset()), this, SLOT(onModelReset()));
 }
 
-void SortFilterProxyModel::onModelReset()
+void ProxyModel::onModelReset()
 {
     sort(sortColumn(), sortOrder());
     emit sortChanged();
 }
 
-int SortFilterProxyModel::mapRowToSource(int row) const
+int ProxyModel::mapRowToSource(int row) const
 {
     QModelIndex index = mapToSource(this->index(row, 0));
     return index.row();
 }
 
-int SortFilterProxyModel::mapRowFromSource(int row) const
+int ProxyModel::mapRowFromSource(int row) const
 {
     QModelIndex index = mapFromSource(sourceModel()->index(row, 0));
     return index.row();
 }
 
-int SortFilterProxyModel::sortColumn() const
+void ProxyModel::setFilterString(const QString &pattern)
+{
+    setFilterFixedString(pattern);
+}
+
+int ProxyModel::sortColumn() const
 {
     return QSortFilterProxyModel::sortColumn();
 }
 
-void SortFilterProxyModel::setSortColumn(int column)
+void ProxyModel::setSortColumn(int column)
 {
     sort(column, sortOrder());
     emit sortChanged();
 }
 
-Qt::SortOrder SortFilterProxyModel::sortOrder() const
+Qt::SortOrder ProxyModel::sortOrder() const
 {
     return QSortFilterProxyModel::sortOrder();
 }
 
-void SortFilterProxyModel::setSortOrder(Qt::SortOrder order)
+void ProxyModel::setSortOrder(Qt::SortOrder order)
 {
     sort(sortColumn(), order);
     emit sortChanged();
 }
 
-int SortFilterProxyModel::filterDateColumn() const
+int ProxyModel::filterDateColumn() const
 {
     return mDateColumn;
 }
 
-void SortFilterProxyModel::setFilterDateColumn(int column)
+void ProxyModel::setFilterDateColumn(int column)
 {
     mDateColumn = column;
     invalidateFilter();
     emit filterChanged();
 }
 
-QDateTime SortFilterProxyModel::filterMinimumDate() const
+QDateTime ProxyModel::filterMinimumDate() const
 {
     return mMinDate;
 }
 
-void SortFilterProxyModel::setFilterMinimumDate(const QDateTime &dt)
+void ProxyModel::setFilterMinimumDate(const QDateTime &dt)
 {
     mMinDate = dt;
     invalidateFilter();
     emit filterChanged();
 }
 
-QDateTime SortFilterProxyModel::filterMaximumDate() const
+QDateTime ProxyModel::filterMaximumDate() const
 {
     return mMaxDate;
 }
 
-void SortFilterProxyModel::setFilterMaximumDate(const QDateTime &dt)
+void ProxyModel::setFilterMaximumDate(const QDateTime &dt)
 {
     mMaxDate = dt;
     invalidateFilter();
     emit filterChanged();
 }
 
-bool SortFilterProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
+bool ProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
     bool accept = QSortFilterProxyModel::filterAcceptsRow(source_row, source_parent);
     if (accept && mDateColumn >= 0)
@@ -107,7 +109,7 @@ bool SortFilterProxyModel::filterAcceptsRow(int source_row, const QModelIndex &s
     return accept;
 }
 
-bool SortFilterProxyModel::dateInRange(const QDateTime &dt) const
+bool ProxyModel::dateInRange(const QDateTime &dt) const
 {
     return (!mMinDate.isValid() || dt > mMinDate) && (!mMaxDate.isValid() || dt < mMaxDate);
 }

@@ -13,13 +13,13 @@ QVariant SqlTableModel::data(const QModelIndex &index, int role) const
     QVariant value;
     if (role == Qt::DisplayRole || role > Qt::UserRole)
     {
-        if (role == Qt::UserRole + QSqlTableModel::columnCount() + 1)
+        int col = (role > Qt::UserRole) ? (role - Qt::UserRole - 1) : index.column();
+        if (col == QSqlTableModel::columnCount())
         {
             value = headerData(index.row(), Qt::Vertical).toString() == "!";
         }
         else
         {
-            int col = (role > Qt::UserRole) ? (role - Qt::UserRole - 1) : index.column();
             const QModelIndex index2 = this->index(index.row(), col);
             value = dataExt(index2);
             if (!value.isValid())
@@ -43,13 +43,13 @@ bool SqlTableModel::setData(const QModelIndex &index, const QVariant &value, int
     bool ret;
     if (role == Qt::EditRole || role > Qt::UserRole)
     {
-        if (role == Qt::UserRole + QSqlTableModel::columnCount() + 1)
+        int col = (role > Qt::UserRole) ? (role - Qt::UserRole - 1) : index.column();
+        if (col == QSqlTableModel::columnCount())
         {
             ret = false;
         }
         else
         {
-            int col = (role > Qt::UserRole) ? (role - Qt::UserRole - 1) : index.column();
             const QModelIndex index2 = this->index(index.row(), col);
             QVariant oldValue = data(index2);
             ret = setDataExt(index2, value);

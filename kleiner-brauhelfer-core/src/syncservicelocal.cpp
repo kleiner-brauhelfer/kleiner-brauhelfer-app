@@ -8,7 +8,7 @@ SyncServiceLocal::SyncServiceLocal(QSettings *settings) :
 }
 
 SyncServiceLocal::SyncServiceLocal(const QString &filePath) :
-    SyncService(NULL)
+    SyncService(Q_NULLPTR)
 {
     setFilePath(filePath);
 }
@@ -17,20 +17,11 @@ bool SyncServiceLocal::synchronize(SyncDirection direction)
 {
     if (QFile::exists(getFilePath()))
     {
-        switch (direction)
-        {
-        case SyncDirection::Download:
+        if (direction == SyncDirection::Download)
             setState(SyncState::UpToDate);
-            return true;
-
-        case SyncDirection::Upload:
+        else
             setState(SyncState::Updated);
-            return true;
-
-        default:
-            setState(SyncState::Failed);
-            return false;
-        }
+        return true;
     }
     else
     {

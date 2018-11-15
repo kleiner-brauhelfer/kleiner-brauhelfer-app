@@ -7,7 +7,7 @@ import QtQuick.Dialogs 1.3
 
 import "../common"
 import brauhelfer 1.0
-import SortFilterProxyModel 1.0
+import ProxyModel 1.0
 
 PageBase {
     id: page
@@ -427,7 +427,7 @@ PageBase {
                         }
                         Repeater {
                             id: repeaterModelWeitereZutatenGabenMaischen
-                            model: SortFilterProxyModel {
+                            model: ProxyModel {
                                 sourceModel: Brauhelfer.sud.modelWeitereZutatenGaben
                                 filterKeyColumn: sourceModel.fieldIndex("Zeitpunkt")
                                 filterRegExp: /2/
@@ -852,7 +852,7 @@ PageBase {
                         }
                         Repeater {
                             id: repeaterModelWeitereZutatenGabenKochen
-                            model: SortFilterProxyModel {
+                            model: ProxyModel {
                                 sourceModel: Brauhelfer.sud.modelWeitereZutatenGaben
                                 filterKeyColumn: sourceModel.fieldIndex("Zeitpunkt")
                                 filterRegExp: /1/
@@ -1326,7 +1326,7 @@ PageBase {
                         }
                         Repeater {
                             id: repeaterModelWeitereZutatenGabenGaerung
-                            model: SortFilterProxyModel {
+                            model: ProxyModel {
                                 sourceModel: Brauhelfer.sud.modelWeitereZutatenGaben
                                 filterKeyColumn: sourceModel.fieldIndex("Zeitpunkt")
                                 filterRegExp: /0/

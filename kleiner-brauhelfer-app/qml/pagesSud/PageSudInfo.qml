@@ -6,7 +6,6 @@ import QtGraphicalEffects 1.0
 
 import "../common"
 import brauhelfer 1.0
-import SortFilterProxyModel 1.0
 
 PageBase {
     id: page

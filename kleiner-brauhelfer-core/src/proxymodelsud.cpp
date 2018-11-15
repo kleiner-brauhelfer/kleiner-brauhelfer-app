@@ -1,26 +1,26 @@
-#include "sortfilterproxymodelsud.h"
+#include "proxymodelsud.h"
+#include <QSqlQuery>
 #include "sqltablemodel.h"
 
-SortFilterProxyModelSud::SortFilterProxyModelSud(QObject *parent) :
-    SortFilterProxyModel(parent),
+ProxyModelSud::ProxyModelSud(QObject *parent) :
+    ProxyModel(parent),
+    mColumnId(-1),
     mColumnBierWurdeGebraut(-1),
     mColumnBierWurdeAbgefuellt(-1),
     mColumnBierWurdeVerbraucht(-1),
     mColumnMerklistenID(-1),
     mFilterMerkliste(false),
-    mFilterValue(0)
+    mFilterState(Alle),
+    mFilterText(QString())
 {
     connect(this, SIGNAL(sourceModelChanged()), this, SLOT(onSourceModelChanged()));
 }
 
-SortFilterProxyModelSud::~SortFilterProxyModelSud()
-{
-}
-
-void SortFilterProxyModelSud::onSourceModelChanged()
+void ProxyModelSud::onSourceModelChanged()
 {
     if(SqlTableModel* model = dynamic_cast<SqlTableModel*>(sourceModel()))
     {
+        mColumnId = model->fieldIndex("ID");
         mColumnBierWurdeGebraut = model->fieldIndex("BierWurdeGebraut");
         mColumnBierWurdeAbgefuellt = model->fieldIndex("BierWurdeAbgefuellt");
         mColumnBierWurdeVerbraucht = model->fieldIndex("BierWurdeVerbraucht");
@@ -29,43 +29,55 @@ void SortFilterProxyModelSud::onSourceModelChanged()
     }
 }
 
-bool SortFilterProxyModelSud::filterMerkliste() const
+bool ProxyModelSud::filterMerkliste() const
 {
     return mFilterMerkliste;
 }
 
-void SortFilterProxyModelSud::setFilterMerkliste(bool value)
+void ProxyModelSud::setFilterMerkliste(bool value)
 {
     mFilterMerkliste = value;
     invalidateFilter();
     emit filterChanged();
 }
 
-int SortFilterProxyModelSud::filterValue() const
+int ProxyModelSud::filterState() const
 {
-    return mFilterValue;
+    return mFilterState;
 }
 
-void SortFilterProxyModelSud::setFilterValue(int value)
+void ProxyModelSud::setFilterState(int state)
 {
-    mFilterValue = value;
+    mFilterState = state;
     invalidateFilter();
     emit filterChanged();
 }
 
-bool SortFilterProxyModelSud::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
+QString ProxyModelSud::filterText() const
+{
+    return mFilterText;
+}
+
+void ProxyModelSud::setFilterText(const QString& text)
+{
+    mFilterText = text;
+    invalidateFilter();
+    emit filterChanged();
+}
+
+bool ProxyModelSud::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
     QModelIndex index2;
-    bool accept = SortFilterProxyModel::filterAcceptsRow(source_row, source_parent);
+    bool accept = ProxyModel::filterAcceptsRow(source_row, source_parent);
     if (accept && mFilterMerkliste)
     {
         index2 = sourceModel()->index(source_row, mColumnMerklistenID, source_parent);
         if (index2.isValid())
             accept = sourceModel()->data(index2).toInt() > 0;
     }
-    if (accept && mFilterValue != Alle)
+    if (accept && mFilterState != Alle)
     {
-        switch (mFilterValue)
+        switch (mFilterState)
         {
         case NichtGebraut:
             index2 = sourceModel()->index(source_row, mColumnBierWurdeGebraut, source_parent);
@@ -146,6 +158,24 @@ bool SortFilterProxyModelSud::filterAcceptsRow(int source_row, const QModelIndex
             }
         break;
         }
+    }
+    if (accept && !mFilterText.isEmpty())
+    {
+        index2 = sourceModel()->index(source_row, mColumnId, source_parent);
+        int id = sourceModel()->data(index2).toInt();
+        QSqlQuery query;
+        query.prepare("SELECT ID FROM Sud WHERE ID=:sudid AND (Sudname LIKE :textFilter \
+            OR ID IN (SELECT SudID FROM Malzschuettung WHERE Name LIKE :textFilter) \
+            OR ID IN (SELECT SudID FROM Hopfengaben WHERE Name LIKE :textFilter) \
+            OR ID IN (SELECT SudID FROM WeitereZutatenGaben WHERE Name LIKE :textFilter) \
+            OR AuswahlHefe LIKE :textFilter \
+            OR Kommentar LIKE :textFilter)");
+        query.bindValue(":sudid", id);
+        query.bindValue(":textFilter", "%" + mFilterText + "%");
+        if (query.exec())
+            accept = query.next();
+        else
+            accept = false;
     }
     return accept;
 }

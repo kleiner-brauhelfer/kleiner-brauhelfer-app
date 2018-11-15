@@ -6,7 +6,7 @@ import QtGraphicalEffects 1.0
 
 import "../common"
 import brauhelfer 1.0
-import SortFilterProxyModelSud 1.0
+import ProxyModelSud 1.0
 
 PageBase {
 
@@ -27,7 +27,7 @@ PageBase {
                 Layout.rightMargin: 8
                 placeholderText: qsTr("Suche")
                 inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhLowercaseOnly
-                onTextChanged: listView.model.filterRegExp = new RegExp(text + "(.*)", "i")
+                onTextChanged: listView.model.filterText = text
             }
             ComboBox {
                 property string sortFieldName: ""
@@ -72,10 +72,9 @@ PageBase {
             Layout.fillHeight: true
             clip: true
             boundsBehavior: Flickable.DragAndOvershootBounds
-            model: SortFilterProxyModelSud {
+            model: ProxyModelSud {
                 sourceModel: Brauhelfer.modelSudAuswahl
-                filterKeyColumn: sourceModel.fieldIndex("Sudname")
-                filterValue: app.settings.brewsFilter
+                filterState: app.settings.brewsFilter
                 filterMerkliste: app.settings.brewsMerklisteFilter
                 sortOrder: sortComboBox.sortOrder
                 sortColumn: sourceModel.fieldIndex(sortComboBox.sortFieldName)
@@ -318,23 +317,23 @@ PageBase {
                 model: ListModel {
                     ListElement {
                         text: qsTr("alle")
-                        filter: SortFilterProxyModelSud.Alle
+                        filter: ProxyModelSud.Alle
                     }
                     ListElement {
                         text: qsTr("nicht gebraut")
-                        filter: SortFilterProxyModelSud.NichtGebraut
+                        filter: ProxyModelSud.NichtGebraut
                     }
                     ListElement {
                         text: qsTr("nicht abgefüllt")
-                        filter: SortFilterProxyModelSud.NichtAbgefuellt
+                        filter: ProxyModelSud.NichtAbgefuellt
                     }
                     ListElement {
                         text: qsTr("nicht verbraucht")
-                        filter: SortFilterProxyModelSud.NichtVerbraucht
+                        filter: ProxyModelSud.NichtVerbraucht
                     }
                     ListElement {
                         text: qsTr("verbraucht")
-                        filter: SortFilterProxyModelSud.Verbraucht
+                        filter: ProxyModelSud.Verbraucht
                     }
                 }
                 RadioButton {

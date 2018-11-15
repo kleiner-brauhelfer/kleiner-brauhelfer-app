@@ -6,8 +6,9 @@
 #include "brauhelfer.h"
 #include "syncservicemanager.h"
 #include "qmlutils.h"
-#include "sortfilterproxymodel.h"
-#include "sortfilterproxymodelsud.h"
+#include "proxymodel.h"
+#include "proxymodelstockpile.h"
+#include "proxymodelsud.h"
 
 static LanguageSelector* langSel;
 static Brauhelfer *bh;
@@ -68,8 +69,9 @@ int main(int argc, char *argv[])
     qmlRegisterSingletonType<Brauhelfer>("brauhelfer", 1, 0, "Brauhelfer", getInstanceBrauhelfer);
     qmlRegisterSingletonType<SyncServiceManager>("brauhelfer", 1, 0, "SyncService", getInstanceSyncServiceManager);
     qmlRegisterSingletonType<QmlUtils>("qmlutils", 1, 0, "Utils", getInstanceUtils);
-    qmlRegisterType<SortFilterProxyModel>("SortFilterProxyModel", 1, 0, "SortFilterProxyModel");
-    qmlRegisterType<SortFilterProxyModelSud>("SortFilterProxyModelSud", 1, 0, "SortFilterProxyModelSud");
+    qmlRegisterType<ProxyModel>("ProxyModel", 1, 0, "ProxyModel");
+    qmlRegisterType<ProxyModelStockpile>("ProxyModelStockpile", 1, 0, "ProxyModelStockpile");
+    qmlRegisterType<ProxyModelSud>("ProxyModelSud", 1, 0, "ProxyModelSud");
 
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
     if (engine.rootObjects().isEmpty())

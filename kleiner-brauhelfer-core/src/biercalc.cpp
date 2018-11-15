@@ -542,5 +542,8 @@ QColor BierCalc::ebcToColor(double ebc)
     if (index > 300)
         index = 300;
     --index;
-    return QColor::fromRgb(aFarbe[index][0], aFarbe[index][1], aFarbe[index][2]);
+    if (index >= 0)
+        return QColor::fromRgb(aFarbe[index][0], aFarbe[index][1], aFarbe[index][2]);
+    else
+        return Qt::white;
 }

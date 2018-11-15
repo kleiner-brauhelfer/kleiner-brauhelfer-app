@@ -6,7 +6,7 @@ import QtQuick.Dialogs 1.3
 
 import "../common"
 import brauhelfer 1.0
-import SortFilterProxyModel 1.0
+import ProxyModelStockpile 1.0
 
 PageBase {
     id: page
@@ -23,7 +23,7 @@ PageBase {
             Layout.rightMargin: 8
             placeholderText: qsTr("Suche")
             inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhLowercaseOnly
-            onTextChanged: listView.model.filterRegExp = new RegExp(text + "(.*)", "i")
+            onTextChanged: listView.model.setFilterString(text)
         }
 
         ListView {
@@ -32,9 +32,9 @@ PageBase {
             Layout.fillWidth: true
             Layout.fillHeight: true
             boundsBehavior: Flickable.OvershootBounds
-            model: SortFilterProxyModel {
+            model: ProxyModelStockpile {
                 sourceModel: Brauhelfer.modelHefe
-                filterKeyColumn: sourceModel.fieldIndex("Beschreibung")
+                showAll: !app.settings.ingredientsFilter
             }
             headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
             ScrollIndicator.vertical: ScrollIndicator {}
@@ -92,7 +92,7 @@ PageBase {
             }
             delegate: ItemDelegate {
                 id: rowDelegate
-                visible: (app.settings.ingredientsFilter === 0 || model.Menge > 0) && !model.deleted
+                visible: !model.deleted
                 width: parent.width
                 height: visible ? dataColumn.implicitHeight : 0
                 padding: 0

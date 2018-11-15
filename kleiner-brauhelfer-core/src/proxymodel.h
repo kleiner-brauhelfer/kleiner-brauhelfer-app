@@ -1,10 +1,16 @@
-#ifndef SORTFILTERPROXYMODEL_H
-#define SORTFILTERPROXYMODEL_H
+#ifndef PROXYMODEL_H
+#define PROXYMODEL_H
 
 #include <QSortFilterProxyModel>
 #include <QDateTime>
 
-class SortFilterProxyModel : public QSortFilterProxyModel
+#if defined(KBCORE_LIBRARY)
+  #define KBCORE_EXPORT Q_DECL_EXPORT
+#else
+  #define KBCORE_EXPORT Q_DECL_IMPORT
+#endif
+
+class KBCORE_EXPORT ProxyModel : public QSortFilterProxyModel
 {
     Q_OBJECT
 
@@ -15,13 +21,14 @@ class SortFilterProxyModel : public QSortFilterProxyModel
     Q_PROPERTY(QDateTime maxDate READ filterMaximumDate WRITE setFilterMaximumDate NOTIFY filterChanged)
 
 public:
-    SortFilterProxyModel(QObject* parent = 0);
-    ~SortFilterProxyModel();
+    ProxyModel(QObject* parent = Q_NULLPTR);
 
     virtual void setSourceModel(QAbstractItemModel *sourceModel) Q_DECL_OVERRIDE;
 
     Q_INVOKABLE int mapRowToSource(int row) const;
     Q_INVOKABLE int mapRowFromSource(int row) const;
+
+    Q_INVOKABLE void setFilterString(const QString &text);
 
     int sortColumn() const;
     void setSortColumn(int column);
@@ -57,4 +64,4 @@ private:
     QDateTime mMaxDate;
 };
 
-#endif // SORTFILTERPROXYMODEL_H
+#endif // PROXYMODEL_H

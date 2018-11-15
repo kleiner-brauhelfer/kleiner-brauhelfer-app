@@ -62,9 +62,9 @@ QVariantMap ModelNachgaerverlauf::defaultValues() const
     return values;
 }
 
-QDateTime ModelNachgaerverlauf::getLastDateTime(const QString &id) const
+QDateTime ModelNachgaerverlauf::getLastDateTime(int id) const
 {
-    if (id.isEmpty())
+    if (id == -1)
     {
         if (rowCount() > 0)
         {
@@ -81,16 +81,16 @@ QDateTime ModelNachgaerverlauf::getLastDateTime(const QString &id) const
     }
     else
     {
-        QSqlQuery query("SELECT Zeitstempel FROM " + tableName() + " WHERE SudID = " + id + " ORDER BY Zeitstempel DESC");
+        QSqlQuery query("SELECT Zeitstempel FROM " + tableName() + " WHERE SudID = " + QString::number(id) + " ORDER BY Zeitstempel DESC");
         if (query.first())
             return QDateTime::fromString(query.value(0).toString(), Qt::ISODate);
     }
     return QDateTime();
 }
 
-double ModelNachgaerverlauf::getLastCO2(const QString &id) const
+double ModelNachgaerverlauf::getLastCO2(int id) const
 {
-    if (id.isEmpty())
+    if (id == -1)
     {
         if (rowCount() > 0)
         {
@@ -112,7 +112,7 @@ double ModelNachgaerverlauf::getLastCO2(const QString &id) const
     }
     else
     {
-        QSqlQuery query("SELECT CO2 FROM " + tableName() + " WHERE SudID = " + id + " ORDER BY Zeitstempel DESC");
+        QSqlQuery query("SELECT CO2 FROM " + tableName() + " WHERE SudID = " + QString::number(id) + " ORDER BY Zeitstempel DESC");
         if (query.first())
             return query.value(0).toDouble();
     }

@@ -6,7 +6,7 @@ import QtCharts 2.2
 
 import "../common"
 import brauhelfer 1.0
-import SortFilterProxyModelSud 1.0
+import ProxyModelSud 1.0
 
 PageBase {
 
@@ -100,9 +100,9 @@ PageBase {
             Layout.fillHeight: true
             clip: true
             boundsBehavior: Flickable.OvershootBounds
-            model: SortFilterProxyModelSud {
+            model: ProxyModelSud {
                 sourceModel: Brauhelfer.modelSudAuswahl
-                filterValue: SortFilterProxyModelSud.Abgefuellt
+                filterState: ProxyModelSud.Abgefuellt
             }
             headerPositioning: ListView.OverlayHeader
             ScrollIndicator.vertical: ScrollIndicator {}

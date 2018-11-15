@@ -33,6 +33,9 @@ HEADERS += src/biercalc.h \
     src/database.h \
     src/syncservice.h \
     src/syncservicelocal.h \
+    src/proxymodel.h \
+    src/proxymodelsud.h \
+    src/proxymodelstockpile.h \
     src/modelhauptgaerverlauf.h \
     src/modelnachgaerverlauf.h \
     src/modelschnellgaerverlauf.h \
@@ -56,6 +59,9 @@ SOURCES += src/biercalc.cpp \
     src/database.cpp \
     src/syncservice.cpp \
     src/syncservicelocal.cpp \
+    src/proxymodel.cpp \
+    src/proxymodelsud.cpp \
+    src/proxymodelstockpile.cpp \
     src/modelhauptgaerverlauf.cpp \
     src/modelnachgaerverlauf.cpp \
     src/modelschnellgaerverlauf.cpp \
