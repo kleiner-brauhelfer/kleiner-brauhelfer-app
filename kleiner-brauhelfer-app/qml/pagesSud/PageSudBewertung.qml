@@ -29,10 +29,11 @@ PageBase {
             ColumnLayout {
                 id: header
                 width: parent.width
+                spacing: 0
                 RowLayout {
                     Layout.fillWidth: true
                     Layout.topMargin: 8
-                    Layout.bottomMargin: 4
+                    Layout.bottomMargin: 8
                     Layout.leftMargin: 8
                     Layout.rightMargin: 8
                     LabelPrim {
@@ -87,17 +88,18 @@ PageBase {
 
             function remove() {
                 removeFake.start()
-                listView.model.remove(index)
+                listView.model.removeRow(index)
             }
 
             ColumnLayout {
                 id: dataColumn
                 anchors.left: parent.left
                 anchors.right: parent.right
+                spacing: 0
                 RowLayout {
                     Layout.fillWidth: true
                     Layout.topMargin: 8
-                    Layout.bottomMargin: 4
+                    Layout.bottomMargin: 8
                     Layout.leftMargin: 8
                     Layout.rightMargin: 8
                     LabelDate {
@@ -313,37 +315,37 @@ PageBase {
                                         RadioButton {
                                             text: qsTr("hellgelb, lichtgelb")
                                             checked: model.Farbe & (1 << 4)
-                                            onClicked: model.Farbe = (1 << 4)
+                                            onClicked: model.Farbe = (1 << 4) | (model.Farbe & 0x0F)
                                         }
                                         RadioButton {
                                             text: qsTr("gelb")
                                             checked: model.Farbe & (1 << 5)
-                                            onClicked: model.Farbe = (1 << 5)
+                                            onClicked: model.Farbe = (1 << 5) | (model.Farbe & 0x0F)
                                         }
                                         RadioButton {
                                             text: qsTr("golden")
                                             checked: model.Farbe & (1 << 6)
-                                            onClicked: model.Farbe = (1 << 6)
+                                            onClicked: model.Farbe = (1 << 6) | (model.Farbe & 0x0F)
                                         }
                                         RadioButton {
                                             text: qsTr("bernstein")
                                             checked: model.Farbe & (1 << 7)
-                                            onClicked: model.Farbe = (1 << 7)
+                                            onClicked: model.Farbe = (1 << 7) | (model.Farbe & 0x0F)
                                         }
                                         RadioButton {
                                             text: qsTr("kupferrot, amber")
                                             checked: model.Farbe & (1 << 8)
-                                            onClicked: model.Farbe = (1 << 8)
+                                            onClicked: model.Farbe = (1 << 8) | (model.Farbe & 0x0F)
                                         }
                                         RadioButton {
                                             text: qsTr("braun, tiefbraun")
                                             checked: model.Farbe & (1 << 9)
-                                            onClicked: model.Farbe = (1 << 9)
+                                            onClicked: model.Farbe = (1 << 9) | (model.Farbe & 0x0F)
                                         }
                                         RadioButton {
                                             text: qsTr("schwarz, tief dunkel")
                                             checked: model.Farbe & (1 << 10)
-                                            onClicked: model.Farbe = (1 << 10)
+                                            onClicked: model.Farbe = (1 << 10) | (model.Farbe & 0x0F)
                                         }
                                     }
                                 }
@@ -355,22 +357,22 @@ PageBase {
                                         RadioButton {
                                             text: qsTr("satt, intensiv")
                                             checked: model.Farbe & (1 << 0)
-                                            onClicked: model.Farbe = (1 << 0)
+                                            onClicked: model.Farbe = (1 << 0) | (model.Farbe & 0x7F0)
                                         }
                                         RadioButton {
                                             text: qsTr("glänzend")
                                             checked: model.Farbe & (1 << 1)
-                                            onClicked: model.Farbe = (1 << 1)
+                                            onClicked: model.Farbe = (1 << 1) | (model.Farbe & 0x7F0)
                                         }
                                         RadioButton {
                                             text: qsTr("matt, blass")
                                             checked: model.Farbe & (1 << 2)
-                                            onClicked: model.Farbe = (1 << 2)
+                                            onClicked: model.Farbe = (1 << 2) | (model.Farbe & 0x7F0)
                                         }
                                         RadioButton {
                                             text: qsTr("gräulich, fahl")
                                             checked: model.Farbe & (1 << 3)
-                                            onClicked: model.Farbe = (1 << 3)
+                                            onClicked: model.Farbe = (1 << 3) | (model.Farbe & 0x7F0)
                                         }
                                     }
                                 }
@@ -401,12 +403,12 @@ PageBase {
                                         RadioButton {
                                             text: qsTr("feinporig, fest")
                                             checked: model.Schaum & (1 << 0)
-                                            onClicked: model.Schaum = (1 << 0)
+                                            onClicked: model.Schaum = (1 << 0) | (model.Schaum & 0x7FC)
                                         }
                                         RadioButton {
                                             text: qsTr("grobporig, schwach")
                                             checked: model.Schaum & (1 << 1)
-                                            onClicked: model.Schaum = (1 << 1)
+                                            onClicked: model.Schaum = (1 << 1) | (model.Schaum & 0x7FC)
                                         }
                                     }
                                 }
@@ -418,12 +420,12 @@ PageBase {
                                         RadioButton {
                                             text: qsTr("gut haftend")
                                             checked: model.Schaum & (1 << 2)
-                                            onClicked: model.Schaum = (1 << 2)
+                                            onClicked: model.Schaum = (1 << 2) | (model.Schaum & 0x7F3)
                                         }
                                         RadioButton {
                                             text: qsTr("schlecht haftend")
                                             checked: model.Schaum & (1 << 3)
-                                            onClicked: model.Schaum = (1 << 3)
+                                            onClicked: model.Schaum = (1 << 3) | (model.Schaum & 0x7F3)
                                         }
                                     }
                                 }
@@ -435,17 +437,17 @@ PageBase {
                                         RadioButton {
                                             text: qsTr("gute Haltbarkeit")
                                             checked: model.Schaum & (1 << 4)
-                                            onClicked: model.Schaum = (1 << 4)
+                                            onClicked: model.Schaum = (1 << 4) | (model.Schaum & 0x78F)
                                         }
                                         RadioButton {
                                             text: qsTr("mässige Haltbarkeit")
                                             checked: model.Schaum & (1 << 5)
-                                            onClicked: model.Schaum = (1 << 5)
+                                            onClicked: model.Schaum = (1 << 5) | (model.Schaum & 0x78F)
                                         }
                                         RadioButton {
                                             text: qsTr("keine Haltbarkeit")
                                             checked: model.Schaum & (1 << 6)
-                                            onClicked: model.Schaum = (1 << 6)
+                                            onClicked: model.Schaum = (1 << 6) | (model.Schaum & 0x78F)
                                         }
                                     }
                                 }
@@ -457,22 +459,22 @@ PageBase {
                                         RadioButton {
                                             text: qsTr("geringes Volumen")
                                             checked: model.Schaum & (1 << 7)
-                                            onClicked: model.Schaum = (1 << 7)
+                                            onClicked: model.Schaum = (1 << 7) | (model.Schaum & 0x07F)
                                         }
                                         RadioButton {
                                             text: qsTr("kräftiges Volumen")
                                             checked: model.Schaum & (1 << 8)
-                                            onClicked: model.Schaum = (1 << 8)
+                                            onClicked: model.Schaum = (1 << 8) | (model.Schaum & 0x07F)
                                         }
                                         RadioButton {
                                             text: qsTr("sehr voluminös, mächtig")
                                             checked: model.Schaum & (1 << 9)
-                                            onClicked: model.Schaum = (1 << 9)
+                                            onClicked: model.Schaum = (1 << 9) | (model.Schaum & 0x07F)
                                         }
                                         RadioButton {
                                             text: qsTr("überschäumend")
                                             checked: model.Schaum & (1 << 10)
-                                            onClicked: model.Schaum = (1 << 10)
+                                            onClicked: model.Schaum = (1 << 10) | (model.Schaum & 0x07F)
                                         }
                                     }
                                 }
@@ -865,7 +867,7 @@ PageBase {
             imageSource: "qrc:/images/ic_add_white.png"
             visible: !page.readOnly
             onClicked: {
-                listView.model.append()
+                listView.model.append({"SudID": Brauhelfer.sud.id})
                 listView.currentIndex = listView.count - 1
                 popuploader.active = true
             }

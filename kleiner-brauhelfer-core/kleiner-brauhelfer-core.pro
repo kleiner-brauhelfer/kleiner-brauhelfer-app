@@ -1,79 +1,79 @@
-# QT modules
-QT += sql network xml
+QT += core sql
+QT -= gui
 
-# organization, application name and version
-ORGANIZATION = BourgeoisLab
+ORGANIZATION = kleiner-brauhelfer
 TARGET = kleiner-brauhelfer-core
+
+# Hauptversionsnummer
 VER_MAJ = 1
-VER_MIN = 0
+# Datenbankversion
+VER_MIN = 24
+# Patchversion
 VER_PAT = 0
-VERSION = $$sprintf("%1.%2.%3",$$VER_MAJ,$$VER_MIN,$$VER_PAT)
-DEFINES += ORGANIZATION=\\\"$$ORGANIZATION\\\" TARGET=\\\"$$TARGET\\\" VERSION=\\\"$$VERSION\\\"
+
+VERSION = $$sprintf("%1.%2.%3", $$VER_MAJ, $$VER_MIN, $$VER_PAT)
 DEFINES += VER_MAJ=\"$$VER_MAJ\" VER_MIN=\"$$VER_MIN\" VER_PAT=\"$$VER_PAT\"
 
-# build library
 TEMPLATE = lib
-DEFINES += KBCORE_LIBRARY
+DEFINES += ORGANIZATION=\\\"$$ORGANIZATION\\\" TARGET=\\\"$$TARGET\\\" VERSION=\\\"$$VERSION\\\"
+DEFINES += KLEINERBRAUHELFERCORE_LIBRARY
 CONFIG += skip_target_version_ext
 
-# warnings
+CONFIG += c++11
 DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += warn_on
 
-# temporary and destination folders
-OBJECTS_DIR = tmp
-MOC_DIR = tmp
-UI_DIR = tmp
-RCC_DIR = tmp
-win32: DESTDIR = ../bin
+SOURCES += \
+    biercalc.cpp \
+    brauhelfer.cpp \
+    database.cpp \
+    modelausruestung.cpp \
+    modelbewertungen.cpp \
+    modelflaschenlabeltags.cpp \
+    modelhauptgaerverlauf.cpp \
+    modelhefe.cpp \
+    modelhopfen.cpp \
+    modelhopfengaben.cpp \
+    modelmalz.cpp \
+    modelmalzschuettung.cpp \
+    modelnachgaerverlauf.cpp \
+    modelrasten.cpp \
+    modelschnellgaerverlauf.cpp \
+    modelsud.cpp \
+    modelwasser.cpp \
+    modelweiterezutaten.cpp \
+    modelweiterezutatengaben.cpp \
+    proxymodel.cpp \
+    proxymodelrohstoff.cpp \
+    proxymodelsud.cpp \
+    sqltablemodel.cpp \
+    sudobject.cpp
 
-# header files
-HEADERS += src/biercalc.h \
-    src/brauhelfer.h \
-    src/database.h \
-    src/syncservice.h \
-    src/syncservicelocal.h \
-    src/proxymodel.h \
-    src/proxymodelsud.h \
-    src/proxymodelstockpile.h \
-    src/modelhauptgaerverlauf.h \
-    src/modelnachgaerverlauf.h \
-    src/modelschnellgaerverlauf.h \
-    src/modelsud.h \
-    src/sqltablemodel.h \
-    src/sudobject.h \
-    src/modelbewertungen.h \
-    src/modelwasser.h \
-    src/modelweiterezutatengaben.h \
-    src/modelausruestung.h \
-    src/database_defs.h \
-    src/modelmalz.h \
-    src/modelhefe.h \
-    src/modelhopfen.h \
-    src/modelweiterezutaten.h \
-    src/modelrasten.h
-
-# source files
-SOURCES += src/biercalc.cpp \
-    src/brauhelfer.cpp \
-    src/database.cpp \
-    src/syncservice.cpp \
-    src/syncservicelocal.cpp \
-    src/proxymodel.cpp \
-    src/proxymodelsud.cpp \
-    src/proxymodelstockpile.cpp \
-    src/modelhauptgaerverlauf.cpp \
-    src/modelnachgaerverlauf.cpp \
-    src/modelschnellgaerverlauf.cpp \
-    src/modelsud.cpp \
-    src/sqltablemodel.cpp \
-    src/sudobject.cpp \
-    src/modelbewertungen.cpp \
-    src/modelwasser.cpp \
-    src/modelweiterezutatengaben.cpp \
-    src/modelausruestung.cpp \
-    src/modelmalz.cpp \
-    src/modelhefe.cpp \
-    src/modelhopfen.cpp \
-    src/modelweiterezutaten.cpp \
-    src/modelrasten.cpp
+HEADERS += \
+    kleiner-brauhelfer-core_global.h \
+    biercalc.h \
+    brauhelfer.h \
+    database.h \
+    database_defs.h \
+    kleiner-brauhelfer-core_global.h \
+    modelausruestung.h \
+    modelbewertungen.h \
+    modelflaschenlabeltags.h \
+    modelhauptgaerverlauf.h \
+    modelhefe.h \
+    modelhopfen.h \
+    modelhopfengaben.h \
+    modelmalz.h \
+    modelmalzschuettung.h \
+    modelnachgaerverlauf.h \
+    modelrasten.h \
+    modelschnellgaerverlauf.h \
+    modelsud.h \
+    modelwasser.h \
+    modelweiterezutaten.h \
+    modelweiterezutatengaben.h \
+    proxymodel.h \
+    proxymodelrohstoff.h \
+    proxymodelsud.h \
+    sqltablemodel.h \
+    sudobject.h

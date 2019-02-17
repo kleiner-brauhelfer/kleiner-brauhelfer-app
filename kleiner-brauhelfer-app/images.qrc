@@ -2,6 +2,8 @@
     <qresource prefix="/">
         <file>images/abfuellen.png</file>
         <file>images/abfuellen@2x.png</file>
+        <file>images/baseline_date_range.png</file>
+        <file>images/baseline_date_range@2x.png</file>
         <file>images/brauen.png</file>
         <file>images/brauen@2x.png</file>
         <file>images/equipment.png</file>

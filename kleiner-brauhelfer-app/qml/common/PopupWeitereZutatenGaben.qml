@@ -135,7 +135,7 @@ PopupBase {
                                 text: qsTr("Rohstoff vom Bestand abziehen?")
                                 standardButtons: StandardButton.Yes | StandardButton.No
                                 //buttons: MessageDialog.Yes | MessageDialog.No
-                                onYes: Brauhelfer.sud.substractIngredient(model.Name, model.Typ, model.erg_Menge)
+                                onYes: Brauhelfer.sud.substractIngredient(model.Name, model.Typ === 100, model.erg_Menge)
                             }
 
                             Layout.columnSpan: 2

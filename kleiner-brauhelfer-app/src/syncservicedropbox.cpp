@@ -100,6 +100,8 @@ bool SyncServiceDropbox::synchronize(SyncDirection direction)
         return false;
     }
 
+    checkIfServiceAvailable();
+
     if (isServiceAvailable())
     {
         if (QFile::exists(getFilePath()))
@@ -175,23 +177,8 @@ bool SyncServiceDropbox::synchronize(SyncDirection direction)
     }
     else
     {
-        if (QFile::exists(getFilePath()))
-        {
-            setState(SyncState::Offline);
-            if (direction == SyncDirection::Download)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else
-        {
-            setState(SyncState::NotFound);
-            return false;
-        }
+        setState(SyncState::Offline);
+        return false;
     }
 }
 

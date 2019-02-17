@@ -62,12 +62,14 @@ PageBase {
                         id: listViewWeitereZutaten
                         Layout.fillWidth: true
                         height: contentHeight
+                        interactive: false
                         model: ProxyModel {
                             sourceModel: Brauhelfer.sud.modelWeitereZutatenGaben
-                            filterKeyColumn: sourceModel.fieldIndex("Zeitpunkt")
+                            filterKeyColumn: fieldIndex("Zeitpunkt")
                             filterRegExp: /0/
                         }
                         delegate: ItemDelegate {
+                            enabled: !page.readOnly
                             width: parent.width
                             height: dataColumn.implicitHeight
                             onClicked: {
@@ -209,7 +211,7 @@ PageBase {
                         Layout.fillWidth: true
                         horizontalAlignment: Text.AlignHCenter
                         color: Material.accent
-                        text: qsTr("Schnellgärprobe liegt tiefer als Jungbier.")
+                        text: qsTr("Jungbier liegt tiefer als Schnellgärprobe.")
                     }
                 }
             }
@@ -380,13 +382,13 @@ PageBase {
                     LabelPrim {
                         Layout.fillWidth: true
                         Layout.columnSpan: 3
-                        visible: !ctrlSpunden.checked
+                        visible: tbZuckerAnteil.visible
                         text: qsTr("Zuckerfaktor")
                     }
                     TextFieldNumber {
                         Layout.columnSpan: 2
                         Layout.preferredWidth: 60
-                        visible: !ctrlSpunden.checked
+                        visible: tbZuckerAnteil.visible
                         min: 0.0
                         max: 2.0
                         precision: 2
@@ -596,7 +598,7 @@ PageBase {
                         id: ctrlAbgefuellt
                         Layout.columnSpan: 3
                         Layout.fillWidth: true
-                        text: qsTr("Abgefüllt")
+                        text: qsTr("Sud abgefüllt")
                         enabled: !page.readOnly
                         onClicked: abgefuellt()
                     }

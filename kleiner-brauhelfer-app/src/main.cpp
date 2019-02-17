@@ -7,7 +7,7 @@
 #include "syncservicemanager.h"
 #include "qmlutils.h"
 #include "proxymodel.h"
-#include "proxymodelstockpile.h"
+#include "proxymodelrohstoff.h"
 #include "proxymodelsud.h"
 
 static LanguageSelector* langSel;
@@ -57,11 +57,7 @@ int main(int argc, char *argv[])
     QSettings *settings = new QSettings();
     langSel = new LanguageSelector(&app, &engine);
     syncMan = new SyncServiceManager(settings);
-    bh = new Brauhelfer(syncMan->service());
-    QObject::connect(syncMan, SIGNAL(serviceChanged(SyncService*)), bh, SLOT(setSyncService(SyncService*)));
-  #ifdef QT_DEBUG
-    bh->setVerbose(true);
-  #endif
+    bh = new Brauhelfer();
     utils = new QmlUtils();
 
     // register classes to QML
@@ -70,7 +66,7 @@ int main(int argc, char *argv[])
     qmlRegisterSingletonType<SyncServiceManager>("brauhelfer", 1, 0, "SyncService", getInstanceSyncServiceManager);
     qmlRegisterSingletonType<QmlUtils>("qmlutils", 1, 0, "Utils", getInstanceUtils);
     qmlRegisterType<ProxyModel>("ProxyModel", 1, 0, "ProxyModel");
-    qmlRegisterType<ProxyModelStockpile>("ProxyModelStockpile", 1, 0, "ProxyModelStockpile");
+    qmlRegisterType<ProxyModelRohstoff>("ProxyModelRohstoff", 1, 0, "ProxyModelRohstoff");
     qmlRegisterType<ProxyModelSud>("ProxyModelSud", 1, 0, "ProxyModelSud");
 
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));

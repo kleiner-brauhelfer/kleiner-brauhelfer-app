@@ -5,6 +5,7 @@ import QtQuick.Controls.Material 2.2
 import QtGraphicalEffects 1.0
 
 import "../common"
+import qmlutils 1.0
 import brauhelfer 1.0
 import ProxyModelSud 1.0
 
@@ -12,11 +13,16 @@ PageBase {
 
     signal clicked(int id)
 
+    function getModel() {
+        return loaderItem.modelAuswahl
+    }
+
     id: page
     title: qsTr("Sudauswahl")
     icon: "ic_list.png"
 
     ColumnLayout {
+        property alias modelAuswahl: listView.model
         anchors.fill: parent
         spacing: 0
 
@@ -73,11 +79,11 @@ PageBase {
             clip: true
             boundsBehavior: Flickable.DragAndOvershootBounds
             model: ProxyModelSud {
-                sourceModel: Brauhelfer.modelSudAuswahl
-                filterState: app.settings.brewsFilter
+                sourceModel: Brauhelfer.modelSud
+                filterStatus: app.settings.brewsFilter
                 filterMerkliste: app.settings.brewsMerklisteFilter
                 sortOrder: sortComboBox.sortOrder
-                sortColumn: sourceModel.fieldIndex(sortComboBox.sortFieldName)
+                sortColumn: fieldIndex(sortComboBox.sortFieldName)
             }
 
             ScrollIndicator.vertical: ScrollIndicator {}
@@ -178,7 +184,7 @@ PageBase {
                                 if (tage > 0)
                                     return qsTr("reif in") + " " + tage + " " + qsTr("Tage")
                                 else
-                                    return qsTr("reif seit") + " " + (-tage) + " " + qsTr("Tage")
+                                    return qsTr("reif seit") + " " + Math.floor(-tage/7) + " " + qsTr("Wochen")
                             }
                         }
                     }
@@ -199,7 +205,7 @@ PageBase {
                                     anchors.fill: parent
                                     source: parent
                                     cached: true
-                                    color: Brauhelfer.calc.ebcToColor(model.erg_Farbe)
+                                    color: Utils.toColor(Brauhelfer.calc.ebcToColor(model.FarbeIst))
                                 }
                             }
                             Image {
@@ -210,71 +216,125 @@ PageBase {
 
                         GridLayout {
                             Layout.fillWidth: true
-                            columns: 3
+                            columns: model.BierWurdeGebraut ? 4 : 3
                             columnSpacing: 8
-
                             LabelPrim {
+                                Layout.fillWidth: true
                                 text: qsTr("Menge")
                             }
                             LabelNumber {
+                                Layout.fillWidth: true
+                                visible: model.BierWurdeGebraut
                                 precision: 1
-                                value: model.BierWurdeGebraut ? model.erg_AbgefuellteBiermenge : model.Menge
+                                value: model.MengeIst
+                            }
+                            LabelNumber {
+                                Layout.fillWidth: true
+                                opacity: model.BierWurdeGebraut ?  app.config.textOpacityHalf : app.config.textOpacityFull
+                                precision: 1
+                                value: model.Menge
                             }
                             LabelUnit {
+                                Layout.fillWidth: true
                                 text: qsTr("l")
                             }
-
                             LabelPrim {
-                                text: qsTr("Stammwürze")
+                                Layout.fillWidth: true
+                                text: qsTr("SW")
                             }
                             LabelPlato {
-                                value: model.BierWurdeGebraut ? model.SWIst : model.SW
+                                Layout.fillWidth: true
+                                visible: model.BierWurdeGebraut
+                                value: model.SWIst
+                            }
+                            LabelPlato {
+                                Layout.fillWidth: true
+                                opacity: model.BierWurdeGebraut ?  app.config.textOpacityHalf : app.config.textOpacityFull
+                                value: model.SW
                             }
                             LabelUnit {
+                                Layout.fillWidth: true
                                 text: qsTr("°P")
                             }
-
                             LabelPrim {
+                                Layout.fillWidth: true
+                                visible: model.BierWurdeGebraut
                                 text: qsTr("Alkohol")
                             }
                             LabelNumber {
+                                Layout.fillWidth: true
+                                visible: model.BierWurdeGebraut
                                 precision: 1
                                 value: model.BierWurdeGebraut ? model.erg_Alkohol : 0.0
                             }
+                            Label {
+                                Layout.fillWidth: true
+                                visible: model.BierWurdeGebraut
+                                text: ""
+                            }
                             LabelUnit {
+                                Layout.fillWidth: true
+                                visible: model.BierWurdeGebraut
                                 text: qsTr("%")
                             }
-
                             LabelPrim {
+                                Layout.fillWidth: true
                                 text: qsTr("Bittere")
                             }
                             LabelNumber {
+                                Layout.fillWidth: true
+                                visible: model.BierWurdeGebraut
+                                precision: 0
+                                value: model.IbuIst
+                            }
+                            LabelNumber {
+                                Layout.fillWidth: true
+                                opacity: model.BierWurdeGebraut ?  app.config.textOpacityHalf : app.config.textOpacityFull
                                 precision: 0
                                 value: model.IBU
                             }
                             LabelUnit {
+                                Layout.fillWidth: true
                                 text: qsTr("IBU")
                             }
-
                             LabelPrim {
+                                Layout.fillWidth: true
                                 text: qsTr("Farbe")
                             }
                             LabelNumber {
+                                Layout.fillWidth: true
+                                visible: model.BierWurdeGebraut
+                                precision: 0
+                                value: model.FarbeIst
+                            }
+                            LabelNumber {
+                                Layout.fillWidth: true
+                                opacity: model.BierWurdeGebraut ?  app.config.textOpacityHalf : app.config.textOpacityFull
                                 precision: 0
                                 value: model.erg_Farbe
                             }
                             LabelUnit {
+                                Layout.fillWidth: true
                                 text: qsTr("EBC")
                             }
-
                             LabelPrim {
+                                Layout.fillWidth: true
                                 text: qsTr("CO2")
                             }
                             LabelNumber {
+                                Layout.fillWidth: true
+                                visible: model.BierWurdeGebraut
                                 precision: 1
-                                value: model.BierWurdeGebraut ? model.CO2Ist : model.CO2
+                                value: model.CO2Ist
+                            }
+                            LabelNumber {
+                                Layout.fillWidth: true
+                                opacity: model.BierWurdeGebraut ?  app.config.textOpacityHalf : app.config.textOpacityFull
+                                precision: 1
+                                value: model.CO2
                             }
                             LabelUnit {
+                                Layout.fillWidth: true
                                 text: qsTr("g/l")
                             }
                         }
@@ -325,7 +385,7 @@ PageBase {
                     }
                     ListElement {
                         text: qsTr("nicht abgefüllt")
-                        filter: ProxyModelSud.NichtAbgefuellt
+                        filter: ProxyModelSud.GebrautNichtAbgefuellt
                     }
                     ListElement {
                         text: qsTr("nicht verbraucht")

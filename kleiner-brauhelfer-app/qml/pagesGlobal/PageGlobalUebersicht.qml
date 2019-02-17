@@ -82,14 +82,14 @@ PageBase {
             VXYModelMapper {
                 model: listView.model
                 series: chart.series1
-                xColumn: listView.model.sourceModel.fieldIndex("Braudatum")
-                yColumn: listView.model.sourceModel.fieldIndex(item1.field)
+                xColumn: listView.model.fieldIndex("Braudatum")
+                yColumn: listView.model.fieldIndex(item1.field)
             }
             VXYModelMapper {
                 model: listView.model
                 series: chart.series2
-                xColumn: listView.model.sourceModel.fieldIndex("Braudatum")
-                yColumn: listView.model.sourceModel.fieldIndex(item2.field)
+                xColumn: listView.model.fieldIndex("Braudatum")
+                yColumn: listView.model.fieldIndex(item2.field)
             }
             Component.onCompleted: listView.model.invalidate()
         }
@@ -101,8 +101,10 @@ PageBase {
             clip: true
             boundsBehavior: Flickable.OvershootBounds
             model: ProxyModelSud {
-                sourceModel: Brauhelfer.modelSudAuswahl
-                filterState: ProxyModelSud.Abgefuellt
+                sourceModel: app.pageGlobalAuswahl.getModel()
+                filterStatus: ProxyModelSud.Abgefuellt
+                sortOrder: Qt.AscendingOrder
+                sortColumn: fieldIndex("Braudatum")
             }
             headerPositioning: ListView.OverlayHeader
             ScrollIndicator.vertical: ScrollIndicator {}

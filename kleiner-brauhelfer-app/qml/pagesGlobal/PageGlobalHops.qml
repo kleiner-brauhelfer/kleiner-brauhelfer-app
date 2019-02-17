@@ -6,7 +6,7 @@ import QtQuick.Dialogs 1.3
 
 import "../common"
 import brauhelfer 1.0
-import ProxyModelStockpile 1.0
+import ProxyModelRohstoff 1.0
 
 PageBase {
     id: page
@@ -18,6 +18,7 @@ PageBase {
         spacing: 0
 
         TextFieldBase {
+            id: tfFilter
             Layout.fillWidth: true
             Layout.leftMargin: 8
             Layout.rightMargin: 8
@@ -32,9 +33,11 @@ PageBase {
             Layout.fillWidth: true
             Layout.fillHeight: true
             boundsBehavior: Flickable.OvershootBounds
-            model: ProxyModelStockpile {
+            model: ProxyModelRohstoff {
                 sourceModel: Brauhelfer.modelHopfen
-                showAll: !app.settings.ingredientsFilter
+                sortOrder: Qt.AscendingOrder
+                sortColumn: fieldIndex("Beschreibung")
+                filter: app.settings.ingredientsFilter
             }
             headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
             ScrollIndicator.vertical: ScrollIndicator {}
@@ -46,22 +49,53 @@ PageBase {
                 ColumnLayout {
                     id: header
                     width: parent.width
+                    spacing: 0
                     RowLayout {
                         Layout.fillWidth: true
                         Layout.topMargin: 8
-                        Layout.bottomMargin: 4
+                        Layout.bottomMargin: 8
                         Layout.leftMargin: 8
                         Layout.rightMargin: 8
                         LabelPrim {
                             Layout.fillWidth: true
                             font.bold: true
                             text: qsTr("Beschreibung")
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: {
+                                    var col = listView.model.fieldIndex("Beschreibung")
+                                    if (listView.model.sortColumn === col) {
+                                        if (listView.model.sortOrder === Qt.AscendingOrder)
+                                            listView.model.sortOrder = Qt.DescendingOrder
+                                        else
+                                            listView.model.sortOrder = Qt.AscendingOrder
+                                    }
+                                    else {
+                                        listView.model.sortColumn = col
+                                    }
+                                }
+                            }
                         }
                         LabelPrim {
                             Layout.fillWidth: true
                             horizontalAlignment: Text.AlignRight
                             font.bold: true
                             text: qsTr("Menge")
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: {
+                                    var col = listView.model.fieldIndex("Menge")
+                                    if (listView.model.sortColumn === col) {
+                                        if (listView.model.sortOrder === Qt.AscendingOrder)
+                                            listView.model.sortOrder = Qt.DescendingOrder
+                                        else
+                                            listView.model.sortOrder = Qt.AscendingOrder
+                                    }
+                                    else {
+                                        listView.model.sortColumn = col
+                                    }
+                                }
+                            }
                         }
                     }
                     HorizontalDivider {
@@ -79,22 +113,26 @@ PageBase {
                 Flow {
                     anchors.verticalCenter: parent.verticalCenter
                     RadioButton {
-                        checked: app.settings.ingredientsFilter === 0
+                        checked: app.settings.ingredientsFilter === ProxyModelRohstoff.Alle
                         text: qsTr("alle")
-                        onClicked: app.settings.ingredientsFilter = 0
+                        onClicked: app.settings.ingredientsFilter = ProxyModelRohstoff.Alle
                     }
                     RadioButton {
-                        checked: app.settings.ingredientsFilter === 1
+                        checked: app.settings.ingredientsFilter === ProxyModelRohstoff.Vorhanden
                         text: qsTr("vorhanden")
-                        onClicked: app.settings.ingredientsFilter = 1
+                        onClicked: app.settings.ingredientsFilter = ProxyModelRohstoff.Vorhanden
+                    }
+                    RadioButton {
+                        checked: app.settings.ingredientsFilter === ProxyModelRohstoff.InGebrauch
+                        text: qsTr("in Gebrauch")
+                        onClicked: app.settings.ingredientsFilter = ProxyModelRohstoff.InGebrauch
                     }
                 }
             }
             delegate: ItemDelegate {
                 id: rowDelegate
-                visible: !model.deleted
                 width: parent.width
-                height: visible ? dataColumn.implicitHeight : 0
+                height: dataColumn.implicitHeight
                 padding: 0
                 text: " "
                 onClicked: {
@@ -113,17 +151,18 @@ PageBase {
 
                 function remove() {
                     removeFake.start()
-                    listView.model.sourceModel.remove(listView.model.mapRowToSource(index))
+                    listView.model.removeRow(index)
                 }
 
                 ColumnLayout {
                     id: dataColumn
                     anchors.left: parent.left
                     anchors.right: parent.right
+                    spacing: 0
                     RowLayout {
                         Layout.fillWidth: true
                         Layout.topMargin: 8
-                        Layout.bottomMargin: 4
+                        Layout.bottomMargin: 8
                         Layout.leftMargin: 8
                         Layout.rightMargin: 8
                         LabelPrim {
@@ -131,6 +170,7 @@ PageBase {
                             Layout.fillWidth: true
                             opacity: model.Menge > 0 ? app.config.textOpacityFull : app.config.textOpacityHalf
                             text: model.Beschreibung
+                            font.italic: model.InGebrauch
                             states: State {
                                 when: model.Menge > 0 && model.Mindesthaltbar < new Date()
                                 PropertyChanges { target: tfBeschreibung; color: Material.accent }
@@ -164,17 +204,6 @@ PageBase {
                 onLoaded: item.open()
                 sourceComponent: PopupBase {
                     onClosed: popuploader.active = false
-
-                    function tryRemove(ingredient) {
-                        if (Brauhelfer.allowedToDeleteIngredient(Brauhelfer.IngredientTypeHops, ingredient)) {
-                            listView.currentItem.remove()
-                            close()
-                        }
-                        else {
-                            messageDialogDelete.open()
-                        }
-                    }
-
                     SwipeView {
                         anchors.top: parent.top
                         anchors.left: parent.left
@@ -220,9 +249,11 @@ PageBase {
                                                     anchors.fill: parent
                                                     visible: !itBeschreibung.editing
                                                     text: model.Beschreibung
+                                                    font.italic: model.InGebrauch
                                                     horizontalAlignment: Text.AlignHCenter
                                                     MouseArea {
                                                         anchors.fill: parent
+                                                        enabled: !model.InGebrauch
                                                         onClicked: itBeschreibung.editing = true
                                                     }
                                                 }
@@ -242,7 +273,15 @@ PageBase {
                                             ToolButton {
                                                 id: btnRemove
                                                 Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                                                onClicked: tryRemove(model.Beschreibung)
+                                                onClicked: {
+                                                    if (model.InGebrauch) {
+                                                        messageDialogDelete.open()
+                                                    }
+                                                    else {
+                                                        listView.currentItem.remove()
+                                                        close()
+                                                    }
+                                                }
                                                 contentItem: Image {
                                                     source: "qrc:/images/ic_delete.png"
                                                     anchors.centerIn: parent
@@ -412,9 +451,9 @@ PageBase {
                 imageSource: "qrc:/images/ic_add_white.png"
                 visible: !page.readOnly
                 onClicked: {
-                    app.settings.ingredientsFilter = 0
-                    listView.model.sourceModel.append()
-                    listView.currentIndex = listView.count - 1
+                    app.settings.ingredientsFilter = ProxyModelRohstoff.Alle
+                    tfFilter.text = ""
+                    listView.currentIndex = listView.model.append()
                     popuploader.active = true
                 }
             }

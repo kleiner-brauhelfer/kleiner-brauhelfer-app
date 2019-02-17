@@ -131,7 +131,7 @@ PageBase {
                 function remove() {
                     removeFake.start()
                     chart.removeFake(index)
-                    listView.model.remove(index)
+                    listView.model.removeRow(index)
                 }
 
                 ColumnLayout {
@@ -140,8 +140,11 @@ PageBase {
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
+                    spacing: 0
                     RowLayout {
                         Layout.fillWidth: true
+                        Layout.topMargin: 4
+                        Layout.bottomMargin: 4
                         LabelDateTime {
                             Layout.fillWidth: true
                             leftPadding: 8
@@ -183,7 +186,7 @@ PageBase {
                 imageSource: "qrc:/images/ic_add_white.png"
                 visible: !page.readOnly
                 onClicked: {
-                    listView.model.append()
+                    listView.model.append({"SudID": Brauhelfer.sud.id})
                     listView.currentIndex = listView.count - 1
                     popuploader.active = true
                 }
@@ -216,7 +219,7 @@ PageBase {
                     columnSpacing: 16
 
                     Image {
-                        source: "qrc:/images/ic_schedule.png"
+                        source: "qrc:/images/baseline_date_range.png"
                     }
 
                     TextFieldDate {

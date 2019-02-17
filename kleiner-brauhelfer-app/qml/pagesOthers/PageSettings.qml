@@ -330,7 +330,11 @@ PageBase {
                     width: 50
                     anchors.right: parent.right
                     anchors.verticalCenter: lblCache.verticalCenter
-                    onClicked: Brauhelfer.clearCache()
+                    onClicked: {
+                        Brauhelfer.disconnect()
+                        SyncService.clearCache()
+                        connect()
+                    }
                     contentItem: Image {
                         source: "qrc:/images/ic_delete.png"
                         anchors.centerIn: parent

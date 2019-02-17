@@ -1,7 +1,7 @@
-# QT modules
 QT += core gui widgets qml quick quickcontrols2 charts sql network xml
 
 # organization, application name and version
+
 ORGANIZATION = BourgeoisLab
 TARGET = kleiner-brauhelfer-app
 VER_MAJ = 1
@@ -14,6 +14,9 @@ DEFINES += VER_MAJ=\"$$VER_MAJ\" VER_MIN=\"$$VER_MIN\" VER_PAT=\"$$VER_PAT\"
 # build application
 TEMPLATE = app
 
+# configuration
+CONFIG += c++11
+
 # warnings
 DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += warn_on
@@ -21,8 +24,9 @@ CONFIG += warn_on
 # enable / disable dropbox support
 CONFIG += dropbox_en
 dropbox_en {
-    win32: LIBS += -L../bin/ -lqtdropbox2
-    unix: LIBS += -L../qtdropbox2/ -lqtdropbox2
+    win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../qtdropbox2/release/ -lqtdropbox2
+    else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../qtdropbox2/debug/ -lqtdropbox2
+    else:unix: LIBS += -L$$OUT_PWD/../qtdropbox2/ -lqtdropbox2
     INCLUDEPATH += $$PWD/../qtdropbox2/src
     DEPENDPATH += $$PWD/../qtdropbox2/src
     DEFINES += DROPBOX_EN=1
@@ -46,21 +50,19 @@ contains(ANDROID_TARGET_ARCH,x86) {
         $$PWD/android/libs/x86/libssl.so
 }
 
-# temporary and destination folders
-OBJECTS_DIR = tmp
-MOC_DIR = tmp
-UI_DIR = tmp
-RCC_DIR = tmp
-DESTDIR = ../bin
-
 # libraries
-win32: LIBS += -L../bin/ -lkleiner-brauhelfer-core
-unix: LIBS += -L../kleiner-brauhelfer-core/ -lkleiner-brauhelfer-core
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../kleiner-brauhelfer-core/release/ -lkleiner-brauhelfer-core
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../kleiner-brauhelfer-core/debug/ -lkleiner-brauhelfer-core
+else:unix: LIBS += -L$$OUT_PWD/../kleiner-brauhelfer-core/ -lkleiner-brauhelfer-core
+INCLUDEPATH += $$PWD/../kleiner-brauhelfer-core
+DEPENDPATH += $$PWD/../kleiner-brauhelfer-core
 
 # header files
 INCLUDEPATH += src ../kleiner-brauhelfer-core/src
 HEADERS += \
     src/qmlutils.h \
+    src/syncservice.h \
+    src/syncservicelocal.h \
     src/syncservicemanager.h \
     src/syncservicedropbox.h \
     src/syncservicewebdav.h \
@@ -70,6 +72,8 @@ HEADERS += \
 SOURCES += \
     src/main.cpp \
     src/qmlutils.cpp \
+    src/syncservice.cpp \
+    src/syncservicelocal.cpp \
     src/syncservicemanager.cpp \
     src/syncservicedropbox.cpp \
     src/syncservicewebdav.cpp \

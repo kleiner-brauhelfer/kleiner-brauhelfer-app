@@ -18,6 +18,7 @@ ApplicationWindow {
     property bool brewForceEditable: false
     property alias config: config
     property alias settings: settings
+    property alias pageGlobalAuswahl: viewGlobal.pageGlobalAuswahl
 
     id: app
     title: Qt.application.name
@@ -49,8 +50,7 @@ ApplicationWindow {
         readonly property int save: 1
         readonly property int discard: 2
         readonly property int loadBrew: 3
-        readonly property int saveAndLoadBrew: 4
-        readonly property int saveAndQuit: 5
+        readonly property int saveAndQuit: 4
 
         property int schedule: -1
         property var param: null
@@ -60,7 +60,9 @@ ApplicationWindow {
         onTriggered: {
             switch (schedule) {
             case connect:
-                Brauhelfer.connect()
+                SyncService.download()
+                Brauhelfer.databasePath = SyncService.filePath
+                Brauhelfer.connectDatabase()
                 app.loaded = true
 
                 // build navigation menu
@@ -71,24 +73,24 @@ ApplicationWindow {
                 navPane.currentItem.currentItem.focus = true
 
                 // synchronization message
-                switch (Brauhelfer.syncState)
+                switch (SyncService.syncState)
                 {
-                case Brauhelfer.UpToDate:
+                case SyncService.UpToDate:
                     toast.start(qsTr("Datenbank aktuell."))
                     break;
-                case Brauhelfer.Updated:
+                case SyncService.Updated:
                     toast.start(qsTr("Datenbank aktualisiert."))
                     break;
-                case Brauhelfer.Offline:
+                case SyncService.Offline:
                     toast.start(qsTr("Synchronisationsdienst nicht erreichbar."))
                     break;
-                case Brauhelfer.NotFound:
+                case SyncService.NotFound:
                     toast.start(qsTr("Datenbank nicht gefunden."))
                     break;
-                case Brauhelfer.OutOfSync:
+                case SyncService.OutOfSync:
                     toast.start(qsTr("Datenbank nicht synchron."))
                     break;
-                case Brauhelfer.Failed:
+                case SyncService.Failed:
                     toast.start(qsTr("Synchronisation fehlgeschlagen."))
                     break;
                 }
@@ -102,6 +104,7 @@ ApplicationWindow {
                 break
             case save:
                 Brauhelfer.save()
+                SyncService.upload()
                 brewForceEditable = false
                 break
             case discard:
@@ -115,13 +118,9 @@ ApplicationWindow {
                 brewForceEditable = false
                 pageToolBieranalyse.takeValuesFromBrew()
                 break
-            case saveAndLoadBrew:
-                Brauhelfer.save()
-                brewForceEditable = false
-                app.loadBrewNow(param)
-                break
             case saveAndQuit:
                 Brauhelfer.save()
+                SyncService.upload()
                 brewForceEditable = false
                 Qt.quit()
                 break;
@@ -166,13 +165,7 @@ ApplicationWindow {
 
     function loadBrew(id) {
         if (Brauhelfer.sud.id !== id) {
-            if (Brauhelfer.sud.isModified) {
-                messageDialogSave.brewId = id
-                messageDialogSave.open()
-            }
-            else {
-                loadBrewNow(id)
-            }
+            loadBrewNow(id)
         }
         else {
             navPane.goTo(viewSud, 0)
@@ -187,10 +180,6 @@ ApplicationWindow {
         scheduler.runExt(scheduler.loadBrew, id)
     }
 
-    function saveAndLoadBrew(id) {
-        scheduler.runExt(scheduler.saveAndLoadBrew, id)
-    }
-
     function saveAndQuit() {
         scheduler.run(scheduler.saveAndQuit)
     }
@@ -203,17 +192,6 @@ ApplicationWindow {
     Component.onCompleted: {
         updateLanguage()
         connect()
-    }
-
-    Connections {
-        target: LanguageSelector
-        onLanguageChanged: console.info("Language changed: " + language)
-    }
-
-    // connect debug message to console
-    Connections {
-        target: Brauhelfer
-        onNewMessage: console.info(msg)
     }
 
     // toast messages
@@ -238,17 +216,6 @@ ApplicationWindow {
         onAccepted: navPane.goSettings()
     }
 
-    // message dialog to ask for saving brew
-    MessageDialog {
-        property int brewId: -1
-        id: messageDialogSave
-        icon: MessageDialog.Question
-        text: qsTr("Änderungen speichern?")
-        standardButtons: StandardButton.Save | StandardButton.Discard | StandardButton.Cancel
-        onAccepted: app.saveAndLoadBrew(brewId)
-        onDiscard: loadBrewNow(brewId)
-    }
-
     // message dialog to ask for quit
     MessageDialog {
         id: messageDialogQuit
@@ -271,7 +238,7 @@ ApplicationWindow {
     // header
     header: Header {
         text: navPane.currentItem.currentItem.title
-        textSub: Brauhelfer.sud.loaded ? Brauhelfer.sud.Sudname : Qt.application.name
+        textSub: Brauhelfer.sud.isLoaded ? Brauhelfer.sud.Sudname : Qt.application.name
         iconLeft: "ic_menu_white.png"
         onClickedLeft: navigation.open()
         iconRight: navPane.isHome() ? "" : "ic_home_white.png"
@@ -281,9 +248,10 @@ ApplicationWindow {
 
     // global pages
     SwipeView {
+        property alias pageGlobalAuswahl: pageGlobalAuswahl
         id: viewGlobal
         visible: false
-        PageGlobalAuswahl { onClicked: loadBrew(id) }
+        PageGlobalAuswahl { id: pageGlobalAuswahl; onClicked: loadBrew(id) }
         PageGlobalUebersicht { onClicked: loadBrew(id) }
         PageGlobalMalt { }
         PageGlobalHops { }
@@ -300,7 +268,7 @@ ApplicationWindow {
         function build() {
             while (count > 0)
                 removeItem(0)
-            if (Brauhelfer.sud.loaded) {
+            if (Brauhelfer.sud.isLoaded) {
                 addItem(pageSudHome)
                 addItem(pageSudInfo)
                 addItem(pageSudBrauen)

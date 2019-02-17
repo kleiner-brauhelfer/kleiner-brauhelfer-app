@@ -11,7 +11,7 @@ PageBase {
     id: page
     title: qsTr("Sudinfo")
     icon: "ic_info_outline.png"
-    enabled: Brauhelfer.sud.loaded
+    enabled: Brauhelfer.sud.isLoaded
     readOnly: Brauhelfer.readonly || !app.brewForceEditable
 
     Flickable {
@@ -36,6 +36,14 @@ PageBase {
                 GridLayout {
                     anchors.fill: parent
                     columns: 2
+                    TextFieldBase {
+                        Layout.columnSpan: 2
+                        Layout.fillWidth: true
+                        enabled: !Brauhelfer.readonly
+                        placeholderText: qsTr("Sudname")
+                        text: Brauhelfer.sud.Sudname
+                        onTextChanged: if (activeFocus) Brauhelfer.sud.Sudname = text
+                    }
                     LabelPrim {
                         Layout.fillWidth: true
                         text: qsTr("Gespeichert")
@@ -97,13 +105,13 @@ PageBase {
                 }
                 GridLayout {
                     anchors.fill: parent
-                    columns: 3
+                    columns: 4
                     LabelPrim {
                         Layout.fillWidth: true
                         text: qsTr("Status")
                     }
                     LabelPrim {
-                        Layout.columnSpan: 2
+                        Layout.columnSpan: 3
                         text: {
                             if (!Brauhelfer.sud.BierWurdeGebraut)
                                 return qsTr("nicht gebraut")
@@ -123,7 +131,7 @@ PageBase {
                         text: qsTr("Anlage")
                     }
                     LabelPrim {
-                        Layout.columnSpan: 2
+                        Layout.columnSpan: 3
                         text: Brauhelfer.sud.AuswahlBrauanlageName
                     }
                     LabelPrim {
@@ -132,7 +140,12 @@ PageBase {
                     }
                     LabelNumber {
                         precision: 1
-                        value: Brauhelfer.sud.BierWurdeGebraut ? Brauhelfer.sud.erg_AbgefuellteBiermenge : Brauhelfer.sud.Menge
+                        value: Brauhelfer.sud.BierWurdeGebraut ? Brauhelfer.sud.MengeIst : Number.NaN
+                    }
+                    LabelNumber {
+                        opacity: Brauhelfer.sud.BierWurdeGebraut ?  app.config.textOpacityHalf : app.config.textOpacityFull
+                        precision: 1
+                        value: Brauhelfer.sud.Menge
                     }
                     LabelUnit {
                         text: qsTr("l")
@@ -142,7 +155,11 @@ PageBase {
                         text: qsTr("Stammwürze")
                     }
                     LabelPlato {
-                        value: Brauhelfer.sud.BierWurdeGebraut ? Brauhelfer.sud.SWIst : Brauhelfer.sud.SW
+                        value: Brauhelfer.sud.BierWurdeGebraut ? Brauhelfer.sud.SWIst : Number.NaN
+                    }
+                    LabelPlato {
+                        opacity: Brauhelfer.sud.BierWurdeGebraut ?  app.config.textOpacityHalf : app.config.textOpacityFull
+                        value: Brauhelfer.sud.SW
                     }
                     LabelUnit {
                         text: qsTr("°P")
@@ -153,6 +170,7 @@ PageBase {
                         text: qsTr("Restextrakt")
                     }
                     LabelPlato {
+                        Layout.columnSpan: 2
                         visible: Brauhelfer.sud.BierWurdeGebraut
                         value: Brauhelfer.sud.SREIst
                     }
@@ -166,6 +184,7 @@ PageBase {
                         text: qsTr("Vergärungsgrad (scheinbar)")
                     }
                     LabelNumber {
+                        Layout.columnSpan: 2
                         visible: Brauhelfer.sud.BierWurdeGebraut
                         value: Brauhelfer.calc.vergaerungsgrad(Brauhelfer.sud.SWIst, Brauhelfer.sud.SREIst)
                     }
@@ -179,6 +198,7 @@ PageBase {
                         text: qsTr("Alkohol")
                     }
                     LabelNumber {
+                        Layout.columnSpan: 2
                         visible: Brauhelfer.sud.BierWurdeGebraut
                         precision: 1
                         value: Brauhelfer.sud.erg_Alkohol
@@ -193,6 +213,7 @@ PageBase {
                         text: qsTr("Ausbeute")
                     }
                     LabelNumber {
+                        Layout.columnSpan: 2
                         visible: Brauhelfer.sud.BierWurdeGebraut
                         value: Brauhelfer.sud.erg_EffektiveAusbeute
                     }
@@ -206,6 +227,11 @@ PageBase {
                     }
                     LabelNumber {
                         precision: 0
+                        value: Brauhelfer.sud.BierWurdeGebraut ? Brauhelfer.sud.IbuIst : Number.NaN
+                    }
+                    LabelNumber {
+                        opacity: Brauhelfer.sud.BierWurdeGebraut ?  app.config.textOpacityHalf : app.config.textOpacityFull
+                        precision: 0
                         value: Brauhelfer.sud.IBU
                     }
                     LabelUnit {
@@ -217,6 +243,11 @@ PageBase {
                     }
                     LabelNumber {
                         precision: 0
+                        value: Brauhelfer.sud.BierWurdeGebraut ? Brauhelfer.sud.FarbeIst : Number.NaN
+                    }
+                    LabelNumber {
+                        opacity: Brauhelfer.sud.BierWurdeGebraut ?  app.config.textOpacityHalf : app.config.textOpacityFull
+                        precision: 0
                         value: Brauhelfer.sud.erg_Farbe
                     }
                     LabelUnit {
@@ -226,6 +257,9 @@ PageBase {
                         Layout.fillWidth: true
                         visible: Brauhelfer.sud.RestalkalitaetSoll > 0.0
                         text: qsTr("Restalkalität")
+                    }
+                    Label {
+                        visible: Brauhelfer.sud.RestalkalitaetSoll > 0.0
                     }
                     LabelNumber {
                         visible: Brauhelfer.sud.RestalkalitaetSoll > 0.0
@@ -242,7 +276,12 @@ PageBase {
                     }
                     LabelNumber {
                         precision: 1
-                        value: Brauhelfer.sud.BierWurdeGebraut ? Brauhelfer.sud.CO2Ist : Brauhelfer.sud.CO2
+                        value: Brauhelfer.sud.BierWurdeGebraut ? Brauhelfer.sud.CO2Ist : Number.NaN
+                    }
+                    LabelNumber {
+                        opacity: Brauhelfer.sud.BierWurdeGebraut ?  app.config.textOpacityHalf : app.config.textOpacityFull
+                        precision: 1
+                        value: Brauhelfer.sud.CO2
                     }
                     LabelUnit {
                         text: qsTr("g/l")
@@ -252,6 +291,7 @@ PageBase {
                         text: qsTr("Preis")
                     }
                     LabelNumber {
+                        Layout.columnSpan: 2
                         precision: 2
                         value: Brauhelfer.sud.erg_Preis
                     }

@@ -29,10 +29,11 @@ PageBase {
             ColumnLayout {
                 id: header
                 width: parent.width
+                spacing: 0
                 RowLayout {
                     Layout.fillWidth: true
                     Layout.topMargin: 8
-                    Layout.bottomMargin: 4
+                    Layout.bottomMargin: 8
                     Layout.leftMargin: 8
                     Layout.rightMargin: 8
                     LabelPrim {
@@ -81,17 +82,18 @@ PageBase {
 
             function remove() {
                 removeFake.start()
-                listView.model.remove(index)
+                listView.model.removeRow(index)
             }
 
             ColumnLayout {
                 id: dataColumn
                 anchors.left: parent.left
                 anchors.right: parent.right
+                spacing: 0
                 RowLayout {
                     Layout.fillWidth: true
                     Layout.topMargin: 8
-                    Layout.bottomMargin: 4
+                    Layout.bottomMargin: 8
                     Layout.leftMargin: 8
                     Layout.rightMargin: 8
                     LabelPrim {
@@ -345,7 +347,7 @@ PageBase {
                                             LabelNumber {
                                                 Layout.alignment: Qt.AlignHCenter
                                                 precision: 1
-                                                value: model.Maischebottich_MaxFuelvolumen
+                                                value: model.Maischebottich_MaxFuellvolumen
                                             }
                                             LabelUnit {
                                                 text: qsTr("l")
@@ -425,7 +427,7 @@ PageBase {
                                             LabelNumber {
                                                 Layout.alignment: Qt.AlignHCenter
                                                 precision: 1
-                                                value: model.Sudpfanne_MaxFuelvolumen
+                                                value: model.Sudpfanne_MaxFuellvolumen
                                             }
                                             LabelUnit {
                                                 text: qsTr("l")
@@ -444,7 +446,7 @@ PageBase {
                                                 id: repeater
                                                 model: ProxyModel {
                                                     sourceModel: Brauhelfer.modelGeraete
-                                                    filterKeyColumn: sourceModel.fieldIndex("AusruestungAnlagenID")
+                                                    filterKeyColumn: fieldIndex("AusruestungAnlagenID")
                                                     filterRegExp: new RegExp(anlagenID)
                                                 }
                                                 delegate: RowLayout {
@@ -456,11 +458,13 @@ PageBase {
                                                         onTextChanged: if (activeFocus) model.Bezeichnung = text
                                                     }
                                                     ToolButton {
+                                                        Layout.preferredWidth: 40
                                                         contentItem: Image {
+                                                            fillMode: Image.PreserveAspectFit
                                                             source: "qrc:/images/ic_remove.png"
                                                             anchors.centerIn: parent
                                                         }
-                                                        onClicked: repeater.model.sourceModel.remove(repeater.model.mapRowToSource(index))
+                                                        onClicked: repeater.model.removeRow(index)
                                                     }
                                                 }
                                             }
@@ -472,7 +476,9 @@ PageBase {
                                                     placeholderText: qsTr("Neues Gerät")
                                                 }
                                                 ToolButton {
+                                                    Layout.preferredWidth: 40
                                                     contentItem: Image {
+                                                        fillMode: Image.PreserveAspectFit
                                                         source: "qrc:/images/ic_add.png"
                                                         anchors.centerIn: parent
                                                         layer.enabled: !parent.enabled
@@ -482,9 +488,8 @@ PageBase {
                                                     }
                                                     enabled: tfNewGear.text !== ""
                                                     onClicked: {
-                                                        repeater.model.sourceModel.append({"AusruestungAnlagenID": anlagenID, "Bezeichnung": tfNewGear.text})
+                                                        repeater.model.append({"AusruestungAnlagenID": anlagenID, "Bezeichnung": tfNewGear.text})
                                                         tfNewGear.text = ""
-                                                        repeater.model.invalidate()
                                                     }
                                                 }
                                             }

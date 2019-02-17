@@ -7,6 +7,7 @@ Page {
     property string icon: ""
     property bool readOnly: false
     default property alias component: loader.sourceComponent
+    property alias loaderItem: loader.item
 
     enabled: true
     padding: 0
@@ -17,7 +18,6 @@ Page {
     function unload() {
         if (loader.active) {
             loader.active = false
-            Brauhelfer.message("Page unloaded: " + title)
         }
     }
 
@@ -27,6 +27,5 @@ Page {
         id: loader
         active: false
         anchors.fill: parent
-        onLoaded: Brauhelfer.message("Page loaded: " + title)
     }
 }

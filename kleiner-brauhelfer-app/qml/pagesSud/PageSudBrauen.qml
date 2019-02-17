@@ -357,12 +357,21 @@ PageBase {
                                     text: model.Name
                                 }
                                 LabelNumber {
-                                    Layout.preferredWidth: 80
+                                    Layout.preferredWidth: 40
+                                    precision: 1
+                                    value: model.Prozent
+                                }
+                                LabelUnit {
+                                    Layout.preferredWidth: 30
+                                    text: qsTr("%")
+                                }
+                                LabelNumber {
+                                    Layout.preferredWidth: 40
                                     precision: 2
                                     value: model.erg_Menge
                                 }
                                 LabelUnit {
-                                    Layout.preferredWidth: 60
+                                    Layout.preferredWidth: 30
                                     text: qsTr("kg")
                                 }
                             }
@@ -373,14 +382,22 @@ PageBase {
                                 Layout.fillWidth: true
                                 text: qsTr("Gesamtschüttung")
                             }
+                            Label {
+                                Layout.preferredWidth: 40
+                                text: ""
+                            }
+                            Label {
+                                Layout.preferredWidth: 30
+                                text: ""
+                            }
                             LabelNumber {
-                                Layout.preferredWidth: 80
+                                Layout.preferredWidth: 40
                                 font.bold: true
                                 precision: 2
                                 value: Brauhelfer.sud.erg_S_Gesammt
                             }
                             LabelUnit {
-                                Layout.preferredWidth: 60
+                                Layout.preferredWidth: 30
                                 text: qsTr("kg")
                             }
                         }
@@ -429,7 +446,7 @@ PageBase {
                             id: repeaterModelWeitereZutatenGabenMaischen
                             model: ProxyModel {
                                 sourceModel: Brauhelfer.sud.modelWeitereZutatenGaben
-                                filterKeyColumn: sourceModel.fieldIndex("Zeitpunkt")
+                                filterKeyColumn: fieldIndex("Zeitpunkt")
                                 filterRegExp: /2/
                             }
                             delegate: ColumnLayout {
@@ -474,7 +491,7 @@ PageBase {
                                 }
                                 TextFieldNumber {
                                     Layout.preferredWidth: 40
-                                    enabled: !page.readOnly 
+                                    enabled: !page.readOnly
                                     precision: 0
                                     value: model.RastTemp
                                     onNewValue: model.RastTemp = value
@@ -790,14 +807,10 @@ PageBase {
                                 font.bold: true
                                 text: qsTr("Kochdauer")
                             }
-                            TextFieldNumber {
-                                property real tempValue: NaN
+                            LabelNumber {
                                 Layout.preferredWidth: 80
-                                enabled: !page.readOnly
                                 precision: 0
                                 value: Brauhelfer.sud.KochdauerNachBitterhopfung
-                                onNewValue: tempValue = value
-                                onEditingFinished: Brauhelfer.sud.KochdauerNachBitterhopfung = tempValue
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
@@ -854,7 +867,7 @@ PageBase {
                             id: repeaterModelWeitereZutatenGabenKochen
                             model: ProxyModel {
                                 sourceModel: Brauhelfer.sud.modelWeitereZutatenGaben
-                                filterKeyColumn: sourceModel.fieldIndex("Zeitpunkt")
+                                filterKeyColumn: fieldIndex("Zeitpunkt")
                                 filterRegExp: /1/
                             }
                             delegate: ColumnLayout {
@@ -995,32 +1008,12 @@ PageBase {
                         HorizontalDivider {
                             Layout.fillWidth: true
                         }
-                        LabelPrim {
-                            Layout.fillWidth: true
-                            font.bold: true
-                            text: qsTr("Verdampfung")
-                        }
                         GridLayout {
-                            Layout.leftMargin: 8
                             columns: 3
                             LabelPrim {
                                 Layout.fillWidth: true
-                                text: qsTr("Sud")
-                            }
-                            LabelNumber {
-                                Layout.preferredWidth: 80
-                                value: Brauhelfer.calc.verdampfungsziffer(
-                                           Brauhelfer.sud.WuerzemengeVorHopfenseihen,
-                                           Brauhelfer.sud.WuerzemengeKochende,
-                                           Brauhelfer.sud.KochdauerNachBitterhopfung)
-                            }
-                            LabelUnit {
-                                Layout.preferredWidth: 60
-                                text: qsTr("%")
-                            }
-                            LabelPrim {
-                                Layout.fillWidth: true
-                                text: qsTr("Anlage")
+                                font.bold: true
+                                text: qsTr("Verdampfung")
                             }
                             LabelNumber {
                                 Layout.preferredWidth: 80
@@ -1030,20 +1023,14 @@ PageBase {
                                 Layout.preferredWidth: 60
                                 text: qsTr("%")
                             }
-                        }
-                        HorizontalDivider {
-                            Layout.fillWidth: true
-                        }
-                        GridLayout {
-                            columns: 3
                             LabelPrim {
                                 Layout.fillWidth: true
-                                font.bold: true
-                                text: qsTr("Sudhausausbeute")
+                                Layout.leftMargin: 8
+                                text: "Ø " + qsTr("Anlage")
                             }
                             LabelNumber {
                                 Layout.preferredWidth: 80
-                                value: Brauhelfer.sud.erg_Sudhausausbeute
+                                value: Brauhelfer.sud.AnlageVerdampfungsziffer
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
@@ -1068,6 +1055,25 @@ PageBase {
                             LabelUnit {
                                 Layout.preferredWidth: 60
                                 text: qsTr("min")
+                            }
+                        }
+                        HorizontalDivider {
+                            Layout.fillWidth: true
+                        }
+                        GridLayout {
+                            columns: 3
+                            LabelPrim {
+                                Layout.fillWidth: true
+                                font.bold: true
+                                text: qsTr("Sudhausausbeute")
+                            }
+                            LabelNumber {
+                                Layout.preferredWidth: 80
+                                value: Brauhelfer.sud.erg_Sudhausausbeute
+                            }
+                            LabelUnit {
+                                Layout.preferredWidth: 60
+                                text: qsTr("%")
                             }
                         }
                     }
@@ -1247,7 +1253,8 @@ PageBase {
                         HorizontalDivider {
                             Layout.fillWidth: true
                         }
-                        RowLayout {
+                        GridLayout {
+                            columns: 3
                             LabelPrim {
                                 Layout.fillWidth: true
                                 font.bold: true
@@ -1256,6 +1263,19 @@ PageBase {
                             LabelNumber {
                                 Layout.preferredWidth: 80
                                 value: Brauhelfer.sud.erg_EffektiveAusbeute
+                            }
+                            LabelUnit {
+                                Layout.preferredWidth: 60
+                                text: qsTr("%")
+                            }
+                            LabelPrim {
+                                Layout.fillWidth: true
+                                Layout.leftMargin: 8
+                                text: "Ø " + qsTr("Anlage")
+                            }
+                            LabelNumber {
+                                Layout.preferredWidth: 80
+                                value: Brauhelfer.sud.AnlageSudhausausbeute
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
@@ -1328,7 +1348,7 @@ PageBase {
                             id: repeaterModelWeitereZutatenGabenGaerung
                             model: ProxyModel {
                                 sourceModel: Brauhelfer.sud.modelWeitereZutatenGaben
-                                filterKeyColumn: sourceModel.fieldIndex("Zeitpunkt")
+                                filterKeyColumn: fieldIndex("Zeitpunkt")
                                 filterRegExp: /0/
                             }
                             delegate: ColumnLayout {
