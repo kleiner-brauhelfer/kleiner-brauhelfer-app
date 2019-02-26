@@ -117,8 +117,7 @@ PageBase {
                         }
                     }
                     LabelPrim {
-                        id: statuss
-                        visible: !Brauhelfer.sud.AbfuellenBereitZutaten
+                        visible: Brauhelfer.sud.BierWurdeGebraut && !Brauhelfer.sud.AbfuellenBereitZutaten
                         Layout.fillWidth: true
                         horizontalAlignment: Text.AlignHCenter
                         color: Material.accent
