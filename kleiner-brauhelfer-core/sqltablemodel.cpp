@@ -243,7 +243,6 @@ int SqlTableModel::append(const QVariantMap &values)
         int row = rowCount() - 1;
         QVariantMap::const_iterator it = val.constBegin();
         blockSignals(true);
-        /*
         while (it != val.constEnd())
         {
             QSqlTableModel::setData(index(row, fieldIndex(it.key())), it.value());
@@ -253,12 +252,6 @@ int SqlTableModel::append(const QVariantMap &values)
         while (it != val.constEnd())
         {
             setDataExt(index(row, fieldIndex(it.key())), it.value());
-            ++it;
-        }
-        */
-        while (it != val.constEnd())
-        {
-            setData(index(row, fieldIndex(it.key())), it.value());
             ++it;
         }
         blockSignals(false);
@@ -321,16 +314,25 @@ bool SqlTableModel::setDataExt(const QModelIndex &index, const QVariant &value)
     return false;
 }
 
-bool SqlTableModel::isUnique(const QModelIndex &index, const QVariant &value)
+bool SqlTableModel::isUnique(const QModelIndex &index, const QVariant &value, bool ignoreIndexRow) const
 {
     for (int row = 0; row < rowCount(); ++row)
     {
-        if (row == index.row())
+        if (!ignoreIndexRow && row == index.row())
             continue;
         if (index.siblingAtRow(row).data() == value)
             return false;
     }
     return true;
+}
+
+QString SqlTableModel::getUniqueName(const QModelIndex &index, const QVariant &value, bool ignoreIndexRow) const
+{
+    int cnt = 1;
+    QString name = value.toString();
+    while (!isUnique(index, name, ignoreIndexRow))
+        name = value.toString() + "_" + QString::number(cnt++);
+    return name;
 }
 
 void SqlTableModel::defaultValues(QVariantMap &values) const

@@ -21,12 +21,17 @@ CONFIG += c++11
 DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += warn_on
 
+!android: DESTDIR = $$OUT_PWD/../bin
+OBJECTS_DIR = tmp
+MOC_DIR = tmp
+UI_DIR = tmp
+RCC_DIR = tmp
+
 # enable / disable dropbox support
 CONFIG += dropbox_en
 dropbox_en {
-    win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../qtdropbox2/release/ -lqtdropbox2
-    else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../qtdropbox2/debug/ -lqtdropbox2
-    else:unix: LIBS += -L$$OUT_PWD/../qtdropbox2/ -lqtdropbox2
+    !android: LIBS += -L$$OUT_PWD/../bin/ -lqtdropbox2
+    android: LIBS += -L$$OUT_PWD/../qtdropbox2/ -lqtdropbox2
     INCLUDEPATH += $$PWD/../qtdropbox2/src
     DEPENDPATH += $$PWD/../qtdropbox2/src
     DEFINES += DROPBOX_EN=1
@@ -51,9 +56,8 @@ contains(ANDROID_TARGET_ARCH,x86) {
 }
 
 # libraries
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../kleiner-brauhelfer-core/release/ -lkleiner-brauhelfer-core
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../kleiner-brauhelfer-core/debug/ -lkleiner-brauhelfer-core
-else:unix: LIBS += -L$$OUT_PWD/../kleiner-brauhelfer-core/ -lkleiner-brauhelfer-core
+!android: LIBS += -L$$OUT_PWD/../bin/ -lkleiner-brauhelfer-core
+android: LIBS += -L$$OUT_PWD/../kleiner-brauhelfer-core/ -lkleiner-brauhelfer-core
 INCLUDEPATH += $$PWD/../kleiner-brauhelfer-core
 DEPENDPATH += $$PWD/../kleiner-brauhelfer-core
 
