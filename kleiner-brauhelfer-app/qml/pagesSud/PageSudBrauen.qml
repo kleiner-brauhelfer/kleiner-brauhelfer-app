@@ -75,8 +75,8 @@ PageBase {
                 messageDialog.open()
                 Brauhelfer.sud.Braudatum = tfBraudatum.date
                 Brauhelfer.sud.BierWurdeGebraut = true
-                Brauhelfer.sud.modelSchnellgaerverlauf.append({"SW": Brauhelfer.sud.SWAnstellen, "Temp": tfTemperature.value })
-                Brauhelfer.sud.modelHauptgaerverlauf.append({"SW": Brauhelfer.sud.SWAnstellen, "Temp": tfTemperature.value })
+                Brauhelfer.sud.modelSchnellgaerverlauf.append({"SudID": Brauhelfer.sud.id, "SW": Brauhelfer.sud.SWAnstellen, "Temp": tfTemperature.value })
+                Brauhelfer.sud.modelHauptgaerverlauf.append({"SudID": Brauhelfer.sud.id, "SW": Brauhelfer.sud.SWAnstellen, "Temp": tfTemperature.value })
             }
 
             // message dialog

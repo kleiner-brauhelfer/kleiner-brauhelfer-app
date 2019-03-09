@@ -37,7 +37,7 @@ PageBase {
             if (bereit) {
                 Brauhelfer.sud.Abfuelldatum = tfAbfuelldatum.date
                 Brauhelfer.sud.BierWurdeAbgefuellt = true
-                Brauhelfer.sud.modelNachgaerverlauf.append({"Temp": ctrlTemp.text })
+                Brauhelfer.sud.modelNachgaerverlauf.append({"SudID": Brauhelfer.sud.id, "Temp": ctrlTemp.text })
             }
         }
 
