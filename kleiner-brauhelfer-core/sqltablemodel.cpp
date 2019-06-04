@@ -2,13 +2,14 @@
 #include <QSqlRecord>
 #include <QSqlIndex>
 
-#define DEBUG_EN 1
+#define DEBUG_EN 0
 #if DEBUG_EN
   #include <QDebug>
 #endif
 
 SqlTableModel::SqlTableModel(QObject *parent, QSqlDatabase db) :
     QSqlTableModel(parent, db),
+    mSignalModifiedBlocked(false),
     mSetDataCnt(0)
 {
     setEditStrategy(EditStrategy::OnManualSubmit);
@@ -74,7 +75,8 @@ bool SqlTableModel::setData(const QModelIndex &index, const QVariant &value, int
                 if (mSetDataCnt == 1)
                 {
                     emit rowChanged(index);
-                    emit modified();
+                    if (!mSignalModifiedBlocked)
+                        emit modified();
                 }
             }
             --mSetDataCnt;
@@ -320,7 +322,7 @@ bool SqlTableModel::isUnique(const QModelIndex &index, const QVariant &value, bo
     {
         if (!ignoreIndexRow && row == index.row())
             continue;
-        if (index.siblingAtRow(row).data() == value)
+        if (index.sibling(row, index.column()).data() == value)
             return false;
     }
     return true;
@@ -333,6 +335,24 @@ QString SqlTableModel::getUniqueName(const QModelIndex &index, const QVariant &v
     while (!isUnique(index, name, ignoreIndexRow))
         name = value.toString() + "_" + QString::number(cnt++);
     return name;
+}
+
+int SqlTableModel::getNextId() const
+{
+    QSqlIndex primary = primaryKey();
+    if (!primary.isEmpty())
+    {
+        int maxId = 0;
+        int colSudId = primary.value(0).toInt();
+        for (int i = 0; i < rowCount(); ++i)
+        {
+            int sudId = index(i, colSudId).data().toInt();
+            if (sudId > maxId)
+                maxId = sudId;
+        }
+        return maxId + 1;
+    }
+    return 1;
 }
 
 void SqlTableModel::defaultValues(QVariantMap &values) const

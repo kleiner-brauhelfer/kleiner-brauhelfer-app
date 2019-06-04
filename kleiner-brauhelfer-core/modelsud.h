@@ -26,6 +26,7 @@ private slots:
     void onRowChanged(const QModelIndex &index);
     void onOtherModelRowChanged(const QModelIndex &index);
 private:
+    bool setDataExt_impl(const QModelIndex &index, const QVariant &value);
     void update(int row);
     void updateSwWeitereZutaten(int row);
     void updateFarbe(int row);
@@ -51,10 +52,10 @@ private:
     QVariant RestalkalitaetFaktor(const QModelIndex &index) const;
     QVariant FaktorHauptgussEmpfehlung(const QModelIndex &index) const;
     void removeRowsFrom(SqlTableModel* model, int sudId);
-    int getNextId() const;
 private:
     Brauhelfer* bh;
-    bool updating;
+    bool mUpdating;
+    bool mSkipUpdateOnOtherModelChanged;
     QVector<double> swWzMaischenRecipe;
     QVector<double> swWzKochenRecipe;
     QVector<double> swWzGaerungRecipe;

@@ -86,7 +86,7 @@ PageBase {
                 text: qsTr("Verwendete Rohstoffe vom Bestand abziehen?")
                 standardButtons: StandardButton.Yes | StandardButton.No
                 //buttons: MessageDialog.Yes | MessageDialog.No
-                onYes: Brauhelfer.sud.substractBrewIngredients()
+                onYes: Brauhelfer.sud.brauzutatenAbziehen()
             }
 
             ColumnLayout {

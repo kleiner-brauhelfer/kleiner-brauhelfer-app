@@ -52,9 +52,7 @@ bool ProxyModelSud::filterMerkliste() const
 void ProxyModelSud::setFilterMerkliste(bool value)
 {
     mFilterMerkliste = value;
-    invalidateFilter();
-    sort();
-    emit filterChanged();
+    invalidate();
 }
 
 ProxyModelSud::FilterStatus ProxyModelSud::filterStatus() const
@@ -65,22 +63,19 @@ ProxyModelSud::FilterStatus ProxyModelSud::filterStatus() const
 void ProxyModelSud::setFilterStatus(FilterStatus state)
 {
     mFilterStatus = state;
-    invalidateFilter();
-    sort();
-    emit filterChanged();
+    invalidate();
 }
 
 QString ProxyModelSud::filterText() const
 {
     return mFilterText;
 }
-
+#include <QDebug>
 void ProxyModelSud::setFilterText(const QString& text)
 {
+    qDebug() << "ProxyModelSud::setFilterText: " << text;
     mFilterText = text;
-    invalidateFilter();
-    sort();
-    emit filterChanged();
+    invalidate();
 }
 
 bool ProxyModelSud::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const

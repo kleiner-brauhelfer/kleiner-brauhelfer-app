@@ -245,6 +245,12 @@ protected:
      */
     QString getUniqueName(const QModelIndex &index, const QVariant &value, bool ignoreIndexRow = false) const;
 
+    /**
+     * @brief getNextId
+     * @return
+     */
+    int getNextId() const;
+
 private Q_SLOTS:
 
     void fetchAll();
@@ -256,6 +262,11 @@ protected:
      * @note Use dataExt() and setDataExt() to provide read/write functionality to these fields
      */
     QStringList mVirtualField;
+
+    /**
+     * @brief Can be set to temporarily skip emit of the modified signal
+     */
+    bool mSignalModifiedBlocked;
 
 private:
     QHash<int, QByteArray> mRoles;

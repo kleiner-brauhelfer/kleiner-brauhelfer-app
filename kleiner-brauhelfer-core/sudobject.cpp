@@ -9,6 +9,7 @@ SudObject::SudObject(Brauhelfer *bh) :
     bh(bh),
     mId(-2),
     mRowSud(-1),
+    mLoading(false),
     proxyModelRasten(new ProxyModel(this)),
     proxyModelMalzschuettung(new ProxyModel(this)),
     proxyModelHopfengaben(new ProxyModel(this)),
@@ -48,44 +49,45 @@ void SudObject::load(int id)
         mId = id;
         QRegExp regExpId(QString("^%1$").arg(mId), Qt::CaseInsensitive, QRegExp::RegExp);
         mRowSud = static_cast<ModelSud*>(bh->modelSud())->getRowWithValue("ID", mId);
+        mLoading = true;
+        modelRasten()->setSourceModel(bh->modelRasten());
         modelRasten()->setFilterKeyColumn(bh->modelRasten()->fieldIndex("SudID"));
         modelRasten()->setFilterRegExp(regExpId);
-        modelRasten()->setSourceModel(bh->modelRasten());
-        modelRasten()->sort(bh->modelRasten()->fieldIndex("RastTemp"), Qt::AscendingOrder);
+        modelMalzschuettung()->setSourceModel(bh->modelMalzschuettung());
         modelMalzschuettung()->setFilterKeyColumn(bh->modelMalzschuettung()->fieldIndex("SudID"));
         modelMalzschuettung()->setFilterRegExp(regExpId);
-        modelMalzschuettung()->setSourceModel(bh->modelMalzschuettung());
+        modelHopfengaben()->setSourceModel(bh->modelHopfengaben());
         modelHopfengaben()->setFilterKeyColumn(bh->modelHopfengaben()->fieldIndex("SudID"));
         modelHopfengaben()->setFilterRegExp(regExpId);
-        modelHopfengaben()->setSourceModel(bh->modelHopfengaben());
         modelHopfengaben()->sort(bh->modelHopfengaben()->fieldIndex("Zeit"), Qt::DescendingOrder);
+        modelWeitereZutatenGaben()->setSourceModel(bh->modelWeitereZutatenGaben());
         modelWeitereZutatenGaben()->setFilterKeyColumn(bh->modelWeitereZutatenGaben()->fieldIndex("SudID"));
         modelWeitereZutatenGaben()->setFilterRegExp(regExpId);
-        modelWeitereZutatenGaben()->setSourceModel(bh->modelWeitereZutatenGaben());
+        modelSchnellgaerverlauf()->setSourceModel(bh->modelSchnellgaerverlauf());
         modelSchnellgaerverlauf()->setFilterKeyColumn(bh->modelSchnellgaerverlauf()->fieldIndex("SudID"));
         modelSchnellgaerverlauf()->setFilterRegExp(regExpId);
-        modelSchnellgaerverlauf()->setSourceModel(bh->modelSchnellgaerverlauf());
         modelSchnellgaerverlauf()->sort(bh->modelSchnellgaerverlauf()->fieldIndex("Zeitstempel"), Qt::AscendingOrder);
+        modelHauptgaerverlauf()->setSourceModel(bh->modelHauptgaerverlauf());
         modelHauptgaerverlauf()->setFilterKeyColumn(bh->modelHauptgaerverlauf()->fieldIndex("SudID"));
         modelHauptgaerverlauf()->setFilterRegExp(regExpId);
-        modelHauptgaerverlauf()->setSourceModel(bh->modelHauptgaerverlauf());
         modelHauptgaerverlauf()->sort(bh->modelHauptgaerverlauf()->fieldIndex("Zeitstempel"), Qt::AscendingOrder);
+        modelNachgaerverlauf()->setSourceModel(bh->modelNachgaerverlauf());
         modelNachgaerverlauf()->setFilterKeyColumn(bh->modelNachgaerverlauf()->fieldIndex("SudID"));
         modelNachgaerverlauf()->setFilterRegExp(regExpId);
-        modelNachgaerverlauf()->setSourceModel(bh->modelNachgaerverlauf());
         modelNachgaerverlauf()->sort(bh->modelNachgaerverlauf()->fieldIndex("Zeitstempel"), Qt::AscendingOrder);
+        modelBewertungen()->setSourceModel(bh->modelBewertungen());
         modelBewertungen()->setFilterKeyColumn(bh->modelBewertungen()->fieldIndex("SudID"));
         modelBewertungen()->setFilterRegExp(regExpId);
-        modelBewertungen()->setSourceModel(bh->modelBewertungen());
+        modelAnhang()->setSourceModel(bh->modelAnhang());
         modelAnhang()->setFilterKeyColumn(bh->modelAnhang()->fieldIndex("SudID"));
         modelAnhang()->setFilterRegExp(regExpId);
-        modelAnhang()->setSourceModel(bh->modelAnhang());
+        modelFlaschenlabel()->setSourceModel(bh->modelFlaschenlabel());
         modelFlaschenlabel()->setFilterKeyColumn(bh->modelFlaschenlabel()->fieldIndex("SudID"));
         modelFlaschenlabel()->setFilterRegExp(regExpId);
-        modelFlaschenlabel()->setSourceModel(bh->modelFlaschenlabel());
+        modelFlaschenlabelTags()->setSourceModel(bh->modelFlaschenlabelTags());
         modelFlaschenlabelTags()->setFilterKeyColumn(bh->modelFlaschenlabelTags()->fieldIndex("SudID"));
         modelFlaschenlabelTags()->setFilterRegExp(QRegExp(QString("^(%1|-.*)$").arg(mId), Qt::CaseInsensitive, QRegExp::RegExp));
-        modelFlaschenlabelTags()->setSourceModel(bh->modelFlaschenlabelTags());
+        mLoading = false;
 
         if (isLoaded())
         {
@@ -104,6 +106,11 @@ void SudObject::load(int id)
 void SudObject::unload()
 {
     load(-1);
+}
+
+bool SudObject::isLoading() const
+{
+    return mLoading;
 }
 
 bool SudObject::isLoaded() const
@@ -192,15 +199,15 @@ bool SudObject::setValue(const QString &fieldName, const QVariant &value)
     return bh->modelSud()->setData(mRowSud, fieldName, value);
 }
 
-QVariant SudObject::getAnlageValue(const QString& fieldName) const
+QVariant SudObject::getAnlageData(const QString& fieldName) const
 {
     return bh->modelSud()->dataAnlage(mRowSud, fieldName);
 }
 
-void SudObject::substractBrewIngredients()
+void SudObject::brauzutatenAbziehen()
 {
     int row;
-    double quantity;
+    double mengeTotal;
     ProxyModel *mList;
     SqlTableModel *mSubstract;
 
@@ -209,13 +216,13 @@ void SudObject::substractBrewIngredients()
     mSubstract = bh->modelMalz();
     for (int i = 0; i < mList->rowCount(); ++i)
     {
-        row = mSubstract->getRowWithValue("Beschreibung", mList->data(i, "Name").toString());
+        row = mSubstract->getRowWithValue("Beschreibung", mList->data(i, "Name"));
         if (row != -1)
         {
-            quantity = mSubstract->data(row, "Menge").toDouble() - mList->data(i, "erg_Menge").toDouble();
-            if (quantity < 0.0)
-                quantity = 0.0;
-            mSubstract->setData(row, "Menge", quantity);
+            mengeTotal = mSubstract->data(row, "Menge").toDouble() - mList->data(i, "erg_Menge").toDouble();
+            if (mengeTotal < 0.0)
+                mengeTotal = 0.0;
+            mSubstract->setData(row, "Menge", mengeTotal);
         }
     }
 
@@ -224,13 +231,13 @@ void SudObject::substractBrewIngredients()
     mSubstract = bh->modelHopfen();
     for (int i = 0; i < mList->rowCount(); ++i)
     {
-        row = mSubstract->getRowWithValue("Beschreibung", mList->data(i, "Name").toString());
+        row = mSubstract->getRowWithValue("Beschreibung", mList->data(i, "Name"));
         if (row != -1)
         {
-            quantity = mSubstract->data(row, "Menge").toDouble() - mList->data(i, "erg_Menge").toDouble();
-            if (quantity < 0.0)
-                quantity = 0.0;
-            mSubstract->setData(row, "Menge", quantity);
+            mengeTotal = mSubstract->data(row, "Menge").toDouble() - mList->data(i, "erg_Menge").toDouble();
+            if (mengeTotal < 0.0)
+                mengeTotal = 0.0;
+            mSubstract->setData(row, "Menge", mengeTotal);
         }
     }
 
@@ -239,10 +246,10 @@ void SudObject::substractBrewIngredients()
     row = mSubstract->getRowWithValue("Beschreibung", getAuswahlHefe());
     if (row != -1)
     {
-        quantity = mSubstract->data(row, "Menge").toDouble() - getHefeAnzahlEinheiten();
-        if (quantity < 0.0)
-            quantity = 0.0;
-        mSubstract->setData(row, "Menge", quantity);
+        mengeTotal = mSubstract->data(row, "Menge").toDouble() - getHefeAnzahlEinheiten();
+        if (mengeTotal < 0.0)
+            mengeTotal = 0.0;
+        mSubstract->setData(row, "Menge", mengeTotal);
     }
 
     // Weitere Zutaten
@@ -257,14 +264,14 @@ void SudObject::substractBrewIngredients()
                 row = mSubstract->getRowWithValue("Beschreibung", mList->data(i, "Name").toString());
                 if (row != -1)
                 {
-                    quantity = mSubstract->data(row, "Menge").toDouble();
+                    mengeTotal = mSubstract->data(row, "Menge").toDouble();
                     if (mList->data(i, "Einheit").toInt() == EWZ_Einheit_Kg)
-                        quantity -= mList->data(i, "erg_Menge").toDouble() / 1000;
+                        mengeTotal -= mList->data(i, "erg_Menge").toDouble() / 1000;
                     else
-                        quantity -= mList->data(i, "erg_Menge").toDouble();
-                    if (quantity < 0.0)
-                        quantity = 0.0;
-                    mSubstract->setData(row, "Menge", quantity);
+                        mengeTotal -= mList->data(i, "erg_Menge").toDouble();
+                    if (mengeTotal < 0.0)
+                        mengeTotal = 0.0;
+                    mSubstract->setData(row, "Menge", mengeTotal);
                 }
             }
             else
@@ -273,51 +280,63 @@ void SudObject::substractBrewIngredients()
                 row = mSubstract->getRowWithValue("Beschreibung", mList->data(i, "Name").toString());
                 if (row != -1)
                 {
-                    quantity = mSubstract->data(row, "Menge").toDouble();
+                    mengeTotal = mSubstract->data(row, "Menge").toDouble();
                     if (mList->data(i, "Einheit").toInt() == EWZ_Einheit_Kg)
-                        quantity -= mList->data(i, "erg_Menge").toDouble() / 1000;
+                        mengeTotal -= mList->data(i, "erg_Menge").toDouble() / 1000;
                     else
-                        quantity -= mList->data(i, "erg_Menge").toDouble();
-                    if (quantity < 0.0)
-                        quantity = 0.0;
-                    mSubstract->setData(row, "Menge", quantity);
+                        mengeTotal -= mList->data(i, "erg_Menge").toDouble();
+                    if (mengeTotal < 0.0)
+                        mengeTotal = 0.0;
+                    mSubstract->setData(row, "Menge", mengeTotal);
                 }
             }
         }
     }
 }
 
-void SudObject::substractIngredient(const QString& ingredient, bool hopfen, double quantity)
+void SudObject::zutatAbziehen(const QString& zutat, int typ, double menge)
 {
     int row;
-    double totalQuantity;
+    double mengeTotal;
     SqlTableModel *mSubstract;
-    if (hopfen)
+    switch (typ)
     {
+    case 0:
         mSubstract = bh->modelHopfen();
-        row = mSubstract->getRowWithValue("Beschreibung", ingredient);
+        row = mSubstract->getRowWithValue("Beschreibung", zutat);
         if (row != -1)
         {
-            totalQuantity = mSubstract->data(row, "Menge").toDouble() - quantity;
-            if (totalQuantity < 0.0)
-                totalQuantity = 0.0;
-            mSubstract->setData(row, "Menge", totalQuantity);
+            mengeTotal = mSubstract->data(row, "Menge").toDouble() - menge;
+            if (mengeTotal < 0.0)
+                mengeTotal = 0.0;
+            mSubstract->setData(row, "Menge", mengeTotal);
         }
-    }
-    else
-    {
+        break;
+    case 1:
+        mSubstract = bh->modelHefe();
+        row = mSubstract->getRowWithValue("Beschreibung", zutat);
+        if (row != -1)
+        {
+            mengeTotal = mSubstract->data(row, "Menge").toInt() - menge;
+            if (mengeTotal < 0.0)
+                mengeTotal = 0.0;
+            mSubstract->setData(row, "Menge", mengeTotal);
+        }
+        break;
+    case 2:
         mSubstract = bh->modelWeitereZutaten();
-        row = mSubstract->getRowWithValue("Beschreibung", ingredient);
+        row = mSubstract->getRowWithValue("Beschreibung", zutat);
         if (row != -1)
         {
-            totalQuantity = mSubstract->data(row, "Menge").toDouble();
+            mengeTotal = mSubstract->data(row, "Menge").toDouble();
             if (mSubstract->data(row, "Einheiten").toInt() == EWZ_Einheit_Kg)
-                totalQuantity -= quantity / 1000;
+                mengeTotal -= menge / 1000;
             else
-                totalQuantity -= quantity;
-            if (totalQuantity < 0.0)
-                totalQuantity = 0.0;
-            mSubstract->setData(row, "Menge", totalQuantity);
+                mengeTotal -= menge;
+            if (mengeTotal < 0.0)
+                mengeTotal = 0.0;
+            mSubstract->setData(row, "Menge", mengeTotal);
         }
+        break;
     }
 }

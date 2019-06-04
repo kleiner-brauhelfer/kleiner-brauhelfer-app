@@ -100,7 +100,10 @@ ApplicationWindow {
                     messageDialogReadonly.open()
                 if (!Brauhelfer.connected)
                     messageDialogGotoSettings.open()
-
+                if (Brauhelfer.databaseVersion >= 2000) {
+                    Brauhelfer.disconnectDatabase()
+                    messageDialogUnsupportedDatabaseVersion.open()
+                }
                 break
             case save:
                 Brauhelfer.save()
@@ -125,18 +128,19 @@ ApplicationWindow {
                 Qt.quit()
                 break;
             }
+            schedule = -1
             busyIndicator.running = false
         }
 
-        function run(schedule) {
-            this.schedule = schedule
+        function run(_schedule) {
+            schedule = _schedule
             busyIndicator.running = true
             start()
         }
 
-        function runExt(schedule, param) {
-            this.param = param
-            run(schedule)
+        function runExt(_schedule, _param) {
+            param = _param
+            run(_schedule)
         }
     }
 
@@ -213,6 +217,15 @@ ApplicationWindow {
         icon: MessageDialog.Warning
         text: qsTr("Verbindung mit der Datenbank fehlgeschlagen.")
         informativeText: qsTr("Einstellungen überprüfen.")
+        onAccepted: navPane.goSettings()
+    }
+
+    // message dialog for unsupported database version
+    MessageDialog {
+        id: messageDialogUnsupportedDatabaseVersion
+        icon: MessageDialog.Warning
+        text: qsTr("Diese Datenbank wird nicht unterstüzt.")
+        informativeText: qsTr("Die Datenbankversion zu hoch für die App.")
         onAccepted: navPane.goSettings()
     }
 
