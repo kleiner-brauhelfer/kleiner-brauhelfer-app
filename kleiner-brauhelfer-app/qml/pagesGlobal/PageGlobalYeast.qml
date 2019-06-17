@@ -141,17 +141,21 @@ PageBase {
                 }
 
                 NumberAnimation {
+                    property int index : listView.currentIndex
                     id: removeFake
                     target: rowDelegate
                     property: "height"
                     to: 0
                     easing.type: Easing.InOutQuad
-                    onStopped: rowDelegate.visible = false
+                    onStopped: {
+                        rowDelegate.visible = false
+                        listView.model.removeRow(index)
+                    }
                 }
 
                 function remove() {
+                    popuploader.active = false
                     removeFake.start()
-                    listView.model.removeRow(index)
                 }
 
                 ColumnLayout {
@@ -212,6 +216,7 @@ PageBase {
                         height: contentChildren[currentIndex].implicitHeight + 2 * anchors.margins
                         clip: true
                         currentIndex: listView.currentIndex
+                        onCurrentIndexChanged: listView.currentIndex = currentIndex
                         Repeater {
                             model: listView.model
                             Loader {
@@ -273,13 +278,10 @@ PageBase {
                                                 id: btnRemove
                                                 Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                                                 onClicked: {
-                                                    if (model.InGebrauch) {
+                                                    if (model.InGebrauch)
                                                         messageDialogDelete.open()
-                                                    }
-                                                    else {
+                                                    else
                                                         listView.currentItem.remove()
-                                                        close()
-                                                    }
                                                 }
                                                 contentItem: Image {
                                                     source: "qrc:/images/ic_delete.png"

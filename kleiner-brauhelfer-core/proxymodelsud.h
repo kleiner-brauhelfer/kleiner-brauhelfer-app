@@ -35,7 +35,7 @@ public:
     void setFilterMerkliste(bool value);
 
     FilterStatus filterStatus() const;
-    void setFilterStatus(FilterStatus state);
+    void setFilterStatus(FilterStatus status);
 
     QString filterText() const;
     void setFilterText(const QString& text);

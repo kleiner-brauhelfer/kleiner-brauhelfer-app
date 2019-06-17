@@ -115,12 +115,16 @@ PageBase {
                 text: " "
 
                 NumberAnimation {
+                    property int index : listView.currentIndex
                     id: removeFake
                     target: rowDelegate
                     property: "height"
                     to: 0
                     easing.type: Easing.InOutQuad
-                    onStopped: rowDelegate.visible = false
+                    onStopped: {
+                        rowDelegate.visible = false
+                        listView.model.removeRow(index)
+                    }
                 }
 
                 onClicked: {
@@ -130,9 +134,9 @@ PageBase {
                 }
 
                 function remove() {
+                    popuploader.active = false
                     removeFake.start()
                     chart.removeFake(index)
-                    listView.model.removeRow(index)
                 }
 
                 ColumnLayout {
@@ -196,6 +200,7 @@ PageBase {
         Loader {
             id: popuploader
             active: false
+            focus: true
             onLoaded: item.open()
             sourceComponent: PopupBase {
                 property variant model: listView.currentItem.values
@@ -203,12 +208,6 @@ PageBase {
                 y: page.height * 0.1
                 onOpened: tfDruck.forceActiveFocus()
                 onClosed: popuploader.active = false
-
-                function remove() {
-                    listView.currentItem.remove()
-                    close()
-                }
-
                 GridLayout {
                     anchors.top: parent.top
                     anchors.left: parent.left
@@ -264,7 +263,7 @@ PageBase {
                     ToolButton {
                         Layout.columnSpan: 3
                         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                        onClicked: remove()
+                        onClicked: listView.currentItem.remove()
                         contentItem: Image {
                             source: "qrc:/images/ic_delete.png"
                             anchors.centerIn: parent

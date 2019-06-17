@@ -49,8 +49,11 @@ bool ModelHopfengaben::setDataExt(const QModelIndex &index, const QVariant &valu
         if (QSqlTableModel::setData(index, value))
         {
             int row = bh->modelHopfen()->getRowWithValue("Beschreibung", value);
-            QSqlTableModel::setData(index.sibling(index.row(), fieldIndex("Alpha")), bh->modelHopfen()->data(row, "Alpha"));
-            QSqlTableModel::setData(index.sibling(index.row(), fieldIndex("Pellets")), bh->modelHopfen()->data(row, "Pellets"));
+            if (row >= 0)
+            {
+                QSqlTableModel::setData(index.sibling(index.row(), fieldIndex("Alpha")), bh->modelHopfen()->data(row, "Alpha"));
+                QSqlTableModel::setData(index.sibling(index.row(), fieldIndex("Pellets")), bh->modelHopfen()->data(row, "Pellets"));
+            }
             return true;
         }
     }
@@ -184,8 +187,8 @@ bool ModelHopfengaben::setDataExt(const QModelIndex &index, const QVariant &valu
 void ModelHopfengaben::onSudDataChanged(const QModelIndex &index)
 {
     QString field = bh->modelSud()->fieldName(index.column());
-    if (field == "Menge" || field == "IBU" || field == "berechnungsArtHopfen" ||
-        field == "highGravityFaktor" || field == "Nachisomerisierungszeit")
+    if (field == "Menge" || field == "SW" || field == "IBU" || field == "berechnungsArtHopfen" ||
+        field == "highGravityFaktor" || field == "KochdauerNachBitterhopfung" || field == "Nachisomerisierungszeit")
     {
         int sudId = bh->modelSud()->data(index.row(), "ID").toInt();
         int colSudId = fieldIndex("SudID");
