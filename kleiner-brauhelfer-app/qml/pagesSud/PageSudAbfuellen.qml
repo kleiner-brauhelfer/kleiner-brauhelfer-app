@@ -37,7 +37,11 @@ PageBase {
             if (bereit) {
                 Brauhelfer.sud.Abfuelldatum = tfAbfuelldatum.date
                 Brauhelfer.sud.BierWurdeAbgefuellt = true
-                Brauhelfer.sud.modelNachgaerverlauf.append({"SudID": Brauhelfer.sud.id, "Temp": ctrlTemp.text })
+                var values = {"SudID": Brauhelfer.sud.id,
+                              "Zeitstempel": Brauhelfer.sud.Abfuelldatum,
+                              "Temp": Brauhelfer.sud.TemperaturJungbier }
+                if (Brauhelfer.sud.modelNachgaerverlauf.rowCount() === 0)
+                    Brauhelfer.sud.modelNachgaerverlauf.append(values)
             }
         }
 
@@ -337,7 +341,6 @@ PageBase {
                         text: qsTr("Temperatur Jungbier")
                     }
                     TextFieldTemperature {
-                        id: ctrlTemp
                         Layout.preferredWidth: 60
                         enabled: !page.readOnly
                         value: Brauhelfer.sud.TemperaturJungbier

@@ -174,10 +174,6 @@ void SqlTableModel::setTable(const QString &tableName)
     if (tableName != this->tableName())
     {
         QSqlTableModel::setTable(tableName);
-        // hack for setHeaderData() (crash in proxy model)
-        beginResetModel();
-        endResetModel();
-        // hack end
         QSqlRecord rec = record();
         mRoles.clear();
         for(int i = 0; i < columnCount(); ++i)
@@ -223,8 +219,13 @@ bool SqlTableModel::removeRows(int row, int count, const QModelIndex &parent)
         {
             QModelIndex index = this->index(row + i, fieldIndex("deleted"));
             if (index.isValid())
+            {
                 emit dataChanged(index, index, QVector<int>());
+                emit rowChanged(index);
+            }
         }
+        emit layoutAboutToBeChanged();
+        emit layoutChanged();
         emit modified();
         return true;
     }

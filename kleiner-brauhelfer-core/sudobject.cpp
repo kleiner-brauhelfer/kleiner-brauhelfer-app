@@ -23,6 +23,7 @@ SudObject::SudObject(Brauhelfer *bh) :
     proxyModelFlaschenlabelTags(new ProxyModel(this))
 {
     connect(bh->modelSud(), SIGNAL(modified()), this, SIGNAL(modified()));
+    connect(bh->modelSud(), SIGNAL(layoutChanged()), this, SLOT(onSudLayoutChanged()));
     connect(bh->modelSud(), SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&, const QVector<int>&)),
             this, SLOT(onSudDataChanged(const QModelIndex&, const QModelIndex&, const QVector<int>&)));
 }
@@ -116,6 +117,12 @@ bool SudObject::isLoading() const
 bool SudObject::isLoaded() const
 {
     return mId != -1;
+}
+
+void SudObject::onSudLayoutChanged()
+{
+    if (mId != getValue("ID").toInt() || getValue("deleted").toBool())
+        unload();
 }
 
 void SudObject::onSudDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
@@ -217,7 +224,7 @@ void SudObject::brauzutatenAbziehen()
     for (int i = 0; i < mList->rowCount(); ++i)
     {
         row = mSubstract->getRowWithValue("Beschreibung", mList->data(i, "Name"));
-        if (row != -1)
+        if (row >= 0)
         {
             mengeTotal = mSubstract->data(row, "Menge").toDouble() - mList->data(i, "erg_Menge").toDouble();
             if (mengeTotal < 0.0)
@@ -232,7 +239,7 @@ void SudObject::brauzutatenAbziehen()
     for (int i = 0; i < mList->rowCount(); ++i)
     {
         row = mSubstract->getRowWithValue("Beschreibung", mList->data(i, "Name"));
-        if (row != -1)
+        if (row >= 0)
         {
             mengeTotal = mSubstract->data(row, "Menge").toDouble() - mList->data(i, "erg_Menge").toDouble();
             if (mengeTotal < 0.0)
@@ -244,7 +251,7 @@ void SudObject::brauzutatenAbziehen()
     // Hefe
     mSubstract = bh->modelHefe();
     row = mSubstract->getRowWithValue("Beschreibung", getAuswahlHefe());
-    if (row != -1)
+    if (row >= 0)
     {
         mengeTotal = mSubstract->data(row, "Menge").toDouble() - getHefeAnzahlEinheiten();
         if (mengeTotal < 0.0)
@@ -278,7 +285,7 @@ void SudObject::brauzutatenAbziehen()
             {
                 mSubstract = bh->modelHopfen();
                 row = mSubstract->getRowWithValue("Beschreibung", mList->data(i, "Name").toString());
-                if (row != -1)
+                if (row >= 0)
                 {
                     mengeTotal = mSubstract->data(row, "Menge").toDouble();
                     if (mList->data(i, "Einheit").toInt() == EWZ_Einheit_Kg)

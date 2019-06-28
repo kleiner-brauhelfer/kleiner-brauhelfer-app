@@ -208,15 +208,31 @@ bool ProxyModelSud::filterAcceptsRow(int source_row, const QModelIndex &source_p
             if (modelSud)
             {
                 index2 = sourceModel()->index(source_row, mColumnId, source_parent);
-                int id = sourceModel()->data(index2).toInt();
-                SqlTableModel* model = modelSud->bh->modelMalzschuettung();
-                int colSudId = model->fieldIndex("SudID");
-                int colName = model->fieldIndex("Name");
-                for (int i = 0; i < model->rowCount(); i++)
+                QRegExp sudReg = QRegExp(QString("^%1$").arg(sourceModel()->data(index2).toInt()));
+                int colName = -1;
+
+                ProxyModel modelMalzschuettung;
+                modelMalzschuettung.setSourceModel(modelSud->bh->modelMalzschuettung());
+                modelMalzschuettung.setFilterKeyColumn(modelSud->bh->modelMalzschuettung()->fieldIndex("SudID"));
+                modelMalzschuettung.setFilterRegExp(sudReg);
+                colName = modelSud->bh->modelMalzschuettung()->fieldIndex("Name");
+                for (int i = 0; i < modelMalzschuettung.rowCount(); i++)
                 {
-                    if (model->data(model->index(i, colSudId)).toInt() == id)
+                    QString name = modelMalzschuettung.index(i, colName).data().toString();
+                    accept = name.contains(rx);
+                    if (accept)
+                        break;
+                }
+                if (!accept)
+                {
+                    ProxyModel modelHopfengaben;
+                    modelHopfengaben.setSourceModel(modelSud->bh->modelHopfengaben());
+                    modelHopfengaben.setFilterKeyColumn(modelSud->bh->modelHopfengaben()->fieldIndex("SudID"));
+                    modelHopfengaben.setFilterRegExp(sudReg);
+                    colName = modelSud->bh->modelHopfengaben()->fieldIndex("Name");
+                    for (int i = 0; i < modelHopfengaben.rowCount(); i++)
                     {
-                        QString name = model->data(model->index(i, colName)).toString();
+                        QString name = modelHopfengaben.index(i, colName).data().toString();
                         accept = name.contains(rx);
                         if (accept)
                             break;
@@ -224,34 +240,38 @@ bool ProxyModelSud::filterAcceptsRow(int source_row, const QModelIndex &source_p
                 }
                 if (!accept)
                 {
-                    model = modelSud->bh->modelHopfengaben();
-                    colSudId = model->fieldIndex("SudID");
-                    colName = model->fieldIndex("Name");
-                    for (int i = 0; i < model->rowCount(); i++)
+                    ProxyModel modelWeitereZutatenGaben;
+                    modelWeitereZutatenGaben.setSourceModel(modelSud->bh->modelWeitereZutatenGaben());
+                    modelWeitereZutatenGaben.setFilterKeyColumn(modelSud->bh->modelWeitereZutatenGaben()->fieldIndex("SudID"));
+                    modelWeitereZutatenGaben.setFilterRegExp(sudReg);
+                    colName = modelSud->bh->modelWeitereZutatenGaben()->fieldIndex("Name");
+                    for (int i = 0; i < modelWeitereZutatenGaben.rowCount(); i++)
                     {
-                        if (model->data(model->index(i, colSudId)).toInt() == id)
-                        {
-                            QString name = model->data(model->index(i, colName)).toString();
-                            accept = name.contains(rx);
-                            if (accept)
-                                break;
-                        }
+                        QString name = modelWeitereZutatenGaben.index(i, colName).data().toString();
+                        accept = name.contains(rx);
+                        if (accept)
+                            break;
+
                     }
                 }
                 if (!accept)
                 {
-                    model = modelSud->bh->modelWeitereZutatenGaben();
-                    colSudId = model->fieldIndex("SudID");
-                    colName = model->fieldIndex("Name");
-                    for (int i = 0; i < model->rowCount(); i++)
+                    ProxyModel modelFlaschenlabelTags;
+                    modelFlaschenlabelTags.setSourceModel(modelSud->bh->modelFlaschenlabelTags());
+                    modelFlaschenlabelTags.setFilterKeyColumn(modelSud->bh->modelFlaschenlabelTags()->fieldIndex("SudID"));
+                    modelFlaschenlabelTags.setFilterRegExp(QString("^(%1|-.*)$").arg(sourceModel()->data(index2).toInt()));
+                    colName = modelSud->bh->modelFlaschenlabelTags()->fieldIndex("TagName");
+                    int colValue = modelSud->bh->modelFlaschenlabelTags()->fieldIndex("Value");
+                    for (int i = 0; i < modelFlaschenlabelTags.rowCount(); i++)
                     {
-                        if (model->data(model->index(i, colSudId)).toInt() == id)
-                        {
-                            QString name = model->data(model->index(i, colName)).toString();
-                            accept = name.contains(rx);
-                            if (accept)
-                                break;
-                        }
+                        QString text = modelFlaschenlabelTags.index(i, colName).data().toString();
+                        accept = text.contains(rx);
+                        if (accept)
+                            break;
+                        text = modelFlaschenlabelTags.index(i, colValue).data().toString();
+                        accept = text.contains(rx);
+                        if (accept)
+                            break;
                     }
                 }
             }

@@ -75,8 +75,14 @@ PageBase {
                 messageDialog.open()
                 Brauhelfer.sud.Braudatum = tfBraudatum.date
                 Brauhelfer.sud.BierWurdeGebraut = true
-                Brauhelfer.sud.modelSchnellgaerverlauf.append({"SudID": Brauhelfer.sud.id, "SW": Brauhelfer.sud.SWAnstellen, "Temp": tfTemperature.value })
-                Brauhelfer.sud.modelHauptgaerverlauf.append({"SudID": Brauhelfer.sud.id, "SW": Brauhelfer.sud.SWAnstellen, "Temp": tfTemperature.value })
+                var values = {"SudID": Brauhelfer.sud.id,
+                              "Zeitstempel": Brauhelfer.sud.Braudatum,
+                              "SW": Brauhelfer.sud.SWAnstellen,
+                              "Temp": tfTemperature.value }
+                if (Brauhelfer.sud.modelSchnellgaerverlauf.rowCount() === 0)
+                    Brauhelfer.sud.modelSchnellgaerverlauf.append(values)
+                if (Brauhelfer.sud.modelHauptgaerverlauf.rowCount() === 0)
+                    Brauhelfer.sud.modelHauptgaerverlauf.append(values)
             }
 
             // message dialog
@@ -1214,7 +1220,10 @@ PageBase {
                             }
                             LabelNumber {
                                 Layout.preferredWidth: 80
-                                value: Brauhelfer.calc.speise(Brauhelfer.sud.CO2, Brauhelfer.sud.SWAnstellen, 3.0, 3.0, 20.0) * Brauhelfer.sud.WuerzemengeAnstellen
+                                value: {
+                                    var c = Brauhelfer.calc.speise(Brauhelfer.sud.CO2, Brauhelfer.sud.SWAnstellen, 3.0, 3.0, 20.0)
+                                    return c * Brauhelfer.sud.WuerzemengeAnstellenTotal/(1+c)
+                                }
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60

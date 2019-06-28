@@ -7,7 +7,6 @@ ModelAusruestung::ModelAusruestung(Brauhelfer* bh, QSqlDatabase db) :
     SqlTableModel(bh, db),
     bh(bh)
 {
-    mVirtualField.append("InGebrauch");
     mVirtualField.append("Maischebottich_Volumen");
     mVirtualField.append("Maischebottich_MaxFuellvolumen");
     mVirtualField.append("Sudpfanne_Volumen");
@@ -19,23 +18,6 @@ ModelAusruestung::ModelAusruestung(Brauhelfer* bh, QSqlDatabase db) :
 QVariant ModelAusruestung::dataExt(const QModelIndex &index) const
 {
     QString field = fieldName(index.column());
-    if (field == "InGebrauch")
-    {
-        bool found = false;
-        QString name = data(index.row(), "Name").toString();
-        ProxyModelSud modelSud;
-        modelSud.setSourceModel(bh->modelSud());
-        modelSud.setFilterStatus(ProxyModelSud::NichtGebraut);
-        for (int i = 0; i < modelSud.rowCount(); ++i)
-        {
-            if (modelSud.data(i, "AuswahlBrauanlageName").toString() == name)
-            {
-                found = true;
-                break;
-            }
-        }
-        return found;
-    }
     if (field == "Maischebottich_Volumen")
     {
         double r = data(index.row(), "Maischebottich_Durchmesser").toDouble() / 2;
@@ -68,15 +50,11 @@ QVariant ModelAusruestung::dataExt(const QModelIndex &index) const
     }
     if (field == "AnzahlSude")
     {
-        int n = 0;
-        QString name = data(index.row(), "Name").toString();
-        int colName = bh->modelSud()->fieldIndex("AuswahlBrauanlageName");
-        for (int row = 0; row < bh->modelSud()->rowCount(); ++row)
-        {
-            if (bh->modelSud()->index(row, colName).data().toString() == name)
-                ++n;
-        }
-        return n;
+        ProxyModel modelSud;
+        modelSud.setSourceModel(bh->modelSud());
+        modelSud.setFilterKeyColumn(bh->modelSud()->fieldIndex("Anlage"));
+        modelSud.setFilterRegExp(QString("^%1$").arg(data(index.row(), "Name").toString()));
+        return modelSud.rowCount();
     }
     return QVariant();
 }
