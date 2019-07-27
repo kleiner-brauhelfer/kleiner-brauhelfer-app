@@ -6,6 +6,21 @@
 #endif
 #include "syncservicewebdav.h"
 
+bool SyncServiceManager::supportsSsl()
+{
+    return QSslSocket::supportsSsl();
+}
+
+QString SyncServiceManager::sslLibraryBuildVersionString()
+{
+    return QSslSocket::sslLibraryBuildVersionString();
+}
+
+QString SyncServiceManager::sslLibraryVersionString()
+{
+    return QSslSocket::sslLibraryVersionString();
+}
+
 SyncServiceManager::SyncServiceManager(QSettings *settings, QObject *parent) :
     QObject(parent),
     mSettings(settings)

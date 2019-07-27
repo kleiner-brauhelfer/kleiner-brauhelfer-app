@@ -46,6 +46,8 @@ PageBase {
                 model: [
                     qsTr("Sudname") + "  \u2193",
                     qsTr("Sudname") + "  \u2191",
+                    qsTr("Sudnummer") + "  \u2193",
+                    qsTr("Sudnummer") + "  \u2191",
                     qsTr("Braudatum") + "  \u2193",
                     qsTr("Braudatum") + "  \u2191",
                     qsTr("Gespeichert") + "  \u2193",
@@ -59,12 +61,14 @@ PageBase {
                     switch (currentIndex) {
                         case 0: sortFieldName = "Sudname"; sortOrder = Qt.AscendingOrder; break;
                         case 1: sortFieldName = "Sudname"; sortOrder = Qt.DescendingOrder; break;
-                        case 2: sortFieldName = "Braudatum"; sortOrder = Qt.AscendingOrder; break;
-                        case 3: sortFieldName = "Braudatum"; sortOrder = Qt.DescendingOrder; break;
-                        case 4: sortFieldName = "Gespeichert"; sortOrder = Qt.AscendingOrder; break;
-                        case 5: sortFieldName = "Gespeichert"; sortOrder = Qt.DescendingOrder; break;
-                        case 6: sortFieldName = "Erstellt"; sortOrder = Qt.AscendingOrder; break;
-                        case 7: sortFieldName = "Erstellt"; sortOrder = Qt.DescendingOrder; break;
+                        case 2: sortFieldName = "Sudnummer"; sortOrder = Qt.AscendingOrder; break;
+                        case 3: sortFieldName = "Sudnummer"; sortOrder = Qt.DescendingOrder; break;
+                        case 4: sortFieldName = "Braudatum"; sortOrder = Qt.AscendingOrder; break;
+                        case 5: sortFieldName = "Braudatum"; sortOrder = Qt.DescendingOrder; break;
+                        case 6: sortFieldName = "Gespeichert"; sortOrder = Qt.AscendingOrder; break;
+                        case 7: sortFieldName = "Gespeichert"; sortOrder = Qt.DescendingOrder; break;
+                        case 8: sortFieldName = "Erstellt"; sortOrder = Qt.AscendingOrder; break;
+                        case 9: sortFieldName = "Erstellt"; sortOrder = Qt.DescendingOrder; break;
                         default: sortFieldName = ""; sortOrder = Qt.DescendingOrder; break;
                     }
                     navPane.setFocus()
@@ -154,7 +158,7 @@ PageBase {
                         Layout.topMargin: 8
                         Layout.bottomMargin: 8
                         Layout.leftMargin: 8
-                        text: model.Sudname
+                        text: model.Sudname + (model.Sudnummer > 0 ? " (#" + model.Sudnummer +  ")" : "")
                         color: selected ? Material.primary : Material.foreground
                         opacity: selected ? 1.00 : 0.87
                         font.bold: selected

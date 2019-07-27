@@ -31,7 +31,7 @@ PageBase {
             GroupBox {
                 Layout.fillWidth: true
                 label: LabelSubheader {
-                    text: Brauhelfer.sud.Sudname
+                    text: qsTr("Info")
                 }
                 GridLayout {
                     anchors.fill: parent
@@ -43,6 +43,16 @@ PageBase {
                         placeholderText: qsTr("Sudname")
                         text: Brauhelfer.sud.Sudname
                         onTextChanged: if (activeFocus) Brauhelfer.sud.Sudname = text
+                    }
+                    LabelPrim {
+                        Layout.fillWidth: true
+                        text: qsTr("Sudnummer")
+                    }
+                    TextFieldNumber {
+                        enabled: !Brauhelfer.readonly
+                        precision: 0
+                        value: Brauhelfer.sud.Sudnummer
+                        onNewValue: Brauhelfer.sud.Sudnummer = value
                     }
                     LabelPrim {
                         Layout.fillWidth: true

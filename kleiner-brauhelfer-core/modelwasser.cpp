@@ -49,25 +49,6 @@ QVariant ModelWasser::dataExt(const QModelIndex &index) const
 bool ModelWasser::setDataExt(const QModelIndex &index, const QVariant &value)
 {
      QString field = fieldName(index.column());
-     /*
-     // TODO: add colum name and uncomment
-     if (field == "Name")
-     {
-         QString name = getUniqueName(index, value);
-         QString prevValue = data(index).toString();
-         if (QSqlTableModel::setData(index, name))
-         {
-             int col = bh->modelSud()->fieldIndex("Wasserprofil");
-             for (int row = 0; row < bh->modelSud()->rowCount(); ++row)
-             {
-                 QModelIndex index = bh->modelSud()->index(row, col);
-                 if (bh->modelSud()->data(index).toString() == prevValue)
-                     bh->modelSud()->setData(index, name);
-             }
-             return true;
-         }
-     }
-    */
      if (field == "CalciumMmol")
      {
          return setData(index.row(), "Calcium", value.toDouble() * 40.8);

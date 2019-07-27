@@ -25,6 +25,24 @@ class SyncServiceManager : public QObject
 public:
 
     /**
+     * @brief Returns true if this platform supports SSL
+     */
+    Q_INVOKABLE static bool supportsSsl();
+
+    /**
+     * @brief Returns the version string of the SSL library in use at compile time
+     */
+    Q_INVOKABLE static QString sslLibraryBuildVersionString();
+
+    /**
+     * @brief Returns the version string of the SSL library in use at run time
+     * @return
+     */
+    Q_INVOKABLE static QString sslLibraryVersionString();
+
+public:
+
+    /**
      * @brief Service IDs
      */
     enum SyncServiceId

@@ -92,6 +92,8 @@ ApplicationWindow {
                     break;
                 case SyncService.Failed:
                     toast.start(qsTr("Synchronisation fehlgeschlagen."))
+                    if (!SyncService.supportsSsl())
+                        messageDialogSslError.open()
                     break;
                 }
 
@@ -101,8 +103,8 @@ ApplicationWindow {
                 if (!Brauhelfer.connected)
                     messageDialogGotoSettings.open()
                 if (Brauhelfer.databaseVersion >= 2000) {
-                    Brauhelfer.disconnectDatabase()
                     messageDialogUnsupportedDatabaseVersion.open()
+                    Brauhelfer.disconnectDatabase()
                 }
                 break
             case save:
@@ -225,8 +227,16 @@ ApplicationWindow {
         id: messageDialogUnsupportedDatabaseVersion
         icon: MessageDialog.Warning
         text: qsTr("Diese Datenbank wird nicht unterstüzt.")
-        informativeText: qsTr("Die Datenbankversion zu hoch für die App.")
+        informativeText: qsTr("Die Datenbankversion (%1) ist zu hoch für die App.").arg(Brauhelfer.databaseVersion)
         onAccepted: navPane.goSettings()
+    }
+
+    // message dialog for unsupported database version
+    MessageDialog {
+        id: messageDialogSslError
+        icon: MessageDialog.Warning
+        text: qsTr("SSL nicht unterstüzt")
+        informativeText: qsTr("SSL compile time: %1\nSSL run time: %2").arg(SyncService.sslLibraryBuildVersionString()).arg(SyncService.sslLibraryVersionString())
     }
 
     // message dialog to ask for quit

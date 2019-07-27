@@ -111,13 +111,6 @@ PageBase {
                     }
                     ColumnLayout {
                         anchors.fill: parent
-                        TextFieldBase {
-                            Layout.fillWidth: true
-                            enabled: !Brauhelfer.readonly
-                            placeholderText: qsTr("Sudname")
-                            text: Brauhelfer.sud.Sudname
-                            onTextChanged: if (activeFocus) Brauhelfer.sud.Sudname = text
-                        }
                         RowLayout {
                             LabelPrim {
                                 Layout.fillWidth: true
