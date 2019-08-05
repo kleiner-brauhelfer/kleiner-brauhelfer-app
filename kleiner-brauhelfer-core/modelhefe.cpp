@@ -27,14 +27,23 @@ QVariant ModelHefe::dataExt(const QModelIndex &index) const
         QString name = data(index.row(), "Beschreibung").toString();
         ProxyModelSud modelSud;
         modelSud.setSourceModel(bh->modelSud());
-        modelSud.setFilterStatus(ProxyModelSud::NichtAbgefuellt);
+        modelSud.setFilterStatus(ProxyModelSud::Rezept | ProxyModelSud::Gebraut);
         for (int i = 0; i < modelSud.rowCount(); ++i)
         {
-            if (modelSud.data(i, "AuswahlHefe").toString() == name)
+            ProxyModel modelHefegaben;
+            modelHefegaben.setSourceModel(bh->modelHefegaben());
+            modelHefegaben.setFilterKeyColumn(bh->modelHefegaben()->fieldIndex("SudID"));
+            modelHefegaben.setFilterRegExp(QString("^%1$").arg(modelSud.data(i, "ID").toInt()));
+            for (int j = 0; j < modelHefegaben.rowCount(); ++j)
             {
-                found = true;
-                break;
+                if (modelHefegaben.data(j, "Name").toString() == name)
+                {
+                    found = true;
+                    break;
+                }
             }
+            if (found)
+                break;
         }
         return found;
     }
@@ -52,11 +61,16 @@ bool ModelHefe::setDataExt(const QModelIndex &index, const QVariant &value)
         {
             ProxyModelSud modelSud;
             modelSud.setSourceModel(bh->modelSud());
-            modelSud.setFilterStatus(ProxyModelSud::NichtAbgefuellt);
+            modelSud.setFilterStatus(ProxyModelSud::Rezept | ProxyModelSud::Gebraut);
             for (int i = 0; i < modelSud.rowCount(); ++i)
             {
-                if (modelSud.data(i, "AuswahlHefe").toString() == prevValue)
-                    modelSud.setData(i, "AuswahlHefe", name);
+                int id = modelSud.data(i, "ID").toInt();
+                SqlTableModel* model = bh->modelHefegaben();
+                for (int j = 0; j < model->rowCount(); ++j)
+                {
+                    if (model->data(j, "SudID").toInt() == id && model->data(j, "Name").toString() == prevValue)
+                        model->setData(j, "Name", name);
+                }
             }
             return true;
         }

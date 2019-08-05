@@ -14,7 +14,7 @@ PageBase {
     id: page
     title: qsTr("Hauptgärung")
     icon: "hauptgaerung.png"
-    readOnly: Brauhelfer.readonly || ((!Brauhelfer.sud.BierWurdeGebraut || Brauhelfer.sud.BierWurdeAbgefuellt) && !app.brewForceEditable)
+    readOnly: Brauhelfer.readonly || (Brauhelfer.sud.Status !== Brauhelfer.SudStatus.Gebraut && !app.brewForceEditable)
 
     ColumnLayout {
         property alias listView: listView
@@ -228,7 +228,7 @@ PageBase {
             delegate: ItemDelegate {
                 width: parent.width
                 height: dataColumn2.implicitHeight
-                enabled: !page.readOnly && Brauhelfer.sud.BierWurdeGebraut
+                enabled: !page.readOnly && Brauhelfer.sud.Staus >= Brauhelfer.SudStatus.Gebraut
                 onClicked: {
                     listViewWeitereZutaten.currentIndex = index
                     popuploaderWeitereZutaten.active = true
@@ -262,7 +262,7 @@ PageBase {
                             value: {
                                 switch (model.Zugabestatus)
                                 {
-                                case 1: return (new Date().getTime() - model.Zeitpunkt_von.getTime()) / 1440 / 60000
+                                case 1: return (new Date().getTime() - model.ZugabeDatum.getTime()) / 1440 / 60000
                                 case 2: return model.Zugabedauer/ 1440
                                 default: return 0.0
                                 }

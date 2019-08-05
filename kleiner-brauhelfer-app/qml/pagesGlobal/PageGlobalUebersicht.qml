@@ -56,7 +56,7 @@ PageBase {
             }
             ListElement {
                 text: qsTr("Schüttung")
-                field: "erg_S_Gesammt"
+                field: "erg_S_Gesamt"
                 unit: qsTr("kg")
                 precision: 2
             }

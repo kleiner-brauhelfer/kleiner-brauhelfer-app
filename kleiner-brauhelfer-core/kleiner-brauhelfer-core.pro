@@ -5,9 +5,9 @@ ORGANIZATION = kleiner-brauhelfer
 TARGET = kleiner-brauhelfer-core
 
 # Hauptversionsnummer
-VER_MAJ = 1
+VER_MAJ = 2
 # Datenbankversion
-VER_MIN = 24
+VER_MIN = 0
 # Patchversion
 VER_PAT = 0
 
@@ -43,6 +43,7 @@ SOURCES += \
     modelflaschenlabeltags.cpp \
     modelhauptgaerverlauf.cpp \
     modelhefe.cpp \
+    modelhefegaben.cpp \
     modelhopfen.cpp \
     modelhopfengaben.cpp \
     modelmalz.cpp \
@@ -72,6 +73,7 @@ HEADERS += \
     modelflaschenlabeltags.h \
     modelhauptgaerverlauf.h \
     modelhefe.h \
+    modelhefegaben.h \
     modelhopfen.h \
     modelhopfengaben.h \
     modelmalz.h \

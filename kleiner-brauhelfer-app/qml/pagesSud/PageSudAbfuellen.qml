@@ -12,7 +12,7 @@ PageBase {
     id: page
     title: qsTr("Abfüllen")
     icon: "abfuellen.png"
-    readOnly: Brauhelfer.readonly || ((!Brauhelfer.sud.BierWurdeGebraut || Brauhelfer.sud.BierWurdeAbgefuellt) && !app.brewForceEditable)
+    readOnly: Brauhelfer.readonly || (Brauhelfer.sud.Status !== Brauhelfer.SudStatus.Gebraut && !app.brewForceEditable)
 
     Flickable {
         anchors.fill: parent
@@ -36,7 +36,7 @@ PageBase {
             }
             if (bereit) {
                 Brauhelfer.sud.Abfuelldatum = tfAbfuelldatum.date
-                Brauhelfer.sud.BierWurdeAbgefuellt = true
+                Brauhelfer.sud.Status = Brauhelfer.SudStatus.Abgefuellt
                 var values = {"SudID": Brauhelfer.sud.id,
                               "Zeitstempel": Brauhelfer.sud.Abfuelldatum,
                               "Temp": Brauhelfer.sud.TemperaturJungbier }
@@ -109,7 +109,7 @@ PageBase {
                                         value: {
                                             switch (model.Zugabestatus)
                                             {
-                                            case 1: return (new Date().getTime() - model.Zeitpunkt_von.getTime()) / 1440 / 60000
+                                            case 1: return (new Date().getTime() - model.ZugabeDatum.getTime()) / 1440 / 60000
                                             case 2: return model.Zugabedauer/ 1440
                                             default: return 0.0
                                             }
@@ -121,7 +121,7 @@ PageBase {
                         }
                     }
                     LabelPrim {
-                        visible: Brauhelfer.sud.BierWurdeGebraut && !Brauhelfer.sud.AbfuellenBereitZutaten
+                        visible: Brauhelfer.sud.Status === Brauhelfer.SudStatus.Gebraut && !Brauhelfer.sud.AbfuellenBereitZutaten
                         Layout.fillWidth: true
                         horizontalAlignment: Text.AlignHCenter
                         color: Material.accent
@@ -564,7 +564,7 @@ PageBase {
                         Layout.columnSpan: 2
                         Layout.fillWidth: true
                         enabled: !page.readOnly
-                        date: Brauhelfer.sud.BierWurdeAbgefuellt ? Brauhelfer.sud.Abfuelldatum : new Date()
+                        date: Brauhelfer.sud.Status >= Brauhelfer.SudStatus.Abgefuellt ? Brauhelfer.sud.Abfuelldatum : new Date()
                         onNewDate: {
                             this.date = date
                         }

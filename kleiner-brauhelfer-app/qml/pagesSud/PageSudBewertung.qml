@@ -11,7 +11,7 @@ PageBase {
     id: page
     title: qsTr("Bewertung")
     icon: "ic_star.png"
-    readOnly: Brauhelfer.readonly || (!Brauhelfer.sud.BierWurdeAbgefuellt && !app.brewForceEditable)
+    readOnly: Brauhelfer.readonly || (Brauhelfer.sud.Status < Brauhelfer.SudStatus.Abgefuellt && !app.brewForceEditable)
 
     ListView {
         id: listView

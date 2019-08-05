@@ -5,11 +5,12 @@ Die kleiner-brauhelfer-app ist eine App, welche die Software [kleiner-brauhelfer
 https://hobbybrauer.de/forum/viewtopic.php?f=3&t=17466
 
 ## Download letzte Version
-- [Version 1.0.0](https://github.com/kleiner-brauhelfer/kleiner-brauhelfer-app/releases/tag/v1.0.0)
+- [Version 1.0.0](https://github.com/kleiner-brauhelfer/kleiner-brauhelfer-app/releases/tag/v1.0.0) passend zum kleinen-brauhelfer bis 1.4.4.6
 
 ## Änderungen & Erweiterungen
 
 ### Version 2.0.0 (in Entwicklung)
+- Neu: Unterstüzung für kleiner-brauhelfer Version 2.x.x
 
 ## Screenshots
 ![Screenshot 01](doc/Screenshot_01.png)

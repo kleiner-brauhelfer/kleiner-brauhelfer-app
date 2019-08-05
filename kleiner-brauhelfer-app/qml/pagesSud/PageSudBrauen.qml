@@ -13,7 +13,7 @@ PageBase {
     id: page
     title: qsTr("Brauen")
     icon: "brauen.png"
-    readOnly: Brauhelfer.readonly || (Brauhelfer.sud.BierWurdeGebraut && !app.brewForceEditable)
+    readOnly: Brauhelfer.readonly || (Brauhelfer.sud.Status > Brauhelfer.SudStatus.Rezept && !app.brewForceEditable)
 
     ColumnLayout {
         anchors.fill: parent
@@ -74,7 +74,7 @@ PageBase {
             function gebraut() {
                 messageDialog.open()
                 Brauhelfer.sud.Braudatum = tfBraudatum.date
-                Brauhelfer.sud.BierWurdeGebraut = true
+                Brauhelfer.sud.Status = Brauhelfer.SudStatus.Gebraut
                 var values = {"SudID": Brauhelfer.sud.id,
                               "Zeitstempel": Brauhelfer.sud.Braudatum,
                               "SW": Brauhelfer.sud.SWAnstellen,
@@ -111,18 +111,25 @@ PageBase {
                     }
                     ColumnLayout {
                         anchors.fill: parent
-                        RowLayout {
+                        GridLayout {
+                            columns: 2
                             LabelPrim {
                                 Layout.fillWidth: true
-                                text: qsTr("Brauanlage")
+                                text: qsTr("Anlage")
                             }
                             LabelPrim {
-                                Layout.preferredWidth: 80
+                                Layout.preferredWidth: 140
                                 horizontalAlignment: Text.AlignHCenter
-                                text: Brauhelfer.sud.AuswahlBrauanlageName
+                                text: Brauhelfer.sud.Anlage
                             }
-                            Item {
-                                Layout.preferredWidth: 60
+                            LabelPrim {
+                                Layout.fillWidth: true
+                                text: qsTr("Wasserprofil")
+                            }
+                            LabelPrim {
+                                Layout.preferredWidth: 140
+                                horizontalAlignment: Text.AlignHCenter
+                                text: Brauhelfer.sud.Wasserprofil
                             }
                         }
                         HorizontalDivider {
@@ -348,7 +355,7 @@ PageBase {
                             text: qsTr("Malz schroten")
                         }
                         Repeater {
-                            model:Brauhelfer.sud.modelMalzschuettung
+                            model: Brauhelfer.sud.modelMalzschuettung
                             delegate: RowLayout{
                                 Layout.leftMargin: 8
                                 LabelPrim {
@@ -393,7 +400,7 @@ PageBase {
                                 Layout.preferredWidth: 40
                                 font.bold: true
                                 precision: 2
-                                value: Brauhelfer.sud.erg_S_Gesammt
+                                value: Brauhelfer.sud.erg_S_Gesamt
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 30
@@ -486,14 +493,14 @@ PageBase {
                                 Layout.leftMargin: 8
                                 LabelPrim {
                                     Layout.fillWidth: true
-                                    text: model.RastName
+                                    text: model.Name
                                 }
                                 TextFieldNumber {
                                     Layout.preferredWidth: 40
                                     enabled: !page.readOnly
                                     precision: 0
-                                    value: model.RastTemp
-                                    onNewValue: model.RastTemp = value
+                                    value: model.Temp
+                                    onNewValue: model.Temp = value
                                 }
                                 LabelUnit {
                                     Layout.preferredWidth: 30
@@ -503,8 +510,8 @@ PageBase {
                                     Layout.preferredWidth: 40
                                     enabled: !page.readOnly
                                     precision: 0
-                                    value: model.RastDauer
-                                    onNewValue: model.RastDauer = value
+                                    value: model.Dauer
+                                    onNewValue: model.Dauer = value
                                 }
                                 LabelUnit {
                                     Layout.preferredWidth: 30
@@ -825,7 +832,7 @@ PageBase {
                             text: qsTr("Hopfen")
                         }
                         Repeater {
-                            model:Brauhelfer.sud.modelHopfengaben
+                            model: Brauhelfer.sud.modelHopfengaben
                             delegate: RowLayout {
                                 Layout.leftMargin: 8
                                 visible: !model.Vorderwuerze
@@ -1319,26 +1326,32 @@ PageBase {
                         anchors.fill: parent
                         LabelPrim {
                             Layout.fillWidth: true
-                            visible: Brauhelfer.sud.AuswahlHefe !== ""
+                            visible: repeaterHefe.count > 0
                             font.bold: true
                             text: qsTr("Hefe")
                         }
-                        RowLayout {
-                            Layout.leftMargin: 8
-                            visible: Brauhelfer.sud.AuswahlHefe !== ""
-                            LabelPrim {
-                                Layout.fillWidth: true
-                                text: Brauhelfer.sud.AuswahlHefe
-                            }
-                            LabelNumber {
-                                Layout.preferredWidth: 80
-                                precision: 0
-                                value: Brauhelfer.sud.HefeAnzahlEinheiten
+                        Repeater {
+                            id: repeaterHefe
+                            model: Brauhelfer.sud.modelHefeGaben
+                            delegate: ColumnLayout {
+                                Layout.leftMargin: 8
+                                RowLayout {
+                                    Layout.leftMargin: 8
+                                    LabelPrim {
+                                        Layout.fillWidth: true
+                                        text: model.Name
+                                    }
+                                    LabelNumber {
+                                        Layout.preferredWidth: 80
+                                        precision: 0
+                                        value: model.Menge
+                                    }
+                                }
                             }
                         }
                         HorizontalDivider {
                             Layout.fillWidth: true
-                            visible: Brauhelfer.sud.AuswahlHefe !== "" && repeaterModelWeitereZutatenGabenGaerung.count > 0
+                            visible: repeaterHefe.count > 0 && repeaterModelWeitereZutatenGabenGaerung.count > 0
                         }
                         LabelPrim {
                             Layout.fillWidth: true
@@ -1408,7 +1421,7 @@ PageBase {
                             Layout.columnSpan: 2
                             Layout.fillWidth: true
                             enabled: !page.readOnly
-                            date: Brauhelfer.sud.BierWurdeGebraut ? Brauhelfer.sud.Braudatum : new Date()
+                            date: Brauhelfer.sud.Status >= Brauhelfer.SudStatus.Gebraut ? Brauhelfer.sud.Braudatum : new Date()
                             onNewDate: this.date = date
                         }
                         LabelPrim {

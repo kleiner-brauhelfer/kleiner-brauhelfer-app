@@ -1,10 +1,9 @@
 QT += core gui widgets qml quick quickcontrols2 charts sql network xml
 
 # organization, application name and version
-
-ORGANIZATION = BourgeoisLab
+ORGANIZATION = kleiner-brauhelfer
 TARGET = kleiner-brauhelfer-app
-VER_MAJ = 1
+VER_MAJ = 2
 VER_MIN = 0
 VER_PAT = 0
 VERSION = $$sprintf("%1.%2.%3",$$VER_MAJ,$$VER_MIN,$$VER_PAT)

@@ -68,7 +68,7 @@ bool ModelAusruestung::setDataExt(const QModelIndex &index, const QVariant &valu
         QString prevValue = data(index).toString();
         if (QSqlTableModel::setData(index, name))
         {
-            int colName = bh->modelSud()->fieldIndex("AuswahlBrauanlageName");
+            int colName = bh->modelSud()->fieldIndex("Anlage");
             for (int row = 0; row < bh->modelSud()->rowCount(); ++row)
             {
                 QModelIndex index = bh->modelSud()->index(row, colName);
@@ -87,7 +87,7 @@ bool ModelAusruestung::removeRows(int row, int count, const QModelIndex &parent)
     {
         for (int n = 0; n < count; ++n)
         {
-            int id = data(row + n, "AnlagenID").toInt();
+            int id = data(row + n, "ID").toInt();
             int colId = bh->modelGeraete()->fieldIndex("AusruestungAnlagenID");
             for (int i = 0; i < bh->modelGeraete()->rowCount(); ++i)
             {
@@ -102,28 +102,12 @@ bool ModelAusruestung::removeRows(int row, int count, const QModelIndex &parent)
 
 void ModelAusruestung::defaultValues(QVariantMap &values) const
 {
-    if (!values.contains("AnlagenID"))
-        values.insert("AnlagenID", (int)time(nullptr) + rand());
+    if (!values.contains("ID"))
+        values.insert("ID", getNextId());
     if (!values.contains("Sudhausausbeute"))
         values.insert("Sudhausausbeute", 60.0);
     if (!values.contains("Verdampfungsziffer"))
         values.insert("Verdampfungsziffer", 10.0);
     if (values.contains("Name"))
         values["Name"] = getUniqueName(index(0, fieldIndex("Name")), values["Name"], true);
-}
-
-QString ModelAusruestung::name(int id) const
-{
-    for (int i = 0; i < rowCount(); ++i)
-        if (data(i, "AnlagenID").toInt() == id)
-            return data(i, "Name").toString();
-    return QString();
-}
-
-int ModelAusruestung::id(const QString& name) const
-{
-    for (int i = 0; i < rowCount(); ++i)
-        if (data(i, "Name").toString() == name)
-            return data(i, "AnlagenID").toInt();
-    return 0;
 }

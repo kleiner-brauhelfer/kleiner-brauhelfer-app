@@ -137,7 +137,7 @@ PageBase {
                     Repeater {
                         model: listView.model
                         Loader {
-                            property var anlagenID: model.AnlagenID
+                            property var anlagenID: model.ID
                             active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
                             sourceComponent: Item {
                                 implicitHeight: layout.height

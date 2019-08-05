@@ -84,12 +84,12 @@ PopupBase {
                             id: tfDateFrom
                             Layout.fillWidth: true
                             readOnly: model.Zugabestatus !== 0
-                            date: model.Zugabestatus === 0 ? new Date() : model.Zeitpunkt_von
+                            date: model.Zugabestatus === 0 ? new Date() : model.ZugabeDatum
                             onNewDate: {
                                 if (model.Zugabestatus === 0)
                                     this.date = date
                                 else
-                                    model.Zeitpunkt_von = date
+                                    model.ZugabeDatum = date
                             }
                         }
 
@@ -103,8 +103,8 @@ PopupBase {
                             Layout.fillWidth: true
                             visible: model.Zugabestatus > 0 && model.Entnahmeindex === 0
                             readOnly: model.Zugabestatus !== 1
-                            date: model.Zeitpunkt_bis
-                            onNewDate: model.Zeitpunkt_bis = date
+                            date: model.EntnahmeDatum
+                            onNewDate: model.EntnahmeDatum = date
                         }
 
                         TextArea {
@@ -118,13 +118,13 @@ PopupBase {
 
                         Button {
                             function addIngredient() {
-                                model.Zeitpunkt_von = tfDateFrom.date
+                                model.ZugabeDatum = tfDateFrom.date
                                 model.Zugabestatus = 1
                                 messageDialog.open()
                             }
 
                             function removeIngredient() {
-                                model.Zeitpunkt_bis = tfDateTo.date
+                                model.EntnahmeDatum = tfDateTo.date
                                 model.Zugabestatus = 2
                             }
 

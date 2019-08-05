@@ -69,41 +69,32 @@ PageBase {
                         date: Brauhelfer.sud.Erstellt
                     }
                     Switch {
-                        visible: Brauhelfer.sud.BierWurdeGebraut
+                        visible: Brauhelfer.sud.Status >= Brauhelfer.SudStatus.Gebraut
                         enabled: !page.readOnly
                         text: qsTr("Gebraut")
-                        checked: Brauhelfer.sud.BierWurdeGebraut
-                        onClicked: Brauhelfer.sud.BierWurdeGebraut = checked
+                        checked: Brauhelfer.sud.Status >= Brauhelfer.SudStatus.Gebraut
+                        onClicked: Brauhelfer.sud.Status = checked ? Brauhelfer.SudStatus.Gebraut : Brauhelfer.SudStatus.Rezept
                     }
                     LabelDate {
-                        visible: Brauhelfer.sud.BierWurdeGebraut
+                        visible: Brauhelfer.sud.Status >= Brauhelfer.SudStatus.Gebraut
                         date: Brauhelfer.sud.Braudatum
                     }
-                    LabelPrim {
-                        visible: Brauhelfer.sud.BierWurdeGebraut
-                        Layout.fillWidth: true
-                        text: qsTr("Angestellt")
-                    }
-                    LabelDate {
-                        visible: Brauhelfer.sud.BierWurdeGebraut
-                        date: Brauhelfer.sud.Anstelldatum
-                    }
                     Switch {
-                        visible: Brauhelfer.sud.BierWurdeAbgefuellt
+                        visible: Brauhelfer.sud.Status >= Brauhelfer.SudStatus.Abgefuellt
                         enabled: !page.readOnly
                         text: qsTr("Abgefüllt")
-                        checked: Brauhelfer.sud.BierWurdeAbgefuellt
-                        onClicked: Brauhelfer.sud.BierWurdeAbgefuellt = checked
+                        checked: Brauhelfer.sud.Status >= Brauhelfer.SudStatus.Abgefuellt
+                        onClicked: Brauhelfer.sud.Status = checked ? Brauhelfer.SudStatus.Abgefuellt : Brauhelfer.SudStatus.Gebraut
                     }
                     LabelDate {
-                        visible: Brauhelfer.sud.BierWurdeAbgefuellt
+                        visible: Brauhelfer.sud.Status >= Brauhelfer.SudStatus.Abgefuellt
                         date: Brauhelfer.sud.Abfuelldatum
                     }
                     Switch {
-                        visible: Brauhelfer.sud.BierWurdeAbgefuellt
+                        visible: Brauhelfer.sud.Status >= Brauhelfer.SudStatus.Abgefuellt
                         text: qsTr("Verbraucht")
-                        checked: Brauhelfer.sud.BierWurdeVerbraucht
-                        onClicked: Brauhelfer.sud.BierWurdeVerbraucht = checked
+                        checked: Brauhelfer.sud.Status >= Brauhelfer.SudStatus.Verbraucht
+                        onClicked: Brauhelfer.sud.Status = checked ? Brauhelfer.SudStatus.Verbraucht : Brauhelfer.SudStatus.Abgefuellt
                     }
                 }
             }
@@ -111,7 +102,7 @@ PageBase {
             GroupBox {
                 Layout.fillWidth: true
                 label: LabelSubheader {
-                    text: Brauhelfer.sud.BierWurdeGebraut ? qsTr("Zusammenfassung") : qsTr("Rezept")
+                    text: Brauhelfer.sud.Status === Brauhelfer.SudStatus.Rezept ? qsTr("Rezept") : qsTr("Zusammenfassung")
                 }
                 GridLayout {
                     anchors.fill: parent
@@ -123,18 +114,25 @@ PageBase {
                     LabelPrim {
                         Layout.columnSpan: 3
                         text: {
-                            if (!Brauhelfer.sud.BierWurdeGebraut)
+                            switch (Brauhelfer.sud.Status) {
+                            case Brauhelfer.SudStatus.Rezept:
                                 return qsTr("nicht gebraut")
-                            if (Brauhelfer.sud.BierWurdeVerbraucht)
-                                return qsTr("verbraucht")
-                            if (!Brauhelfer.sud.BierWurdeAbgefuellt)
+                            case Brauhelfer.SudStatus.Gebraut:
                                 return qsTr("nicht abgefüllt")
-                            var tage = Brauhelfer.sud.ReifezeitDelta
-                            if (tage > 0)
-                                return qsTr("reif in") + " " + tage + " " + qsTr("Tage")
-                            else
-                                return qsTr("reif seit") + " " + (-tage) + " " + qsTr("Tage")
+                            case Brauhelfer.SudStatus.Abgefuellt:
+                                var tage = model.ReifezeitDelta
+                                if (tage > 0)
+                                    return qsTr("reif in") + " " + tage + " " + qsTr("Tage")
+                                else
+                                    return qsTr("reif seit") + " " + Math.floor(-tage/7) + " " + qsTr("Wochen")
+                            case Brauhelfer.SudStatus.Verbraucht:
+                                return qsTr("verbraucht")
+                            }
                         }
+                    }
+                    HorizontalDivider {
+                        Layout.columnSpan: 4
+                        Layout.fillWidth: true
                     }
                     LabelPrim {
                         Layout.fillWidth: true
@@ -142,7 +140,19 @@ PageBase {
                     }
                     LabelPrim {
                         Layout.columnSpan: 3
-                        text: Brauhelfer.sud.AuswahlBrauanlageName
+                        text: Brauhelfer.sud.Anlage
+                    }
+                    LabelPrim {
+                        Layout.fillWidth: true
+                        text: qsTr("Wasserprofil")
+                    }
+                    LabelPrim {
+                        Layout.columnSpan: 3
+                        text: Brauhelfer.sud.Wasserprofil
+                    }
+                    HorizontalDivider {
+                        Layout.columnSpan: 4
+                        Layout.fillWidth: true
                     }
                     LabelPrim {
                         Layout.fillWidth: true
@@ -150,10 +160,10 @@ PageBase {
                     }
                     LabelNumber {
                         precision: 1
-                        value: Brauhelfer.sud.BierWurdeGebraut ? Brauhelfer.sud.MengeIst : Number.NaN
+                        value: Brauhelfer.sud.Status === Brauhelfer.SudStatus.Rezept ? Number.NaN : Brauhelfer.sud.MengeIst
                     }
                     LabelNumber {
-                        opacity: Brauhelfer.sud.BierWurdeGebraut ?  app.config.textOpacityHalf : app.config.textOpacityFull
+                        opacity: Brauhelfer.sud.Status === Brauhelfer.SudStatus.Rezept ? app.config.textOpacityFull : app.config.textOpacityHalf
                         precision: 1
                         value: Brauhelfer.sud.Menge
                     }
@@ -165,70 +175,70 @@ PageBase {
                         text: qsTr("Stammwürze")
                     }
                     LabelPlato {
-                        value: Brauhelfer.sud.BierWurdeGebraut ? Brauhelfer.sud.SWIst : Number.NaN
+                        value: Brauhelfer.sud.Status === Brauhelfer.SudStatus.Rezept ? Number.NaN : Brauhelfer.sud.SWIst
                     }
                     LabelPlato {
-                        opacity: Brauhelfer.sud.BierWurdeGebraut ?  app.config.textOpacityHalf : app.config.textOpacityFull
+                        opacity: Brauhelfer.sud.Status === Brauhelfer.SudStatus.Rezept ? app.config.textOpacityFull : app.config.textOpacityHalf
                         value: Brauhelfer.sud.SW
                     }
                     LabelUnit {
                         text: qsTr("°P")
                     }
                     LabelPrim {
-                        visible: Brauhelfer.sud.BierWurdeGebraut
+                        visible: Brauhelfer.sud.Status !== Brauhelfer.SudStatus.Rezept
                         Layout.fillWidth: true
                         text: qsTr("Restextrakt")
                     }
                     LabelPlato {
                         Layout.columnSpan: 2
-                        visible: Brauhelfer.sud.BierWurdeGebraut
+                        visible: Brauhelfer.sud.Status !== Brauhelfer.SudStatus.Rezept
                         value: Brauhelfer.sud.SREIst
                     }
                     LabelUnit {
-                        visible: Brauhelfer.sud.BierWurdeGebraut
+                        visible: Brauhelfer.sud.Status !== Brauhelfer.SudStatus.Rezept
                         text: qsTr("°P")
                     }
                     LabelPrim {
-                        visible: Brauhelfer.sud.BierWurdeGebraut
+                        visible: Brauhelfer.sud.Status !== Brauhelfer.SudStatus.Rezept
                         Layout.fillWidth: true
                         text: qsTr("Vergärungsgrad (scheinbar)")
                     }
                     LabelNumber {
                         Layout.columnSpan: 2
-                        visible: Brauhelfer.sud.BierWurdeGebraut
+                        visible: Brauhelfer.sud.Status !== Brauhelfer.SudStatus.Rezept
                         value: Brauhelfer.calc.vergaerungsgrad(Brauhelfer.sud.SWIst, Brauhelfer.sud.SREIst)
                     }
                     LabelUnit {
-                        visible: Brauhelfer.sud.BierWurdeGebraut
+                        visible: Brauhelfer.sud.Status !== Brauhelfer.SudStatus.Rezept
                         text: qsTr("%")
                     }
                     LabelPrim {
-                        visible: Brauhelfer.sud.BierWurdeGebraut
+                        visible: Brauhelfer.sud.Status !== Brauhelfer.SudStatus.Rezept
                         Layout.fillWidth: true
                         text: qsTr("Alkohol")
                     }
                     LabelNumber {
                         Layout.columnSpan: 2
-                        visible: Brauhelfer.sud.BierWurdeGebraut
+                        visible: Brauhelfer.sud.Status !== Brauhelfer.SudStatus.Rezept
                         precision: 1
                         value: Brauhelfer.sud.erg_Alkohol
                     }
                     LabelUnit {
-                        visible: Brauhelfer.sud.BierWurdeGebraut
+                        visible: Brauhelfer.sud.Status !== Brauhelfer.SudStatus.Rezept
                         text: qsTr("%")
                     }
                     LabelPrim {
-                        visible: Brauhelfer.sud.BierWurdeGebraut
+                        visible: Brauhelfer.sud.Status !== Brauhelfer.SudStatus.Rezept
                         Layout.fillWidth: true
                         text: qsTr("Ausbeute")
                     }
                     LabelNumber {
                         Layout.columnSpan: 2
-                        visible: Brauhelfer.sud.BierWurdeGebraut
+                        visible: Brauhelfer.sud.Status !== Brauhelfer.SudStatus.Rezept
                         value: Brauhelfer.sud.erg_EffektiveAusbeute
                     }
                     LabelUnit {
-                        visible: Brauhelfer.sud.BierWurdeGebraut
+                        visible: Brauhelfer.sud.Status !== Brauhelfer.SudStatus.Rezept
                         text: qsTr("%")
                     }
                     LabelPrim {
@@ -237,10 +247,10 @@ PageBase {
                     }
                     LabelNumber {
                         precision: 0
-                        value: Brauhelfer.sud.BierWurdeGebraut ? Brauhelfer.sud.IbuIst : Number.NaN
+                        value: Brauhelfer.sud.Status === Brauhelfer.SudStatus.Rezept ? Number.NaN : Brauhelfer.sud.IbuIst
                     }
                     LabelNumber {
-                        opacity: Brauhelfer.sud.BierWurdeGebraut ?  app.config.textOpacityHalf : app.config.textOpacityFull
+                        opacity: Brauhelfer.sud.Status === Brauhelfer.SudStatus.Rezept ? app.config.textOpacityFull : app.config.textOpacityHalf
                         precision: 0
                         value: Brauhelfer.sud.IBU
                     }
@@ -253,10 +263,10 @@ PageBase {
                     }
                     LabelNumber {
                         precision: 0
-                        value: Brauhelfer.sud.BierWurdeGebraut ? Brauhelfer.sud.FarbeIst : Number.NaN
+                        value: Brauhelfer.sud.Status === Brauhelfer.SudStatus.Rezept ? Number.NaN : Brauhelfer.sud.FarbeIst
                     }
                     LabelNumber {
-                        opacity: Brauhelfer.sud.BierWurdeGebraut ?  app.config.textOpacityHalf : app.config.textOpacityFull
+                        opacity: Brauhelfer.sud.Status === Brauhelfer.SudStatus.Rezept ? app.config.textOpacityFull : app.config.textOpacityHalf
                         precision: 0
                         value: Brauhelfer.sud.erg_Farbe
                     }
@@ -286,10 +296,10 @@ PageBase {
                     }
                     LabelNumber {
                         precision: 1
-                        value: Brauhelfer.sud.BierWurdeGebraut ? Brauhelfer.sud.CO2Ist : Number.NaN
+                        value: Brauhelfer.sud.Status === Brauhelfer.SudStatus.Rezept ? Number.NaN : Brauhelfer.sud.CO2Ist
                     }
                     LabelNumber {
-                        opacity: Brauhelfer.sud.BierWurdeGebraut ?  app.config.textOpacityHalf : app.config.textOpacityFull
+                        opacity: Brauhelfer.sud.Status === Brauhelfer.SudStatus.Rezept ? app.config.textOpacityFull : app.config.textOpacityHalf
                         precision: 1
                         value: Brauhelfer.sud.CO2
                     }
@@ -436,22 +446,26 @@ PageBase {
 
             GroupBox {
                 Layout.fillWidth: true
-                visible: Brauhelfer.sud.AuswahlHefe !== ""
+                visible: repeaterHefe.count > 0
                 label: LabelSubheader {
                     text: qsTr("Hefe")
                 }
                 ColumnLayout {
                     anchors.fill: parent
-                    RowLayout {
-                        Layout.leftMargin: 8
-                        LabelPrim {
-                            Layout.fillWidth: true
-                            text: Brauhelfer.sud.AuswahlHefe
-                        }
-                        LabelNumber {
-                            Layout.preferredWidth: 60
-                            precision: 0
-                            value: Brauhelfer.sud.HefeAnzahlEinheiten
+                    Repeater {
+                        id: repeaterHefe
+                        model: Brauhelfer.sud.modelHefeGaben
+                        delegate: RowLayout {
+                            Layout.leftMargin: 8
+                            LabelPrim {
+                                Layout.fillWidth: true
+                                text: model.Name
+                            }
+                            LabelNumber {
+                                Layout.preferredWidth: 60
+                                precision: 0
+                                value: model.Menge
+                            }
                         }
                     }
                 }
