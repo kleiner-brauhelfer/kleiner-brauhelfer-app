@@ -22,6 +22,8 @@ PageBase {
         property alias listView: listView
         anchors.fill: parent
 
+        Component.onCompleted: selectionModel.get(4).unit = Qt.locale().currencySymbol() + "/" + qsTr("l")
+
         ListModel {
             id: selectionModel
             ListElement {
@@ -34,7 +36,7 @@ PageBase {
                 text: qsTr("Stammwürze")
                 field: "SWAnstellen"
                 unit: qsTr("°P")
-                precision: 2
+                precision: 1
             }
             ListElement {
                 text: qsTr("Ausbeute")
@@ -51,7 +53,7 @@ PageBase {
             ListElement {
                 text: qsTr("Kosten")
                 field: "erg_Preis"
-                unit: qsTr("/l")
+                unit: ""
                 precision: 2
             }
             ListElement {
@@ -102,7 +104,7 @@ PageBase {
             boundsBehavior: Flickable.OvershootBounds
             model: ProxyModelSud {
                 sourceModel: app.pageGlobalAuswahl.getModel()
-                filterStatus: ProxyModelSud.Abgefuellt
+                filterStatus: ProxyModelSud.Abgefuellt | ProxyModelSud.Verbraucht
                 sortOrder: Qt.AscendingOrder
                 sortColumn: fieldIndex("Braudatum")
             }

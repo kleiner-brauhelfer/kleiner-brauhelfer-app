@@ -77,6 +77,7 @@ public:
     static const int libVerionMinor;
     static const int libVersionPatch;
     static const int supportedDatabaseVersion;
+    static const int supportedDatabaseVersionMinimal;
 
 public:
 

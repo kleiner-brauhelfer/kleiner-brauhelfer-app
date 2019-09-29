@@ -185,7 +185,7 @@ PageBase {
                             horizontalAlignment: Text.AlignRight
                             opacity: model.Menge > 0 ? app.config.textOpacityFull : app.config.textOpacityHalf
                             precision: 2
-                            unit: model.Einheiten === 0 ? qsTr("kg") : qsTr("g")
+                            unit: switch(model.Einheiten) {case 0: return qsTr("kg"); case 1: return qsTr("g"); case 2: return qsTr("mg")}
                             value: model.Menge
                         }
                     }
@@ -304,9 +304,10 @@ PageBase {
                                         }
 
                                         ComboBox {
-                                            Layout.preferredWidth: 70
+                                            id: einheiten
+                                            Layout.preferredWidth: 80
                                             Layout.rightMargin: 4
-                                            model: [qsTr("kg"), qsTr("g")]
+                                            model: [qsTr("kg"), qsTr("g"), qsTr("mg")]
                                             currentIndex: _model.Einheiten
                                             onActivated: _model.Einheiten = index
                                         }
@@ -389,7 +390,7 @@ PageBase {
                                         }
 
                                         LabelUnit {
-                                            text: Qt.locale().currencySymbol() + "/" + (model.Einheiten === 0 ? qsTr("kg") : qsTr("g"))
+                                            text: Qt.locale().currencySymbol() + "/" + einheiten.currentText
                                         }
 
                                         LabelPrim {

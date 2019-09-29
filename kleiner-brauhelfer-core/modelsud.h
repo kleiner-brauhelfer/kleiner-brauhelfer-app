@@ -26,6 +26,7 @@ private slots:
     void onModelReset();
     void onRowChanged(const QModelIndex &index);
     void onOtherModelRowChanged(const QModelIndex &index);
+    void onAnlageDataChanged(const QModelIndex &index);
 private:
     bool setDataExt_impl(const QModelIndex &index, const QVariant &value);
     void update(int row);
@@ -45,8 +46,8 @@ private:
     QVariant AbfuellenBereitZutaten(const QModelIndex &index) const;
     QVariant MengeSollKochbeginn(const QModelIndex &index) const;
     QVariant MengeSollKochende(const QModelIndex &index) const;
-    QVariant SWSollLautern(const QModelIndex &index) const;
     QVariant SWSollKochbeginn(const QModelIndex &index) const;
+    QVariant SWSollKochbeginnMitWz(const QModelIndex &index) const;
     QVariant SWSollKochende(const QModelIndex &index) const;
     QVariant SWSollAnstellen(const QModelIndex &index) const;
     QVariant Verdampfungsziffer(const QModelIndex &index) const;

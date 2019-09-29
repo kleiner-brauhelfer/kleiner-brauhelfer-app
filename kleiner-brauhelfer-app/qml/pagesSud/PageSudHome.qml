@@ -11,6 +11,7 @@ PageBase {
     title: qsTr("Auswahl")
     icon: "ic_view_module.png"
     enabled: Brauhelfer.sud.isLoaded
+    readOnly: Brauhelfer.readonly
 
     ColumnLayout {
         anchors.fill: parent
@@ -23,9 +24,9 @@ PageBase {
             boundsBehavior: Flickable.OvershootBounds
             snapMode: GridView.SnapToRow
             clip: true
-            cellWidth: app.width/(Math.floor(app.width/100))
+            cellWidth: app.width / (Math.floor(app.width / 100))
             cellHeight: cellWidth
-            ScrollIndicator.vertical: ScrollIndicator {}
+            ScrollIndicator.vertical: ScrollIndicator { }
 
             Component.onCompleted: {
                 for (var i = 1; i < viewSud.count; ++i)
@@ -40,7 +41,7 @@ PageBase {
 
                 implicitWidth: grid.cellWidth
                 implicitHeight: grid.cellHeight
-                onClicked:  navPane.goTo(model.view, model.index)
+                onClicked: navPane.goTo(model.view, model.index)
 
                 Rectangle {
                     id: rectangle

@@ -1,3 +1,3 @@
 LabelNumber {
-    precision: 2
+    precision: 1
 }

@@ -72,10 +72,9 @@ PopupBase {
                         }
                         LabelNumber {
                             Layout.fillWidth: true
-                            unit: model.Einheit === 0 ? qsTr("kg") : qsTr("g")
-                            value: model.Einheit === 0 ? model.erg_Menge/1000 : model.erg_Menge
+                            unit: switch(model.Einheit) {case 0: return qsTr("kg"); case 1: return qsTr("g"); case 2: return qsTr("mg")}
+                            value: switch(model.Einheit) {case 0: return model.erg_Menge/1000; case 1: return model.erg_Menge; case 2: return model.erg_Menge*1000}
                         }
-
                         LabelPrim {
                             rightPadding: 8
                             text: qsTr("Zugegeben")

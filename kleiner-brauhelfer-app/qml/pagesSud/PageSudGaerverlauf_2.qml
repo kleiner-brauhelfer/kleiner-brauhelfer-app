@@ -228,7 +228,7 @@ PageBase {
             delegate: ItemDelegate {
                 width: parent.width
                 height: dataColumn2.implicitHeight
-                enabled: !page.readOnly && Brauhelfer.sud.Staus >= Brauhelfer.SudStatus.Gebraut
+                enabled: !page.readOnly
                 onClicked: {
                     listViewWeitereZutaten.currentIndex = index
                     popuploaderWeitereZutaten.active = true

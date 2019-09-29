@@ -94,8 +94,8 @@ class LIB_EXPORT SudObject : public QObject
     Q_PROPERTY_SUD_READONLY(double, SW_WZ_Maischen, toDouble())
     Q_PROPERTY_SUD_READONLY(double, SW_WZ_Kochen, toDouble())
     Q_PROPERTY_SUD_READONLY(double, SW_WZ_Gaerung, toDouble())
-    Q_PROPERTY_SUD_READONLY(double, SWSollLautern, toDouble())
     Q_PROPERTY_SUD_READONLY(double, SWSollKochbeginn, toDouble())
+    Q_PROPERTY_SUD_READONLY(double, SWSollKochbeginnMitWz, toDouble())
     Q_PROPERTY_SUD_READONLY(double, SWSollKochende, toDouble())
     Q_PROPERTY_SUD_READONLY(double, SWSollAnstellen, toDouble())
     Q_PROPERTY_SUD_READONLY(double, AnlageVerdampfungsziffer, toDouble())
@@ -105,7 +105,7 @@ class LIB_EXPORT SudObject : public QObject
     Q_PROPERTY_SUD_READONLY(double, AnlageSudhausausbeute, toDouble())
     Q_PROPERTY_SUD_READONLY(double, RestalkalitaetFaktor, toDouble())
     Q_PROPERTY_SUD_READONLY(double, FaktorHauptgussEmpfehlung, toDouble())
-    Q_PROPERTY_SUD_READONLY(int, BewertungMax, toInt())
+    Q_PROPERTY_SUD_READONLY(int, BewertungMittel, toInt())
 
     // tables
     Q_PROPERTY(ProxyModel* modelRasten READ modelRasten CONSTANT)

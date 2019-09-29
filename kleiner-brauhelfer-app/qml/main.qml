@@ -261,7 +261,18 @@ ApplicationWindow {
     // header
     header: Header {
         text: navPane.currentItem.currentItem.title
-        textSub: Brauhelfer.sud.isLoaded ? Brauhelfer.sud.Sudname : Qt.application.name
+        textSub: {
+            if (Brauhelfer.sud.isLoaded) {
+                var n = Brauhelfer.sud.Sudnummer
+                if (n > 0)
+                    return Brauhelfer.sud.Sudname + " (#" + n + ")"
+                else
+                    return Brauhelfer.sud.Sudname
+            }
+            else {
+                return Qt.application.name
+            }
+        }
         iconLeft: "ic_menu_white.png"
         onClickedLeft: navigation.open()
         iconRight: navPane.isHome() ? "" : "ic_home_white.png"
