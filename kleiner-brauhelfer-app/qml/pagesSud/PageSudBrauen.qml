@@ -13,7 +13,7 @@ PageBase {
     id: page
     title: qsTr("Brauen")
     icon: "brauen.png"
-    readOnly: Brauhelfer.readonly || (Brauhelfer.sud.Status > Brauhelfer.SudStatus.Rezept && !app.brewForceEditable)
+    readOnly: Brauhelfer.readonly || (Brauhelfer.sud.Status > Brauhelfer.Rezept && !app.brewForceEditable)
 
     ColumnLayout {
         anchors.fill: parent
@@ -74,7 +74,7 @@ PageBase {
             function gebraut() {
                 messageDialog.open()
                 Brauhelfer.sud.Braudatum = tfBraudatum.date
-                Brauhelfer.sud.Status = Brauhelfer.SudStatus.Gebraut
+                Brauhelfer.sud.Status = Brauhelfer.Gebraut
                 var values = {"SudID": Brauhelfer.sud.id,
                               "Zeitstempel": Brauhelfer.sud.Braudatum,
                               "SW": Brauhelfer.sud.SWAnstellen,
@@ -461,7 +461,7 @@ PageBase {
                                     }
                                     LabelUnit {
                                         Layout.preferredWidth: 60
-                                        text: switch(model.Einheit) {case 0: return qsTr("kg"); case 1: return qsTr("g"); case 2: return qsTr("mg")}
+                                        text: switch(model.Einheit) {case 0: return qsTr("kg"); case 1: return qsTr("g"); case 2: return qsTr("mg"); case 3: return qsTr("Stk");}
                                     }
                                 }
                                 LabelPrim {
@@ -881,7 +881,7 @@ PageBase {
                                     }
                                     LabelUnit {
                                         Layout.preferredWidth: 30
-                                        text: switch(model.Einheit) {case 0: return qsTr("kg"); case 1: return qsTr("g"); case 2: return qsTr("mg")}
+                                        text: switch(model.Einheit) {case 0: return qsTr("kg"); case 1: return qsTr("g"); case 2: return qsTr("mg"); case 3: return qsTr("Stk");}
                                     }
                                     LabelNumber {
                                         Layout.preferredWidth: 40
@@ -1371,7 +1371,7 @@ PageBase {
                                     }
                                     LabelUnit {
                                         Layout.preferredWidth: 30
-                                        text: switch(model.Einheit) {case 0: return qsTr("kg"); case 1: return qsTr("g"); case 2: return qsTr("mg")}
+                                        text: switch(model.Einheit) {case 0: return qsTr("kg"); case 1: return qsTr("g"); case 2: return qsTr("mg"); case 3: return qsTr("Stk");}
                                     }
                                     LabelNumber {
                                         Layout.preferredWidth: 40
@@ -1413,7 +1413,7 @@ PageBase {
                             Layout.columnSpan: 2
                             Layout.fillWidth: true
                             enabled: !page.readOnly
-                            date: Brauhelfer.sud.Status >= Brauhelfer.SudStatus.Gebraut ? Brauhelfer.sud.Braudatum : new Date()
+                            date: Brauhelfer.sud.Status >= Brauhelfer.Gebraut ? Brauhelfer.sud.Braudatum : new Date()
                             onNewDate: this.date = date
                         }
                         LabelPrim {

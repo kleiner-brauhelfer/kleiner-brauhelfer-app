@@ -12,7 +12,7 @@ PageBase {
     id: page
     title: qsTr("Nachgärung")
     icon: "nachgaerung.png"
-    readOnly: Brauhelfer.readonly || (Brauhelfer.sud.Status !== Brauhelfer.SudStatus.Abgefuellt && !app.brewForceEditable)
+    readOnly: Brauhelfer.readonly || (Brauhelfer.sud.Status !== Brauhelfer.Abgefuellt && !app.brewForceEditable)
 
     ColumnLayout {
         property alias listView: listView

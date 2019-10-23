@@ -129,11 +129,11 @@ PageBase {
                     {
                         if (model.MerklistenID === 1)
                             return "#7AA3E9"
-                        else if (model.Status === Brauhelfer.SudStatus.Verbraucht)
+                        else if (model.Status === Brauhelfer.Verbraucht)
                             return "#C8C8C8"
-                        else if (model.Status === Brauhelfer.SudStatus.Abgefuellt)
+                        else if (model.Status === Brauhelfer.Abgefuellt)
                             return "#C1E1B2"
-                        else if (model.Status === Brauhelfer.SudStatus.Gebraut)
+                        else if (model.Status === Brauhelfer.Gebraut)
                             return "#E1D8B8"
                         else
                             return "#888888"
@@ -171,7 +171,7 @@ PageBase {
                         Layout.leftMargin: 8
                         LabelSec {
                             Layout.fillWidth: true
-                            text: model.Status === Brauhelfer.SudStatus.Rezept ? qsTr("Rezept") : qsTr("Gebraut") + " " + Qt.formatDate(model.Braudatum)
+                            text: model.Status === Brauhelfer.Rezept ? qsTr("Rezept") : qsTr("Gebraut") + " " + Qt.formatDate(model.Braudatum)
                         }
                         LabelSec {
                             Layout.fillWidth: true
@@ -179,17 +179,17 @@ PageBase {
                             font.italic: true
                             text: {
                                 switch (model.Status) {
-                                case Brauhelfer.SudStatus.Rezept:
+                                case Brauhelfer.Rezept:
                                     return qsTr("nicht gebraut")
-                                case Brauhelfer.SudStatus.Gebraut:
+                                case Brauhelfer.Gebraut:
                                     return qsTr("nicht abgefüllt")
-                                case Brauhelfer.SudStatus.Abgefuellt:
+                                case Brauhelfer.Abgefuellt:
                                     var tage = model.ReifezeitDelta
                                     if (tage > 0)
                                         return qsTr("reif in") + " " + tage + " " + qsTr("Tage")
                                     else
                                         return qsTr("reif seit") + " " + Math.floor(-tage/7) + " " + qsTr("Wochen")
-                                case Brauhelfer.SudStatus.Verbraucht:
+                                case Brauhelfer.Verbraucht:
                                     return qsTr("verbraucht")
                                 }
                             }
@@ -223,7 +223,7 @@ PageBase {
 
                         GridLayout {
                             Layout.fillWidth: true
-                            columns: model.Status === Brauhelfer.SudStatus.Rezept ? 3 : 4
+                            columns: model.Status === Brauhelfer.Rezept ? 3 : 4
                             columnSpacing: 8
                             LabelPrim {
                                 Layout.fillWidth: true
@@ -231,13 +231,13 @@ PageBase {
                             }
                             LabelNumber {
                                 Layout.fillWidth: true
-                                visible: model.Status !== Brauhelfer.SudStatus.Rezept
+                                visible: model.Status !== Brauhelfer.Rezept
                                 precision: 1
                                 value: model.MengeIst
                             }
                             LabelNumber {
                                 Layout.fillWidth: true
-                                opacity: model.Status === Brauhelfer.SudStatus.Rezept ? app.config.textOpacityFull : app.config.textOpacityHalf
+                                opacity: model.Status === Brauhelfer.Rezept ? app.config.textOpacityFull : app.config.textOpacityHalf
                                 precision: 1
                                 value: model.Menge
                             }
@@ -251,12 +251,12 @@ PageBase {
                             }
                             LabelPlato {
                                 Layout.fillWidth: true
-                                visible: model.Status !== Brauhelfer.SudStatus.Rezept
+                                visible: model.Status !== Brauhelfer.Rezept
                                 value: model.SWIst
                             }
                             LabelPlato {
                                 Layout.fillWidth: true
-                                opacity: model.Status === Brauhelfer.SudStatus.Rezept ? app.config.textOpacityFull : app.config.textOpacityHalf
+                                opacity: model.Status === Brauhelfer.Rezept ? app.config.textOpacityFull : app.config.textOpacityHalf
                                 value: model.SW
                             }
                             LabelUnit {
@@ -265,23 +265,23 @@ PageBase {
                             }
                             LabelPrim {
                                 Layout.fillWidth: true
-                                visible: model.Status !== Brauhelfer.SudStatus.Rezept
+                                visible: model.Status !== Brauhelfer.Rezept
                                 text: qsTr("Alkohol")
                             }
                             LabelNumber {
                                 Layout.fillWidth: true
-                                visible: model.Status !== Brauhelfer.SudStatus.Rezept
+                                visible: model.Status !== Brauhelfer.Rezept
                                 precision: 1
-                                value: model.Status === Brauhelfer.SudStatus.Rezept ? 0.0 : model.erg_Alkohol
+                                value: model.Status === Brauhelfer.Rezept ? 0.0 : model.erg_Alkohol
                             }
                             Label {
                                 Layout.fillWidth: true
-                                visible: model.Status !== Brauhelfer.SudStatus.Rezept
+                                visible: model.Status !== Brauhelfer.Rezept
                                 text: ""
                             }
                             LabelUnit {
                                 Layout.fillWidth: true
-                                visible: model.Status !== Brauhelfer.SudStatus.Rezept
+                                visible: model.Status !== Brauhelfer.Rezept
                                 text: qsTr("%")
                             }
                             LabelPrim {
@@ -290,13 +290,13 @@ PageBase {
                             }
                             LabelNumber {
                                 Layout.fillWidth: true
-                                visible: model.Status !== Brauhelfer.SudStatus.Rezept
+                                visible: model.Status !== Brauhelfer.Rezept
                                 precision: 0
                                 value: model.IbuIst
                             }
                             LabelNumber {
                                 Layout.fillWidth: true
-                                opacity: model.Status === Brauhelfer.SudStatus.Rezept ? app.config.textOpacityFull : app.config.textOpacityHalf
+                                opacity: model.Status === Brauhelfer.Rezept ? app.config.textOpacityFull : app.config.textOpacityHalf
                                 precision: 0
                                 value: model.IBU
                             }
@@ -310,13 +310,13 @@ PageBase {
                             }
                             LabelNumber {
                                 Layout.fillWidth: true
-                                visible: model.Status !== Brauhelfer.SudStatus.Rezept
+                                visible: model.Status !== Brauhelfer.Rezept
                                 precision: 0
                                 value: model.FarbeIst
                             }
                             LabelNumber {
                                 Layout.fillWidth: true
-                                opacity: model.Status === Brauhelfer.SudStatus.Rezept ? app.config.textOpacityFull : app.config.textOpacityHalf
+                                opacity: model.Status === Brauhelfer.Rezept ? app.config.textOpacityFull : app.config.textOpacityHalf
                                 precision: 0
                                 value: model.erg_Farbe
                             }
@@ -330,13 +330,13 @@ PageBase {
                             }
                             LabelNumber {
                                 Layout.fillWidth: true
-                                visible: model.Status !== Brauhelfer.SudStatus.Rezept
+                                visible: model.Status !== Brauhelfer.Rezept
                                 precision: 1
                                 value: model.CO2Ist
                             }
                             LabelNumber {
                                 Layout.fillWidth: true
-                                opacity: model.Status === Brauhelfer.SudStatus.Rezept ? app.config.textOpacityFull : app.config.textOpacityHalf
+                                opacity: model.Status === Brauhelfer.Rezept ? app.config.textOpacityFull : app.config.textOpacityHalf
                                 precision: 1
                                 value: model.CO2
                             }

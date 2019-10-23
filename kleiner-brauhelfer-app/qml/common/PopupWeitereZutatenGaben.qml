@@ -72,8 +72,8 @@ PopupBase {
                         }
                         LabelNumber {
                             Layout.fillWidth: true
-                            unit: switch(model.Einheit) {case 0: return qsTr("kg"); case 1: return qsTr("g"); case 2: return qsTr("mg")}
-                            value: switch(model.Einheit) {case 0: return model.erg_Menge/1000; case 1: return model.erg_Menge; case 2: return model.erg_Menge*1000}
+                            unit: switch(model.Einheit) {case 0: return qsTr("kg"); case 1: return qsTr("g"); case 2: return qsTr("mg"); case 3: return qsTr("Stk");}
+                            value: switch(model.Einheit) {case 0: return model.erg_Menge/1000; case 1: return model.erg_Menge; case 2: return model.erg_Menge*1000; case 3: return model.erg_Menge;}
                         }
                         LabelPrim {
                             rightPadding: 8

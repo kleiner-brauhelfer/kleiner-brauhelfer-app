@@ -185,7 +185,7 @@ PageBase {
                             horizontalAlignment: Text.AlignRight
                             opacity: model.Menge > 0 ? app.config.textOpacityFull : app.config.textOpacityHalf
                             precision: 2
-                            unit: switch(model.Einheiten) {case 0: return qsTr("kg"); case 1: return qsTr("g"); case 2: return qsTr("mg")}
+                            unit: switch(model.Einheiten) {case 0: return qsTr("kg"); case 1: return qsTr("g"); case 2: return qsTr("mg"); case 3: return qsTr("Stk");}
                             value: model.Menge
                         }
                     }
@@ -307,7 +307,7 @@ PageBase {
                                             id: einheiten
                                             Layout.preferredWidth: 80
                                             Layout.rightMargin: 4
-                                            model: [qsTr("kg"), qsTr("g"), qsTr("mg")]
+                                            model: [qsTr("kg"), qsTr("g"), qsTr("mg"), qsTr("Stk")]
                                             currentIndex: _model.Einheiten
                                             onActivated: _model.Einheiten = index
                                         }

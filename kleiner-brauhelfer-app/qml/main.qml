@@ -102,7 +102,7 @@ ApplicationWindow {
                     messageDialogReadonly.open()
                 if (!Brauhelfer.connected)
                     messageDialogGotoSettings.open()
-                if (Brauhelfer.databaseVersion < 2000) {
+                else if (Brauhelfer.databaseVersion < 2000) {
                     messageDialogUnsupportedDatabaseVersion.informativeText = qsTr("Die Datenbank kann nur mit der App v1.x.x geöffnet werden.")
                     messageDialogUnsupportedDatabaseVersion.open()
                     Brauhelfer.disconnectDatabase()

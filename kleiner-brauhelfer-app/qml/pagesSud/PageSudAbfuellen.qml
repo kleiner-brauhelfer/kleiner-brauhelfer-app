@@ -12,7 +12,7 @@ PageBase {
     id: page
     title: qsTr("Abfüllen")
     icon: "abfuellen.png"
-    readOnly: Brauhelfer.readonly || (Brauhelfer.sud.Status !== Brauhelfer.SudStatus.Gebraut && !app.brewForceEditable)
+    readOnly: Brauhelfer.readonly || (Brauhelfer.sud.Status !== Brauhelfer.Gebraut && !app.brewForceEditable)
 
     Flickable {
         anchors.fill: parent
@@ -36,7 +36,7 @@ PageBase {
             }
             if (bereit) {
                 Brauhelfer.sud.Abfuelldatum = tfAbfuelldatum.date
-                Brauhelfer.sud.Status = Brauhelfer.SudStatus.Abgefuellt
+                Brauhelfer.sud.Status = Brauhelfer.Abgefuellt
                 var values = {"SudID": Brauhelfer.sud.id,
                               "Zeitstempel": Brauhelfer.sud.Abfuelldatum,
                               "Temp": Brauhelfer.sud.TemperaturJungbier }
@@ -121,7 +121,7 @@ PageBase {
                         }
                     }
                     LabelPrim {
-                        visible: Brauhelfer.sud.Status === Brauhelfer.SudStatus.Gebraut && !Brauhelfer.sud.AbfuellenBereitZutaten
+                        visible: Brauhelfer.sud.Status === Brauhelfer.Gebraut && !Brauhelfer.sud.AbfuellenBereitZutaten
                         Layout.fillWidth: true
                         horizontalAlignment: Text.AlignHCenter
                         color: Material.accent
@@ -564,7 +564,7 @@ PageBase {
                         Layout.columnSpan: 2
                         Layout.fillWidth: true
                         enabled: !page.readOnly
-                        date: Brauhelfer.sud.Status >= Brauhelfer.SudStatus.Abgefuellt ? Brauhelfer.sud.Abfuelldatum : new Date()
+                        date: Brauhelfer.sud.Status >= Brauhelfer.Abgefuellt ? Brauhelfer.sud.Abfuelldatum : new Date()
                         onNewDate: {
                             this.date = date
                         }

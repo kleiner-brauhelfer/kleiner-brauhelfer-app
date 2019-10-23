@@ -16,7 +16,7 @@ PageBase {
 
     function takeValuesFromBrew() {
         var value = Brauhelfer.sud.SW
-        if (Brauhelfer.sud.Status !== Brauhelfer.SudStatus.Rezept)
+        if (Brauhelfer.sud.Status !== Brauhelfer.Rezept)
             value = Brauhelfer.sud.SWAnstellen
         brixStart = Brauhelfer.calc.platoToBrix(value)
         brixEnd = brixStart
