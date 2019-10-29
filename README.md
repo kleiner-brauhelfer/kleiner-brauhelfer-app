@@ -22,18 +22,6 @@ https://hobbybrauer.de/forum/viewtopic.php?f=3&t=17466
 ![Screenshot 06](doc/Screenshot_06.png)
 ![Screenshot 07](doc/Screenshot_07.png)
 
-## Demo
-Eine demo kann über folgende Zugangsdaten aufgerufen werden:
-
-Dropbox Access Token:
-```
-r6PQldEWZ4AAAAAAAAAAQtQGRtK9IEf4SENgALueaoG38_KM_YM8MrrustkJYgCW
-```
-Pfad auf dem Server:
-```
-/kb_daten.sqlite
-```
-
 ## Setup
 ### Synchronization mit Dropbox
 1. Dropbox developer area aufrufen https://www.dropbox.com/developers.
