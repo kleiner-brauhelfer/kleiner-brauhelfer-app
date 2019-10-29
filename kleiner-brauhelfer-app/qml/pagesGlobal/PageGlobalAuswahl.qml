@@ -76,13 +76,20 @@ PageBase {
             }
         }
 
+        Connections {
+            target: Brauhelfer
+            onConnectionChanged: listView.proxy.resetColumns()
+        }
+
         ListView {
+            property alias proxy: proxy
             id: listView
             Layout.fillWidth: true
             Layout.fillHeight: true
             clip: true
             boundsBehavior: Flickable.DragAndOvershootBounds
             model: ProxyModelSud {
+                id: proxy
                 sourceModel: Brauhelfer.modelSud
                 filterStatus: app.settings.brewsFilter
                 filterMerkliste: app.settings.brewsMerklisteFilter
@@ -380,15 +387,6 @@ PageBase {
             Layout.fillWidth: true
             Layout.margins: 8
             spacing: 8
-            CheckBox {
-                padding: 0
-                checked: app.settings.brewsFilter === ProxyModelSud.Alle
-                text: qsTr("alle")
-                onClicked: {
-                    if (checked)
-                        app.settings.brewsFilter = ProxyModelSud.Alle
-                }
-            }
             Repeater {
                 model: ListModel {
                     ListElement {
@@ -421,6 +419,16 @@ PageBase {
                 }
             }
             CheckBox {
+                padding: 0
+                checked: app.settings.brewsFilter === ProxyModelSud.Alle
+                text: qsTr("alle")
+                onClicked: {
+                    if (checked)
+                        app.settings.brewsFilter = ProxyModelSud.Alle
+                }
+            }
+            CheckBox {
+                leftPadding: 18
                 padding: 0
                 checked: app.settings.brewsMerklisteFilter
                 text: qsTr("Merkliste")

@@ -45,6 +45,10 @@ static QObject *getInstanceUtils(QQmlEngine *engine, QJSEngine *scriptEngine)
 
 int main(int argc, char *argv[])
 {
+  #ifdef Q_OS_ANDROID
+    qputenv("QT_ANDROID_ENABLE_WORKAROUND_TO_DISABLE_PREDICTIVE_TEXT", "1");
+  #endif
+
     QCoreApplication::setOrganizationName(QString(ORGANIZATION));
     QCoreApplication::setApplicationName(QString(TARGET));
     QCoreApplication::setApplicationVersion(QString(VERSION));

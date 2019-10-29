@@ -11,6 +11,7 @@ import "pagesOthers"
 
 import languageSelector 1.0
 import brauhelfer 1.0
+import ProxyModelSud 1.0
 
 ApplicationWindow {
 
@@ -34,8 +35,8 @@ ApplicationWindow {
         id: settings
         category: "App"
         property int languageIndex: 0
-        property int brewsFilter: 0
-        property int brewsSortColumn: 0
+        property int brewsFilter: ProxyModelSud.Alle
+        property int brewsSortColumn: 5
         property bool brewsMerklisteFilter: false
         property int ingredientsFilter: 0
         property real sugarFactor: 1.0
