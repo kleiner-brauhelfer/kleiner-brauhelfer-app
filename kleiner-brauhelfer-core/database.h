@@ -21,6 +21,9 @@
 #include "modelausruestung.h"
 #include "modelrasten.h"
 #include "modelflaschenlabeltags.h"
+#include "modelanhang.h"
+#include "modelflaschenlabel.h"
+#include "modelgeraete.h"
 
 class QSqlDatabase;
 class Brauhelfer;
@@ -42,14 +45,13 @@ public:
     int version() const;
     void save();
     void discard();
-    void update();
+    bool update();
 
 private:
     void setTables();
-    QSqlQuery sqlExec(const QString &query);
+    QSqlQuery sqlExec(QSqlDatabase &db, const QString &query);
 
 private:
-    QSqlDatabase mDb;
     ModelSud* modelSud;
     ModelRasten* modelRasten;
     ModelMalzschuettung* modelMalzschuettung;
@@ -64,11 +66,11 @@ private:
     ModelHopfen* modelHopfen;
     ModelHefe* modelHefe;
     ModelWeitereZutaten* modelWeitereZutaten;
-    SqlTableModel* modelAnhang;
+    ModelAnhang* modelAnhang;
     ModelAusruestung* modelAusruestung;
-    SqlTableModel* modelGeraete;
+    ModelGeraete* modelGeraete;
     ModelWasser* modelWasser;
-    SqlTableModel* modelFlaschenlabel;
+    ModelFlaschenlabel* modelFlaschenlabel;
     ModelFlaschenlabelTags* modelFlaschenlabelTags;
     int mVersion;
 };

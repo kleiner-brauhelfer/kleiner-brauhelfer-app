@@ -425,15 +425,6 @@ bool ModelSud::setDataExt_impl(const QModelIndex &index, const QVariant &value)
         }
         return false;
     }
-    if (field == "KochdauerNachBitterhopfung")
-    {
-        if (QSqlTableModel::setData(index, value))
-        {
-            updateKochdauer(index.row(), value);
-            return true;
-        }
-        return false;
-    }
     return false;
 }
 
@@ -700,29 +691,6 @@ void ModelSud::updatePreis(int row)
     setData(row, "erg_Preis", summe / data(row, "MengeIst").toDouble());
 }
 
-void ModelSud::updateKochdauer(int row, const QVariant &value)
-{
-    int id = data(row, "ID").toInt();
-    double T = value.toDouble();
-    SqlTableModel* model = bh->modelHopfengaben();
-    int colSudId = model->fieldIndex("SudID");
-    for (int i = 0; i < model->rowCount(); ++i)
-    {
-        if (model->data(model->index(i, colSudId)).toInt() == id)
-        {
-            if (model->data(i, "Vorderwuerze").toBool())
-            {
-                model->setData(i, "Zeit", value);
-            }
-            else
-            {
-               if (model->data(i, "Zeit").toDouble() >= T)
-                   model->setData(i, "Zeit", value);
-            }
-        }
-    }
-}
-
 QVariant ModelSud::SWIst(const QModelIndex &index) const
 {
     return data(index.row(), "SWAnstellen").toDouble() + swWzGaerungCurrent[index.row()];
@@ -946,8 +914,14 @@ void ModelSud::defaultValues(QVariantMap &values) const
         values.insert("ID", getNextId());
     if (!values.contains("Erstellt"))
         values.insert("Erstellt", QDateTime::currentDateTime());
+    if (!values.contains("Sudname"))
+        values.insert("Sudname", "Sudname");
     if (!values.contains("Sudnummer"))
         values.insert("Sudnummer", 0);
+    if (!values.contains("Anlage") && bh->modelAusruestung()->rowCount() == 1)
+        values.insert("Anlage", bh->modelAusruestung()->data(0, "Name"));
+    if (!values.contains("Wasserprofil") && bh->modelWasser()->rowCount() == 1)
+        values.insert("Wasserprofil", bh->modelWasser()->data(0, "Name"));
     if (!values.contains("Menge"))
         values.insert("Menge", 20);
     if (!values.contains("SW"))
@@ -964,10 +938,6 @@ void ModelSud::defaultValues(QVariantMap &values) const
         values.insert("TemperaturJungbier", 20.0);
     if (!values.contains("Status"))
         values.insert("Status", Sud_Status_Rezept);
-    if (!values.contains("Anlage") && bh->modelAusruestung()->rowCount() == 1)
-        values.insert("Anlage", bh->modelAusruestung()->data(0, "Name"));
-    if (!values.contains("Wasserprofil") && bh->modelWasser()->rowCount() == 1)
-        values.insert("Wasserprofil", bh->modelWasser()->data(0, "Name"));
 }
 
 QVariantMap ModelSud::copyValues(int row) const

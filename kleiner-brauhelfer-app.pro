@@ -3,6 +3,7 @@ SUBDIRS += \
     qtdropbox2 \
     kleiner-brauhelfer-core \
     kleiner-brauhelfer-app
+CONFIG += ordered
 
 qtdropbox2.subdir = qtdropbox2
 kleiner-brauhelfer-core.subdir = kleiner-brauhelfer-core

@@ -50,6 +50,7 @@ Brauhelfer::~Brauhelfer()
 
 bool Brauhelfer::connectDatabase()
 {
+    qInfo() << "Brauhelfer::connectDatabase():" << databasePath();
     if (isConnectedDatabase())
     {
         mSud->unload();
@@ -57,8 +58,12 @@ bool Brauhelfer::connectDatabase()
     }
     if (mDb->connect(databasePath(), readonly()))
     {
-        mDb->select();
-        mSud->unload();
+        qInfo() << "Brauhelfer::connectDatabase() version:" << databaseVersion();
+        if (mDb->version() == supportedDatabaseVersion)
+        {
+            mDb->select();
+            mSud->init();
+        }
     }
     emit connectionChanged(isConnectedDatabase());
     return isConnectedDatabase();
@@ -66,9 +71,13 @@ bool Brauhelfer::connectDatabase()
 
 void Brauhelfer::disconnectDatabase()
 {
-    mSud->unload();
-    mDb->disconnect();
-    emit connectionChanged(isConnectedDatabase());
+    if (isConnectedDatabase())
+    {
+        qInfo("Brauhelfer::disconnectDatabase()");
+        mSud->unload();
+        mDb->disconnect();
+        emit connectionChanged(isConnectedDatabase());
+    }
 }
 
 bool Brauhelfer::isConnectedDatabase() const
@@ -99,6 +108,7 @@ void Brauhelfer::save()
 {
     if (!readonly() && isDirty())
     {
+        qInfo("Brauhelfer::save()");
         bool wasBlocked = blockSignals(true);
         mDb->save();
         blockSignals(wasBlocked);
@@ -109,11 +119,15 @@ void Brauhelfer::save()
 
 void Brauhelfer::discard()
 {
-    bool wasBlocked = blockSignals(true);
-    mDb->discard();
-    blockSignals(wasBlocked);
-    emit discarded();
-    emit modified();
+    if (isDirty())
+    {
+        qInfo("Brauhelfer::discard()");
+        bool wasBlocked = blockSignals(true);
+        mDb->discard();
+        blockSignals(wasBlocked);
+        emit discarded();
+        emit modified();
+    }
 }
 
 QString Brauhelfer::databasePath() const
@@ -137,6 +151,7 @@ int Brauhelfer::databaseVersion() const
 
 bool Brauhelfer::updateDatabase()
 {
+    qInfo("Brauhelfer::updateDatabase()");
     mDb->update();
     connectDatabase();
     return mDb->version() == supportedDatabaseVersion;

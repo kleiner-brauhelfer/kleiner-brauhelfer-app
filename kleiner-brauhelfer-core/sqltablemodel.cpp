@@ -1,11 +1,9 @@
 #include "sqltablemodel.h"
 #include <QSqlRecord>
 #include <QSqlIndex>
+#include <QSqlError>
 
-#define DEBUG_EN 0
-#if DEBUG_EN
-  #include <QDebug>
-#endif
+QLoggingCategory SqlTableModel::loggingCategory("SqlTableModel", QtWarningMsg);
 
 SqlTableModel::SqlTableModel(QObject *parent, QSqlDatabase db) :
     QSqlTableModel(parent, db),
@@ -14,10 +12,6 @@ SqlTableModel::SqlTableModel(QObject *parent, QSqlDatabase db) :
 {
     setEditStrategy(EditStrategy::OnManualSubmit);
     mVirtualField.append("deleted");
-    connect(this, SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)), this, SLOT(fetchAll()));
-    connect(this, SIGNAL(rowsInserted(const QModelIndex&, int, int)), this, SLOT(fetchAll()));
-    connect(this, SIGNAL(rowsRemoved(const QModelIndex&, int, int)), this, SLOT(fetchAll()));
-    connect(this, SIGNAL(layoutChanged()), this, SLOT(fetchAll()));
 }
 
 QVariant SqlTableModel::data(const QModelIndex &index, int role) const
@@ -52,41 +46,30 @@ QVariant SqlTableModel::data(int row, const QString &fieldName, int role) const
 
 bool SqlTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    bool ret;
     if (role == Qt::DisplayRole || role == Qt::EditRole || role > Qt::UserRole)
     {
         int col = (role > Qt::UserRole) ? (role - Qt::UserRole - 1) : index.column();
         if (col == QSqlTableModel::columnCount())
+            return false;
+        qDebug(loggingCategory) << "setData():" << tableName() << "row" << index.row() << "col" << fieldName(col) << "=" << value.toString();
+        const QModelIndex index2 = this->index(index.row(), col);
+        ++mSetDataCnt;
+        bool ret = setDataExt(index2, value);
+        if (!ret)
+            ret = QSqlTableModel::setData(index2, value);
+        if (ret)
         {
-            ret = false;
-        }
-        else
-        {
-          #if DEBUG_EN
-            qDebug() << tableName() << "set row" << index.row() << "col" << fieldName(col) << "=" << value.toString();
-          #endif
-            const QModelIndex index2 = this->index(index.row(), col);
-            ++mSetDataCnt;
-            ret = setDataExt(index2, value);
-            if (!ret)
-                ret = QSqlTableModel::setData(index2, value);
-            if (ret)
+            if (mSetDataCnt == 1)
             {
-                if (mSetDataCnt == 1)
-                {
-                    emit rowChanged(index);
-                    if (!mSignalModifiedBlocked)
-                        emit modified();
-                }
+                emit rowChanged(index);
+                if (!mSignalModifiedBlocked)
+                    emit modified();
             }
-            --mSetDataCnt;
         }
+        --mSetDataCnt;
+        return ret;
     }
-    else
-    {
-        ret = QSqlTableModel::setData(index, value, role);
-    }
-    return ret;
+    return QSqlTableModel::setData(index, value, role);
 }
 
 bool SqlTableModel::setData(int row, const QString &fieldName, const QVariant &value, int role)
@@ -173,7 +156,10 @@ void SqlTableModel::setTable(const QString &tableName)
 {
     if (tableName != this->tableName())
     {
+        qInfo(loggingCategory) << "setTable():" << tableName;
         QSqlTableModel::setTable(tableName);
+        if (lastError().isValid())
+            qCritical(loggingCategory) << lastError();
         // hack for setHeaderData() (crash in proxy model when loading new database in App)
         beginResetModel();
         endResetModel();
@@ -192,24 +178,32 @@ void SqlTableModel::setTable(const QString &tableName)
 
 bool SqlTableModel::select()
 {
+    qInfo(loggingCategory) << "select():" << tableName();
+    qDebug(loggingCategory) << selectStatement();
     if (QSqlTableModel::select())
     {
         fetchAll();
         return true;
     }
+    if (lastError().isValid())
+        qCritical(loggingCategory) << lastError();
     return false;
 }
 
 void SqlTableModel::fetchAll()
 {
     while (canFetchMore())
+    {
+        qInfo(loggingCategory) << "fetchMore():" << tableName();
         fetchMore();
+    }
 }
 
 void SqlTableModel::setFilter(const QString &filter)
 {
     if (filter != this->filter())
     {
+        qInfo(loggingCategory) << "setFilter():" << tableName() << filter;
         QSqlTableModel::setFilter(filter);
         emit filterChanged();
     }
@@ -217,6 +211,7 @@ void SqlTableModel::setFilter(const QString &filter)
 
 bool SqlTableModel::removeRows(int row, int count, const QModelIndex &parent)
 {
+    qInfo(loggingCategory) << "removeRows():" << tableName() << row << count;
     if (QSqlTableModel::removeRows(row, count, parent))
     {
         for (int i = 0; i < count; ++i)
@@ -233,6 +228,8 @@ bool SqlTableModel::removeRows(int row, int count, const QModelIndex &parent)
         emit modified();
         return true;
     }
+    if (lastError().isValid())
+        qCritical(loggingCategory) << lastError();
     return false;
 }
 
@@ -243,6 +240,7 @@ bool SqlTableModel::removeRow(int arow, const QModelIndex &parent)
 
 int SqlTableModel::append(const QVariantMap &values)
 {
+    qInfo(loggingCategory) << "append():" << tableName();
     QVariantMap val = values;
     defaultValues(val);
     if (insertRow(rowCount()))
@@ -265,11 +263,14 @@ int SqlTableModel::append(const QVariantMap &values)
         emit modified();
         return row;
     }
+    if (lastError().isValid())
+        qCritical(loggingCategory) << lastError();
     return -1;
 }
 
 int SqlTableModel::appendDirect(const QVariantMap &values)
 {
+    qInfo(loggingCategory) << "appendDirect():" << tableName();
     if (insertRow(rowCount()))
     {
         int row = rowCount() - 1;
@@ -284,22 +285,28 @@ int SqlTableModel::appendDirect(const QVariantMap &values)
         emit modified();
         return row;
     }
+    if (lastError().isValid())
+        qCritical(loggingCategory) << lastError();
     return -1;
 }
 
 bool SqlTableModel::submitAll()
 {
+    qInfo(loggingCategory) << "submitAll():" << tableName();
     if (QSqlTableModel::submitAll())
     {
         emit submitted();
         emit modified();
         return true;
     }
+    if (lastError().isValid())
+        qCritical(loggingCategory) << lastError();
     return false;
 }
 
 void SqlTableModel::revertAll()
 {
+    qInfo(loggingCategory) << "revertAll():" << tableName();
     QSqlTableModel::revertAll();
     emit layoutAboutToBeChanged();
     emit layoutChanged();

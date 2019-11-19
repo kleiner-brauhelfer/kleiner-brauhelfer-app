@@ -8,11 +8,23 @@ class Brauhelfer;
 class ModelRasten : public SqlTableModel
 {
     Q_OBJECT
+
 public:
+
+    enum Column
+    {
+        ColID,
+        ColSudID,
+        ColName,
+        ColTemp,
+        ColDauer,
+        // virtual
+        ColDeleted
+    };
+
+public:
+
     ModelRasten(Brauhelfer* bh, QSqlDatabase db = QSqlDatabase());
-    void defaultValues(QVariantMap &values) const Q_DECL_OVERRIDE;
-private:
-    Brauhelfer* bh;
 };
 
 #endif // MODELRASTEN_H

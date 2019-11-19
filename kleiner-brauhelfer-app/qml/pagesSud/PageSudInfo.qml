@@ -386,17 +386,49 @@ PageBase {
                                 Layout.fillWidth: true
                                 text: model.Name
                             }
-                            Item {
-                                Layout.preferredWidth: 80
+                            LabelNumber {
+                                Layout.preferredWidth: 40
+                                precision: 1
+                                value: model.Prozent
+                            }
+                            LabelUnit {
+                                Layout.preferredWidth: 30
+                                text: qsTr("%")
                             }
                             LabelNumber {
-                                Layout.preferredWidth: 60
+                                Layout.preferredWidth: 40
                                 precision: 2
                                 value: model.erg_Menge
                             }
                             LabelUnit {
+                                Layout.preferredWidth: 30
                                 text: qsTr("kg")
                             }
+                        }
+                    }
+                    RowLayout {
+                        Layout.leftMargin: 8
+                        LabelPrim {
+                            Layout.fillWidth: true
+                            text: qsTr("Gesamtschüttung")
+                        }
+                        Label {
+                            Layout.preferredWidth: 40
+                            text: ""
+                        }
+                        Label {
+                            Layout.preferredWidth: 30
+                            text: ""
+                        }
+                        LabelNumber {
+                            Layout.preferredWidth: 40
+                            font.bold: true
+                            precision: 2
+                            value: Brauhelfer.sud.erg_S_Gesamt
+                        }
+                        LabelUnit {
+                            Layout.preferredWidth: 30
+                            text: qsTr("kg")
                         }
                     }
                 }

@@ -5,10 +5,15 @@ Die kleiner-brauhelfer-app ist eine App, welche die Software [kleiner-brauhelfer
 https://hobbybrauer.de/forum/viewtopic.php?f=3&t=17466
 
 ## Download letzte Version
-- [Version 2.0.0beta1](https://github.com/kleiner-brauhelfer/kleiner-brauhelfer-app/releases/tag/v2.0.0beta1) passend zum [kleinen-brauhelfer-2](https://github.com/kleiner-brauhelfer/kleiner-brauhelfer-2)
+- [Version 2.0.0beta2](https://github.com/kleiner-brauhelfer/kleiner-brauhelfer-app/releases/tag/v2.0.0beta2) passend zum [kleinen-brauhelfer-2](https://github.com/kleiner-brauhelfer/kleiner-brauhelfer-2)
 - [Version 1.0.0](https://github.com/kleiner-brauhelfer/kleiner-brauhelfer-app/releases/tag/v1.0.0) passend zum [kleinen-brauhelfer bis 1.4.4.6](https://github.com/Gremmel/kleiner-brauhelfer)
 
 ## Änderungen & Erweiterungen
+
+### Version 2.0.0beta2
+- Neu: Kompiliert mit Qt 5.13.2
+- Neu: Prozentangabe bei Malzgaben
+- Fix: WebDav
 
 ### Version 2.0.0beta1
 - Neu: Unterstüzung für kleiner-brauhelfer Version 2.x.x
