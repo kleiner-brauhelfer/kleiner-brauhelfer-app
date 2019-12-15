@@ -184,7 +184,7 @@ PageBase {
                     LabelPlato {
                         Layout.preferredWidth: 60
                         visible: ctrlSGPen.checked
-                        value: Brauhelfer.calc.toTRE(Brauhelfer.sud.SWIst, Brauhelfer.sud.SWSchnellgaerprobe)
+                        value: BierCalc.toTRE(Brauhelfer.sud.SWIst, Brauhelfer.sud.SWSchnellgaerprobe)
                     }
                     LabelUnit {
                         Layout.preferredWidth: 60
@@ -249,7 +249,7 @@ PageBase {
                     }
                     LabelPlato {
                         Layout.preferredWidth: 60
-                        value: Brauhelfer.calc.toTRE(Brauhelfer.sud.SWIst, Brauhelfer.sud.SWJungbier)
+                        value: BierCalc.toTRE(Brauhelfer.sud.SWIst, Brauhelfer.sud.SWJungbier)
                     }
                     LabelUnit {
                         Layout.preferredWidth: 60
@@ -293,7 +293,7 @@ PageBase {
                     }
                     LabelNumber {
                         Layout.preferredWidth: 60
-                        value: Brauhelfer.calc.vergaerungsgrad(Brauhelfer.sud.SWIst, Brauhelfer.sud.SREIst)
+                        value: BierCalc.vergaerungsgrad(Brauhelfer.sud.SWIst, Brauhelfer.sud.SREIst)
                     }
                     LabelUnit {
                         Layout.preferredWidth: 60
@@ -305,7 +305,7 @@ PageBase {
                     }
                     LabelNumber {
                         Layout.preferredWidth: 60
-                        value: Brauhelfer.calc.vergaerungsgrad(Brauhelfer.sud.SWIst, Brauhelfer.calc.toTRE(Brauhelfer.sud.SWIst, Brauhelfer.sud.SREIst))
+                        value: BierCalc.vergaerungsgrad(Brauhelfer.sud.SWIst, BierCalc.toTRE(Brauhelfer.sud.SWIst, Brauhelfer.sud.SREIst))
                     }
                     LabelUnit {
                         Layout.preferredWidth: 60

@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QSqlDatabase>
+#include <QSqlError>
 #include "sqltablemodel.h"
 #include "modelsud.h"
 #include "modelmalz.h"
@@ -20,9 +21,9 @@
 #include "modelweiterezutatengaben.h"
 #include "modelausruestung.h"
 #include "modelrasten.h"
-#include "modelflaschenlabeltags.h"
+#include "modeltags.h"
 #include "modelanhang.h"
-#include "modelflaschenlabel.h"
+#include "modeletiketten.h"
 #include "modelgeraete.h"
 
 class QSqlDatabase;
@@ -41,14 +42,15 @@ public:
     void disconnect();
     bool isConnected() const;
     bool isDirty() const;
+    void setTables();
     void select();
     int version() const;
-    void save();
+    bool save();
     void discard();
     bool update();
+    QSqlError lastError() const;
 
 private:
-    void setTables();
     QSqlQuery sqlExec(QSqlDatabase &db, const QString &query);
 
 private:
@@ -70,9 +72,10 @@ private:
     ModelAusruestung* modelAusruestung;
     ModelGeraete* modelGeraete;
     ModelWasser* modelWasser;
-    ModelFlaschenlabel* modelFlaschenlabel;
-    ModelFlaschenlabelTags* modelFlaschenlabelTags;
+    ModelEtiketten* modelEtiketten;
+    ModelTags* modeTags;
     int mVersion;
+    QSqlError mLastError;
 };
 
 #endif // DATABASE_H

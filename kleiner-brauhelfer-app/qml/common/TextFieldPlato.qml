@@ -26,8 +26,8 @@ TextFieldNumber {
             maxWidth: 240
             onOpened: {
                 tfPlato.value = textfield.value
-                tfDensity.value = Brauhelfer.calc.platoToDichte(tfPlato.value)
-                tfBrix.value = (textfield.sw === 0.0) ? Brauhelfer.calc.platoToBrix(tfPlato.value) : ""
+                tfDensity.value = BierCalc.platoToDichte(tfPlato.value)
+                tfBrix.value = (textfield.sw === 0.0) ? BierCalc.platoToBrix(tfPlato.value) : ""
                 tfPlato.forceActiveFocus()
             }
             onClosed: {
@@ -57,12 +57,12 @@ TextFieldNumber {
                         this.value = value
                         if (tfBrix.focus) {
                             if (textfield.sw === 0.0) {
-                                tfPlato.value = Brauhelfer.calc.brixToPlato(tfBrix.value)
-                                tfDensity.value = Brauhelfer.calc.platoToDichte(tfPlato.value)
+                                tfPlato.value = BierCalc.brixToPlato(tfBrix.value)
+                                tfDensity.value = BierCalc.platoToDichte(tfPlato.value)
                             }
                             else {
-                                tfDensity.value = Brauhelfer.calc.brixToDichte(textfield.sw, tfBrix.value)
-                                tfPlato.value = Brauhelfer.calc.dichteToPlato(tfDensity.value)
+                                tfDensity.value = BierCalc.brixToDichte(textfield.sw, tfBrix.value)
+                                tfPlato.value = BierCalc.dichteToPlato(tfDensity.value)
                             }
                         }
                     }
@@ -85,8 +85,8 @@ TextFieldNumber {
                     onNewValue: {
                         this.value = value
                         if (tfDensity.focus) {
-                            tfPlato.value = Brauhelfer.calc.dichteToPlato(tfDensity.value)
-                            tfBrix.value = (textfield.sw === 0.0) ? Brauhelfer.calc.platoToBrix(tfPlato.value) : ""
+                            tfPlato.value = BierCalc.dichteToPlato(tfDensity.value)
+                            tfBrix.value = (textfield.sw === 0.0) ? BierCalc.platoToBrix(tfPlato.value) : ""
                         }
                     }
                 }
@@ -108,8 +108,8 @@ TextFieldNumber {
                     onNewValue: {
                         this.value = value
                         if (tfPlato.focus) {
-                            tfDensity.value = Brauhelfer.calc.platoToDichte(tfPlato.value)
-                            tfBrix.value = (textfield.sw === 0.0) ? Brauhelfer.calc.platoToBrix(tfPlato.value) : ""
+                            tfDensity.value = BierCalc.platoToDichte(tfPlato.value)
+                            tfBrix.value = (textfield.sw === 0.0) ? BierCalc.platoToBrix(tfPlato.value) : ""
                         }
                     }
                 }

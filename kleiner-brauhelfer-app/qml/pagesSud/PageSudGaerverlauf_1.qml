@@ -39,7 +39,7 @@ PageBase {
                 model: listView.model
                 series: chart.series2
                 xColumn: model.fieldIndex("Zeitstempel")
-                yColumn: model.fieldIndex("SW")
+                yColumn: model.fieldIndex("Restextrakt")
             }
             VXYModelMapper {
                 model: listView.model
@@ -154,10 +154,13 @@ PageBase {
                             leftPadding: 8
                             date: Zeitstempel
                         }
+                        Label {
+                            text: model.Bemerkung === "" ? " " : "*"
+                        }
                         LabelPlato {
                             Layout.preferredWidth: 70
                             unit: "°P"
-                            value: model.SW
+                            value: model.Restextrakt
                             color: chart.color2
                         }
                         LabelNumber {
@@ -239,14 +242,14 @@ PageBase {
                             this.value = value
                             var brix = value
                             if (!isNaN(brix)) {
-                                var density = Brauhelfer.calc.brixToDichte(Brauhelfer.sud.SWIst, brix)
-                                var sre = Brauhelfer.calc.dichteToPlato(density)
+                                var density = BierCalc.brixToDichte(Brauhelfer.sud.SWIst, brix)
+                                var sre = BierCalc.dichteToPlato(density)
                                 tfDensity.value = density
-                                model.SW = sre
+                                model.Restextrakt = sre
                             }
                             else {
                                 tfDensity.value = NaN
-                                model.SW = NaN
+                                model.Restextrakt = NaN
                             }
                         }
                     }
@@ -265,15 +268,15 @@ PageBase {
                         min: 0.0
                         max: 2.0
                         precision: 4
-                        value: Brauhelfer.calc.platoToDichte(model.SW)
+                        value: BierCalc.platoToDichte(model.Restextrakt)
                         onNewValue: {
                             this.value = value
                             var density = value
                             if (!isNaN(density)) {
-                                model.SW = Brauhelfer.calc.dichteToPlato(density)
+                                model.Restextrakt = BierCalc.dichteToPlato(density)
                             }
                             else {
-                                model.SW = NaN
+                                model.Restextrakt = NaN
                             }
                             tfBrix.value = NaN
                         }
@@ -290,12 +293,12 @@ PageBase {
                     TextFieldPlato {
                         id: tfSW
                         Layout.alignment: Qt.AlignHCenter
-                        value: model.SW
+                        value: model.Restextrakt
                         onNewValue: {
-                            model.SW = value
+                            model.Restextrakt = value
                             var sre = value
                             if (!isNaN(sre)) {
-                                tfDensity.value = Brauhelfer.calc.platoToDichte(sre)
+                                tfDensity.value = BierCalc.platoToDichte(sre)
                             }
                             else {
                                 tfDensity.value = NaN
@@ -320,6 +323,15 @@ PageBase {
 
                     LabelUnit {
                         text: qsTr("°C")
+                    }
+
+                    TextArea {
+                        Layout.fillWidth: true
+                        Layout.columnSpan: 3
+                        wrapMode: TextArea.Wrap
+                        placeholderText: qsTr("Bemerkung")
+                        text: model.Bemerkung
+                        onTextChanged: if (activeFocus) model.Bemerkung = text
                     }
 
                     ToolButton {

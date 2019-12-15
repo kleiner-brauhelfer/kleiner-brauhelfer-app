@@ -219,7 +219,7 @@ PageBase {
                                     anchors.fill: parent
                                     source: parent
                                     cached: true
-                                    color: Utils.toColor(Brauhelfer.calc.ebcToColor(model.FarbeIst))
+                                    color: Utils.toColor(BierCalc.ebcToColor(model.FarbeIst))
                                 }
                             }
                             Image {

@@ -103,8 +103,23 @@ ApplicationWindow {
                     messageDialogReadonly.open()
                 if (!Brauhelfer.connected)
                     messageDialogGotoSettings.open()
+                else if (Brauhelfer.databaseVersion < 0) {
+                    messageDialogUnsupportedDatabaseVersion.informativeText = qsTr("Die Datenbank ist ungültig.")
+                    messageDialogUnsupportedDatabaseVersion.open()
+                    Brauhelfer.disconnectDatabase()
+                }
                 else if (Brauhelfer.databaseVersion < 2000) {
                     messageDialogUnsupportedDatabaseVersion.informativeText = qsTr("Die Datenbank kann nur mit der App v1.x.x geöffnet werden.")
+                    messageDialogUnsupportedDatabaseVersion.open()
+                    Brauhelfer.disconnectDatabase()
+                }
+                else if (Brauhelfer.databaseVersion < Brauhelfer.databaseVersionSupported) {
+                    messageDialogUnsupportedDatabaseVersion.informativeText = qsTr("Die Datenbank ist zu alt für die App und muss zuerst mit dem kleinen-brauhelfer aktualisiert werden.")
+                    messageDialogUnsupportedDatabaseVersion.open()
+                    Brauhelfer.disconnectDatabase()
+                }
+                else if (Brauhelfer.databaseVersion > Brauhelfer.databaseVersionSupported) {
+                    messageDialogUnsupportedDatabaseVersion.informativeText = qsTr("Die App ist zu alt für diese Datenbank und muss zuerst aktualisiert werden.")
                     messageDialogUnsupportedDatabaseVersion.open()
                     Brauhelfer.disconnectDatabase()
                 }

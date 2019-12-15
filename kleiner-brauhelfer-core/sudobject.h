@@ -5,17 +5,18 @@
 #include <QObject>
 #include <QDateTime>
 #include "proxymodel.h"
+#include "modelsud.h"
 
 class Brauhelfer;
 
 // Property with automatic getter/setter generation
 #define Q_PROPERTY_SUD(type, name, convertion) \
     Q_PROPERTY(type name READ get##name WRITE set##name NOTIFY modified) \
-    public: type get##name() const { return getValue(#name).convertion; } \
-    public: void set##name(type const &value) { setValue(#name, value); }
+    public: type get##name() const { return getValue(ModelSud::Col##name).convertion; } \
+    public: void set##name(type const &value) { setValue(ModelSud::Col##name, value); }
 #define Q_PROPERTY_SUD_READONLY(type, name, convertion) \
     Q_PROPERTY(type name READ get##name NOTIFY modified) \
-    public: type get##name() const { return getValue(#name).convertion; }
+    public: type get##name() const { return getValue(ModelSud::Col##name).convertion; }
 
 class LIB_EXPORT SudObject : public QObject
 {
@@ -118,8 +119,8 @@ class LIB_EXPORT SudObject : public QObject
     Q_PROPERTY(ProxyModel* modelNachgaerverlauf READ modelNachgaerverlauf CONSTANT)
     Q_PROPERTY(ProxyModel* modelBewertungen READ modelBewertungen CONSTANT)
     Q_PROPERTY(ProxyModel* modelAnhang READ modelAnhang CONSTANT)
-    Q_PROPERTY(ProxyModel* modelFlaschenlabel READ modelFlaschenlabel CONSTANT)
-    Q_PROPERTY(ProxyModel* modelFlaschenlabelTags READ modelFlaschenlabelTags CONSTANT)
+    Q_PROPERTY(ProxyModel* modelEtiketten READ modelEtiketten CONSTANT)
+    Q_PROPERTY(ProxyModel* modelTags READ modelTags CONSTANT)
 
 public:
 
@@ -163,32 +164,32 @@ public:
 
     /**
      * @brief Gets a value
-     * @param fieldName Field name
+     * @param col Column number
      * @return Value
      */
-    QVariant getValue(const QString &fieldName) const;
+    QVariant getValue(int col) const;
 
     /**
      * @brief Sets a value
-     * @param fieldName Field name
+     * @param col Column number
      * @param value Field value
      * @return True on success
      */
-    bool setValue(const QString &fieldName, const QVariant &value);
+    bool setValue(int col, const QVariant &value);
 
     /**
      * @brief getAnlageValue
-     * @param fieldName
+     * @param col
      * @return
      */
-    QVariant getAnlageData(const QString& fieldName) const;
+    QVariant getAnlageData(int col) const;
 
     /**
      * @brief getWasserValue
-     * @param fieldName
+     * @param col
      * @return
      */
-    QVariant getWasserData(const QString& fieldName) const;
+    QVariant getWasserData(int col) const;
 
     /**
      * @brief Gets the different tables
@@ -204,21 +205,13 @@ public:
     ProxyModel* modelNachgaerverlauf() const;
     ProxyModel* modelBewertungen() const;
     ProxyModel* modelAnhang() const;
-    ProxyModel* modelFlaschenlabel() const;
-    ProxyModel* modelFlaschenlabelTags() const;
+    ProxyModel* modelEtiketten() const;
+    ProxyModel* modelTags() const;
 
     /**
      * @brief Substracts the brew ingredients from the inventory
      */
     Q_INVOKABLE void brauzutatenAbziehen();
-
-    /**
-     * @brief Substracts an ingredient from the inventory
-     * @param ingredient Ingredient
-     * @param typ 0: Hopfen, 1: Hefe, 2: weitere Zutat
-     * @param quantity Quantity [g]
-     */
-    Q_INVOKABLE void zutatAbziehen(const QString& zutat, int typ, double menge);
 
 Q_SIGNALS:
 
@@ -258,8 +251,8 @@ private:
     ProxyModel* proxyModelNachgaerverlauf;
     ProxyModel* proxyModelBewertungen;
     ProxyModel* proxyModelAnhang;
-    ProxyModel* proxyModelFlaschenlabel;
-    ProxyModel* proxyModelFlaschenlabelTags;
+    ProxyModel* proxyModelEtiketten;
+    ProxyModel* proxyModelTags;
 };
 
 #endif // SUDOBJECT_H

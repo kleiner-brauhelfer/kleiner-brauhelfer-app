@@ -1,12 +1,12 @@
-#ifndef MODELHAUPTGAERVERLAUF_H
-#define MODELHAUPTGAERVERLAUF_H
+#ifndef MODELTAGS_H
+#define MODELTAGS_H
 
 #include "kleiner-brauhelfer-core_global.h"
 #include "sqltablemodel.h"
 
 class Brauhelfer;
 
-class LIB_EXPORT ModelHauptgaerverlauf : public SqlTableModel
+class LIB_EXPORT ModelTags : public SqlTableModel
 {
     Q_OBJECT
 
@@ -16,15 +16,11 @@ public:
     {
         ColID,
         ColSudID,
-        ColZeitstempel,
-        ColRestextrakt,
-        ColAlc,
-        ColTemp,
-        ColBemerkung,
+        ColKey,
+        ColValue,
         // virtual
         ColDeleted,
-        ColsEVG,
-        ColtEVG,
+        ColGlobal,
         // number of columns
         NumCols
     };
@@ -32,18 +28,20 @@ public:
 
 public:
 
-    ModelHauptgaerverlauf(Brauhelfer* bh, QSqlDatabase db = QSqlDatabase());
+    ModelTags(Brauhelfer* bh, QSqlDatabase db = QSqlDatabase());
     QVariant dataExt(const QModelIndex &index) const Q_DECL_OVERRIDE;
     bool setDataExt(const QModelIndex &index, const QVariant &value) Q_DECL_OVERRIDE;
+    Qt::ItemFlags flags(const QModelIndex &index) const Q_DECL_OVERRIDE;
     void defaultValues(QMap<int, QVariant> &values) const Q_DECL_OVERRIDE;
 
 private:
 
-    int getLastRow(const QVariant &sudId) const;
+    bool isUnique(const QModelIndex &index, const QVariant &value, const QVariant &sudId, bool ignoreIndexRow = false) const;
+    QString getUniqueName(const QModelIndex &index, const QVariant &value, const QVariant &sudId, bool ignoreIndexRow = false) const;
 
 private:
 
     Brauhelfer* bh;
 };
 
-#endif // MODELHAUPTGAERVERLAUF_H
+#endif // MODELTAGS_H

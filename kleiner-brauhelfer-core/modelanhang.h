@@ -1,11 +1,12 @@
 #ifndef MODELANHANG_H
 #define MODELANHANG_H
 
+#include "kleiner-brauhelfer-core_global.h"
 #include "sqltablemodel.h"
 
 class Brauhelfer;
 
-class ModelAnhang : public SqlTableModel
+class LIB_EXPORT ModelAnhang : public SqlTableModel
 {
     Q_OBJECT
 
@@ -17,8 +18,11 @@ public:
         ColSudID,
         ColPfad,
         // virtual
-        ColDeleted
+        ColDeleted,
+        // number of columns
+        NumCols
     };
+    Q_ENUM(Column)
 
 public:
 

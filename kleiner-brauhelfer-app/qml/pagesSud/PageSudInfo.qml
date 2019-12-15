@@ -210,7 +210,7 @@ PageBase {
                         Layout.preferredWidth: 60
                         Layout.columnSpan: 2
                         visible: Brauhelfer.sud.Status !== Brauhelfer.Rezept
-                        value: Brauhelfer.calc.vergaerungsgrad(Brauhelfer.sud.SWIst, Brauhelfer.sud.SREIst)
+                        value: BierCalc.vergaerungsgrad(Brauhelfer.sud.SWIst, Brauhelfer.sud.SREIst)
                     }
                     LabelUnit {
                         visible: Brauhelfer.sud.Status !== Brauhelfer.Rezept

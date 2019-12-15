@@ -28,7 +28,7 @@ TextFieldNumber {
         sourceComponent: PopupBase {
             maxWidth: 240
             onOpened: {
-                tfV1.value = Brauhelfer.calc.volumenWasser(textfield.temp2, textfield.temp1, textfield.value)
+                tfV1.value = BierCalc.volumenWasser(textfield.temp2, textfield.temp1, textfield.value)
                 tfV2.value = textfield.value
                 tfV2.forceActiveFocus()
             }
@@ -56,7 +56,7 @@ TextFieldNumber {
                     readOnly: textfield.temp1Fix
                     onNewValue: {
                         this.value = value
-                        tfV2.value = Brauhelfer.calc.volumenWasser(textfield.temp1, textfield.temp2, tfV1.value)
+                        tfV2.value = BierCalc.volumenWasser(textfield.temp1, textfield.temp2, tfV1.value)
                     }
                 }
 
@@ -76,7 +76,7 @@ TextFieldNumber {
                     precision: textfield.precision
                     onNewValue: {
                         this.value = value
-                        tfV2.value = Brauhelfer.calc.volumenWasser(textfield.temp1, textfield.temp2, value)
+                        tfV2.value = BierCalc.volumenWasser(textfield.temp1, textfield.temp2, value)
                     }
                 }
 
@@ -100,7 +100,7 @@ TextFieldNumber {
                     readOnly: textfield.temp2Fix
                     onNewValue: {
                         this.value = value
-                        tfV2.value = Brauhelfer.calc.volumenWasser(textfield.temp1, textfield.temp2, tfV1.value)
+                        tfV2.value = BierCalc.volumenWasser(textfield.temp1, textfield.temp2, tfV1.value)
                     }
                 }
 
@@ -120,7 +120,7 @@ TextFieldNumber {
                     precision: textfield.precision
                     onNewValue: {
                         this.value = value
-                        tfV1.value = Brauhelfer.calc.volumenWasser(textfield.temp2, textfield.temp1, value)
+                        tfV1.value = BierCalc.volumenWasser(textfield.temp2, textfield.temp1, value)
                     }
                 }
 

@@ -1,11 +1,12 @@
 #ifndef MODELMALZSCHUETTUNG_H
 #define MODELMALZSCHUETTUNG_H
 
+#include "kleiner-brauhelfer-core_global.h"
 #include "sqltablemodel.h"
 
 class Brauhelfer;
 
-class ModelMalzschuettung : public SqlTableModel
+class LIB_EXPORT ModelMalzschuettung : public SqlTableModel
 {
     Q_OBJECT
 
@@ -20,14 +21,17 @@ public:
         Colerg_Menge,
         ColFarbe,
         // virtual
-        ColDeleted
+        ColDeleted,
+        // number of columns
+        NumCols
     };
+    Q_ENUM(Column)
 
 public:
 
     ModelMalzschuettung(Brauhelfer* bh, QSqlDatabase db = QSqlDatabase());
     bool setDataExt(const QModelIndex &index, const QVariant &value) Q_DECL_OVERRIDE;
-    void defaultValues(QVariantMap &values) const Q_DECL_OVERRIDE;
+    void defaultValues(QMap<int, QVariant> &values) const Q_DECL_OVERRIDE;
 
 private slots:
 

@@ -18,7 +18,7 @@ PageBase {
         var value = Brauhelfer.sud.SW
         if (Brauhelfer.sud.Status !== Brauhelfer.Rezept)
             value = Brauhelfer.sud.SWAnstellen
-        brixStart = Brauhelfer.calc.platoToBrix(value)
+        brixStart = BierCalc.platoToBrix(value)
         brixEnd = brixStart
     }
 
@@ -123,7 +123,7 @@ PageBase {
                     id: lblSW
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignRight
-                    value: Brauhelfer.calc.brixToPlato(brixStart)
+                    value: BierCalc.brixToPlato(brixStart)
                 }
                 LabelUnit {
                     text: qsTr("°P")
@@ -136,7 +136,7 @@ PageBase {
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignRight
                     precision: 4
-                    value: Brauhelfer.calc.brixToDichte(lblSW.value, brixEnd, cbFormel.currentIndex)
+                    value: BierCalc.brixToDichte(lblSW.value, brixEnd, cbFormel.currentIndex)
                 }
                 LabelUnit {
                     text: qsTr("g/ml")
@@ -148,7 +148,7 @@ PageBase {
                     id: lblSRE
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignRight
-                    value: Brauhelfer.calc.dichteToPlato(lblDichte.value)
+                    value: BierCalc.dichteToPlato(lblDichte.value)
                 }
                 LabelUnit {
                     text: qsTr("°P")
@@ -160,7 +160,7 @@ PageBase {
                     id: lblSVG
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignRight
-                    value: Brauhelfer.calc.vergaerungsgrad(lblSW.value, lblSRE.value)
+                    value: BierCalc.vergaerungsgrad(lblSW.value, lblSRE.value)
                 }
                 LabelUnit {
                     text: qsTr("%")
@@ -172,7 +172,7 @@ PageBase {
                     id: lblTRE
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignRight
-                    value: Brauhelfer.calc.toTRE(lblSW.value, lblSRE.value)
+                    value: BierCalc.toTRE(lblSW.value, lblSRE.value)
                 }
                 LabelUnit {
                     text: qsTr("°P")
@@ -184,7 +184,7 @@ PageBase {
                     id: lblTVG
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignRight
-                    value: Brauhelfer.calc.vergaerungsgrad(lblSW.value, lblTRE.value)
+                    value: BierCalc.vergaerungsgrad(lblSW.value, lblTRE.value)
                 }
                 LabelUnit {
                     text: qsTr("%")
@@ -196,7 +196,7 @@ PageBase {
                     id: lblAlcVol
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignRight
-                    value: Brauhelfer.calc.alkohol(lblSW.value, lblSRE.value)
+                    value: BierCalc.alkohol(lblSW.value, lblSRE.value)
                 }
                 LabelUnit {
                     text: qsTr("vol%")

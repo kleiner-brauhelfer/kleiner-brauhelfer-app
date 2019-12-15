@@ -1,11 +1,12 @@
 #ifndef MODELSUD_H
 #define MODELSUD_H
 
+#include "kleiner-brauhelfer-core_global.h"
 #include "sqltablemodel.h"
 
 class Brauhelfer;
 
-class ModelSud : public SqlTableModel
+class LIB_EXPORT ModelSud : public SqlTableModel
 {
     Q_OBJECT
 
@@ -97,8 +98,11 @@ public:
         ColAnlageSudhausausbeute,
         ColRestalkalitaetFaktor,
         ColFaktorHauptgussEmpfehlung,
-        ColBewertungMittel
+        ColBewertungMittel,
+        // number of columns
+        NumCols
     };
+    Q_ENUM(Column)
 
 public:
 
@@ -108,17 +112,19 @@ public:
     bool setDataExt(const QModelIndex &index, const QVariant &value) Q_DECL_OVERRIDE;
     Qt::ItemFlags flags(const QModelIndex &index) const Q_DECL_OVERRIDE;
     bool removeRows(int row, int count = 1, const QModelIndex &parent = QModelIndex()) Q_DECL_OVERRIDE;
-    void defaultValues(QVariantMap &values) const Q_DECL_OVERRIDE;
-    QVariantMap copyValues(int row) const Q_DECL_OVERRIDE;
-    QVariant dataAnlage(int row, const QString& fieldName) const;
-    QVariant dataWasser(int row, const QString& fieldName) const;
+    void defaultValues(QMap<int, QVariant> &values) const Q_DECL_OVERRIDE;
+    QMap<int, QVariant> copyValues(int row) const Q_DECL_OVERRIDE;
+    QVariant dataSud(QVariant sudId, int col);
+    QVariant dataAnlage(int row, int col) const;
+    QVariant dataWasser(int row, int col) const;
 
 private slots:
 
     void onModelReset();
     void onRowChanged(const QModelIndex &index);
     void onOtherModelRowChanged(const QModelIndex &index);
-    void onAnlageDataChanged(const QModelIndex &index);
+    void onAnlageRowChanged(const QModelIndex &index);
+    void onWasserRowChanged(const QModelIndex &index);
 
 private:
 
@@ -127,26 +133,7 @@ private:
     void updateSwWeitereZutaten(int row);
     void updateFarbe(int row);
     void updatePreis(int row);
-    QVariant SWIst(const QModelIndex &index) const;
-    QVariant SREIst(const QModelIndex &index) const;
-    QVariant CO2Ist(const QModelIndex &index) const;
-    QVariant Spundungsdruck(const QModelIndex &index) const;
-    QVariant Gruenschlauchzeitpunkt(const QModelIndex &index) const;
-    QVariant SpeiseNoetig(const QModelIndex &index) const;
-    QVariant SpeiseAnteil(const QModelIndex &index) const;
-    QVariant ZuckerAnteil(const QModelIndex &index) const;
-    QVariant ReifezeitDelta(const QModelIndex &index) const;
-    QVariant AbfuellenBereitZutaten(const QModelIndex &index) const;
-    QVariant MengeSollKochbeginn(const QModelIndex &index) const;
-    QVariant MengeSollKochende(const QModelIndex &index) const;
-    QVariant SWSollKochbeginn(const QModelIndex &index) const;
-    QVariant SWSollKochbeginnMitWz(const QModelIndex &index) const;
-    QVariant SWSollKochende(const QModelIndex &index) const;
-    QVariant SWSollAnstellen(const QModelIndex &index) const;
-    QVariant Verdampfungsziffer(const QModelIndex &index) const;
-    QVariant RestalkalitaetFaktor(const QModelIndex &index) const;
-    QVariant FaktorHauptgussEmpfehlung(const QModelIndex &index) const;
-    void removeRowsFrom(SqlTableModel* model, int sudId);
+    void removeRowsFrom(SqlTableModel* model, int colId, const QVariant &sudId);
 
 private:
 

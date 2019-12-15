@@ -7,7 +7,7 @@ TARGET = kleiner-brauhelfer-core
 # Hauptversionsnummer
 VER_MAJ = 2
 # Datenbankversion
-VER_MIN = 0
+VER_MIN = 1
 # Patchversion
 VER_PAT = 0
 
@@ -38,11 +38,11 @@ SOURCES += \
     biercalc.cpp \
     brauhelfer.cpp \
     database.cpp \
+    database_update.cpp \
     modelanhang.cpp \
     modelausruestung.cpp \
     modelbewertungen.cpp \
-    modelflaschenlabel.cpp \
-    modelflaschenlabeltags.cpp \
+    modeletiketten.cpp \
     modelgeraete.cpp \
     modelhauptgaerverlauf.cpp \
     modelhefe.cpp \
@@ -55,6 +55,7 @@ SOURCES += \
     modelrasten.cpp \
     modelschnellgaerverlauf.cpp \
     modelsud.cpp \
+    modeltags.cpp \
     modelwasser.cpp \
     modelweiterezutaten.cpp \
     modelweiterezutatengaben.cpp \
@@ -74,8 +75,7 @@ HEADERS += \
     modelanhang.h \
     modelausruestung.h \
     modelbewertungen.h \
-    modelflaschenlabel.h \
-    modelflaschenlabeltags.h \
+    modeletiketten.h \
     modelgeraete.h \
     modelhauptgaerverlauf.h \
     modelhefe.h \
@@ -88,6 +88,7 @@ HEADERS += \
     modelrasten.h \
     modelschnellgaerverlauf.h \
     modelsud.h \
+    modeltags.h \
     modelwasser.h \
     modelweiterezutaten.h \
     modelweiterezutatengaben.h \

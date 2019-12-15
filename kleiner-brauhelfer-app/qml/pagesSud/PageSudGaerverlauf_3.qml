@@ -155,6 +155,9 @@ PageBase {
                             leftPadding: 8
                             date: Zeitstempel
                         }
+                        Label {
+                            text: model.Bemerkung === "" ? " " : "*"
+                        }
                         LabelNumber {
                             Layout.preferredWidth: 70
                             unit: "bar"
@@ -258,6 +261,15 @@ PageBase {
 
                     LabelUnit {
                         text: qsTr("°C")
+                    }
+
+                    TextArea {
+                        Layout.fillWidth: true
+                        Layout.columnSpan: 3
+                        wrapMode: TextArea.Wrap
+                        placeholderText: qsTr("Bemerkung")
+                        text: model.Bemerkung
+                        onTextChanged: if (activeFocus) model.Bemerkung = text
                     }
 
                     ToolButton {

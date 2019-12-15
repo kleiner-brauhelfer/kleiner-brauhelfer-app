@@ -656,7 +656,7 @@ PageBase {
                             }
                             LabelNumber {
                                 Layout.preferredWidth: 80
-                                value: Brauhelfer.calc.volumenWasser(20.0, 100.0, Brauhelfer.sud.MengeSollKochbeginn)
+                                value: BierCalc.volumenWasser(20.0, 100.0, Brauhelfer.sud.MengeSollKochbeginn)
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
@@ -680,7 +680,7 @@ PageBase {
                             }
                             LabelPlato {
                                 Layout.preferredWidth: 80
-                                value: Brauhelfer.calc.platoToBrix(lblSwLaeutern.value)
+                                value: BierCalc.platoToBrix(lblSwLaeutern.value)
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
@@ -692,7 +692,7 @@ PageBase {
                             LabelPlato {
                                 Layout.preferredWidth: 80
                                 precision: 4
-                                value: Brauhelfer.calc.platoToDichte(lblSwLaeutern.value)
+                                value: BierCalc.platoToDichte(lblSwLaeutern.value)
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
@@ -738,7 +738,7 @@ PageBase {
                             }
                             LabelPlato {
                                 Layout.preferredWidth: 80
-                                value: Brauhelfer.calc.platoToBrix(lblSWSollKochbeginn.value)
+                                value: BierCalc.platoToBrix(lblSWSollKochbeginn.value)
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
@@ -750,7 +750,7 @@ PageBase {
                             LabelPlato {
                                 Layout.preferredWidth: 80
                                 precision: 4
-                                value: Brauhelfer.calc.platoToDichte(lblSWSollKochbeginn.value)
+                                value: BierCalc.platoToDichte(lblSWSollKochbeginn.value)
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
@@ -762,7 +762,7 @@ PageBase {
                             }
                             LabelNumber {
                                 Layout.preferredWidth: 80
-                                value: Brauhelfer.calc.volumenWasser(20.0, 100.0, Brauhelfer.sud.MengeSollKochbeginn)
+                                value: BierCalc.volumenWasser(20.0, 100.0, Brauhelfer.sud.MengeSollKochbeginn)
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
@@ -929,7 +929,7 @@ PageBase {
                             }
                             LabelPlato {
                                 Layout.preferredWidth: 80
-                                value: Brauhelfer.calc.platoToBrix(lblSWSollKochende.value)
+                                value: BierCalc.platoToBrix(lblSWSollKochende.value)
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
@@ -941,7 +941,7 @@ PageBase {
                             LabelPlato {
                                 Layout.preferredWidth: 80
                                 precision: 4
-                                value: Brauhelfer.calc.platoToDichte(lblSWSollKochende.value)
+                                value: BierCalc.platoToDichte(lblSWSollKochende.value)
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
@@ -968,7 +968,7 @@ PageBase {
                             }
                             LabelNumber {
                                 Layout.preferredWidth: 80
-                                value: Brauhelfer.calc.volumenWasser(20.0, 100.0, Brauhelfer.sud.MengeSollKochende)
+                                value: BierCalc.volumenWasser(20.0, 100.0, Brauhelfer.sud.MengeSollKochende)
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
@@ -1113,7 +1113,7 @@ PageBase {
                             }
                             LabelPlato {
                                 Layout.preferredWidth: 80
-                                value: Brauhelfer.calc.platoToBrix(lblSWSollAnstellen.value)
+                                value: BierCalc.platoToBrix(lblSWSollAnstellen.value)
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
@@ -1125,7 +1125,7 @@ PageBase {
                             LabelPlato {
                                 Layout.preferredWidth: 80
                                 precision: 4
-                                value: Brauhelfer.calc.platoToDichte(lblSWSollAnstellen.value)
+                                value: BierCalc.platoToDichte(lblSWSollAnstellen.value)
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
@@ -1155,7 +1155,7 @@ PageBase {
                                 id: lblWasserverschneidung
                                 Layout.preferredWidth: 80
                                 visible: value > 0
-                                value: Brauhelfer.calc.verschneidung(Brauhelfer.sud.SWAnstellen,
+                                value: BierCalc.verschneidung(Brauhelfer.sud.SWAnstellen,
                                                                      Brauhelfer.sud.SWSollAnstellen,
                                                                      Brauhelfer.sud.WuerzemengeKochende * (1 + Brauhelfer.sud.highGravityFaktor/100))
                             }
@@ -1213,7 +1213,7 @@ PageBase {
                             LabelNumber {
                                 Layout.preferredWidth: 80
                                 value: {
-                                    var c = Brauhelfer.calc.speise(Brauhelfer.sud.CO2, Brauhelfer.sud.SWAnstellen, 3.0, 3.0, 20.0)
+                                    var c = BierCalc.speise(Brauhelfer.sud.CO2, Brauhelfer.sud.SWAnstellen, 3.0, 3.0, 20.0)
                                     return c * Brauhelfer.sud.WuerzemengeAnstellenTotal/(1+c)
                                 }
                             }
