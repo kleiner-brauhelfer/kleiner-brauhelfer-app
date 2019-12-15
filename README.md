@@ -1,7 +1,8 @@
 # kleiner-brauhelfer-app
-Die kleiner-brauhelfer-app ist eine App, welche die Software [kleiner-brauhelfer](https://github.com/Gremmel/kleiner-brauhelfer) ergänzt.
+Die kleiner-brauhelfer-app ist eine App, welche die Software [kleiner-brauhelfer-2](https://github.com/kleiner-brauhelfer/kleiner-brauhelfer-2) ergänzt. Die App wird nur für Android Geräte kompiliert. In Theorie sollte es aber auch mit anderen Betriebssysteme kompatibel sein.
 
 **Diskussionsthread:**
+
 https://hobbybrauer.de/forum/viewtopic.php?f=3&t=17466
 
 ## Download letzte Version
