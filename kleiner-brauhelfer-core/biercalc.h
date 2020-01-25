@@ -47,11 +47,11 @@ public:
     static const double dichteAlkohol;
 
     /**
-     * @brief Umrechnungsfaktor von Brix [°brix] nach Plato [°P], da Bierwürze
+     * @brief Umrechnungsfaktor von Plato [°P] nach Brix [°brix], da Bierwürze
      * keine reine Saccharoselösung ist
      * @note Zwischen 1.02 und 1.06 je nach Literaturangabe, meist 1.03
      */
-    static double faktorBrixToPlato;
+    static double faktorPlatoToBrix;
 
     /**
      * @brief Gaerungskorrektur fuer Umrechnung nach Kleier
@@ -141,10 +141,18 @@ public:
     /**
      * @brief Vergärungsgrad [%]
      * @param sw Stammwuerze [°P]
-     * @param e Extrakt [°P]
+     * @param re Restextrakt [°P]
      * @return Vergärungsgrad [%]
      */
-    Q_INVOKABLE static double vergaerungsgrad(double sw, double e);
+    Q_INVOKABLE static double vergaerungsgrad(double sw, double re);
+
+    /**
+     * @brief sreAusVergaerungsgrad
+     * @param sw
+     * @param vg
+     * @return
+     */
+    Q_INVOKABLE static double sreAusVergaerungsgrad(double sw, double vg);
 
     /**
      * @brief Alkohol [vol%]
@@ -252,13 +260,13 @@ public:
     Q_INVOKABLE static double volumenWasser(double T1, double T2, double V1);
 
     /**
-     * @brief Berechnet die Verdampfungsziffer
+     * @brief Berechnet die Verdampfungsrate
      * @param V1 Anfangsvolumen [L]
      * @param V2 Endvolumen [L]
      * @param t Kochzeit [min]
-     * @return Verdampfungsziffer [%]
+     * @return Verdampfungsrate [%]
      */
-    Q_INVOKABLE static double verdampfungsziffer(double V1, double V2, double t);
+    Q_INVOKABLE static double verdampfungsrate(double V1, double V2, double t);
 
     /**
      * @brief Berechnet die Sudhausausbeute

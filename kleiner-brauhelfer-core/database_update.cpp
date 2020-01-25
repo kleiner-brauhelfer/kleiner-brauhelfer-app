@@ -876,6 +876,44 @@ bool Database::update()
             db.commit();
         }
 
+        if (version == 2001)
+        {
+            ++version;
+            qInfo() << "Updating to version:" << version;
+            db.transaction();
+
+            // Sud
+            //  - neue Spalte 'Sudhausausbeute'
+            //  - neue Spalte 'Verdampfungsrate'
+            //  - neue Spalte 'Vergaerungsgrad'
+            sqlExec(db, "ALTER TABLE Sud ADD COLUMN Sudhausausbeute REAL DEFAULT 60");
+            sqlExec(db, "ALTER TABLE Sud ADD COLUMN Verdampfungsrate REAL DEFAULT 10");
+            sqlExec(db, "ALTER TABLE Sud ADD COLUMN Vergaerungsgrad REAL DEFAULT 70");
+            sqlExec(db, "UPDATE Sud SET Sudhausausbeute = (SELECT Sudhausausbeute FROM Ausruestung WHERE Name = Anlage)");
+            sqlExec(db, "UPDATE Sud SET Verdampfungsrate = (SELECT Verdampfungsziffer FROM Ausruestung WHERE Name = Anlage)");
+
+            // Global
+            sqlExec(db, QString("UPDATE Global SET db_Version=%1").arg(version));
+            db.commit();
+        }
+
+        if (version == 2002)
+        {
+            ++version;
+            qInfo() << "Updating to version:" << version;
+            db.transaction();
+
+            // Sud
+            //  - neue Spalte 'WuerzemengeKochbeginn'
+            //  - neue Spalte 'SWKochbeginn'
+            sqlExec(db, "ALTER TABLE Sud ADD COLUMN WuerzemengeKochbeginn REAL DEFAULT 0");
+            sqlExec(db, "ALTER TABLE Sud ADD COLUMN SWKochbeginn REAL DEFAULT 0");
+
+            // Global
+            sqlExec(db, QString("UPDATE Global SET db_Version=%1").arg(version));
+            db.commit();
+        }
+
         return true;
     }
     catch (const std::exception& ex)

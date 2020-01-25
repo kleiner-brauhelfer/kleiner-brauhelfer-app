@@ -457,7 +457,7 @@ PageBase {
                             }
                             LabelNumber {
                                 Layout.preferredWidth: 60
-                                precision: 0
+                                precision: 1
                                 value: model.erg_Menge
                             }
                             LabelUnit {
@@ -503,7 +503,7 @@ PageBase {
                             }
                             LabelNumber {
                                 Layout.preferredWidth: 60
-                                precision: model.Einheit === 0 ? 2 : 0
+                                precision: switch(model.Einheit) {case 0: return 2; case 1: return 1; case 2: return 0; case 3: return 1;}
                                 value: model.Einheit === 0 ? model.erg_Menge / 1000 : model.erg_Menge
                             }
                             LabelUnit {
@@ -535,6 +535,9 @@ PageBase {
                                 Layout.preferredWidth: 60
                                 precision: 0
                                 value: model.Menge
+                            }
+                            LabelUnit {
+                                text: "x"
                             }
                         }
                     }

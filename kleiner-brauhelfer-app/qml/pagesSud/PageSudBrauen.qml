@@ -456,7 +456,7 @@ PageBase {
                                     }
                                     LabelNumber {
                                         Layout.preferredWidth: 80
-                                        precision: 2
+                                        precision: switch(model.Einheit) {case 0: return 2; case 1: return 1; case 2: return 0; case 3: return 1;}
                                         value: model.Einheit === 0 ? model.erg_Menge/1000 : model.erg_Menge
                                     }
                                     LabelUnit {
@@ -758,6 +758,21 @@ PageBase {
                             }
                             LabelPrim {
                                 Layout.fillWidth: true
+                                text: qsTr("Stammwürze")
+                            }
+                            TextFieldPlato {
+                                Layout.preferredWidth: 80
+                                enabled: !page.readOnly
+                                useDialog: true
+                                value: Brauhelfer.sud.SWKochbeginn
+                                onNewValue: Brauhelfer.sud.SWKochbeginn = value
+                            }
+                            LabelUnit {
+                                Layout.preferredWidth: 60
+                                text: qsTr("°P")
+                            }
+                            LabelPrim {
+                                Layout.fillWidth: true
                                 text: qsTr("Zielmenge bei 100°C")
                             }
                             LabelNumber {
@@ -788,8 +803,8 @@ PageBase {
                                 Layout.preferredWidth: 80
                                 enabled: !page.readOnly
                                 useDialog: true
-                                value: Brauhelfer.sud.WuerzemengeVorHopfenseihen
-                                onNewValue: Brauhelfer.sud.WuerzemengeVorHopfenseihen = value
+                                value: Brauhelfer.sud.WuerzemengeKochbeginn
+                                onNewValue: Brauhelfer.sud.WuerzemengeKochbeginn = value
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
@@ -877,6 +892,7 @@ PageBase {
                                     }
                                     LabelNumber {
                                         Layout.preferredWidth: 40
+                                        precision: switch(model.Einheit) {case 0: return 2; case 1: return 1; case 2: return 0; case 3: return 1;}
                                         value: model.Einheit === 0 ? model.erg_Menge/1000 : model.erg_Menge
                                     }
                                     LabelUnit {
@@ -988,13 +1004,27 @@ PageBase {
                             }
                             LabelPrim {
                                 Layout.fillWidth: true
-                                text: qsTr("Menge bei 20°C")
+                                text: qsTr("Menge vor Hopfenseihen bei 20°C")
                             }
                             TextFieldVolume {
                                 Layout.preferredWidth: 80
                                 enabled: !page.readOnly
                                 useDialog: true
-                                max: Brauhelfer.sud.WuerzemengeVorHopfenseihen
+                                value: Brauhelfer.sud.WuerzemengeVorHopfenseihen
+                                onNewValue: Brauhelfer.sud.WuerzemengeVorHopfenseihen = value
+                            }
+                            LabelUnit {
+                                Layout.preferredWidth: 60
+                                text: qsTr("l")
+                            }
+                            LabelPrim {
+                                Layout.fillWidth: true
+                                text: qsTr("Menge nach Hopfenseihen bei 20°C")
+                            }
+                            TextFieldVolume {
+                                Layout.preferredWidth: 80
+                                enabled: !page.readOnly
+                                useDialog: true
                                 value: Brauhelfer.sud.WuerzemengeKochende
                                 onNewValue: Brauhelfer.sud.WuerzemengeKochende = value
                             }
@@ -1015,7 +1045,7 @@ PageBase {
                             }
                             LabelNumber {
                                 Layout.preferredWidth: 80
-                                value: Brauhelfer.sud.Verdampfungsziffer
+                                value: Brauhelfer.sud.VerdampfungsrateIst
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
@@ -1028,7 +1058,7 @@ PageBase {
                             }
                             LabelNumber {
                                 Layout.preferredWidth: 80
-                                value: Brauhelfer.sud.AnlageVerdampfungsziffer
+                                value: Brauhelfer.sud.AnlageVerdampfungsrate
                             }
                             LabelUnit {
                                 Layout.preferredWidth: 60
@@ -1229,7 +1259,6 @@ PageBase {
                                 Layout.preferredWidth: 80
                                 enabled: !page.readOnly
                                 value: Brauhelfer.sud.Speisemenge
-                                max: tfWuerzemenge.value
                                 onNewValue: Brauhelfer.sud.Speisemenge = value
                             }
                             LabelUnit {
@@ -1338,6 +1367,10 @@ PageBase {
                                         precision: 0
                                         value: model.Menge
                                     }
+                                    LabelUnit {
+                                        Layout.preferredWidth: 60
+                                        text: "x"
+                                    }
                                 }
                             }
                         }
@@ -1367,6 +1400,7 @@ PageBase {
                                     }
                                     LabelNumber {
                                         Layout.preferredWidth: 40
+                                        precision: switch(model.Einheit) {case 0: return 2; case 1: return 1; case 2: return 0; case 3: return 1;}
                                         value: model.Einheit === 0 ? model.erg_Menge/1000 : model.erg_Menge
                                     }
                                     LabelUnit {

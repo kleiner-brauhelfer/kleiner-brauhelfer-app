@@ -222,7 +222,7 @@ PageBase {
                                             }
                                             LabelPrim {
                                                 Layout.fillWidth: true
-                                                text: qsTr("Verdampfungsziffer")
+                                                text: qsTr("Verdampfungsrate")
                                             }
                                             SpinBoxReal {
                                                 decimals: 1

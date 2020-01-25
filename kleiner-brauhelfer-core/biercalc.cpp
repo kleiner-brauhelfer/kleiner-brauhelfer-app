@@ -2,19 +2,19 @@
 #include <math.h>
 
 const double BierCalc::dichteAlkohol = 0.7894;
-double BierCalc::faktorBrixToPlato = 1.03;
+double BierCalc::faktorPlatoToBrix = 1.03;
 double BierCalc::KleierGaerungskorrektur = 0.44552;
 const double BierCalc::MalzVerdraengung = 0.7;
 const double BierCalc::Balling = 2.0665;
 
 double BierCalc::brixToPlato(double brix)
 {
-    return brix / faktorBrixToPlato;
+    return brix / faktorPlatoToBrix;
 }
 
 double BierCalc::platoToBrix(double plato)
 {
-    return plato * faktorBrixToPlato;
+    return plato * faktorPlatoToBrix;
 }
 
 double BierCalc::brixToDichte(double sw, double brix, FormulaBrixToPlato formel)
@@ -33,7 +33,7 @@ double BierCalc::brixToDichte(double sw, double brix, FormulaBrixToPlato formel)
         return 1.001843-0.002318474*sw - 0.000007775*sw*sw - 0.000000034*sw*sw*sw + 0.00574*brix + 0.00003344*brix*brix + 0.000000086*brix*brix*brix;
     case Kleier:
         // http://hobbybrauer.de/modules.php?name=eBoard&file=viewthread&tid=11943&page=2#pid129201
-        tre = (Balling * brix - KleierGaerungskorrektur * sw)/(Balling * faktorBrixToPlato - KleierGaerungskorrektur);
+        tre = (Balling * brix - KleierGaerungskorrektur * sw)/(Balling * faktorPlatoToBrix - KleierGaerungskorrektur);
         return platoToDichte(toSRE(sw, tre));
     default:
         return 0.0;
@@ -183,14 +183,19 @@ double BierCalc::toSRE(double sw, double tre)
 #endif
 }
 
-double BierCalc::vergaerungsgrad(double sw, double e)
+double BierCalc::vergaerungsgrad(double sw, double re)
 {
     if (sw <= 0.0)
         return 0.0;
-    double res = (1 - e / sw) * 100;
+    double res = (1 - re / sw) * 100;
     if (res < 0.0)
         res = 0.0;
     return res;
+}
+
+double BierCalc::sreAusVergaerungsgrad(double sw, double vg)
+{
+    return sw * (100 - vg) / 100;
 }
 
 double BierCalc::alkohol(double sw, double sre)
@@ -299,7 +304,7 @@ double BierCalc::volumenWasser(double T1, double T2, double V1)
     return (rho1 * V1) / rho2;
 }
 
-double BierCalc::verdampfungsziffer(double V1, double V2, double t)
+double BierCalc::verdampfungsrate(double V1, double V2, double t)
 {
     if (t == 0.0 || V2 == 0.0 || V1 < V2)
         return 0.0;
