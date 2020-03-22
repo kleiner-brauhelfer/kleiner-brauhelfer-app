@@ -77,8 +77,8 @@ PageBase {
                             }
                         }
                         LabelPrim {
-                            Layout.fillWidth: true
-                            horizontalAlignment: Text.AlignRight
+                            Layout.preferredWidth: 80
+                            horizontalAlignment: Text.AlignHCenter
                             font.bold: true
                             text: qsTr("Menge")
                             MouseArea {
@@ -181,8 +181,8 @@ PageBase {
                             }
                         }
                         LabelNumber {
-                            Layout.fillWidth: true
-                            horizontalAlignment: Text.AlignRight
+                            Layout.preferredWidth: 80
+                            horizontalAlignment: Text.AlignHCenter
                             opacity: model.Menge > 0 ? app.config.textOpacityFull : app.config.textOpacityHalf
                             precision: 2
                             unit: switch(model.Einheiten) {case 0: return qsTr("kg"); case 1: return qsTr("g"); case 2: return qsTr("mg"); case 3: return qsTr("Stk");}
@@ -258,7 +258,6 @@ PageBase {
                                                     horizontalAlignment: Text.AlignHCenter
                                                     MouseArea {
                                                         anchors.fill: parent
-                                                        enabled: !model.InGebrauch
                                                         onClicked: itBeschreibung.editing = true
                                                     }
                                                 }

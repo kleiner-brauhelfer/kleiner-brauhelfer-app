@@ -44,16 +44,16 @@ PageBase {
                 Layout.rightMargin: 8
                 flat: true
                 model: [
-                    qsTr("Sudname") + "  \u2193",
-                    qsTr("Sudname") + "  \u2191",
-                    qsTr("Sudnummer") + "  \u2193",
-                    qsTr("Sudnummer") + "  \u2191",
-                    qsTr("Braudatum") + "  \u2193",
-                    qsTr("Braudatum") + "  \u2191",
-                    qsTr("Gespeichert") + "  \u2193",
-                    qsTr("Gespeichert") + "  \u2191",
-                    qsTr("Erstellt") + "  \u2193",
-                    qsTr("Erstellt") + "  \u2191"
+                    qsTr("Sudname") + "  \u2191 ",
+                    qsTr("Sudname") + "  \u2193 ",
+                    qsTr("Sudnummer") + "  \u2191 ",
+                    qsTr("Sudnummer") + "  \u2193 ",
+                    qsTr("Braudatum") + "  \u2191 ",
+                    qsTr("Braudatum") + "  \u2193 ",
+                    qsTr("Gespeichert") + "  \u2191 ",
+                    qsTr("Gespeichert") + "  \u2193 ",
+                    qsTr("Erstellt") + "  \u2191 ",
+                    qsTr("Erstellt") + "  \u2193 "
                 ]
                 currentIndex: app.settings.brewsSortColumn
                 onCurrentIndexChanged: {
@@ -195,7 +195,7 @@ PageBase {
                                     if (tage > 0)
                                         return qsTr("reif in") + " " + tage + " " + qsTr("Tage")
                                     else
-                                        return qsTr("reif seit") + " " + Math.floor(-tage/7) + " " + qsTr("Wochen")
+                                        return model.Woche + ". " + qsTr("Woche")
                                 case Brauhelfer.Verbraucht:
                                     return qsTr("verbraucht")
                                 }
@@ -209,22 +209,54 @@ PageBase {
                         Layout.leftMargin: 8
                         visible: showdetails
 
-                        Item {
-                            width: 100
-                            height: width
-                            Image {
-                                anchors.fill: parent
-                                source: "qrc:/images/glass_fill.png"
-                                ColorOverlay {
+                        ColumnLayout {
+                            Item {
+                                width: 100
+                                height: width
+                                Image {
                                     anchors.fill: parent
-                                    source: parent
-                                    cached: true
-                                    color: Utils.toColor(BierCalc.ebcToColor(model.FarbeIst))
+                                    source: "qrc:/images/glass_fill.png"
+                                    ColorOverlay {
+                                        anchors.fill: parent
+                                        source: parent
+                                        cached: true
+                                        color: Utils.toColor(BierCalc.ebcToColor(model.FarbeIst))
+                                    }
+                                }
+                                Image {
+                                    anchors.fill: parent
+                                    source: "qrc:/images/glass.png"
                                 }
                             }
-                            Image {
-                                anchors.fill: parent
-                                source: "qrc:/images/glass.png"
+                            Flow {
+                                Layout.columnSpan: model.Status === Brauhelfer.Rezept ? 3 : 4
+                                Layout.alignment: Qt.AlignHCenter
+                                visible: BewertungMittel > 0
+                                Image {
+                                    width: 16
+                                    height: 16
+                                    source: model.BewertungMittel > 0 ? "qrc:/images/ic_star.png" : "qrc:/images/ic_star_border.png"
+                                }
+                                Image {
+                                    width: 16
+                                    height: 16
+                                    source: model.BewertungMittel > 1 ? "qrc:/images/ic_star.png" : "qrc:/images/ic_star_border.png"
+                                }
+                                Image {
+                                    width: 16
+                                    height: 16
+                                    source: model.BewertungMittel > 2 ? "qrc:/images/ic_star.png" : "qrc:/images/ic_star_border.png"
+                                }
+                                Image {
+                                    width: 16
+                                    height: 16
+                                    source: model.BewertungMittel > 3 ? "qrc:/images/ic_star.png" : "qrc:/images/ic_star_border.png"
+                                }
+                                Image {
+                                    width: 16
+                                    height: 16
+                                    source: model.BewertungMittel > 4 ? "qrc:/images/ic_star.png" : "qrc:/images/ic_star_border.png"
+                                }
                             }
                         }
 
@@ -272,7 +304,6 @@ PageBase {
                             }
                             LabelPrim {
                                 Layout.fillWidth: true
-                                visible: model.Status !== Brauhelfer.Rezept
                                 text: qsTr("Alkohol")
                             }
                             LabelNumber {
@@ -281,15 +312,15 @@ PageBase {
                                 precision: 1
                                 value: model.Status === Brauhelfer.Rezept ? 0.0 : model.erg_Alkohol
                             }
-                            Label {
+                            LabelNumber {
                                 Layout.fillWidth: true
-                                visible: model.Status !== Brauhelfer.Rezept
-                                text: ""
+                                opacity: model.Status === Brauhelfer.Rezept ? app.config.textOpacityFull : app.config.textOpacityHalf
+                                precision: 1
+                                value: model.Alkohol
                             }
                             LabelUnit {
                                 Layout.fillWidth: true
-                                visible: model.Status !== Brauhelfer.Rezept
-                                text: qsTr("%")
+                                text: qsTr("%vol")
                             }
                             LabelPrim {
                                 Layout.fillWidth: true
@@ -390,7 +421,7 @@ PageBase {
             Repeater {
                 model: ListModel {
                     ListElement {
-                        text: qsTr("rezept")
+                        text: qsTr("Rezept")
                         filter: ProxyModelSud.Rezept
                     }
                     ListElement {
@@ -420,10 +451,14 @@ PageBase {
             }
             CheckBox {
                 padding: 0
-                checked: app.settings.brewsFilter === ProxyModelSud.Alle
+                tristate: true
+                checkState: app.settings.brewsFilter === ProxyModelSud.Alle ? Qt.Checked :
+                                     app.settings.brewsFilter === ProxyModelSud.Keine ? Qt.Unchecked : Qt.PartiallyChecked
                 text: qsTr("alle")
                 onClicked: {
-                    if (checked)
+                    if (checkState === Qt.Unchecked)
+                        app.settings.brewsFilter = ProxyModelSud.Keine
+                    else
                         app.settings.brewsFilter = ProxyModelSud.Alle
                 }
             }

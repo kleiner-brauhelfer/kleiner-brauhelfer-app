@@ -42,10 +42,16 @@ PageBase {
                         text: qsTr("Brauanlage")
                     }
                     LabelPrim {
-                        Layout.fillWidth: true
-                        horizontalAlignment: Text.AlignRight
+                        Layout.preferredWidth: 80
+                        horizontalAlignment: Text.AlignHCenter
                         font.bold: true
                         text: qsTr("Vermögen")
+                    }
+                    LabelPrim {
+                        Layout.preferredWidth: 80
+                        horizontalAlignment: Text.AlignHCenter
+                        font.bold: true
+                        text: qsTr("Sude")
                     }
                 }
                 HorizontalDivider {
@@ -105,11 +111,17 @@ PageBase {
                         text: model.Name
                     }
                     LabelNumber {
-                        Layout.fillWidth: true
-                        horizontalAlignment: Text.AlignRight
+                        Layout.preferredWidth: 80
+                        horizontalAlignment: Text.AlignHCenter
                         precision: 0
                         unit: qsTr("l")
                         value: model.Vermoegen
+                    }
+                    LabelNumber {
+                        Layout.preferredWidth: 80
+                        horizontalAlignment: Text.AlignHCenter
+                        precision: 0
+                        value: model.AnzahlSude
                     }
                 }
                 HorizontalDivider {
@@ -222,7 +234,7 @@ PageBase {
                                             }
                                             LabelPrim {
                                                 Layout.fillWidth: true
-                                                text: qsTr("Verdampfungsrate")
+                                                text: qsTr("Verdampfungsziffer")
                                             }
                                             SpinBoxReal {
                                                 decimals: 1

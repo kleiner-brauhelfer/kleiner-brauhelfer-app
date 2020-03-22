@@ -77,8 +77,8 @@ PageBase {
                             }
                         }
                         LabelPrim {
-                            Layout.fillWidth: true
-                            horizontalAlignment: Text.AlignRight
+                            Layout.preferredWidth: 100
+                            horizontalAlignment: Text.AlignHCenter
                             font.bold: true
                             text: qsTr("Restalkalität")
                             MouseArea {
@@ -149,8 +149,8 @@ PageBase {
                             text: model.Name
                         }
                         LabelNumber {
-                            Layout.fillWidth: true
-                            horizontalAlignment: Text.AlignRight
+                            Layout.preferredWidth: 100
+                            horizontalAlignment: Text.AlignHCenter
                             precision: 2
                             unit: qsTr("°dH")
                             value: model.Restalkalitaet
@@ -373,6 +373,8 @@ PageBase {
 
                                         SpinBoxReal {
                                             decimals: 2
+                                            min: -99
+                                            max: 99
                                             realValue: model.Carbonathaerte
                                             onNewValue: model.Carbonathaerte = value
                                         }

@@ -22,7 +22,7 @@ PageBase {
         property alias listView: listView
         anchors.fill: parent
 
-        Component.onCompleted: selectionModel.get(4).unit = Qt.locale().currencySymbol() + "/" + qsTr("l")
+        Component.onCompleted: selectionModel.get(8).unit = Qt.locale().currencySymbol() + "/" + qsTr("l")
 
         ListModel {
             id: selectionModel
@@ -33,40 +33,52 @@ PageBase {
                 precision: 1
             }
             ListElement {
-                text: qsTr("Stammwürze")
-                field: "SWAnstellen"
+                text: qsTr("SW")
+                field: "SWIst"
                 unit: qsTr("°P")
                 precision: 1
             }
             ListElement {
-                text: qsTr("Ausbeute")
+                text: qsTr("SHA")
                 field: "erg_Sudhausausbeute"
                 unit: qsTr("%")
+                precision: 0
+            }
+            ListElement {
+                text: qsTr("Eff. SHA")
+                field: "erg_EffektiveAusbeute"
+                unit: qsTr("%")
+                precision: 0
+            }
+            ListElement {
+                text: qsTr("Alkohol")
+                field: "erg_Alkohol"
+                unit: qsTr("%vol")
                 precision: 1
             }
             ListElement {
-                text: qsTr("Eff. Ausbeute")
-                field: "erg_EffektiveAusbeute"
-                unit: qsTr("%")
+                text: qsTr("SRE")
+                field: "SREIst"
+                unit: qsTr("°P")
                 precision: 1
+            }
+            ListElement {
+                text: qsTr("sEVG")
+                field: "sEVG"
+                unit: qsTr("%")
+                precision: 0
+            }
+            ListElement {
+                text: qsTr("tEVG")
+                field: "tEVG"
+                unit: qsTr("%")
+                precision: 0
             }
             ListElement {
                 text: qsTr("Kosten")
                 field: "erg_Preis"
                 unit: ""
                 precision: 2
-            }
-            ListElement {
-                text: qsTr("Schüttung")
-                field: "erg_S_Gesamt"
-                unit: qsTr("kg")
-                precision: 2
-            }
-            ListElement {
-                text: qsTr("Alkohol")
-                field: "erg_Alkohol"
-                unit: qsTr("%")
-                precision: 1
             }
         }
 
@@ -104,7 +116,7 @@ PageBase {
             boundsBehavior: Flickable.OvershootBounds
             model: ProxyModelSud {
                 sourceModel: app.pageGlobalAuswahl.getModel()
-                filterStatus: ProxyModelSud.Abgefuellt | ProxyModelSud.Verbraucht
+                filterStatus: (ProxyModelSud.Abgefuellt | ProxyModelSud.Verbraucht)
                 sortOrder: Qt.AscendingOrder
                 sortColumn: fieldIndex("Braudatum")
             }
