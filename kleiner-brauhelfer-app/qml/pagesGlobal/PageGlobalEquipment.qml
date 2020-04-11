@@ -152,6 +152,7 @@ PageBase {
                             property var anlagenID: model.ID
                             active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
                             sourceComponent: Item {
+                                property variant _model: model
                                 implicitHeight: layout.height
                                 MouseArea {
                                     anchors.fill: parent
@@ -210,10 +211,38 @@ PageBase {
                                         }
                                     }
 
+                                    ComboBox {
+                                        Layout.fillWidth: true
+                                        textRole: "key"
+                                        model: ListModel {
+                                            ListElement { key: qsTr("Standard"); value: Brauhelfer.AnlageTyp.Standard}
+                                            ListElement { key: qsTr("Grainfather G30"); value: Brauhelfer.AnlageTyp.GrainfatherG30}
+                                            ListElement { key: qsTr("Grainfather G70"); value: Brauhelfer.AnlageTyp.GrainfatherG70}
+                                            ListElement { key: qsTr("Braumeister 10L"); value: Brauhelfer.AnlageTyp.Braumeister10}
+                                            ListElement { key: qsTr("Braumeister 20L"); value: Brauhelfer.AnlageTyp.Braumeister20}
+                                            ListElement { key: qsTr("Braumeister 50L"); value: Brauhelfer.AnlageTyp.Braumeister50}
+                                            ListElement { key: qsTr("Braumeister 200L"); value: Brauhelfer.AnlageTyp.Braumeister200}
+                                            ListElement { key: qsTr("Braumeister 500L"); value: Brauhelfer.AnlageTyp.Braumeister500}
+                                            ListElement { key: qsTr("Braumeister 1000L"); value: Brauhelfer.AnlageTyp.Braumeister1000}
+                                        }
+                                        currentIndex: switch(_model.Typ) {
+                                                        case Brauhelfer.AnlageTyp.Standard: return 0;
+                                                        case Brauhelfer.AnlageTyp.GrainfatherG30: return 1;
+                                                        case Brauhelfer.AnlageTyp.GrainfatherG70: return 2;
+                                                        case Brauhelfer.AnlageTyp.Braumeister10: return 3;
+                                                        case Brauhelfer.AnlageTyp.Braumeister20: return 4;
+                                                        case Brauhelfer.AnlageTyp.Braumeister50: return 5;
+                                                        case Brauhelfer.AnlageTyp.Braumeister200: return 6;
+                                                        case Brauhelfer.AnlageTyp.Braumeister500: return 7;
+                                                        case Brauhelfer.AnlageTyp.Braumeister1000: return 8;
+                                                      }
+                                        onActivated: _model.Typ = model.get(currentIndex).value
+                                    }
+
                                     GroupBox {
                                         Layout.fillWidth: true
                                         label: LabelSubheader {
-                                            text: qsTr("Korrekturwerte")
+                                            text: qsTr("Kernwerte")
                                         }
 
                                         GridLayout {
@@ -245,6 +274,18 @@ PageBase {
                                             LabelUnit {
                                                 text: qsTr("%")
                                             }
+                                        }
+                                    }
+
+                                    GroupBox {
+                                        Layout.fillWidth: true
+                                        label: LabelSubheader {
+                                            text: qsTr("Sonstiges")
+                                        }
+
+                                        GridLayout {
+                                            anchors.fill: parent
+                                            columns: 3
                                             LabelPrim {
                                                 Layout.fillWidth: true
                                                 text: qsTr("Nachguss")
@@ -272,7 +313,7 @@ PageBase {
                                             }
                                             LabelPrim {
                                                 Layout.fillWidth: true
-                                                text: qsTr("Kosten")
+                                                text: qsTr("Betriebskosten")
                                             }
                                             SpinBoxReal {
                                                 decimals: 2

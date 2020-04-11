@@ -559,7 +559,7 @@ PageBase {
                         Layout.fillWidth: true
                         text: qsTr("Abfülldatum")
                     }
-                    TextFieldDate {
+                    TextFieldDateTime {
                         id: tfAbfuelldatum
                         Layout.columnSpan: 2
                         Layout.fillWidth: true
@@ -571,7 +571,7 @@ PageBase {
                     }
                     LabelPrim {
                         Layout.fillWidth: true
-                        text: qsTr("Nebenkosten")
+                        text: qsTr("Zusätzliche Kosten")
                     }
                     TextFieldNumber {
                         enabled: !page.readOnly
@@ -585,7 +585,7 @@ PageBase {
                     }
                     LabelPrim {
                         Layout.fillWidth: true
-                        text: qsTr("Preis")
+                        text: qsTr("Gesamtkosten")
                     }
                     LabelNumber {
                         Layout.preferredWidth: 60

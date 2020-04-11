@@ -8,7 +8,7 @@ SpinBox {
     property real realValue: Number.NaN
     property int decimals: 1
     property real min: 0.0
-    property real max: 99999.9
+    property real max: 9999999.9
     readonly property int factor: Math.pow(10, decimals)
 
     editable: true

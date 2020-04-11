@@ -27,7 +27,6 @@
 #include "modelanhang.h"
 #include "modeletiketten.h"
 #include "modelgeraete.h"
-#include "database_defs.h"
 
 class Database;
 
@@ -74,6 +73,102 @@ public:
         Verbraucht = 3
     };
     Q_ENUM(SudStatus)
+
+    enum class RohstoffTyp
+    {
+        Malz = 0,
+        Hopfen = 1,
+        Hefe = 2,
+        Zusatz = 3
+    };
+    Q_ENUM(RohstoffTyp)
+
+    enum class BerechnungsartHopfen
+    {
+        Keine = -1,
+        Gewicht = 0,
+        IBU = 1
+    };
+    Q_ENUM(BerechnungsartHopfen)
+
+    enum class HopfenTyp
+    {
+        Unbekannt = 0,
+        Aroma = 1,
+        Bitter = 2,
+        Universal = 3
+    };
+    Q_ENUM(HopfenTyp)
+
+    enum class HefeTyp
+    {
+        Unbekannt = 0,
+        Trocken = 1,
+        Fluessig = 2
+    };
+    Q_ENUM(HefeTyp)
+
+    enum class ZusatzTyp
+    {
+        Honig = 0,
+        Zucker = 1,
+        Gewuerz = 2,
+        Frucht = 3,
+        Sonstiges = 4,
+        Kraut = 5,
+        Wasseraufbereiung = 6,
+        Klaermittel = 7,
+        Hopfen = 100
+    };
+    Q_ENUM(ZusatzTyp)
+
+    enum class ZusatzZeitpunkt
+    {
+        Gaerung = 0,
+        Kochen = 1,
+        Maischen = 2
+    };
+    Q_ENUM(ZusatzZeitpunkt)
+
+    enum class ZusatzStatus
+    {
+        NichtZugegeben = 0,
+        Zugegeben = 1,
+        Entnommen = 2
+    };
+    Q_ENUM(ZusatzStatus)
+
+    enum class ZusatzEntnahmeindex
+    {
+        MitEntnahme = 0,
+        OhneEntnahme = 1
+    };
+    Q_ENUM(ZusatzEntnahmeindex)
+
+    enum class Einheit
+    {
+        Kg = 0,
+        g = 1,
+        mg = 2,
+        Stk = 3,
+        l,
+        ml
+    };
+    Q_ENUM(Einheit)
+
+    enum class AnlageTyp
+    {
+        Standard = 0x0000,
+        GrainfatherG30 = 0x1030,
+        GrainfatherG70 = 0x1070,
+        Braumeister10 = 0x2010,
+        Braumeister20 = 0x2020,
+        Braumeister50 = 0x2050,
+        Braumeister200 = 0x2140,
+        Braumeister500 = 0x2320,
+        Braumeister1000 = 0x2640,
+    };
+    Q_ENUM(AnlageTyp)
 
 public:
 
@@ -132,8 +227,7 @@ public:
 
     Q_INVOKABLE int sudKopieren(int sudId, const QString& name, bool teilen = false);
     Q_INVOKABLE int sudTeilen(int sudId, const QString &name1, const QString &name2, double prozent);
-
-    Q_INVOKABLE bool rohstoffAbziehen(int typ, const QString& name, double menge);
+    Q_INVOKABLE bool rohstoffAbziehen(RohstoffTyp typ, const QString& name, double menge);
 
 signals:
     void databasePathChanged(const QString &databasePath);

@@ -3,6 +3,7 @@
         <file>qtquickcontrols2.conf</file>
         <file>qml/main.qml</file>
         <file>qml/Config.qml</file>
+        <file>qml/Defines.qml</file>
         <file>qml/Footer.qml</file>
         <file>qml/Header.qml</file>
         <file>qml/NavMenu.qml</file>
@@ -41,7 +42,6 @@
         <file>qml/common/TextFieldNumber.qml</file>
         <file>qml/common/LabelDate.qml</file>
         <file>qml/common/LabelDateTime.qml</file>
-        <file>qml/PageTestarea.qml</file>
         <file>qml/common/PopupBase.qml</file>
         <file>qml/common/SpinBoxReal.qml</file>
         <file>qml/pagesSud/PageSudInfo.qml</file>

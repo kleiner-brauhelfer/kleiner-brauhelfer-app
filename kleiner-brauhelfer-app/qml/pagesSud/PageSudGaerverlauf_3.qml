@@ -129,8 +129,7 @@ PageBase {
 
                 onClicked: {
                     listView.currentIndex = index
-                    if (!page.readOnly)
-                        popuploader.active = true
+                    popuploader.active = true
                 }
 
                 function remove() {
@@ -227,6 +226,7 @@ PageBase {
                         id: tfDate
                         Layout.columnSpan: 2
                         Layout.fillWidth: true
+                        enabled: !page.readOnly
                         date: model.Zeitstempel
                         onNewDate: model.Zeitstempel = date
                     }
@@ -238,6 +238,7 @@ PageBase {
                     TextFieldNumber {
                         id: tfDruck
                         Layout.alignment: Qt.AlignHCenter
+                        enabled: !page.readOnly
                         min: 0.0
                         max: 99.9
                         precision: 2
@@ -255,6 +256,7 @@ PageBase {
 
                     TextFieldTemperature {
                         Layout.alignment: Qt.AlignHCenter
+                        enabled: !page.readOnly
                         value: model.Temp
                         onNewValue: model.Temp = value
                     }
@@ -266,6 +268,7 @@ PageBase {
                     TextArea {
                         Layout.fillWidth: true
                         Layout.columnSpan: 3
+                        enabled: !page.readOnly
                         wrapMode: TextArea.Wrap
                         placeholderText: qsTr("Bemerkung")
                         text: model.Bemerkung
@@ -275,6 +278,7 @@ PageBase {
                     ToolButton {
                         Layout.columnSpan: 3
                         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        visible: !page.readOnly
                         onClicked: listView.currentItem.remove()
                         contentItem: Image {
                             source: "qrc:/images/ic_delete.png"

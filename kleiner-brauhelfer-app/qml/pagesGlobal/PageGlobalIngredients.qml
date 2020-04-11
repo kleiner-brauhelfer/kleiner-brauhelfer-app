@@ -185,7 +185,7 @@ PageBase {
                             horizontalAlignment: Text.AlignHCenter
                             opacity: model.Menge > 0 ? app.config.textOpacityFull : app.config.textOpacityHalf
                             precision: 2
-                            unit: switch(model.Einheiten) {case 0: return qsTr("kg"); case 1: return qsTr("g"); case 2: return qsTr("mg"); case 3: return qsTr("Stk");}
+                            unit: app.defs.einheiten[model.Einheiten]
                             value: model.Menge
                         }
                     }
@@ -297,7 +297,7 @@ PageBase {
                                         }
 
                                         SpinBoxReal {
-                                            decimals: 2
+                                            decimals: app.defs.einheitenPrecision[_model.Einheiten]
                                             realValue: model.Menge
                                             onNewValue: model.Menge = value
                                         }
@@ -306,7 +306,7 @@ PageBase {
                                             id: einheiten
                                             Layout.preferredWidth: 80
                                             Layout.rightMargin: 4
-                                            model: [qsTr("kg"), qsTr("g"), qsTr("mg"), qsTr("Stk")]
+                                            model: app.defs.einheiten
                                             currentIndex: _model.Einheiten
                                             onActivated: _model.Einheiten = index
                                         }
@@ -321,7 +321,7 @@ PageBase {
                                             Layout.columnSpan: 2
                                             Layout.fillWidth: true
                                             Layout.rightMargin: 4
-                                            model: [ qsTr("Honig"), qsTr("Zucker"), qsTr("Gewürz"), qsTr("Frucht"), qsTr("Sonstiges")]
+                                            model: app.defs.zusatzTypname
                                             currentIndex: _model.Typ
                                             onActivated: _model.Typ = index
                                         }
@@ -389,7 +389,7 @@ PageBase {
                                         }
 
                                         LabelUnit {
-                                            text: Qt.locale().currencySymbol() + "/" + einheiten.currentText
+                                            text: Qt.locale().currencySymbol() + "/[kg/l/Stk]"
                                         }
 
                                         LabelPrim {

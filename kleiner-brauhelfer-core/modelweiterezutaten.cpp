@@ -7,7 +7,7 @@ ModelWeitereZutaten::ModelWeitereZutaten(Brauhelfer* bh, QSqlDatabase db) :
     SqlTableModel(bh, db),
     bh(bh)
 {
-    mVirtualField.append("MengeGramm");
+    mVirtualField.append("MengeNormiert");
     mVirtualField.append("InGebrauch");
 }
 
@@ -23,20 +23,23 @@ QVariant ModelWeitereZutaten::dataExt(const QModelIndex &idx) const
     {
         return QDateTime::fromString(QSqlTableModel::data(idx).toString(), Qt::ISODate);
     }
-    case ColMengeGramm:
+    case ColMengeNormiert:
     {
         double menge = data(idx.row(), ColMenge).toDouble();
-        switch (data(idx.row(), ColEinheiten).toInt())
+        Brauhelfer::Einheit einheit = static_cast<Brauhelfer::Einheit>(data(idx.row(), ColEinheiten).toInt());
+        switch (einheit)
         {
-        case EWZ_Einheit_Kg:
+        case Brauhelfer::Einheit::Kg:
             return menge * 1000;
-        case EWZ_Einheit_g:
+        case Brauhelfer::Einheit::g:
             return menge;
-        case EWZ_Einheit_mg:
+        case Brauhelfer::Einheit::mg:
             return menge / 1000;
-        case EWZ_Einheit_Stk:
+        case Brauhelfer::Einheit::Stk:
             return menge;
-        default:
+        case Brauhelfer::Einheit::l:
+            return menge * 1000;
+        case Brauhelfer::Einheit::ml:
             return menge;
         }
     }
@@ -50,7 +53,8 @@ QVariant ModelWeitereZutaten::dataExt(const QModelIndex &idx) const
             if (model.data(r, ModelWeitereZutatenGaben::ColName) == name)
             {
                 QVariant sudId = model.data(r, ModelWeitereZutatenGaben::ColSudID);
-                if (bh->modelSud()->dataSud(sudId, ModelSud::ColStatus) == Sud_Status_Rezept)
+                Brauhelfer::SudStatus status = static_cast<Brauhelfer::SudStatus>(bh->modelSud()->dataSud(sudId, ModelSud::ColStatus).toInt());
+                if (status == Brauhelfer::SudStatus::Rezept)
                     return true;
             }
         }

@@ -19,6 +19,7 @@ ApplicationWindow {
     property bool brewForceEditable: false
     property alias config: config
     property alias settings: settings
+    property alias defs: defs
     property alias pageGlobalAuswahl: viewGlobal.pageGlobalAuswahl
 
     id: app
@@ -29,6 +30,10 @@ ApplicationWindow {
 
     Config {
         id: config
+    }
+
+    Defines {
+        id: defs
     }
 
     Settings {

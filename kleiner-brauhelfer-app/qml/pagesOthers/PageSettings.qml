@@ -331,7 +331,7 @@ PageBase {
                     anchors.right: parent.right
                     anchors.verticalCenter: lblCache.verticalCenter
                     onClicked: {
-                        Brauhelfer.disconnect()
+                        Brauhelfer.disconnectDatabase()
                         SyncService.clearCache()
                         connect()
                     }

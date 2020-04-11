@@ -12,7 +12,7 @@ PageBase {
 
     id: page
     title: qsTr("Bieranalyse")
-    icon: "ic_colorize.png"
+    icon: "refractometer.png"
 
     function takeValuesFromBrew() {
         var value = Brauhelfer.sud.SW
@@ -61,7 +61,7 @@ PageBase {
                     Layout.fillWidth: true
                     Layout.leftMargin: 8
                     Layout.rightMargin: 8
-                    model: [ qsTr("Terrill"), qsTr("Terrill Linear"), qsTr("Standard") ]
+                    model: [ qsTr("Terrill"), qsTr("Terrill Linear"), qsTr("Standard"), qsTr("Kleier") ]
                     opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
                     onCurrentIndexChanged: navPane.setFocus()
                 }
@@ -81,7 +81,8 @@ PageBase {
                 }
                 SpinBoxReal {
                     Layout.fillWidth: true
-                    decimals: 2
+                    decimals: 1
+                    stepSize: 1
                     min: 0.0
                     max: 50.0
                     realValue: brixStart
@@ -96,7 +97,8 @@ PageBase {
                 }
                 SpinBoxReal {
                     Layout.fillWidth: true
-                    decimals: 2
+                    decimals: 1
+                    stepSize: 1
                     min: 0.0
                     max: brixStart
                     realValue: brixEnd
@@ -226,6 +228,13 @@ PageBase {
                 wrapMode: Text.WordWrap
                 font.italic: true
                 text: qsTr("Die Standardformel liefert gleichmässig gute Werte, in endvergorenen Proben aber etwas zu hoch.")
+            }
+
+            LabelPrim {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                font.italic: true
+                text: qsTr("Die Kleier-Formel wurde von Kleier aus dem Hobbybrauer Forum ermittelt.")
             }
         }
     }

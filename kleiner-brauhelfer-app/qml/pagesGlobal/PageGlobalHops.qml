@@ -309,7 +309,7 @@ PageBase {
                                         LabelPrim {
                                             Layout.fillWidth: true
                                             rightPadding: 8
-                                            text: qsTr("Alphasäure")
+                                            text: qsTr("Alpha")
                                         }
 
                                         SpinBoxReal {

@@ -288,7 +288,7 @@ int Brauhelfer::sudKopieren(int sudId, const QString& name, bool teilen)
     values.insert(ModelSud::ColSudname, name);
     if (!teilen)
     {
-        values.insert(ModelSud::ColStatus, Sud_Status_Rezept);
+        values.insert(ModelSud::ColStatus, static_cast<int>(SudStatus::Rezept));
         values.insert(ModelSud::ColMerklistenID, 0);
         values.insert(ModelSud::ColErstellt, QDateTime::currentDateTime().toString(Qt::ISODate));
         values.remove(ModelSud::ColBraudatum);
@@ -306,7 +306,7 @@ int Brauhelfer::sudKopieren(int sudId, const QString& name, bool teilen)
     if (teilen)
         sudKopierenModel(modelWeitereZutatenGaben(), ModelWeitereZutatenGaben::ColSudID, sudId, {{ModelWeitereZutatenGaben::ColSudID, neueSudId}});
     else
-        sudKopierenModel(modelWeitereZutatenGaben(), ModelWeitereZutatenGaben::ColSudID, sudId, {{ModelWeitereZutatenGaben::ColSudID, neueSudId}, {ModelWeitereZutatenGaben::ColZugabestatus, EWZ_Zugabestatus_nichtZugegeben}});
+        sudKopierenModel(modelWeitereZutatenGaben(), ModelWeitereZutatenGaben::ColSudID, sudId, {{ModelWeitereZutatenGaben::ColSudID, neueSudId}, {ModelWeitereZutatenGaben::ColZugabestatus, static_cast<int>(Brauhelfer::ZusatzStatus::NichtZugegeben)}});
     sudKopierenModel(modelMalzschuettung(), ModelMalzschuettung::ColSudID, sudId, {{ModelMalzschuettung::ColSudID, neueSudId}});
     sudKopierenModel(modelAnhang(), ModelAnhang::ColSudID, sudId, {{ModelAnhang::ColSudID, neueSudId}});
     sudKopierenModel(modelEtiketten(), ModelEtiketten::ColSudID, sudId, {{ModelEtiketten::ColSudID, neueSudId}});
@@ -360,7 +360,7 @@ int Brauhelfer::sudTeilen(int sudId, const QString& name1, const QString &name2,
     double erg_WHauptguss = modelSud()->data(row1, ModelSud::Colerg_WHauptguss).toDouble();
     double erg_WNachguss = modelSud()->data(row1, ModelSud::Colerg_WNachguss).toDouble();
     double erg_W_Gesamt = modelSud()->data(row1, ModelSud::Colerg_W_Gesamt).toDouble();
-    int berechnungsArtHopfen = modelSud()->data(row1, ModelSud::ColberechnungsArtHopfen).toInt();
+    BerechnungsartHopfen berechnungsArtHopfen = static_cast<BerechnungsartHopfen>(modelSud()->data(row1, ModelSud::ColberechnungsArtHopfen).toInt());
 
     double factor = 1.0 - prozent;
     modelSud()->setData(row2, ModelSud::ColMenge, Menge * factor);
@@ -380,7 +380,7 @@ int Brauhelfer::sudTeilen(int sudId, const QString& name1, const QString &name2,
         if (modelHopfengaben()->data(row, ModelHopfengaben::ColSudID).toInt() == sudId2)
         {
             double ausbeute = modelHopfengaben()->data(row, ModelHopfengaben::ColAusbeute).toDouble();
-            if (berechnungsArtHopfen == Hopfen_Berechnung_Keine || (berechnungsArtHopfen == Hopfen_Berechnung_IBU && ausbeute == 0.0))
+            if (berechnungsArtHopfen == BerechnungsartHopfen::Keine || (berechnungsArtHopfen == BerechnungsartHopfen::IBU && ausbeute == 0.0))
             {
                 QModelIndex idx = modelHopfengaben()->index(row, ModelHopfengaben::Colerg_Menge);
                 modelHopfengaben()->setData(idx, idx.data().toDouble() * factor);
@@ -414,7 +414,7 @@ int Brauhelfer::sudTeilen(int sudId, const QString& name1, const QString &name2,
         if (modelHopfengaben()->data(row, ModelHopfengaben::ColSudID).toInt() == sudId)
         {
             double ausbeute = modelHopfengaben()->data(row, ModelHopfengaben::ColAusbeute).toDouble();
-            if (berechnungsArtHopfen == Hopfen_Berechnung_Keine || (berechnungsArtHopfen == Hopfen_Berechnung_IBU && ausbeute == 0.0))
+            if (berechnungsArtHopfen == BerechnungsartHopfen::Keine || (berechnungsArtHopfen == BerechnungsartHopfen::IBU && ausbeute == 0.0))
             {
                 QModelIndex idx = modelHopfengaben()->index(row, ModelHopfengaben::Colerg_Menge);
                 modelHopfengaben()->setData(idx, idx.data().toDouble() * factor);
@@ -433,14 +433,14 @@ int Brauhelfer::sudTeilen(int sudId, const QString& name1, const QString &name2,
     return row1;
 }
 
-bool Brauhelfer::rohstoffAbziehen(int typ, const QString& name, double menge)
+bool Brauhelfer::rohstoffAbziehen(RohstoffTyp typ, const QString& name, double menge)
 {
     int row;
     double mengeLager;
     SqlTableModel *modelLager;
     switch (typ)
     {
-    case 0:
+    case RohstoffTyp::Malz:
         modelLager = modelMalz();
         row = modelLager->getRowWithValue(ModelMalz::ColBeschreibung, name);
         if (row != -1)
@@ -451,7 +451,7 @@ bool Brauhelfer::rohstoffAbziehen(int typ, const QString& name, double menge)
             return modelLager->setData(row, ModelMalz::ColMenge, mengeLager);
         }
         break;
-    case 1:
+    case RohstoffTyp::Hopfen:
         modelLager = modelHopfen();
         row = modelLager->getRowWithValue(ModelHopfen::ColBeschreibung, name);
         if (row != -1)
@@ -462,7 +462,7 @@ bool Brauhelfer::rohstoffAbziehen(int typ, const QString& name, double menge)
             return modelLager->setData(row, ModelHopfen::ColMenge, mengeLager);
         }
         break;
-    case 2:
+    case RohstoffTyp::Hefe:
         modelLager = modelHefe();
         row = modelLager->getRowWithValue(ModelHefe::ColBeschreibung, name);
         if (row != -1)
@@ -473,25 +473,32 @@ bool Brauhelfer::rohstoffAbziehen(int typ, const QString& name, double menge)
             return modelLager->setData(row, ModelHefe::ColMenge, mengeLager);
         }
         break;
-    case 3:
+    case RohstoffTyp::Zusatz:
         modelLager = modelWeitereZutaten();
         row = modelLager->getRowWithValue(ModelWeitereZutaten::ColBeschreibung, name);
         if (row != -1)
         {
             mengeLager = modelLager->data(row, ModelWeitereZutaten::ColMenge).toDouble();
-            switch (modelLager->data(row, ModelWeitereZutaten::ColEinheiten).toInt())
+            Einheit einheit = static_cast<Einheit>(modelLager->data(row, ModelWeitereZutaten::ColEinheiten).toInt());
+            switch (einheit)
             {
-            case EWZ_Einheit_Kg:
+            case Einheit::Kg:
                 mengeLager -= menge / 1000;
                 break;
-            case EWZ_Einheit_g:
+            case Einheit::g:
                 mengeLager -= menge;
                 break;
-            case EWZ_Einheit_mg:
+            case Einheit::mg:
                 mengeLager -= menge * 1000;
                 break;
-            case EWZ_Einheit_Stk:
+            case Einheit::Stk:
                 mengeLager -= qCeil(menge);
+                break;
+            case Einheit::l:
+                mengeLager -= menge / 1000;
+                break;
+            case Einheit::ml:
+                mengeLager -= menge;
                 break;
             }
             if (mengeLager < 0.0)

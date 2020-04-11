@@ -231,7 +231,7 @@ PageBase {
                             Flow {
                                 Layout.columnSpan: model.Status === Brauhelfer.Rezept ? 3 : 4
                                 Layout.alignment: Qt.AlignHCenter
-                                visible: BewertungMittel > 0
+                                visible: model.BewertungMittel > 0
                                 Image {
                                     width: 16
                                     height: 16

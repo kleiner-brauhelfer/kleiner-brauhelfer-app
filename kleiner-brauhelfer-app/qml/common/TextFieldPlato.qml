@@ -13,7 +13,7 @@ TextFieldNumber {
     id: textfield
     min: 0.0
     max: 99.9
-    precision: 2
+    precision: 1
 
     onPressed: if (useDialog) popuploader.active = true
 

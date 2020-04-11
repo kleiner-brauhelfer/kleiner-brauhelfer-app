@@ -32,7 +32,8 @@ QVariant ModelMalz::dataExt(const QModelIndex &idx) const
             if (model.data(r, ModelMalzschuettung::ColName) == name)
             {
                 QVariant sudId = model.data(r, ModelMalzschuettung::ColSudID);
-                if (bh->modelSud()->dataSud(sudId, ModelSud::ColStatus) == Sud_Status_Rezept)
+                Brauhelfer::SudStatus status = static_cast<Brauhelfer::SudStatus>(bh->modelSud()->dataSud(sudId, ModelSud::ColStatus).toInt());
+                if (status == Brauhelfer::SudStatus::Rezept)
                     return true;
             }
         }
@@ -118,8 +119,6 @@ void ModelMalz::defaultValues(QMap<int, QVariant> &values) const
     values[ColBeschreibung] = getUniqueName(index(0, ColBeschreibung), values[ColBeschreibung], true);
     if (!values.contains(ColFarbe))
         values.insert(ColFarbe, 0);
-    if (!values.contains(ColMaxProzent))
-        values.insert(ColMaxProzent, 100);
     if (!values.contains(ColMenge))
         values.insert(ColMenge, 0);
     if (!values.contains(ColPreis))
