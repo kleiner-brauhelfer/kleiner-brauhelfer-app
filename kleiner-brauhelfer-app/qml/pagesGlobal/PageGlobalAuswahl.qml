@@ -78,7 +78,7 @@ PageBase {
 
         Connections {
             target: Brauhelfer
-            onConnectionChanged: listView.proxy.resetColumns()
+            function onConnectionChanged() { listView.proxy.resetColumns() }
         }
 
         ListView {

@@ -20,17 +20,13 @@ CONFIG += c++11
 DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += warn_on
 
-!android: DESTDIR = $$OUT_PWD/../bin
-OBJECTS_DIR = tmp
-MOC_DIR = tmp
-UI_DIR = tmp
-RCC_DIR = tmp
+!android: DESTDIR = $$OUT_PWD/..
 
 # enable / disable dropbox support
 CONFIG += dropbox_en
 dropbox_en {
-    !android: LIBS += -L$$OUT_PWD/../bin/ -lqtdropbox2
-    android: LIBS += -L$$OUT_PWD/../qtdropbox2/ -lqtdropbox2
+    !android: LIBS += -L$$OUT_PWD/../ -lqtdropbox2
+    android: LIBS += -L$$OUT_PWD/../qtdropbox2/ -lqtdropbox2_$${QT_ARCH}
     INCLUDEPATH += $$PWD/../qtdropbox2/src
     DEPENDPATH += $$PWD/../qtdropbox2/src
     DEFINES += DROPBOX_EN=1
@@ -43,20 +39,19 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 # android deployment
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
-contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
-    ANDROID_EXTRA_LIBS = \
-        $$PWD/android/libs/armeabi-v7a/libcrypto.so \
-        $$PWD/android/libs/armeabi-v7a/libssl.so
-}
-contains(ANDROID_TARGET_ARCH,x86) {
-    ANDROID_EXTRA_LIBS = \
-        $$PWD/android/libs/x86/libcrypto.so \
-        $$PWD/android/libs/x86/libssl.so
-}
+ANDROID_EXTRA_LIBS += \
+    $$PWD/android/libs/arm/libcrypto_1_1.so \
+    $$PWD/android/libs/arm/libssl_1_1.so \
+    $$PWD/android/libs/arm64/libcrypto_1_1.so \
+    $$PWD/android/libs/arm64/libssl_1_1.so \
+    $$PWD/android/libs/x86/libcrypto_1_1.so \
+    $$PWD/android/libs/x86/libssl_1_1.so \
+    $$PWD/android/libs/x86_64/libcrypto_1_1.so \
+    $$PWD/android/libs/x86_64/libssl_1_1.so
 
 # libraries
-!android: LIBS += -L$$OUT_PWD/../bin/ -lkleiner-brauhelfer-core
-android: LIBS += -L$$OUT_PWD/../kleiner-brauhelfer-core/ -lkleiner-brauhelfer-core
+!android: LIBS += -L$$OUT_PWD/../ -lkleiner-brauhelfer-core
+android: LIBS += -L$$OUT_PWD/../kleiner-brauhelfer-core/ -lkleiner-brauhelfer-core_$${QT_ARCH}
 INCLUDEPATH += $$PWD/../kleiner-brauhelfer-core
 DEPENDPATH += $$PWD/../kleiner-brauhelfer-core
 
