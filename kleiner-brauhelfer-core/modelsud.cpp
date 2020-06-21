@@ -19,6 +19,7 @@ ModelSud::ModelSud(Brauhelfer *bh, QSqlDatabase db) :
     connect(this, SIGNAL(rowsInserted(const QModelIndex&,int,int)), this, SLOT(onModelReset()));
     connect(this, SIGNAL(rowsRemoved(const QModelIndex&,int,int)), this, SLOT(onModelReset()));
     connect(this, SIGNAL(rowChanged(const QModelIndex&)), this, SLOT(onRowChanged(const QModelIndex&)));
+    mVirtualField.append("MengeSoll");
     mVirtualField.append("SWIst");
     mVirtualField.append("SREIst");
     mVirtualField.append("MengeIst");
@@ -136,6 +137,10 @@ QVariant ModelSud::dataExt(const QModelIndex &idx) const
     case ColGespeichert:
     {
         return QDateTime::fromString(QSqlTableModel::data(idx).toString(), Qt::ISODate);
+    }
+    case ColMengeSoll:
+    {
+        return data(idx.row(), ColMenge).toDouble() + dataAnlage(idx.row(), ModelAusruestung::ColKorrekturMenge).toDouble();
     }
     case ColSWIst:
     {
@@ -303,7 +308,7 @@ QVariant ModelSud::dataExt(const QModelIndex &idx) const
     }
     case ColMengeSollKochende:
     {
-        double mengeSoll = data(idx.row(), ColMenge).toDouble();
+        double mengeSoll = data(idx.row(), ColMengeSoll).toDouble();
         double hgf = 1 + data(idx.row(), ColhighGravityFaktor).toInt() / 100.0;
         return mengeSoll / hgf;
     }
@@ -504,7 +509,7 @@ bool ModelSud::setDataExt_impl(const QModelIndex &idx, const QVariant &value)
             Brauhelfer::SudStatus status = static_cast<Brauhelfer::SudStatus>(data(idx.row(), ColStatus).toInt());
             if (status == Brauhelfer::SudStatus::Rezept)
             {
-                double m = value.toDouble() + data(idx.row(), ColMenge).toDouble() - data(idx.row(), ColMengeSollKochende).toDouble();
+                double m = value.toDouble() + data(idx.row(), ColMengeSoll).toDouble() - data(idx.row(), ColMengeSollKochende).toDouble();
                 setData(idx.row(), ColWuerzemengeAnstellenTotal, m);
             }
             return true;
@@ -644,8 +649,6 @@ void ModelSud::update(int row)
     mUpdating = true;
     mSignalModifiedBlocked = true;
 
-    double menge, sw;
-
     qDebug() << "ModelSud::update():" << data(row, ColID).toInt();
 
     updateSwWeitereZutaten(row);
@@ -653,15 +656,12 @@ void ModelSud::update(int row)
     Brauhelfer::SudStatus status = static_cast<Brauhelfer::SudStatus>(data(row, ColStatus).toInt());
     if (status == Brauhelfer::SudStatus::Rezept)
     {
-        // recipe
-        double mengeRecipe = data(row, ColMenge).toDouble();
-        double swRecipe = data(row, ColSW).toDouble();
-        double hgf = 1 + data(row, ColhighGravityFaktor).toInt() / 100.0;
-
         // erg_S_Gesamt
-        sw = swRecipe - swWzMaischenRecipe[row] - swWzKochenRecipe[row] - swWzGaerungRecipe[row];
+        double sw = data(row, ColSW_Malz).toDouble();
+        double sw_dichte = sw + swWzMaischenRecipe[row] + swWzKochenRecipe[row];
+        double menge = data(row, ColMengeSoll).toDouble();
         double ausb = data(row, ColSudhausausbeute).toDouble();
-        double schuet = BierCalc::schuettung(sw * hgf, mengeRecipe / hgf, ausb, true);
+        double schuet = BierCalc::schuettung(sw, sw_dichte, menge, ausb);
         setData(row, Colerg_S_Gesamt, schuet);
 
         // erg_W_Gesamt, erg_WHauptguss, erg_WNachguss
@@ -671,21 +671,23 @@ void ModelSud::update(int row)
         updateFarbe(row);
 
         // erg_Sudhausausbeute
-        sw = data(row, ColSWKochende).toDouble() - swWzMaischenRecipe[row] - swWzKochenRecipe[row];
+        sw_dichte = data(row, ColSWKochende).toDouble();
+        sw = sw_dichte - swWzMaischenRecipe[row] - swWzKochenRecipe[row];
         menge = data(row, ColWuerzemengeVorHopfenseihen).toDouble();
-        setData(row, Colerg_Sudhausausbeute, BierCalc::sudhausausbeute(sw, menge, schuet, true));
+        setData(row, Colerg_Sudhausausbeute, BierCalc::sudhausausbeute(sw, sw_dichte, menge, schuet));
 
         // erg_EffektiveAusbeute
-        sw = data(row, ColSWAnstellen).toDouble() * hgf - swWzMaischenRecipe[row] - swWzKochenRecipe[row];
-        menge = data(row, ColWuerzemengeAnstellenTotal).toDouble() / hgf;
-        setData(row, Colerg_EffektiveAusbeute, BierCalc::sudhausausbeute(sw , menge, schuet, true));
+        sw_dichte = data(row, ColSWAnstellen).toDouble();
+        sw = sw_dichte - swWzMaischenRecipe[row] - swWzKochenRecipe[row];
+        menge = data(row, ColWuerzemengeAnstellenTotal).toDouble();
+        setData(row, Colerg_EffektiveAusbeute, BierCalc::sudhausausbeute(sw, sw_dichte, menge, schuet));
     }
     if (status <= Brauhelfer::SudStatus::Gebraut)
     {
         // erg_Alkohol
         double sre = data(row, ColSREIst).toDouble();
-        sw = data(row, ColSWAnstellen).toDouble() + swWzGaerungCurrent[row];
-        menge = data(row, ColWuerzemengeAnstellen).toDouble();
+        double sw = data(row, ColSWAnstellen).toDouble() + swWzGaerungCurrent[row];
+        double menge = data(row, ColWuerzemengeAnstellen).toDouble();
         if (menge > 0.0)
             sw += (data(row, ColZuckerAnteil).toDouble() / 10) / menge;
         setData(row, Colerg_Alkohol, BierCalc::alkohol(sw, sre));
@@ -920,35 +922,39 @@ void ModelSud::updatePreis(int row)
 
 bool ModelSud::removeRows(int row, int count, const QModelIndex &parent)
 {
+    QList<int> sudIds;
+    for (int i = 0; i < count; ++i)
+        sudIds.append(data(row + i, ColID).toInt());
     if (SqlTableModel::removeRows(row, count, parent))
     {
-        for (int i = 0; i < count; ++i)
-        {
-            QVariant sudId = data(row + i, ColID);
-            removeRowsFrom(bh->modelRasten(), ModelRasten::ColSudID, sudId);
-            removeRowsFrom(bh->modelMalzschuettung(), ModelMalzschuettung::ColSudID, sudId);
-            removeRowsFrom(bh->modelHopfengaben(), ModelHopfengaben::ColSudID, sudId);
-            removeRowsFrom(bh->modelWeitereZutatenGaben(), ModelWeitereZutatenGaben::ColSudID, sudId);
-            removeRowsFrom(bh->modelHefegaben(), ModelHefegaben::ColSudID, sudId);
-            removeRowsFrom(bh->modelSchnellgaerverlauf(), ModelSchnellgaerverlauf::ColSudID, sudId);
-            removeRowsFrom(bh->modelHauptgaerverlauf(), ModelHauptgaerverlauf::ColSudID, sudId);
-            removeRowsFrom(bh->modelNachgaerverlauf(), ModelNachgaerverlauf::ColSudID, sudId);
-            removeRowsFrom(bh->modelBewertungen(), ModelBewertungen::ColSudID, sudId);
-            removeRowsFrom(bh->modelAnhang(), ModelAnhang::ColSudID, sudId);
-            removeRowsFrom(bh->modelEtiketten(), ModelEtiketten::ColSudID, sudId);
-            removeRowsFrom(bh->modelTags(), ModelTags::ColSudID, sudId);
-        }
+        removeRowsFrom(bh->modelRasten(), ModelRasten::ColSudID, sudIds);
+        removeRowsFrom(bh->modelMalzschuettung(), ModelMalzschuettung::ColSudID, sudIds);
+        removeRowsFrom(bh->modelHopfengaben(), ModelHopfengaben::ColSudID, sudIds);
+        removeRowsFrom(bh->modelWeitereZutatenGaben(), ModelWeitereZutatenGaben::ColSudID, sudIds);
+        removeRowsFrom(bh->modelHefegaben(), ModelHefegaben::ColSudID, sudIds);
+        removeRowsFrom(bh->modelSchnellgaerverlauf(), ModelSchnellgaerverlauf::ColSudID, sudIds);
+        removeRowsFrom(bh->modelHauptgaerverlauf(), ModelHauptgaerverlauf::ColSudID, sudIds);
+        removeRowsFrom(bh->modelNachgaerverlauf(), ModelNachgaerverlauf::ColSudID, sudIds);
+        removeRowsFrom(bh->modelBewertungen(), ModelBewertungen::ColSudID, sudIds);
+        removeRowsFrom(bh->modelAnhang(), ModelAnhang::ColSudID, sudIds);
+        removeRowsFrom(bh->modelEtiketten(), ModelEtiketten::ColSudID, sudIds);
+        removeRowsFrom(bh->modelTags(), ModelTags::ColSudID, sudIds);
         return true;
     }
     return false;
 }
 
-void ModelSud::removeRowsFrom(SqlTableModel* model, int colId, const QVariant &sudId)
+void ModelSud::removeRowsFrom(SqlTableModel* model, int colId, const QList<int> &sudIds)
 {
     for (int r = 0; r < model->rowCount(); ++r)
     {
-        if (model->data(r, colId) == sudId)
+        if (sudIds.contains(model->data(r, colId).toInt()))
+        {
+            int count = model->rowCount();
             model->removeRows(r);
+            if (count != model->rowCount())
+                r--;
+        }
     }
 }
 

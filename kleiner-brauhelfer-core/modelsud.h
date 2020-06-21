@@ -71,6 +71,7 @@ public:
         ColSWKochbeginn,
         // virtual
         ColDeleted,
+        ColMengeSoll,
         ColSWIst,
         ColSREIst,
         ColMengeIst,
@@ -123,6 +124,7 @@ public:
     QVariant dataSud(QVariant sudId, int col);
     QVariant dataAnlage(int row, int col) const;
     QVariant dataWasser(int row, int col) const;
+    void update(int row);
 
 private slots:
 
@@ -135,12 +137,11 @@ private slots:
 private:
 
     bool setDataExt_impl(const QModelIndex &index, const QVariant &value);
-    void update(int row);
     void updateSwWeitereZutaten(int row);
     void updateWasser(int row);
     void updateFarbe(int row);
     void updatePreis(int row);
-    void removeRowsFrom(SqlTableModel* model, int colId, const QVariant &sudId);
+    void removeRowsFrom(SqlTableModel* model, int colId, const QList<int>& sudIds);
 
 private:
 

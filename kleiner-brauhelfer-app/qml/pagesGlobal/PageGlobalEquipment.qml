@@ -280,7 +280,7 @@ PageBase {
                                     GroupBox {
                                         Layout.fillWidth: true
                                         label: LabelSubheader {
-                                            text: qsTr("Sonstiges")
+                                            text: qsTr("Korrekturwerte")
                                         }
 
                                         GridLayout {
@@ -310,6 +310,18 @@ PageBase {
                                             }
                                             LabelUnit {
                                                 text: qsTr("EBC")
+                                            }
+                                            LabelPrim {
+                                                Layout.fillWidth: true
+                                                text: qsTr("Sollmenge")
+                                            }
+                                            SpinBoxReal {
+                                                decimals: 0
+                                                realValue: model.KorrekturMenge
+                                                onNewValue: model.KorrekturMenge = value
+                                            }
+                                            LabelUnit {
+                                                text: qsTr("l")
                                             }
                                             LabelPrim {
                                                 Layout.fillWidth: true

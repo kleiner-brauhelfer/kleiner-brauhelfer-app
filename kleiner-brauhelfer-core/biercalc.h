@@ -36,8 +36,7 @@ public:
     {
         Terrill = 0,
         TerrillLinear = 1,
-        Standard = 2,
-        Kleier = 3,
+        Standard = 2
     };
     Q_ENUM(FormulaBrixToPlato)
 
@@ -52,11 +51,6 @@ public:
      * @note Zwischen 1.02 und 1.06 je nach Literaturangabe, meist 1.03
      */
     static double faktorPlatoToBrix;
-
-    /**
-     * @brief Gaerungskorrektur fuer Umrechnung nach Kleier
-     */
-    static double KleierGaerungskorrektur;
 
     /**
      * @brief Ein kg Malzschrot verdrängt eingemaischt je nach
@@ -279,20 +273,20 @@ public:
     /**
      * @brief Berechnet die Sudhausausbeute
      * @param sw Stammwürze [°P]
-     * @param V Volumen [L]
+     * @param V Volumen bei 20°C [L]
      * @param schuettung Schüttung [kg]
      * @return Sudhausausbeute [%]
      */
-    Q_INVOKABLE static double sudhausausbeute(double sw, double V, double schuettung, bool kaltWuerze);
+    Q_INVOKABLE static double sudhausausbeute(double sw, double sw_dichte, double V, double schuettung);
 
     /**
-     * @brief schuettung
-     * @param sw
-     * @param V
-     * @param sudhausausbeute
-     * @return
+     * @brief Berechnet die nötige Schüttung
+     * @param sw Stammwürze [°P]
+     * @param V Volumen bei 20°C [L]
+     * @param sudhausausbeute Sudhausausbeute [%]
+     * @return Schüttung [kg]
      */
-    Q_INVOKABLE static double schuettung(double sw, double V, double sudhausausbeute, bool kaltWuerze);
+    Q_INVOKABLE static double schuettung(double sw, double sw_dichte, double V, double sudhausausbeute);
 
     /**
      * @brief Benötigte Wassermenge, um auf die Sollstammwürze zu erreichen
@@ -304,12 +298,12 @@ public:
     Q_INVOKABLE static double verschneidung(double swIst, double swSoll, double menge);
 
     /**
-     * @brief Hopfenausbeute
-     * @param kochzeit Kochzeit [min]
-     * @param sw Stammwürze [°P]
-     * @return Ausbeute [%]
+     * @brief BierCalc::tinseth
+     * @param t
+     * @param sw
+     * @return
      */
-    Q_INVOKABLE static double hopfenAusbeute(double kochzeit, double sw);
+    Q_INVOKABLE static double tinseth(double t, double sw);
 
     /**
      * @brief Farbe im RGB Raum
