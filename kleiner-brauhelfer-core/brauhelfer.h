@@ -27,6 +27,8 @@
 #include "modelanhang.h"
 #include "modeletiketten.h"
 #include "modelgeraete.h"
+#include "modelkategorien.h"
+#include "modelwasseraufbereitung.h"
 
 class Database;
 
@@ -62,6 +64,8 @@ class LIB_EXPORT Brauhelfer : public QObject
     Q_PROPERTY(SqlTableModel* modelAnhang READ modelAnhang CONSTANT)
     Q_PROPERTY(SqlTableModel* modelEtiketten READ modelEtiketten CONSTANT)
     Q_PROPERTY(SqlTableModel* modelTags READ modelTags CONSTANT)
+    Q_PROPERTY(SqlTableModel* modelKategorien READ modelKategorien CONSTANT)
+    Q_PROPERTY(SqlTableModel* modelWasseraufbereitung READ modelWasseraufbereitung CONSTANT)
 
 public:
 
@@ -156,6 +160,15 @@ public:
     };
     Q_ENUM(Einheit)
 
+    enum class RastTyp
+    {
+        Einmaischen = 0,
+        Temperatur = 1,
+        Infusion = 2,
+        Dekoktion = 3
+    };
+    Q_ENUM(RastTyp)
+
     enum class AnlageTyp
     {
         Standard = 0x0000,
@@ -167,13 +180,14 @@ public:
         Braumeister200 = 0x2140,
         Braumeister500 = 0x2320,
         Braumeister1000 = 0x2640,
+        BrauheldPro30 = 0x3030,
     };
     Q_ENUM(AnlageTyp)
 
 public:
 
     static const int libVersionMajor;
-    static const int libVerionMinor;
+    static const int libVersionMinor;
     static const int libVersionPatch;
     static const int supportedDatabaseVersion;
     static const int supportedDatabaseVersionMinimal;
@@ -224,8 +238,11 @@ public:
     ModelAnhang* modelAnhang() const;
     ModelEtiketten* modelEtiketten() const;
     ModelTags* modelTags() const;
+    ModelKategorien* modelKategorien() const;
+    ModelWasseraufbereitung* modelWasseraufbereitung() const;
 
     Q_INVOKABLE int sudKopieren(int sudId, const QString& name, bool teilen = false);
+    Q_INVOKABLE void sudKopierenModel(SqlTableModel* model, int colSudId, const QVariant &sudId, const QMap<int, QVariant> &overrideValues);
     Q_INVOKABLE int sudTeilen(int sudId, const QString &name1, const QString &name2, double prozent);
     Q_INVOKABLE bool rohstoffAbziehen(RohstoffTyp typ, const QString& name, double menge);
 
@@ -236,9 +253,6 @@ signals:
     void modified();
     void saved();
     void discarded();
-
-private:
-    void sudKopierenModel(SqlTableModel* model, int colSudId, const QVariant &sudId, const QMap<int, QVariant> &overrideValues);
 
 private:
     QString mDatabasePath;

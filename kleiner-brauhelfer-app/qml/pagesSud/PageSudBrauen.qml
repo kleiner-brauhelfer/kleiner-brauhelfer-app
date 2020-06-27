@@ -183,35 +183,6 @@ PageBase {
                             Layout.preferredWidth: 60
                             text: qsTr("l")
                         }
-                        LabelPrim {
-                            Layout.fillWidth: true
-                            visible: Brauhelfer.sud.RestalkalitaetFaktor > 0.0
-                            text: qsTr("Milchsäure 80%")
-                        }
-                        LabelNumber {
-                            Layout.preferredWidth: 80
-                            visible: Brauhelfer.sud.RestalkalitaetFaktor > 0.0
-                            precision: 1
-                            value: Brauhelfer.sud.RestalkalitaetFaktor * Brauhelfer.sud.erg_WHauptguss
-                        }
-                        LabelUnit {
-                            Layout.preferredWidth: 60
-                            visible: Brauhelfer.sud.RestalkalitaetFaktor > 0.0
-                            text: qsTr("ml")
-                        }
-                        LabelPrim {
-                            Layout.fillWidth: true
-                            text: qsTr("Temperatur")
-                        }
-                        LabelNumber {
-                            Layout.preferredWidth: 80
-                            precision: 0
-                            value: Brauhelfer.sud.EinmaischenTemp
-                        }
-                        LabelUnit {
-                            Layout.preferredWidth: 60
-                            text: qsTr("°C")
-                        }
                     }
                     HorizontalDivider {
                         Layout.fillWidth: true
@@ -220,24 +191,6 @@ PageBase {
                         Layout.fillWidth: true
                         font.bold: true
                         text: qsTr("Rasten")
-                    }
-                    RowLayout {
-                        Layout.leftMargin: 8
-                        LabelPrim {
-                            Layout.fillWidth: true
-                            text: qsTr("Einmaischen")
-                        }
-                        TextFieldNumber {
-                            Layout.preferredWidth: 40
-                            enabled: !page.readOnly
-                            precision: 0
-                            value: Brauhelfer.sud.EinmaischenTemp
-                            onNewValue: Brauhelfer.sud.EinmaischenTemp = value
-                        }
-                        LabelUnit {
-                            Layout.preferredWidth: 30
-                            text: qsTr("°C")
-                        }
                     }
                     Repeater {
                         model: Brauhelfer.sud.modelRasten
@@ -333,35 +286,6 @@ PageBase {
                         LabelUnit {
                             Layout.preferredWidth: 60
                             text: qsTr("l")
-                        }
-                        LabelPrim {
-                            Layout.fillWidth: true
-                            visible: Brauhelfer.sud.RestalkalitaetFaktor > 0.0
-                            text: qsTr("Milchsäure 80%")
-                        }
-                        LabelNumber {
-                            Layout.preferredWidth: 80
-                            visible: Brauhelfer.sud.RestalkalitaetFaktor > 0.0
-                            precision: 1
-                            value: Brauhelfer.sud.RestalkalitaetFaktor * Brauhelfer.sud.erg_WNachguss
-                        }
-                        LabelUnit {
-                            Layout.preferredWidth: 60
-                            visible: Brauhelfer.sud.RestalkalitaetFaktor > 0.0
-                            text: qsTr("ml")
-                        }
-                        LabelPrim {
-                            Layout.fillWidth: true
-                            text: qsTr("Temperatur")
-                        }
-                        LabelNumber {
-                            Layout.preferredWidth: 80
-                            precision: 0
-                            value: 78
-                        }
-                        LabelUnit {
-                            Layout.preferredWidth: 60
-                            text: qsTr("°C")
                         }
                     }
                 }
@@ -517,7 +441,7 @@ PageBase {
                         LabelNumber {
                             Layout.preferredWidth: 80
                             precision: 0
-                            value: Brauhelfer.sud.KochdauerNachBitterhopfung
+                            value: Brauhelfer.sud.Kochdauer
                         }
                         LabelUnit {
                             Layout.preferredWidth: 60
@@ -596,7 +520,7 @@ PageBase {
                                 LabelNumber {
                                     Layout.preferredWidth: 40
                                     precision: 0
-                                    value: model.Typ === 0 || model.Typ === 1 ? Brauhelfer.sud.KochdauerNachBitterhopfung : model.Zugabedauer
+                                    value: model.Typ === 0 || model.Typ === 1 ? Brauhelfer.sud.Kochdauer : model.Zugabedauer
                                 }
                                 LabelUnit {
                                     Layout.preferredWidth: 30
@@ -735,15 +659,15 @@ PageBase {
                         LabelPrim {
                             Layout.fillWidth: true
                             font.bold: true
-                            text: qsTr("Verdampfung")
+                            text: qsTr("Verdampfungsrate")
                         }
                         LabelNumber {
                             Layout.preferredWidth: 80
-                            value: Brauhelfer.sud.VerdampfungszifferIst
+                            value: Brauhelfer.sud.VerdampfungsrateIst
                         }
                         LabelUnit {
                             Layout.preferredWidth: 60
-                            text: qsTr("%")
+                            text: qsTr("l/h")
                         }
                         LabelPrim {
                             Layout.fillWidth: true
@@ -752,11 +676,11 @@ PageBase {
                         }
                         LabelNumber {
                             Layout.preferredWidth: 80
-                            value: Brauhelfer.sud.AnlageVerdampfungsziffer
+                            value: Brauhelfer.sud.AnlageVerdampfungsrate
                         }
                         LabelUnit {
                             Layout.preferredWidth: 60
-                            text: qsTr("%")
+                            text: qsTr("l/h")
                         }
                     }
                     HorizontalDivider {

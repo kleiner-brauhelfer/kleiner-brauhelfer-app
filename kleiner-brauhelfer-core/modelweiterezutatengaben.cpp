@@ -51,6 +51,25 @@ QVariant ModelWeitereZutatenGaben::dataExt(const QModelIndex &idx) const
     }
 }
 
+int ModelWeitereZutatenGaben::import(int row)
+{
+    Brauhelfer::ZusatzTyp typ = static_cast<Brauhelfer::ZusatzTyp>(data(row, ColTyp).toInt());
+    if (typ == Brauhelfer::ZusatzTyp::Hopfen)
+    {
+        QMap<int, QVariant> values({{ModelHopfen::ColName, data(row, ColName)}});
+        return bh->modelHopfen()->append(values);
+    }
+    else
+    {
+        QMap<int, QVariant> values({{ModelWeitereZutaten::ColName, data(row, ColName)},
+                                    {ModelWeitereZutaten::ColEinheit, data(row, ColEinheit)},
+                                    {ModelWeitereZutaten::ColTyp, data(row, ColTyp)},
+                                    {ModelWeitereZutaten::ColAusbeute, data(row, ColAusbeute)},
+                                    {ModelWeitereZutaten::ColFarbe, data(row, ColFarbe)}});
+        return bh->modelWeitereZutaten()->append(values);
+    }
+}
+
 bool ModelWeitereZutatenGaben::setDataExt(const QModelIndex &idx, const QVariant &value)
 {
     switch(idx.column())
@@ -70,13 +89,13 @@ bool ModelWeitereZutatenGaben::setDataExt(const QModelIndex &idx, const QVariant
             }
             else
             {
-                int row = bh->modelWeitereZutaten()->getRowWithValue(ModelWeitereZutaten::ColBeschreibung, value);
+                int row = bh->modelWeitereZutaten()->getRowWithValue(ModelWeitereZutaten::ColName, value);
                 if (row >= 0)
                 {
-                    QSqlTableModel::setData(index(idx.row(), ColEinheit), bh->modelWeitereZutaten()->data(row, ModelWeitereZutaten::ColEinheiten));
+                    QSqlTableModel::setData(index(idx.row(), ColEinheit), bh->modelWeitereZutaten()->data(row, ModelWeitereZutaten::ColEinheit));
                     QSqlTableModel::setData(index(idx.row(), ColTyp), bh->modelWeitereZutaten()->data(row, ModelWeitereZutaten::ColTyp));
                     QSqlTableModel::setData(index(idx.row(), ColAusbeute), bh->modelWeitereZutaten()->data(row, ModelWeitereZutaten::ColAusbeute));
-                    QSqlTableModel::setData(index(idx.row(), ColFarbe), bh->modelWeitereZutaten()->data(row, ModelWeitereZutaten::ColEBC));
+                    QSqlTableModel::setData(index(idx.row(), ColFarbe), bh->modelWeitereZutaten()->data(row, ModelWeitereZutaten::ColFarbe));
                 }
             }
             return true;
@@ -226,12 +245,12 @@ void ModelWeitereZutatenGaben::defaultValues(QMap<int, QVariant> &values) const
         if (typ == Brauhelfer::ZusatzTyp::Hopfen)
         {
             if (!values.contains(ColName))
-                values.insert(ColName, bh->modelHopfen()->data(0, ModelHopfen::ColBeschreibung));
+                values.insert(ColName, bh->modelHopfen()->data(0, ModelHopfen::ColName));
         }
         else
         {
             if (!values.contains(ColName))
-                values.insert(ColName, bh->modelWeitereZutaten()->data(0, ModelWeitereZutaten::ColBeschreibung));
+                values.insert(ColName, bh->modelWeitereZutaten()->data(0, ModelWeitereZutaten::ColName));
         }
     }
     if (!values.contains(ColMenge))

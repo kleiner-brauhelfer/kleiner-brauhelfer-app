@@ -26,7 +26,7 @@ QVariant ModelWeitereZutaten::dataExt(const QModelIndex &idx) const
     case ColMengeNormiert:
     {
         double menge = data(idx.row(), ColMenge).toDouble();
-        Brauhelfer::Einheit einheit = static_cast<Brauhelfer::Einheit>(data(idx.row(), ColEinheiten).toInt());
+        Brauhelfer::Einheit einheit = static_cast<Brauhelfer::Einheit>(data(idx.row(), ColEinheit).toInt());
         switch (einheit)
         {
         case Brauhelfer::Einheit::Kg:
@@ -47,7 +47,7 @@ QVariant ModelWeitereZutaten::dataExt(const QModelIndex &idx) const
     {
         ProxyModel model;
         model.setSourceModel(bh->modelWeitereZutatenGaben());
-        QVariant name = data(idx.row(), ColBeschreibung);
+        QVariant name = data(idx.row(), ColName);
         for (int r = 0; r < model.rowCount(); ++r)
         {
             if (model.data(r, ModelWeitereZutatenGaben::ColName) == name)
@@ -69,7 +69,7 @@ bool ModelWeitereZutaten::setDataExt(const QModelIndex &idx, const QVariant &val
 {
     switch(idx.column())
     {
-    case ColBeschreibung:
+    case ColName:
     {
         QString name = getUniqueName(idx, value);
         QVariant prevName = data(idx);
@@ -92,11 +92,11 @@ bool ModelWeitereZutaten::setDataExt(const QModelIndex &idx, const QVariant &val
         }
         return false;
     }
-    case ColEinheiten:
+    case ColEinheit:
     {
         if (QSqlTableModel::setData(idx, value))
         {
-            QVariant name = data(idx.row(), ColBeschreibung);
+            QVariant name = data(idx.row(), ColName);
             ProxyModelSud modelSud;
             modelSud.setSourceModel(bh->modelSud());
             modelSud.setFilterStatus(ProxyModelSud::Rezept);
@@ -118,7 +118,7 @@ bool ModelWeitereZutaten::setDataExt(const QModelIndex &idx, const QVariant &val
     {
         if (QSqlTableModel::setData(idx, value))
         {
-            QVariant name = data(idx.row(), ColBeschreibung);
+            QVariant name = data(idx.row(), ColName);
             ProxyModelSud modelSud;
             modelSud.setSourceModel(bh->modelSud());
             modelSud.setFilterStatus(ProxyModelSud::Rezept);
@@ -140,7 +140,7 @@ bool ModelWeitereZutaten::setDataExt(const QModelIndex &idx, const QVariant &val
     {
         if (QSqlTableModel::setData(idx, value))
         {
-            QVariant name = data(idx.row(), ColBeschreibung);
+            QVariant name = data(idx.row(), ColName);
             ProxyModelSud modelSud;
             modelSud.setSourceModel(bh->modelSud());
             modelSud.setFilterStatus(ProxyModelSud::Rezept);
@@ -158,11 +158,11 @@ bool ModelWeitereZutaten::setDataExt(const QModelIndex &idx, const QVariant &val
         }
         return false;
     }
-    case ColEBC:
+    case ColFarbe:
     {
         if (QSqlTableModel::setData(idx, value))
         {
-            QVariant name = data(idx.row(), ColBeschreibung);
+            QVariant name = data(idx.row(), ColName);
             ProxyModelSud modelSud;
             modelSud.setSourceModel(bh->modelSud());
             modelSud.setFilterStatus(ProxyModelSud::Rezept);
@@ -209,17 +209,17 @@ bool ModelWeitereZutaten::setDataExt(const QModelIndex &idx, const QVariant &val
 
 void ModelWeitereZutaten::defaultValues(QMap<int, QVariant> &values) const
 {
-    values[ColBeschreibung] = getUniqueName(index(0, ColBeschreibung), values[ColBeschreibung], true);
+    values[ColName] = getUniqueName(index(0, ColName), values[ColName], true);
     if (!values.contains(ColMenge))
         values.insert(ColMenge, 0);
-    if (!values.contains(ColEinheiten))
-     values.insert(ColEinheiten, static_cast<int>(Brauhelfer::Einheit::Kg));
+    if (!values.contains(ColEinheit))
+     values.insert(ColEinheit, static_cast<int>(Brauhelfer::Einheit::Kg));
     if (!values.contains(ColTyp))
         values.insert(ColTyp, 0);
     if (!values.contains(ColAusbeute))
         values.insert(ColAusbeute, 0);
-    if (!values.contains(ColEBC))
-        values.insert(ColEBC, 0);
+    if (!values.contains(ColFarbe))
+        values.insert(ColFarbe, 0);
     if (!values.contains(ColPreis))
         values.insert(ColPreis, 0);
     if (!values.contains(ColEingelagert))

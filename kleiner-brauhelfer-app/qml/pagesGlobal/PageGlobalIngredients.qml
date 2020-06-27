@@ -183,7 +183,7 @@ PageBase {
                             id: tfBeschreibung
                             Layout.fillWidth: true
                             opacity: model.Menge > 0 ? app.config.textOpacityFull : app.config.textOpacityHalf
-                            text: model.Beschreibung
+                            text: model.Name
                             font.italic: model.InGebrauch
                             states: State {
                                 when: model.Menge > 0 && model.Mindesthaltbar < new Date()
@@ -195,7 +195,7 @@ PageBase {
                             horizontalAlignment: Text.AlignHCenter
                             opacity: model.Menge > 0 ? app.config.textOpacityFull : app.config.textOpacityHalf
                             precision: 2
-                            unit: app.defs.einheiten[model.Einheiten]
+                            unit: app.defs.einheiten[model.Einheit]
                             value: model.Menge
                         }
                     }
@@ -263,7 +263,7 @@ PageBase {
                                                 LabelSubheader {
                                                     anchors.fill: parent
                                                     visible: !itBeschreibung.editing
-                                                    text: model.Beschreibung
+                                                    text: model.Name
                                                     font.italic: model.InGebrauch
                                                     horizontalAlignment: Text.AlignHCenter
                                                     MouseArea {
@@ -275,13 +275,13 @@ PageBase {
                                                     anchors.fill: parent
                                                     visible: itBeschreibung.editing
                                                     horizontalAlignment: Text.AlignHCenter
-                                                    text: model.Beschreibung
-                                                    onTextChanged: if (activeFocus) model.Beschreibung = text
+                                                    text: model.Name
+                                                    onTextChanged: if (activeFocus) model.Name = text
                                                     onEditingFinished: itBeschreibung.editing = false
                                                     onVisibleChanged: if (visible) forceActiveFocus()
                                                 }
 
-                                                Component.onCompleted: if (model.Beschreibung === "") editing = true
+                                                Component.onCompleted: if (model.Name === "") editing = true
                                             }
 
                                             ToolButton {
@@ -307,7 +307,7 @@ PageBase {
                                         }
 
                                         SpinBoxReal {
-                                            decimals: app.defs.einheitenPrecision[_model.Einheiten]
+                                            decimals: app.defs.einheitenPrecision[_model.Einheit]
                                             realValue: model.Menge
                                             onNewValue: model.Menge = value
                                         }
@@ -317,8 +317,8 @@ PageBase {
                                             Layout.preferredWidth: 80
                                             Layout.rightMargin: 4
                                             model: app.defs.einheiten
-                                            currentIndex: _model.Einheiten
-                                            onActivated: _model.Einheiten = index
+                                            currentIndex: _model.Einheit
+                                            onActivated: _model.Einheit = index
                                         }
 
                                         LabelPrim {
@@ -362,8 +362,8 @@ PageBase {
 
                                         SpinBoxReal {
                                             decimals: 1
-                                            realValue: model.EBC
-                                            onNewValue: model.EBC = value
+                                            realValue: model.Farbe
+                                            onNewValue: model.Farbe = value
                                         }
 
                                         LabelUnit {

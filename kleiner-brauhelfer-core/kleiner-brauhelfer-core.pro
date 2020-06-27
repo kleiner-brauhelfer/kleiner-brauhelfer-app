@@ -1,4 +1,4 @@
-QT += core sql
+QT += core sql xml
 QT -= gui
 
 ORGANIZATION = kleiner-brauhelfer
@@ -7,9 +7,9 @@ TARGET = kleiner-brauhelfer-core
 # Hauptversionsnummer
 VER_MAJ = 2
 # Datenbankversion
-VER_MIN = 3
+VER_MIN = 4
 # Patchversion
-VER_PAT = 3
+VER_PAT = 0
 
 VERSION = $$sprintf("%1.%2.%3", $$VER_MAJ, $$VER_MIN, $$VER_PAT)
 DEFINES += VER_MAJ=\"$$VER_MAJ\" VER_MIN=\"$$VER_MIN\" VER_PAT=\"$$VER_PAT\"
@@ -35,6 +35,7 @@ SOURCES += \
     brauhelfer.cpp \
     database.cpp \
     database_update.cpp \
+    importexport.cpp \
     modelanhang.cpp \
     modelausruestung.cpp \
     modelbewertungen.cpp \
@@ -45,6 +46,7 @@ SOURCES += \
     modelhefegaben.cpp \
     modelhopfen.cpp \
     modelhopfengaben.cpp \
+    modelkategorien.cpp \
     modelmalz.cpp \
     modelmalzschuettung.cpp \
     modelnachgaerverlauf.cpp \
@@ -53,6 +55,7 @@ SOURCES += \
     modelsud.cpp \
     modeltags.cpp \
     modelwasser.cpp \
+    modelwasseraufbereitung.cpp \
     modelweiterezutaten.cpp \
     modelweiterezutatengaben.cpp \
     proxymodel.cpp \
@@ -62,6 +65,7 @@ SOURCES += \
     sudobject.cpp
 
 HEADERS += \
+    importexport.h \
     kleiner-brauhelfer-core_global.h \
     biercalc.h \
     brauhelfer.h \
@@ -77,6 +81,7 @@ HEADERS += \
     modelhefegaben.h \
     modelhopfen.h \
     modelhopfengaben.h \
+    modelkategorien.h \
     modelmalz.h \
     modelmalzschuettung.h \
     modelnachgaerverlauf.h \
@@ -85,6 +90,7 @@ HEADERS += \
     modelsud.h \
     modeltags.h \
     modelwasser.h \
+    modelwasseraufbereitung.h \
     modelweiterezutaten.h \
     modelweiterezutatengaben.h \
     proxymodel.h \

@@ -3,9 +3,9 @@
 #include <QtMath>
 
 const int Brauhelfer::libVersionMajor = VER_MAJ;
-const int Brauhelfer::libVerionMinor = VER_MIN;
+const int Brauhelfer::libVersionMinor = VER_MIN;
 const int Brauhelfer::libVersionPatch = VER_PAT;
-const int Brauhelfer::supportedDatabaseVersion = libVersionMajor * 1000 + libVerionMinor;
+const int Brauhelfer::supportedDatabaseVersion = libVersionMajor * 1000 + libVersionMinor;
 const int Brauhelfer::supportedDatabaseVersionMinimal = 21;
 
 Brauhelfer::Brauhelfer(const QString &databasePath, QObject *parent) :
@@ -37,6 +37,8 @@ Brauhelfer::Brauhelfer(const QString &databasePath, QObject *parent) :
     connect(mDb->modelAnhang, SIGNAL(modified()), this, SIGNAL(modified()));
     connect(mDb->modelEtiketten, SIGNAL(modified()), this, SIGNAL(modified()));
     connect(mDb->modeTags, SIGNAL(modified()), this, SIGNAL(modified()));
+    connect(mDb->modelKategorien, SIGNAL(modified()), this, SIGNAL(modified()));
+    connect(mDb->modelWasseraufbereitung, SIGNAL(modified()), this, SIGNAL(modified()));
 }
 
 Brauhelfer::~Brauhelfer()
@@ -277,6 +279,16 @@ ModelTags *Brauhelfer::modelTags() const
     return mDb->modeTags;
 }
 
+ModelKategorien *Brauhelfer::modelKategorien() const
+{
+    return mDb->modelKategorien;
+}
+
+ModelWasseraufbereitung *Brauhelfer::modelWasseraufbereitung() const
+{
+    return mDb->modelWasseraufbereitung;
+}
+
 int Brauhelfer::sudKopieren(int sudId, const QString& name, bool teilen)
 {
     qInfo() << "Brauhelfer::sudKopieren():" << sudId;
@@ -311,6 +323,7 @@ int Brauhelfer::sudKopieren(int sudId, const QString& name, bool teilen)
     sudKopierenModel(modelAnhang(), ModelAnhang::ColSudID, sudId, {{ModelAnhang::ColSudID, neueSudId}});
     sudKopierenModel(modelEtiketten(), ModelEtiketten::ColSudID, sudId, {{ModelEtiketten::ColSudID, neueSudId}});
     sudKopierenModel(modelTags(), ModelTags::ColSudID, sudId, {{ModelTags::ColSudID, neueSudId}});
+    sudKopierenModel(modelWasseraufbereitung(), ModelWasseraufbereitung::ColSudID, sudId, {{ModelWasseraufbereitung::ColSudID, neueSudId}});
     if (teilen)
     {
         sudKopierenModel(modelSchnellgaerverlauf(), ModelSchnellgaerverlauf::ColSudID, sudId, {{ModelSchnellgaerverlauf::ColSudID, neueSudId}});
@@ -324,7 +337,8 @@ int Brauhelfer::sudKopieren(int sudId, const QString& name, bool teilen)
 
 void Brauhelfer::sudKopierenModel(SqlTableModel* model, int colSudId, const QVariant &sudId, const QMap<int, QVariant> &overrideValues)
 {
-    for (int r = 0; r < model->rowCount(); ++r)
+    int N = model->rowCount();
+    for (int r = 0; r < N; ++r)
     {
         if (model->data(r, colSudId) == sudId)
         {
@@ -358,6 +372,7 @@ int Brauhelfer::sudTeilen(int sudId, const QString& name1, const QString &name2,
         ModelSud::ColWuerzemengeVorHopfenseihen,
         ModelSud::ColWuerzemengeKochende,
         ModelSud::ColSpeisemenge,
+        ModelSud::ColVerschneidungAbfuellen,
         ModelSud::ColWuerzemengeAnstellen,
         ModelSud::ColJungbiermengeAbfuellen,
         ModelSud::Colerg_AbgefuellteBiermenge,
@@ -432,7 +447,7 @@ bool Brauhelfer::rohstoffAbziehen(RohstoffTyp typ, const QString& name, double m
     {
     case RohstoffTyp::Malz:
         modelLager = modelMalz();
-        row = modelLager->getRowWithValue(ModelMalz::ColBeschreibung, name);
+        row = modelLager->getRowWithValue(ModelMalz::ColName, name);
         if (row != -1)
         {
             mengeLager = modelLager->data(row, ModelMalz::ColMenge).toDouble() - menge;
@@ -443,7 +458,7 @@ bool Brauhelfer::rohstoffAbziehen(RohstoffTyp typ, const QString& name, double m
         break;
     case RohstoffTyp::Hopfen:
         modelLager = modelHopfen();
-        row = modelLager->getRowWithValue(ModelHopfen::ColBeschreibung, name);
+        row = modelLager->getRowWithValue(ModelHopfen::ColName, name);
         if (row != -1)
         {
             mengeLager = modelLager->data(row, ModelHopfen::ColMenge).toDouble() - menge;
@@ -454,7 +469,7 @@ bool Brauhelfer::rohstoffAbziehen(RohstoffTyp typ, const QString& name, double m
         break;
     case RohstoffTyp::Hefe:
         modelLager = modelHefe();
-        row = modelLager->getRowWithValue(ModelHefe::ColBeschreibung, name);
+        row = modelLager->getRowWithValue(ModelHefe::ColName, name);
         if (row != -1)
         {
             mengeLager = modelLager->data(row, ModelHefe::ColMenge).toInt() - menge;
@@ -465,11 +480,11 @@ bool Brauhelfer::rohstoffAbziehen(RohstoffTyp typ, const QString& name, double m
         break;
     case RohstoffTyp::Zusatz:
         modelLager = modelWeitereZutaten();
-        row = modelLager->getRowWithValue(ModelWeitereZutaten::ColBeschreibung, name);
+        row = modelLager->getRowWithValue(ModelWeitereZutaten::ColName, name);
         if (row != -1)
         {
             mengeLager = modelLager->data(row, ModelWeitereZutaten::ColMenge).toDouble();
-            Einheit einheit = static_cast<Einheit>(modelLager->data(row, ModelWeitereZutaten::ColEinheiten).toInt());
+            Einheit einheit = static_cast<Einheit>(modelLager->data(row, ModelWeitereZutaten::ColEinheit).toInt());
             switch (einheit)
             {
             case Einheit::Kg:

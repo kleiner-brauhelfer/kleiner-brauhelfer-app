@@ -14,6 +14,7 @@ SudObject::SudObject(Brauhelfer *bh) :
     proxyModelHopfengaben(new ProxyModel(this)),
     proxyModelHefegaben(new ProxyModel(this)),
     proxyModelWeitereZutatenGaben(new ProxyModel(this)),
+    proxyModelWasseraufbereitung(new ProxyModel(this)),
     proxyModelSchnellgaerverlauf(new ProxyModel(this)),
     proxyModelHauptgaerverlauf(new ProxyModel(this)),
     proxyModelNachgaerverlauf(new ProxyModel(this)),
@@ -36,6 +37,7 @@ SudObject::~SudObject()
     delete proxyModelHopfengaben;
     delete proxyModelHefegaben;
     delete proxyModelWeitereZutatenGaben;
+    delete proxyModelWasseraufbereitung;
     delete proxyModelSchnellgaerverlauf;
     delete proxyModelHauptgaerverlauf;
     delete proxyModelNachgaerverlauf;
@@ -54,21 +56,18 @@ void SudObject::init()
     modelMalzschuettung()->setFilterKeyColumn(ModelMalzschuettung::ColSudID);
     modelHopfengaben()->setSourceModel(bh->modelHopfengaben());
     modelHopfengaben()->setFilterKeyColumn(ModelHopfengaben::ColSudID);
-    modelHopfengaben()->sort(ModelHopfengaben::ColZeit, Qt::DescendingOrder);
     modelHefegaben()->setSourceModel(bh->modelHefegaben());
     modelHefegaben()->setFilterKeyColumn(ModelHefegaben::ColSudID);
-    modelHefegaben()->sort(ModelHefegaben::ColZugabeNach, Qt::AscendingOrder);
     modelWeitereZutatenGaben()->setSourceModel(bh->modelWeitereZutatenGaben());
     modelWeitereZutatenGaben()->setFilterKeyColumn(ModelWeitereZutatenGaben::ColSudID);
+    modelWasseraufbereitung()->setSourceModel(bh->modelWasseraufbereitung());
+    modelWasseraufbereitung()->setFilterKeyColumn(ModelWasseraufbereitung::ColSudID);
     modelSchnellgaerverlauf()->setSourceModel(bh->modelSchnellgaerverlauf());
     modelSchnellgaerverlauf()->setFilterKeyColumn(ModelSchnellgaerverlauf::ColSudID);
-    modelSchnellgaerverlauf()->sort(ModelSchnellgaerverlauf::ColZeitstempel, Qt::AscendingOrder);
     modelHauptgaerverlauf()->setSourceModel(bh->modelHauptgaerverlauf());
     modelHauptgaerverlauf()->setFilterKeyColumn(ModelHauptgaerverlauf::ColSudID);
-    modelHauptgaerverlauf()->sort(ModelHauptgaerverlauf::ColZeitstempel, Qt::AscendingOrder);
     modelNachgaerverlauf()->setSourceModel(bh->modelNachgaerverlauf());
     modelNachgaerverlauf()->setFilterKeyColumn(ModelNachgaerverlauf::ColSudID);
-    modelNachgaerverlauf()->sort(ModelNachgaerverlauf::ColZeitstempel, Qt::AscendingOrder);
     modelBewertungen()->setSourceModel(bh->modelBewertungen());
     modelBewertungen()->setFilterKeyColumn(ModelBewertungen::ColSudID);
     modelAnhang()->setSourceModel(bh->modelAnhang());
@@ -84,6 +83,7 @@ void SudObject::init()
     modelHopfengaben()->setFilterRegExp(regExpId);
     modelHefegaben()->setFilterRegExp(regExpId);
     modelWeitereZutatenGaben()->setFilterRegExp(regExpId);
+    modelWasseraufbereitung()->setFilterRegExp(regExpId);
     modelSchnellgaerverlauf()->setFilterRegExp(regExpId);
     modelHauptgaerverlauf()->setFilterRegExp(regExpId);
     modelNachgaerverlauf()->setFilterRegExp(regExpId);
@@ -111,6 +111,7 @@ void SudObject::load(int id)
         modelHopfengaben()->setFilterRegExp(regExpId);
         modelHefegaben()->setFilterRegExp(regExpId);
         modelWeitereZutatenGaben()->setFilterRegExp(regExpId);
+        modelWasseraufbereitung()->setFilterRegExp(regExpId);
         modelSchnellgaerverlauf()->setFilterRegExp(regExpId);
         modelHauptgaerverlauf()->setFilterRegExp(regExpId);
         modelNachgaerverlauf()->setFilterRegExp(regExpId);
@@ -187,6 +188,11 @@ ProxyModel* SudObject::modelHefegaben() const
 ProxyModel* SudObject::modelWeitereZutatenGaben() const
 {
     return proxyModelWeitereZutatenGaben;
+}
+
+ProxyModel* SudObject::modelWasseraufbereitung() const
+{
+    return proxyModelWasseraufbereitung;
 }
 
 ProxyModel* SudObject::modelSchnellgaerverlauf() const

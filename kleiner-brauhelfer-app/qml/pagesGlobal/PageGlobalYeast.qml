@@ -183,7 +183,7 @@ PageBase {
                             id: tfBeschreibung
                             Layout.fillWidth: true
                             opacity: model.Menge > 0 ? app.config.textOpacityFull : app.config.textOpacityHalf
-                            text: model.Beschreibung
+                            text: model.Name
                             font.italic: model.InGebrauch
                             states: State {
                                 when: model.Menge > 0 && model.Mindesthaltbar < new Date()
@@ -262,7 +262,7 @@ PageBase {
                                                 LabelSubheader {
                                                     anchors.fill: parent
                                                     visible: !itBeschreibung.editing
-                                                    text: model.Beschreibung
+                                                    text: model.Name
                                                     font.italic: model.InGebrauch
                                                     horizontalAlignment: Text.AlignHCenter
                                                     MouseArea {
@@ -274,13 +274,13 @@ PageBase {
                                                     anchors.fill: parent
                                                     visible: itBeschreibung.editing
                                                     horizontalAlignment: Text.AlignHCenter
-                                                    text: model.Beschreibung
-                                                    onTextChanged: if (activeFocus) model.Beschreibung = text
+                                                    text: model.Name
+                                                    onTextChanged: if (activeFocus) model.Name = text
                                                     onEditingFinished: itBeschreibung.editing = false
                                                     onVisibleChanged: if (visible) forceActiveFocus()
                                                 }
 
-                                                Component.onCompleted: if (model.Beschreibung === "") editing = true
+                                                Component.onCompleted: if (model.Name === "") editing = true
                                             }
 
                                             ToolButton {
@@ -364,29 +364,14 @@ PageBase {
                                         LabelPrim {
                                             Layout.fillWidth: true
                                             rightPadding: 8
-                                            text: qsTr("Verpackung")
+                                            text: qsTr("Sedimentation")
                                         }
 
                                         TextFieldBase {
                                             Layout.columnSpan: 2
                                             Layout.fillWidth: true
-                                            text: model.Verpackungsmenge
-                                            onTextChanged: if (activeFocus) model.Verpackungsmenge = text
-                                        }
-
-                                        LabelPrim {
-                                            Layout.fillWidth: true
-                                            rightPadding: 8
-                                            text: qsTr("Sedimentation")
-                                        }
-
-                                        ComboBox {
-                                            Layout.columnSpan: 2
-                                            Layout.fillWidth: true
-                                            Layout.rightMargin: 4
-                                            model: [ "", qsTr("hoch"), qsTr("mittel"), qsTr("niedrig")]
-                                            currentIndex: _model.SED
-                                            onActivated: _model.SED = index
+                                            text: model.Sedimentation
+                                            onTextChanged: if (activeFocus) model.Sedimentation = text
                                         }
 
                                         LabelPrim {

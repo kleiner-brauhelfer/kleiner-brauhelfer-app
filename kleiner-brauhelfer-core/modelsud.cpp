@@ -45,14 +45,19 @@ ModelSud::ModelSud(Brauhelfer *bh, QSqlDatabase db) :
     mVirtualField.append("SWSollKochbeginnMitWz");
     mVirtualField.append("SWSollKochende");
     mVirtualField.append("SWSollAnstellen");
-    mVirtualField.append("VerdampfungszifferIst");
+    mVirtualField.append("WasserHgf");
+    mVirtualField.append("VerdampfungsrateIst");
     mVirtualField.append("sEVG");
     mVirtualField.append("tEVG");
     mVirtualField.append("Alkohol");
-    mVirtualField.append("AnlageVerdampfungsziffer");
+    mVirtualField.append("RestalkalitaetWasser");
+    mVirtualField.append("RestalkalitaetIst");
+    mVirtualField.append("PhMalz");
+    mVirtualField.append("PhMaische");
+    mVirtualField.append("AnlageVerdampfungsrate");
     mVirtualField.append("AnlageSudhausausbeute");
-    mVirtualField.append("RestalkalitaetFaktor");
     mVirtualField.append("FaktorHauptgussEmpfehlung");
+    mVirtualField.append("WHauptgussEmpfehlung");
     mVirtualField.append("BewertungMittel");
 }
 
@@ -65,6 +70,8 @@ void ModelSud::createConnections()
     connect(bh->modelHefegaben(), SIGNAL(rowChanged(const QModelIndex&)),
             this, SLOT(onOtherModelRowChanged(const QModelIndex&)));
     connect(bh->modelWeitereZutatenGaben(), SIGNAL(rowChanged(const QModelIndex&)),
+            this, SLOT(onOtherModelRowChanged(const QModelIndex&)));
+    connect(bh->modelRasten(), SIGNAL(rowChanged(const QModelIndex&)),
             this, SLOT(onOtherModelRowChanged(const QModelIndex&)));
     connect(bh->modelAusruestung(), SIGNAL(rowChanged(const QModelIndex&)),
             this, SLOT(onAnlageRowChanged(const QModelIndex&)));
@@ -100,6 +107,9 @@ void ModelSud::onOtherModelRowChanged(const QModelIndex &idx)
 
 void ModelSud::onAnlageRowChanged(const QModelIndex &idx)
 {
+    const QList<int> ignore = {ModelAusruestung::ColBemerkung};
+    if (ignore.contains(idx.column()))
+        return;
     QVariant name = bh->modelAusruestung()->data(idx.row(), ModelAusruestung::ColName);
     for (int row = 0; row < rowCount(); ++row)
     {
@@ -234,18 +244,15 @@ QVariant ModelSud::dataExt(const QModelIndex &idx) const
         double sreSchnellgaerprobe = data(idx.row(), ColSREIst).toDouble();
         double jungbiermenge = data(idx.row(), ColJungbiermengeAbfuellen).toDouble();
         double zucker = BierCalc::zucker(co2Soll, sw, sreSchnellgaerprobe, sreJungbier, T) * jungbiermenge;
-        double speiseNoetig = data(idx.row(), ColSpeiseNoetig).toDouble();
+        double speiseNoetig = data(idx.row(), ColSpeiseNoetig).toDouble() / 1000;
+        double speiseVerfuegbar = data(idx.row(), ColSpeisemenge).toDouble();
         if (speiseNoetig == std::numeric_limits<double>::infinity())
-        {
             return zucker;
-        }
-        else
-        {
-            double speiseVerfuegbar = data(idx.row(), ColSpeisemenge).toDouble();
-            double potSpeise = BierCalc::wuerzeCO2Potential(sw, sreSchnellgaerprobe);
-            double potZucker = BierCalc::zuckerCO2Potential();
-            return zucker - speiseVerfuegbar * potSpeise / potZucker;
-        }
+        if (speiseNoetig <= speiseVerfuegbar)
+            return 0;
+        double potSpeise = BierCalc::co2Vergaerung(sw, sreSchnellgaerprobe);
+        double potZucker = BierCalc::co2Zucker();
+        return zucker - speiseVerfuegbar * potSpeise / potZucker;
     }
     case ColWoche:
     {
@@ -302,9 +309,9 @@ QVariant ModelSud::dataExt(const QModelIndex &idx) const
     case ColMengeSollKochbeginn:
     {
         double mengeSollKochEnde = data(idx.row(), ColMengeSollKochende).toDouble();
-        double kochdauer = data(idx.row(), ColKochdauerNachBitterhopfung).toDouble();
-        double verdampfungsziffer = data(idx.row(), ColVerdampfungsrate).toDouble();
-        return mengeSollKochEnde * (1 + (verdampfungsziffer * kochdauer / (60 * 100)));
+        double kochdauer = data(idx.row(), ColKochdauer).toDouble();
+        double verdampfungsrate = data(idx.row(), ColVerdampfungsrate).toDouble();
+        return mengeSollKochEnde + verdampfungsrate * kochdauer / 60;
     }
     case ColMengeSollKochende:
     {
@@ -336,16 +343,18 @@ QVariant ModelSud::dataExt(const QModelIndex &idx) const
     {
         double sw = data(idx.row(), ColSW).toDouble() - swWzKochenRecipe[idx.row()] - swWzGaerungRecipe[idx.row()];
         double hgf = 1 + data(idx.row(), ColhighGravityFaktor).toInt() / 100.0;
-        double kochdauer = data(idx.row(), ColKochdauerNachBitterhopfung).toDouble();
-        double verdampfungsziffer = data(idx.row(), ColVerdampfungsrate).toDouble();
-        return sw * hgf / (1 + (verdampfungsziffer * kochdauer / (60 * 100)));
+        double kochdauer = data(idx.row(), ColKochdauer).toDouble();
+        double mengeSollKochEnde = data(idx.row(), ColMengeSollKochende).toDouble();
+        double verdampfungsrate = data(idx.row(), ColVerdampfungsrate).toDouble();
+        return sw * hgf / (1 + (verdampfungsrate * kochdauer / (60 * mengeSollKochEnde)));
     }
     case ColSWSollKochbeginnMitWz:
     {
         double sw = data(idx.row(), ColSWSollKochende).toDouble();
-        double kochdauer = data(idx.row(), ColKochdauerNachBitterhopfung).toDouble();
-        double verdampfungsziffer = data(idx.row(), ColVerdampfungsrate).toDouble();
-        return sw / (1 + (verdampfungsziffer * kochdauer / (60 * 100)));
+        double kochdauer = data(idx.row(), ColKochdauer).toDouble();
+        double mengeSollKochEnde = data(idx.row(), ColMengeSollKochende).toDouble();
+        double verdampfungsrate = data(idx.row(), ColVerdampfungsrate).toDouble();
+        return sw / (1 + (verdampfungsrate * kochdauer / (60 * mengeSollKochEnde)));
     }
     case ColSWSollKochende:
     {
@@ -358,12 +367,18 @@ QVariant ModelSud::dataExt(const QModelIndex &idx) const
         double sw = data(idx.row(), ColSW).toDouble();
         return sw - swWzGaerungRecipe[idx.row()];
     }
-    case ColVerdampfungszifferIst:
+    case ColWasserHgf:
+    {
+        double mengeSoll = data(idx.row(), ColMengeSoll).toDouble();
+        double hgf = 1 + data(idx.row(), ColhighGravityFaktor).toInt() / 100.0;
+        return mengeSoll * (1 - 1 / hgf);
+    }
+    case ColVerdampfungsrateIst:
     {
         double V1 = data(idx.row(), ColWuerzemengeKochbeginn).toDouble();
         double V2 = data(idx.row(), ColWuerzemengeVorHopfenseihen).toDouble();
-        double t = data(idx.row(), ColKochdauerNachBitterhopfung).toDouble();
-        return BierCalc::verdampfungsziffer(V1, V2, t);
+        double t = data(idx.row(), ColKochdauer).toDouble();
+        return BierCalc::verdampfungsrate(V1, V2, t);
     }
     case ColsEVG:
     {
@@ -385,22 +400,55 @@ QVariant ModelSud::dataExt(const QModelIndex &idx) const
         double sre = BierCalc::sreAusVergaerungsgrad(sw, vg);
         return BierCalc::alkohol(sw, sre);
     }
-    case ColAnlageVerdampfungsziffer:
+    case ColRestalkalitaetWasser:
     {
-        return dataAnlage(idx.row(), ModelAusruestung::ColVerdampfungsziffer);
+        return dataWasser(idx.row(), ModelWasser::ColRestalkalitaet).toDouble();
+    }
+    case ColRestalkalitaetIst:
+    {
+        return data(idx.row(), ColRestalkalitaetWasser).toDouble() + bh->modelWasseraufbereitung()->restalkalitaet(data(idx.row(), ColID));
+    }
+    case ColPhMalz:
+    {
+        double phGesamt = 0;
+        double schuet = data(idx.row(), Colerg_S_Gesamt).toDouble();
+        ProxyModel proxy;
+        proxy.setSourceModel(bh->modelMalzschuettung());
+        proxy.setFilterKeyColumn(ModelMalzschuettung::ColSudID);
+        proxy.setFilterRegExp(QString("^%1$").arg(data(idx.row(), ColID).toInt()));
+        for (int r = 0; r < proxy.rowCount(); ++r)
+        {
+            double ph = proxy.data(r, ModelMalzschuettung::ColpH).toDouble();
+            if (ph > 0)
+            {
+                double m = proxy.data(r, ModelMalzschuettung::Colerg_Menge).toDouble();
+                phGesamt += std::pow(10, -ph) * m/schuet;
+            }
+        }
+        if (phGesamt > 0)
+            phGesamt = -std::log10(phGesamt);
+        return phGesamt;
+    }
+    case ColPhMaische:
+    {
+        double phRa = 0;
+        double phMalz = data(idx.row(), ColPhMalz).toDouble();
+        if (phMalz > 0)
+        {
+            double ra = data(idx.row(), ColRestalkalitaetIst).toDouble();
+            double V = data(idx.row(), Colerg_WHauptguss).toDouble();
+            double schuet = data(idx.row(), Colerg_S_Gesamt).toDouble();
+            phRa = (0.013 * V / schuet + 0.013) * ra / 2.8;
+        }
+        return phMalz + phRa;
+    }
+    case ColAnlageVerdampfungsrate:
+    {
+        return dataAnlage(idx.row(), ModelAusruestung::ColVerdampfungsrate);
     }
     case ColAnlageSudhausausbeute:
     {
         return dataAnlage(idx.row(), ModelAusruestung::ColSudhausausbeute);
-    }
-    case ColRestalkalitaetFaktor:
-    {
-        double ist = bh->modelWasser()->getValueFromSameRow(ModelWasser::ColName, data(idx.row(), ColWasserprofil), ModelWasser::ColRestalkalitaet).toDouble();
-        double soll = data(idx.row(), ColRestalkalitaetSoll).toDouble();
-        double fac = (ist -  soll) * 0.033333333;
-        if (fac < 0.0)
-            fac = 0.0;
-        return fac;
     }
     case ColFaktorHauptgussEmpfehlung:
     {
@@ -409,6 +457,19 @@ QVariant ModelSud::dataExt(const QModelIndex &idx) const
             return 4.0 - ebc * 0.02;
         else
             return 3.0;
+    }
+    case ColWHauptgussEmpfehlung:
+    {
+        Brauhelfer::AnlageTyp anlageTyp = static_cast<Brauhelfer::AnlageTyp>(dataAnlage(idx.row(), ModelAusruestung::ColTyp).toInt());
+        switch (anlageTyp)
+        {
+        case Brauhelfer::AnlageTyp::GrainfatherG30:
+            return data(idx.row(), Colerg_S_Gesamt).toDouble() * 2.7 + 3.5;
+        case Brauhelfer::AnlageTyp::BrauheldPro30:
+            return data(idx.row(), Colerg_S_Gesamt).toDouble() * 2.7 + 3.2;
+        default:
+            return data(idx.row(), Colerg_S_Gesamt).toDouble() * data(idx.row(), ColFaktorHauptguss).toDouble();
+        }
     }
     case ColBewertungMittel:
     {
@@ -463,7 +524,7 @@ bool ModelSud::setDataExt_impl(const QModelIndex &idx, const QVariant &value)
             if (status == Brauhelfer::SudStatus::Rezept)
             {
                 setData(idx.row(), ColSudhausausbeute, dataAnlage(idx.row(), ModelAusruestung::ColSudhausausbeute));
-                setData(idx.row(), ColVerdampfungsrate, dataAnlage(idx.row(), ModelAusruestung::ColVerdampfungsziffer));
+                setData(idx.row(), ColVerdampfungsrate, dataAnlage(idx.row(), ModelAusruestung::ColVerdampfungsrate));
             }
             return true;
         }
@@ -508,10 +569,7 @@ bool ModelSud::setDataExt_impl(const QModelIndex &idx, const QVariant &value)
         {
             Brauhelfer::SudStatus status = static_cast<Brauhelfer::SudStatus>(data(idx.row(), ColStatus).toInt());
             if (status == Brauhelfer::SudStatus::Rezept)
-            {
-                double m = value.toDouble() + data(idx.row(), ColMengeSoll).toDouble() - data(idx.row(), ColMengeSollKochende).toDouble();
-                setData(idx.row(), ColWuerzemengeAnstellenTotal, m);
-            }
+                setData(idx.row(), ColWuerzemengeAnstellenTotal, value);
             return true;
         }
         return false;
@@ -547,6 +605,7 @@ bool ModelSud::setDataExt_impl(const QModelIndex &idx, const QVariant &value)
     case Colerg_AbgefuellteBiermenge:
     {
         double speise = data(idx.row(), ColSpeiseAnteil).toDouble() / 1000;
+        double verschneidung = data(idx.row(), ColVerschneidungAbfuellen).toDouble();
         double jungbiermenge = data(idx.row(), ColJungbiermengeAbfuellen).toDouble();
         if (QSqlTableModel::setData(idx, value))
         {
@@ -554,9 +613,9 @@ bool ModelSud::setDataExt_impl(const QModelIndex &idx, const QVariant &value)
             if (status < Brauhelfer::SudStatus::Abgefuellt)
             {
                 if (jungbiermenge > 0.0)
-                    QSqlTableModel::setData(index(idx.row(), ColJungbiermengeAbfuellen), value.toDouble() / (1 + speise / jungbiermenge));
+                    QSqlTableModel::setData(index(idx.row(), ColJungbiermengeAbfuellen), value.toDouble() / (1 + (speise + verschneidung) / jungbiermenge));
                 else
-                    QSqlTableModel::setData(index(idx.row(), ColJungbiermengeAbfuellen), value.toDouble() - speise);
+                    QSqlTableModel::setData(index(idx.row(), ColJungbiermengeAbfuellen), value.toDouble() - speise - verschneidung);
             }
             return true;
         }
@@ -687,15 +746,15 @@ void ModelSud::update(int row)
         // erg_Alkohol
         double sre = data(row, ColSREIst).toDouble();
         double sw = data(row, ColSWAnstellen).toDouble() + swWzGaerungCurrent[row];
-        double menge = data(row, ColWuerzemengeAnstellen).toDouble();
-        if (menge > 0.0)
-            sw += (data(row, ColZuckerAnteil).toDouble() / 10) / menge;
-        setData(row, Colerg_Alkohol, BierCalc::alkohol(sw, sre));
+        double menge = data(row, ColJungbiermengeAbfuellen).toDouble();
+        double verschneidung = data(row, ColVerschneidungAbfuellen).toDouble();
+        double alcZucker = BierCalc::alkoholVonZucker(data(row, ColZuckerAnteil).toDouble() / menge);
+        setData(row, Colerg_Alkohol, BierCalc::alkohol(sw, sre, alcZucker) / (1 + verschneidung/menge));
 
         // erg_AbgefuellteBiermenge
         double jungbiermenge = data(row, ColJungbiermengeAbfuellen).toDouble();
         double speise = data(row, ColSpeiseAnteil).toDouble() / 1000;
-        setData(row, Colerg_AbgefuellteBiermenge, jungbiermenge + speise);
+        setData(row, Colerg_AbgefuellteBiermenge, jungbiermenge + speise + verschneidung);
 
         // erg_Preis
         updatePreis(row);
@@ -757,31 +816,43 @@ void ModelSud::updateSwWeitereZutaten(int row)
 
 void ModelSud::updateWasser(int row)
 {
-    double hg = 0.0, ng = 0.0;
+    double hg = 0.0, ng = 0.0, hgf = 0.0;
     double schuet = data(row, Colerg_S_Gesamt).toDouble();
     double menge = data(row, ColMengeSollKochbeginn).toDouble();
+
+    hg = bh->modelRasten()->menge(data(row, ColID));
+    if (hg <= 0)
+        hg = data(row, ColWHauptgussEmpfehlung).toDouble();
+    if (hg < 0)
+        hg = 0;
 
     Brauhelfer::AnlageTyp anlageTyp = static_cast<Brauhelfer::AnlageTyp>(dataAnlage(row, ModelAusruestung::ColTyp).toInt());
     switch (anlageTyp)
     {
     case Brauhelfer::AnlageTyp::GrainfatherG30:
-        hg = schuet * 2.7 + 3.5;
         if (schuet > 4.5)
             ng = menge - hg + schuet * 0.8;
         else
             ng = menge - hg + schuet * 0.8 - 2;
         break;
+    case Brauhelfer::AnlageTyp::BrauheldPro30:
+        ng = menge - hg + schuet * 0.8;
+        break;
     default:
-        hg = schuet * data(row, ColFaktorHauptguss).toDouble();
         ng = menge - hg + schuet * 0.96;
         break;
     }
-
     ng += dataAnlage(row, ModelAusruestung::ColKorrekturWasser).toDouble();
+    if (ng < 0)
+        ng = 0;
+
+    hgf = data(row, ColWasserHgf).toDouble();
+    if (hgf < 0)
+        hgf = 0;
 
     setData(row, Colerg_WHauptguss, hg);
     setData(row, Colerg_WNachguss, ng);
-    setData(row, Colerg_W_Gesamt, hg + ng);
+    setData(row, Colerg_W_Gesamt, hg + ng + hgf);
 }
 
 void ModelSud::updateFarbe(int row)
@@ -829,7 +900,8 @@ void ModelSud::updateFarbe(int row)
     if (gs > 0.0)
     {
         double sw = data(row, ColSW).toDouble() - swWzKochenRecipe[row] - swWzGaerungRecipe[row];
-        ebc = (d / gs) * sw / 10 + 2;
+        double t = data(row, ColKochdauer).toDouble();
+        ebc = (d / gs) * sw / 10 + 1.5 * t/60;
         ebc += dataAnlage(row, ModelAusruestung::ColKorrekturFarbe).toDouble();
     }
     setData(row, Colerg_Farbe, ebc);
@@ -849,7 +921,7 @@ void ModelSud::updatePreis(int row)
     {
         QVariant name = modelMalzschuettung.data(r, ModelMalzschuettung::ColName);
         double menge = modelMalzschuettung.data(r, ModelMalzschuettung::Colerg_Menge).toDouble();
-        double preis = bh->modelMalz()->getValueFromSameRow(ModelMalz::ColBeschreibung, name, ModelMalz::ColPreis).toDouble();
+        double preis = bh->modelMalz()->getValueFromSameRow(ModelMalz::ColName, name, ModelMalz::ColPreis).toDouble();
         kostenSchuettung += preis * menge;
     }
     summe += kostenSchuettung;
@@ -863,7 +935,7 @@ void ModelSud::updatePreis(int row)
     {
         QVariant name = modelHopfengaben.data(r, ModelHopfengaben::ColName);
         double menge = modelHopfengaben.data(r, ModelHopfengaben::Colerg_Menge).toDouble();
-        double preis = bh->modelHopfen()->getValueFromSameRow(ModelHopfen::ColBeschreibung, name, ModelHopfen::ColPreis).toDouble();
+        double preis = bh->modelHopfen()->getValueFromSameRow(ModelHopfen::ColName, name, ModelHopfen::ColPreis).toDouble();
         kostenHopfen += preis * menge / 1000;
     }
     summe += kostenHopfen;
@@ -877,7 +949,7 @@ void ModelSud::updatePreis(int row)
     {
         QVariant name = modelHefegaben.data(r, ModelHefegaben::ColName);
         int menge = modelHefegaben.data(r, ModelHefegaben::ColMenge).toInt();
-        double preis = bh->modelHefe()->getValueFromSameRow(ModelHefe::ColBeschreibung, name, ModelHefe::ColPreis).toDouble();
+        double preis = bh->modelHefe()->getValueFromSameRow(ModelHefe::ColName, name, ModelHefe::ColPreis).toDouble();
         kostenHefe += preis * menge;
     }
     summe += kostenHefe;
@@ -895,12 +967,12 @@ void ModelSud::updatePreis(int row)
         Brauhelfer::ZusatzTyp typ = static_cast<Brauhelfer::ZusatzTyp>(modelWeitereZutatenGaben.data(r, ModelWeitereZutatenGaben::ColTyp).toInt());
         if (typ == Brauhelfer::ZusatzTyp::Hopfen)
         {
-            preis = bh->modelHopfen()->getValueFromSameRow(ModelHopfen::ColBeschreibung, name, ModelHopfen::ColPreis).toDouble();
+            preis = bh->modelHopfen()->getValueFromSameRow(ModelHopfen::ColName, name, ModelHopfen::ColPreis).toDouble();
             preis /= 1000;
         }
         else
         {
-            preis = bh->modelWeitereZutaten()->getValueFromSameRow(ModelWeitereZutaten::ColBeschreibung, name, ModelWeitereZutaten::ColPreis).toDouble();
+            preis = bh->modelWeitereZutaten()->getValueFromSameRow(ModelWeitereZutaten::ColName, name, ModelWeitereZutaten::ColPreis).toDouble();
             Brauhelfer::Einheit einheit = static_cast<Brauhelfer::Einheit>(modelWeitereZutatenGaben.data(r, ModelWeitereZutatenGaben::ColEinheit).toInt());
             if (einheit == Brauhelfer::Einheit::Stk)
                 menge = qCeil(menge);
@@ -980,8 +1052,8 @@ void ModelSud::defaultValues(QMap<int, QVariant> &values) const
         values.insert(ColCO2, 5);
     if (!values.contains(ColIBU))
         values.insert(ColIBU, 26);
-    if (!values.contains(ColKochdauerNachBitterhopfung))
-        values.insert(ColKochdauerNachBitterhopfung, 60);
+    if (!values.contains(ColKochdauer))
+        values.insert(ColKochdauer, 60);
     if (!values.contains(ColberechnungsArtHopfen))
         values.insert(ColberechnungsArtHopfen, static_cast<int>(Brauhelfer::BerechnungsartHopfen::IBU));
     if (!values.contains(ColVergaerungsgrad))

@@ -1,6 +1,7 @@
 #ifndef BIERCALC_H
 #define BIERCALC_H
 
+// auskommentieren falls nicht als teil von kleiner-brauhelfer-core kompiliert
 #include "kleiner-brauhelfer-core_global.h"
 
 #ifdef QT_CORE_LIB
@@ -41,11 +42,6 @@ public:
     Q_ENUM(FormulaBrixToPlato)
 
     /**
-     * @brief Dichte von Alkohol bei 20°C [kg/l]
-     */
-    static const double dichteAlkohol;
-
-    /**
      * @brief Umrechnungsfaktor von Plato [°P] nach Brix [°brix], da Bierwürze
      * keine reine Saccharoselösung ist
      * @note Zwischen 1.02 und 1.06 je nach Literaturangabe, meist 1.03
@@ -57,12 +53,22 @@ public:
      * Feinheitsgrad der Schrotung ein Volumen von 0,65 bis 0,8 l Wasser.
      * Näherungsweise rechnet man mit 0,7 l Wasserverdrängung pro kg Malzschrot.
      */
-    static const double MalzVerdraengung;
+    static constexpr double MalzVerdraengung = 0.75;
 
     /**
      * @brief Ballingkonstante
      */
-    static const double Balling;
+    static constexpr double Balling = 2.0665;
+
+    /**
+     * @brief Spezifische Wärmekapazität von Wasser [kJ/(kg*°C)]
+     */
+    static constexpr double cWasser = 4.2;
+
+    /**
+     * @brief Spezifische Wärmekapazität von Malz [kJ/(kg*°C)]
+     */
+    static constexpr double cMalz = 1.7;
 
 public:
 
@@ -114,7 +120,7 @@ public:
      * @param Tcalib
      * @return
      */
-    Q_INVOKABLE static double dichteAtTemp(double plato, double T, double Tcalib = 20.0);
+    Q_INVOKABLE static double spindelKorrektur(double plato, double T, double Tcalib = 20.0);
 
     /**
      * @brief Tatsächlicher Restextrakt (Alkohol-korrigiert) [°P]
@@ -154,7 +160,14 @@ public:
      * @param sre Scheinbarer Restextrakt [°P]
      * @return Alkohol [vol%]
      */
-    Q_INVOKABLE static double alkohol(double sw, double sre);
+    Q_INVOKABLE static double alkohol(double sw, double sre, double alcZusatz = 0);
+
+    /**
+     * @brief alkoholVonZucker
+     * @param m
+     * @return
+     */
+    Q_INVOKABLE static double alkoholVonZucker(double m);
 
     /**
      * @brief CO2 Gehalt bei bestimmentem Druck und bestimmter Temperatur [g/l]
@@ -207,13 +220,13 @@ public:
      * @param sre
      * @return
      */
-    Q_INVOKABLE static double wuerzeCO2Potential(double sw, double sre);
+    Q_INVOKABLE static double co2Vergaerung(double sw, double sre);
 
     /**
      * @brief zuckerCO2Potential
      * @return
      */
-    Q_INVOKABLE static double zuckerCO2Potential();
+    Q_INVOKABLE static double co2Zucker();
 
     /**
      * @brief Benoetigte Speise fuer Karbonisierung [L/L]
@@ -240,7 +253,7 @@ public:
     /**
      * @brief Dichte von Wasser bei gegebenen Temperatur
      * @param T Temperatur [°C]
-     * @return Dichte
+     * @return Dichte [kg/l]
      */
     Q_INVOKABLE static double dichteWasser(double T);
 
@@ -263,12 +276,13 @@ public:
     Q_INVOKABLE static double verdampfungsziffer(double V1, double V2, double t);
 
     /**
-     * @brief Berechnet die verdampfung
+     * @brief Berechnet die Verdampfungsrate
      * @param V1 Anfangsvolumen [L]
      * @param V2 Endvolumen [L]
-     * @return Verdampfung [%]
+     * @param t Kochzeit [min]
+     * @return Verdampfungsrate [l/h]
      */
-    Q_INVOKABLE double verdampfung(double V1, double V2);
+    Q_INVOKABLE static double verdampfungsrate(double V1, double V2, double t);
 
     /**
      * @brief Berechnet die Sudhausausbeute
@@ -304,6 +318,81 @@ public:
      * @return
      */
     Q_INVOKABLE static double tinseth(double t, double sw);
+
+    /**
+     * @brief mischungstemperaturTm
+     * @param m1
+     * @param c1
+     * @param T1
+     * @param m2
+     * @param c2
+     * @param T2
+     * @return
+     */
+    Q_INVOKABLE static double mischungstemperaturTm(double m1, double c1, double T1, double m2, double c2, double T2);
+
+    /**
+     * @brief mischungstemperaturT2
+     * @param Tm
+     * @param m1
+     * @param c1
+     * @param T1
+     * @param m2
+     * @param c2
+     * @return
+     */
+    Q_INVOKABLE static double mischungstemperaturT2(double Tm, double m1, double c1, double T1, double m2, double c2);
+
+    /**
+     * @brief mischungstemperaturM2
+     * @param Tm
+     * @param m1
+     * @param c1
+     * @param T1
+     * @param c2
+     * @param T2
+     * @return
+     */
+    Q_INVOKABLE static double mischungstemperaturM2(double Tm, double m1, double c1, double T1, double c2, double T2);
+
+    /**
+     * @brief cMaische
+     * @param m_malz
+     * @param V_wasser
+     * @return
+     */
+    Q_INVOKABLE static double cMaische(double m_malz, double V_wasser);
+
+    /**
+     * @brief einmaischetemperatur
+     * @param T_rast
+     * @param m_malz
+     * @param T_malt
+     * @param V_wasser
+     * @return
+     */
+    Q_INVOKABLE static double einmaischetemperatur(double T_rast, double m_malz, double T_malt, double V_wasser);
+
+    /**
+     * @brief phMalz
+     * @param farbe
+     * @return
+     */
+    Q_INVOKABLE static double phMalz(double farbe);
+
+    /**
+     * @brief phMalzCarafa
+     * @param farbe
+     * @return
+     */
+    Q_INVOKABLE static double phMalzCarafa(double farbe);
+
+    /**
+     * @brief phMalzRoest
+     * @param farbe
+     * @return
+     */
+    Q_INVOKABLE static double phMalzRoest(double farbe);
 
     /**
      * @brief Farbe im RGB Raum

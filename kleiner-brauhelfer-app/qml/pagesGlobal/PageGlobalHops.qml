@@ -183,7 +183,7 @@ PageBase {
                             id: tfBeschreibung
                             Layout.fillWidth: true
                             opacity: model.Menge > 0 ? app.config.textOpacityFull : app.config.textOpacityHalf
-                            text: model.Beschreibung
+                            text: model.Name
                             font.italic: model.InGebrauch
                             states: State {
                                 when: model.Menge > 0 && model.Mindesthaltbar < new Date()
@@ -263,7 +263,7 @@ PageBase {
                                                 LabelSubheader {
                                                     anchors.fill: parent
                                                     visible: !itBeschreibung.editing
-                                                    text: model.Beschreibung
+                                                    text: model.Name
                                                     font.italic: model.InGebrauch
                                                     horizontalAlignment: Text.AlignHCenter
                                                     MouseArea {
@@ -275,13 +275,13 @@ PageBase {
                                                     anchors.fill: parent
                                                     visible: itBeschreibung.editing
                                                     horizontalAlignment: Text.AlignHCenter
-                                                    text: model.Beschreibung
-                                                    onTextChanged: if (activeFocus) model.Beschreibung = text
+                                                    text: model.Name
+                                                    onTextChanged: if (activeFocus) model.Name = text
                                                     onEditingFinished: itBeschreibung.editing = false
                                                     onVisibleChanged: if (visible) forceActiveFocus()
                                                 }
 
-                                                Component.onCompleted: if (model.Beschreibung === "") editing = true
+                                                Component.onCompleted: if (model.Name === "") editing = true
                                             }
 
                                             ToolButton {

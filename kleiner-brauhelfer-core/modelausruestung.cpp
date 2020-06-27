@@ -155,6 +155,14 @@ bool ModelAusruestung::setDataExt(const QModelIndex &idx, const QVariant &value)
                 QSqlTableModel::setData(index(idx.row(), ColSudpfanne_Hoehe), 0.0);
                 QSqlTableModel::setData(index(idx.row(), ColSudpfanne_MaxFuellhoehe), 0.0);
                 break;
+            case Brauhelfer::AnlageTyp::BrauheldPro30:
+                QSqlTableModel::setData(index(idx.row(), ColMaischebottich_Durchmesser), 29.8);
+                QSqlTableModel::setData(index(idx.row(), ColMaischebottich_Hoehe), 47.0);
+                QSqlTableModel::setData(index(idx.row(), ColMaischebottich_MaxFuellhoehe), 43.0);
+                QSqlTableModel::setData(index(idx.row(), ColSudpfanne_Durchmesser), 29.8);
+                QSqlTableModel::setData(index(idx.row(), ColSudpfanne_Hoehe), 47.0);
+                QSqlTableModel::setData(index(idx.row(), ColSudpfanne_MaxFuellhoehe), 43.0);
+                break;
             }
             return true;
         }
@@ -216,6 +224,6 @@ void ModelAusruestung::defaultValues(QMap<int, QVariant> &values) const
         values[ColID] = getNextId();
     if (!values.contains(ColSudhausausbeute))
         values.insert(ColSudhausausbeute, 60.0);
-    if (!values.contains(ColVerdampfungsziffer))
-        values.insert(ColVerdampfungsziffer, 10.0);
+    if (!values.contains(ColVerdampfungsrate))
+        values.insert(ColVerdampfungsrate, 2.0);
 }

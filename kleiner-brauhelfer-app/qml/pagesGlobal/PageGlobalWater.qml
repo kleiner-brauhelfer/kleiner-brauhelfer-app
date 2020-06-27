@@ -269,7 +269,7 @@ PageBase {
                                     LabelNumber {
                                         Layout.alignment: Qt.AlignHCenter
                                         precision: 2
-                                        value: model.Calciumhaerte
+                                        value: model.CalciumHaerte
                                     }
 
                                     LabelUnit {
@@ -322,7 +322,7 @@ PageBase {
                                     LabelNumber {
                                         Layout.alignment: Qt.AlignHCenter
                                         precision: 2
-                                        value: model.Magnesiumhaerte
+                                        value: model.MagnesiumHaerte
                                     }
 
                                     LabelUnit {
@@ -342,8 +342,8 @@ PageBase {
 
                                     SpinBoxReal {
                                         decimals: 2
-                                        realValue: model.Saeurekapazitaet
-                                        onNewValue: model.Saeurekapazitaet = value
+                                        realValue: model.Hydrogencarbonat
+                                        onNewValue: model.Hydrogencarbonat = value
                                     }
 
                                     LabelUnit {
@@ -360,8 +360,8 @@ PageBase {
                                         decimals: 2
                                         min: -99
                                         max: 99
-                                        realValue: model.Carbonathaerte
-                                        onNewValue: model.Carbonathaerte = value
+                                        realValue: model.CarbonatHaerte
+                                        onNewValue: model.CarbonatHaerte = value
                                     }
 
                                     LabelUnit {
