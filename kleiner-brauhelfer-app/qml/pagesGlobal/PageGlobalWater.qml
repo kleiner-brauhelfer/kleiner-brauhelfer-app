@@ -1,7 +1,7 @@
-import QtQuick 2.9
-import QtQuick.Controls 2.2
-import QtQuick.Layouts 1.3
-import QtQuick.Controls.Material 2.2
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Controls.Material 2.15
 import QtQuick.Dialogs 1.3
 
 import "../common"
@@ -15,7 +15,7 @@ PageBase {
 
     ListView {
         id: listView
-        clip: true
+        //clip: true
         anchors.fill: parent
         boundsBehavior: Flickable.OvershootBounds
         model: ProxyModel {
@@ -28,12 +28,12 @@ PageBase {
         ScrollIndicator.vertical: ScrollIndicator {}
         header: Rectangle {
             z: 2
-            width: parent.width
+            width: listView.width
             height: header.height
             color: Material.background
             ColumnLayout {
                 id: header
-                width: parent.width
+                width: listView.width
                 spacing: 0
                 RowLayout {
                     Layout.fillWidth: true
@@ -91,7 +91,7 @@ PageBase {
         }
         delegate: ItemDelegate {
             id: rowDelegate
-            width: parent.width
+            width: listView.width
             height: dataColumn.implicitHeight
             padding: 0
             text: " "
@@ -405,7 +405,6 @@ PageBase {
             imageSource: "qrc:/images/ic_add_white.png"
             visible: !page.readOnly
             onClicked: {
-                tfFilter.text = ""
                 listView.currentIndex = listView.model.append()
                 popuploader.active = true
             }

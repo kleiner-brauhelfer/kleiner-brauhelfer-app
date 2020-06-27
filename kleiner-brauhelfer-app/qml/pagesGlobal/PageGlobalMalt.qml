@@ -1,7 +1,7 @@
-import QtQuick 2.9
-import QtQuick.Controls 2.2
-import QtQuick.Layouts 1.3
-import QtQuick.Controls.Material 2.2
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Controls.Material 2.15
 import QtQuick.Dialogs 1.3
 
 import "../common"
@@ -17,19 +17,29 @@ PageBase {
         anchors.fill: parent
         spacing: 0
 
-        TextFieldBase {
-            id: tfFilter
+        // workaround for clip bug
+        Item {
+            z: 2
             Layout.fillWidth: true
             Layout.leftMargin: 8
             Layout.rightMargin: 8
-            placeholderText: qsTr("Suche")
-            inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhLowercaseOnly
-            onTextChanged: listView.model.setFilterString(text)
+            height: tfFilter.height
+            Rectangle {
+                anchors.fill: parent
+                color: Material.background
+            }
+            TextFieldBase {
+                id: tfFilter
+                anchors.fill: parent
+                placeholderText: qsTr("Suche")
+                inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhLowercaseOnly
+                onTextChanged: listView.model.setFilterString(text)
+            }
         }
 
         ListView {
             id: listView
-            clip: true
+            //clip: true
             Layout.fillWidth: true
             Layout.fillHeight: true
             boundsBehavior: Flickable.OvershootBounds
@@ -43,7 +53,7 @@ PageBase {
             ScrollIndicator.vertical: ScrollIndicator {}
             header: Rectangle {
                 z: 2
-                width: parent.width
+                width: listView.width
                 height: header.height
                 color: Material.background
                 ColumnLayout {
@@ -107,7 +117,7 @@ PageBase {
             footerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackFooter : ListView.OverlayFooter
             footer: Rectangle {
                 z: 2
-                width: parent.width
+                width: listView.width
                 height: btnAdd.height + 12
                 color: Material.background
                 Flow {
@@ -131,7 +141,7 @@ PageBase {
             }
             delegate: ItemDelegate {
                 id: rowDelegate
-                width: parent.width
+                width: listView.width
                 height: dataColumn.implicitHeight
                 padding: 0
                 text: " "

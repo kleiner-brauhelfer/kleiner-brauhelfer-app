@@ -1,7 +1,7 @@
-import QtQuick 2.9
-import QtQuick.Controls 2.2
-import QtQuick.Layouts 1.3
-import QtQuick.Controls.Material 2.2
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Controls.Material 2.15
 import QtGraphicalEffects 1.0
 
 import "../common"
@@ -120,7 +120,7 @@ PageBase {
                 property bool showdetails: false
                 property bool selected: Brauhelfer.sud.id === model.ID
 
-                width: parent.width
+                width: listView.width
                 height: row.height + divider.height
                 clip: true
                 onClicked: page.clicked(ID)

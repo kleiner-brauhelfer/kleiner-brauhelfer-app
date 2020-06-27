@@ -1,7 +1,7 @@
-import QtQuick 2.9
-import QtQuick.Controls 2.2
-import QtQuick.Layouts 1.3
-import QtQuick.Controls.Material 2.2
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Controls.Material 2.15
 import QtCharts 2.2
 
 import "../common"
@@ -21,6 +21,7 @@ PageBase {
         property var item2: selectionModel.get(app.settings.uebersichtIndex2)
         property alias listView: listView
         anchors.fill: parent
+        spacing: 0
 
         Component.onCompleted: selectionModel.get(8).unit = Qt.locale().currencySymbol() + "/" + qsTr("l")
 
@@ -82,37 +83,47 @@ PageBase {
             }
         }
 
-        Chart {
-            id: chart
+        // workaround for clip bug
+        Item {
+            z: 2
             Layout.fillWidth: true
             Layout.fillHeight: true
-            timeformat: "MM.yy"
-            title1: item1.text
-            color1: "#741EA6"
-            title2: item2.text
-            color2: "#2E4402"
-            series2.width: 2
-            legend.visible: false
-            VXYModelMapper {
-                model: listView.model
-                series: chart.series1
-                xColumn: listView.model.fieldIndex("Braudatum")
-                yColumn: listView.model.fieldIndex(item1.field)
+            Rectangle {
+                anchors.fill: parent
+                color: Material.background
             }
-            VXYModelMapper {
-                model: listView.model
-                series: chart.series2
-                xColumn: listView.model.fieldIndex("Braudatum")
-                yColumn: listView.model.fieldIndex(item2.field)
+
+            Chart {
+                id: chart
+                anchors.fill: parent
+                timeformat: "MM.yy"
+                title1: item1.text
+                color1: "#741EA6"
+                title2: item2.text
+                color2: "#2E4402"
+                series2.width: 2
+                legend.visible: false
+                VXYModelMapper {
+                    model: listView.model
+                    series: chart.series1
+                    xColumn: listView.model.fieldIndex("Braudatum")
+                    yColumn: listView.model.fieldIndex(item1.field)
+                }
+                VXYModelMapper {
+                    model: listView.model
+                    series: chart.series2
+                    xColumn: listView.model.fieldIndex("Braudatum")
+                    yColumn: listView.model.fieldIndex(item2.field)
+                }
+                Component.onCompleted: listView.model.invalidate()
             }
-            Component.onCompleted: listView.model.invalidate()
         }
 
         ListView {
             id: listView
             Layout.fillWidth: true
             Layout.fillHeight: true
-            clip: true
+            //clip: true
             boundsBehavior: Flickable.OvershootBounds
             model: ProxyModelSud {
                 sourceModel: app.pageGlobalAuswahl.getModel()
@@ -124,12 +135,12 @@ PageBase {
             ScrollIndicator.vertical: ScrollIndicator {}
             header: Rectangle {
                 z: 2
-                width: parent.width
+                width: listView.width
                 height: header.height
                 color: Material.background
                 ColumnLayout {
                     id: header
-                    width: parent.width
+                    width: listView.width
                     RowLayout {
                         Layout.fillWidth: true
                         Layout.leftMargin: 8
@@ -172,7 +183,7 @@ PageBase {
             delegate: ItemDelegate {
                 property variant values: model
                 id: rowDelegate
-                width: parent.width
+                width: listView.width
                 height: dataColumn.implicitHeight
                 padding: 0
                 text: " "

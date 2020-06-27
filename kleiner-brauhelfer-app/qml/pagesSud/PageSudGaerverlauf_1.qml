@@ -1,7 +1,7 @@
-import QtQuick 2.9
-import QtQuick.Controls 2.2
-import QtQuick.Layouts 1.3
-import QtQuick.Controls.Material 2.2
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Controls.Material 2.15
 import QtGraphicalEffects 1.0
 import QtCharts 2.2
 
@@ -61,7 +61,7 @@ PageBase {
             ScrollIndicator.vertical: ScrollIndicator {}
             header: Rectangle {
                 z: 2
-                width: parent.width
+                width: listView.width
                 height: header.height
                 color: Material.background
 
@@ -107,7 +107,7 @@ PageBase {
             delegate: ItemDelegate {
                 property variant values: model
                 id: rowDelegate
-                width: parent.width
+                width: listView.width
                 height: dataColumn.implicitHeight
                 padding: 0
                 visible: !model.deleted

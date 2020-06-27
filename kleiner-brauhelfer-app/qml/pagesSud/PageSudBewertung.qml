@@ -1,7 +1,7 @@
-import QtQuick 2.9
-import QtQuick.Controls 2.2
-import QtQuick.Layouts 1.3
-import QtQuick.Controls.Material 2.2
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Controls.Material 2.15
 import QtGraphicalEffects 1.0
 
 import "../common"
@@ -15,7 +15,7 @@ PageBase {
 
     ListView {
         id: listView
-        clip: true
+        //clip: true
         anchors.fill: parent
         boundsBehavior: Flickable.OvershootBounds
         model: Brauhelfer.sud.modelBewertungen
@@ -23,7 +23,7 @@ PageBase {
         ScrollIndicator.vertical: ScrollIndicator {}
         header: Rectangle {
             z: 2
-            width: parent.width
+            width: listView.width
             height: header.height
             color: Material.background
             ColumnLayout {
@@ -67,7 +67,7 @@ PageBase {
 
         delegate: ItemDelegate {
             id: rowDelegate
-            width: parent.width
+            width: listView.width
             height: dataColumn.implicitHeight
             padding: 0
             visible: !model.deleted

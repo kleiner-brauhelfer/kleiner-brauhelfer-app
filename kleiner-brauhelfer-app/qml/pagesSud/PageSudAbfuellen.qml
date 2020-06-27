@@ -1,7 +1,7 @@
-import QtQuick 2.9
-import QtQuick.Controls 2.2
-import QtQuick.Layouts 1.3
-import QtQuick.Controls.Material 2.2
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Controls.Material 2.15
 import QtGraphicalEffects 1.0
 
 import "../common"
@@ -74,7 +74,7 @@ PageBase {
                         }
                         delegate: ItemDelegate {
                             enabled: !page.readOnly
-                            width: parent.width
+                            width: listViewWeitereZutaten.width
                             height: dataColumn.implicitHeight
                             onClicked: {
                                 listViewWeitereZutaten.currentIndex = index
