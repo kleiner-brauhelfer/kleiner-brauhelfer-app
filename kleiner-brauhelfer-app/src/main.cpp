@@ -1,6 +1,9 @@
 #include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QSettings>
+#ifdef Q_OS_ANDROID
+  #include <QtAndroid>
+#endif
 
 #include "languageselector.h"
 #include "brauhelfer.h"
@@ -49,6 +52,16 @@ static QObject *getInstanceUtils(QQmlEngine *engine, QJSEngine *scriptEngine)
     Q_UNUSED(engine)
     Q_UNUSED(scriptEngine)
     return utils;
+}
+
+void checkPermissions()
+{
+  #ifdef Q_OS_ANDROID
+    if(QtAndroid::checkPermission("android.permission.READ_EXTERNAL_STORAGE") == QtAndroid::PermissionResult::Denied)
+        QtAndroid::requestPermissionsSync(QStringList() << "android.permission.READ_EXTERNAL_STORAGE");
+    if(QtAndroid::checkPermission("android.permission.WRITE_EXTERNAL_STORAGE") == QtAndroid::PermissionResult::Denied)
+        QtAndroid::requestPermissionsSync(QStringList() << "android.permission.WRITE_EXTERNAL_STORAGE");
+  #endif
 }
 
 int main(int argc, char *argv[])
@@ -102,6 +115,9 @@ int main(int argc, char *argv[])
     qmlRegisterUncreatableType<ModelWasser>("ModelWasser", 1, 0, "ModelWasser", "not creatable");
     qmlRegisterUncreatableType<ModelEtiketten>("ModelEtiketten", 1, 0, "ModelEtiketten", "not creatable");
     qmlRegisterUncreatableType<ModelTags>("ModelTags", 1, 0, "ModelTags", "not creatable");
+
+    // check permissions
+    checkPermissions();
 
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
     if (engine.rootObjects().isEmpty())

@@ -1,4 +1,5 @@
 QT += core gui widgets qml quick quickcontrols2 charts sql network xml
+android: QT += androidextras
 
 # organization, application name and version
 ORGANIZATION = kleiner-brauhelfer
