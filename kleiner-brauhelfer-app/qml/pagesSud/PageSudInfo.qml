@@ -621,7 +621,7 @@ PageBase {
                             }
                             LabelNumber {
                                 Layout.preferredWidth: 60
-                                precision: app.defs.einheitenPrecision[model.Einheit]
+                                precision: 2
                                 value: model.erg_Menge * app.defs.einheitenDivider[model.Einheit]
                             }
                             LabelUnit {

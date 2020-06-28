@@ -191,26 +191,26 @@ PageBase {
 
                                         Item {
                                             property bool editing: false
-                                            id: itBeschreibung
+                                            id: itName
                                             Layout.fillWidth: true
                                             height: children[1].height
                                             LabelSubheader {
                                                 anchors.fill: parent
-                                                visible: !itBeschreibung.editing
+                                                visible: !itName.editing
                                                 text: model.Name
                                                 horizontalAlignment: Text.AlignHCenter
                                                 MouseArea {
                                                     anchors.fill: parent
-                                                    onClicked: itBeschreibung.editing = true
+                                                    onClicked: itName.editing = true
                                                 }
                                             }
                                             TextFieldBase {
                                                 anchors.fill: parent
-                                                visible: itBeschreibung.editing
+                                                visible: itName.editing
                                                 horizontalAlignment: Text.AlignHCenter
                                                 text: model.Name
                                                 onTextChanged: if (activeFocus) model.Name = text
-                                                onEditingFinished: itBeschreibung.editing = false
+                                                onEditingFinished: itName.editing = false
                                                 onVisibleChanged: if (visible) forceActiveFocus()
                                             }
 
@@ -263,13 +263,15 @@ PageBase {
                                     LabelPrim {
                                         Layout.fillWidth: true
                                         rightPadding: 8
-                                        text: qsTr("Calciumhärte")
+                                        text: ""
                                     }
 
-                                    LabelNumber {
-                                        Layout.alignment: Qt.AlignHCenter
-                                        precision: 2
-                                        value: model.CalciumHaerte
+                                    SpinBoxReal {
+                                        decimals: 2
+                                        min: 0
+                                        max: 99
+                                        realValue: model.CalciumHaerte
+                                        onNewValue: model.CalciumHaerte = value
                                     }
 
                                     LabelUnit {
@@ -316,13 +318,15 @@ PageBase {
                                     LabelPrim {
                                         Layout.fillWidth: true
                                         rightPadding: 8
-                                        text: qsTr("Magnesiumhärte")
+                                        text: ""
                                     }
 
-                                    LabelNumber {
-                                        Layout.alignment: Qt.AlignHCenter
-                                        precision: 2
-                                        value: model.MagnesiumHaerte
+                                    SpinBoxReal {
+                                        decimals: 2
+                                        min: 0
+                                        max: 99
+                                        realValue: model.MagnesiumHaerte
+                                        onNewValue: model.MagnesiumHaerte = value
                                     }
 
                                     LabelUnit {
@@ -337,7 +341,7 @@ PageBase {
                                     LabelPrim {
                                         Layout.fillWidth: true
                                         rightPadding: 8
-                                        text: qsTr("Säurekapazität")
+                                        text: qsTr("Hydrogencarbonat")
                                     }
 
                                     SpinBoxReal {
@@ -347,21 +351,171 @@ PageBase {
                                     }
 
                                     LabelUnit {
+                                        text: qsTr("mg/l")
+                                    }
+
+                                    LabelPrim {
+                                        Layout.fillWidth: true
+                                        rightPadding: 8
+                                        text: ""
+                                    }
+
+                                    SpinBoxReal {
+                                        decimals: 3
+                                        realValue: model.HydrogencarbonatMmol
+                                        onNewValue: model.HydrogencarbonatMmol = value
+                                    }
+
+                                    LabelUnit {
                                         text: qsTr("mmol/l")
                                     }
 
                                     LabelPrim {
                                         Layout.fillWidth: true
                                         rightPadding: 8
-                                        text: qsTr("Carbonathärte")
+                                        text: ""
+                                    }
+
+                                    SpinBoxReal {
+                                        decimals: 2
+                                        min: 0
+                                        max: 99
+                                        realValue: model.CarbonatHaerte
+                                        onNewValue: model.CarbonatHaerte = value
+                                    }
+
+                                    LabelUnit {
+                                        text: qsTr("°dH")
+                                    }
+
+                                    HorizontalDivider {
+                                        Layout.columnSpan: 3
+                                        Layout.fillWidth: true
+                                    }
+
+                                    LabelPrim {
+                                        Layout.fillWidth: true
+                                        rightPadding: 8
+                                        text: qsTr("Sulfat")
+                                    }
+
+                                    SpinBoxReal {
+                                        decimals: 2
+                                        realValue: model.Sulfat
+                                        onNewValue: model.Sulfat = value
+                                    }
+
+                                    LabelUnit {
+                                        text: qsTr("mg/l")
+                                    }
+
+                                    LabelPrim {
+                                        Layout.fillWidth: true
+                                        rightPadding: 8
+                                        text: ""
+                                    }
+
+                                    SpinBoxReal {
+                                        decimals: 3
+                                        realValue: model.SulfatMmol
+                                        onNewValue: model.SulfatMmol = value
+                                    }
+
+                                    LabelUnit {
+                                        text: qsTr("mmol/l")
+                                    }
+
+                                    HorizontalDivider {
+                                        Layout.columnSpan: 3
+                                        Layout.fillWidth: true
+                                    }
+
+                                    LabelPrim {
+                                        Layout.fillWidth: true
+                                        rightPadding: 8
+                                        text: qsTr("Chlorid")
+                                    }
+
+                                    SpinBoxReal {
+                                        decimals: 2
+                                        realValue: model.Chlorid
+                                        onNewValue: model.Chlorid = value
+                                    }
+
+                                    LabelUnit {
+                                        text: qsTr("mg/l")
+                                    }
+
+                                    LabelPrim {
+                                        Layout.fillWidth: true
+                                        rightPadding: 8
+                                        text: ""
+                                    }
+
+                                    SpinBoxReal {
+                                        decimals: 3
+                                        realValue: model.ChloridMmol
+                                        onNewValue: model.ChloridMmol = value
+                                    }
+
+                                    LabelUnit {
+                                        text: qsTr("mmol/l")
+                                    }
+
+                                    HorizontalDivider {
+                                        Layout.columnSpan: 3
+                                        Layout.fillWidth: true
+                                    }
+
+                                    LabelPrim {
+                                        Layout.fillWidth: true
+                                        rightPadding: 8
+                                        text: qsTr("Natrium")
+                                    }
+
+                                    SpinBoxReal {
+                                        decimals: 2
+                                        realValue: model.Natrium
+                                        onNewValue: model.Natrium = value
+                                    }
+
+                                    LabelUnit {
+                                        text: qsTr("mg/l")
+                                    }
+
+                                    LabelPrim {
+                                        Layout.fillWidth: true
+                                        rightPadding: 8
+                                        text: ""
+                                    }
+
+                                    SpinBoxReal {
+                                        decimals: 3
+                                        realValue: model.NatriumMmol
+                                        onNewValue: model.NatriumMmol = value
+                                    }
+
+                                    LabelUnit {
+                                        text: qsTr("mmol/l")
+                                    }
+
+                                    HorizontalDivider {
+                                        Layout.columnSpan: 3
+                                        Layout.fillWidth: true
+                                    }
+
+                                    LabelPrim {
+                                        Layout.fillWidth: true
+                                        rightPadding: 8
+                                        text: qsTr("Korrektur")
                                     }
 
                                     SpinBoxReal {
                                         decimals: 2
                                         min: -99
                                         max: 99
-                                        realValue: model.CarbonatHaerte
-                                        onNewValue: model.CarbonatHaerte = value
+                                        realValue: model.RestalkalitaetAdd
+                                        onNewValue: model.RestalkalitaetAdd = value
                                     }
 
                                     LabelUnit {

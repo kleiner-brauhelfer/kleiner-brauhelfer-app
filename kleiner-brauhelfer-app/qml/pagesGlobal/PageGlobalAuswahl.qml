@@ -266,6 +266,26 @@ PageBase {
                             columnSpacing: 8
                             LabelPrim {
                                 Layout.fillWidth: true
+                                visible: model.Status !== Brauhelfer.Rezept
+                                text: ""
+                            }
+                            LabelPrim {
+                                Layout.fillWidth: true
+                                visible: model.Status !== Brauhelfer.Rezept
+                                text: qsTr("Sud")
+                            }
+                            LabelPrim {
+                                Layout.fillWidth: true
+                                visible: model.Status !== Brauhelfer.Rezept
+                                text: qsTr("Rezept")
+                            }
+                            LabelUnit {
+                                Layout.fillWidth: true
+                                visible: model.Status !== Brauhelfer.Rezept
+                                text: ""
+                            }
+                            LabelPrim {
+                                Layout.fillWidth: true
                                 text: qsTr("Menge")
                             }
                             LabelNumber {

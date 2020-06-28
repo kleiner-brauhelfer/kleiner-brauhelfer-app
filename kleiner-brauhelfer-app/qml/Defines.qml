@@ -9,14 +9,6 @@ QtObject {
         qsTr("l"),
         qsTr("ml")]
 
-    readonly property var einheitenPrecision: [
-        2,
-        1,
-        1,
-        1,
-        2,
-        1]
-
     readonly property var einheitenDivider: [
         1/1000,
         1,

@@ -8,7 +8,7 @@ SpinBox {
     property real realValue: Number.NaN
     property int decimals: 1
     property real min: 0.0
-    property real max: 9999999.9
+    property real max: 999.9
     readonly property int factor: Math.pow(10, decimals)
 
     editable: true
@@ -23,7 +23,7 @@ SpinBox {
 
     validator: DoubleValidator {
         bottom: Math.min(from, to)
-        top:  Math.max(from, to)
+        top: Math.max(from, to)
         decimals: decimals
         notation: DoubleValidator.StandardNotation
     }

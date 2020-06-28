@@ -51,7 +51,7 @@ PopupBase {
                         }
                         LabelNumber {
                             Layout.fillWidth: true
-                            precision: app.defs.einheitenPrecision[model.Einheit]
+                            precision: 2
                             unit: app.defs.einheiten[model.Einheit]
                             value: model.erg_Menge * app.defs.einheitenDivider[model.Einheit]
                         }

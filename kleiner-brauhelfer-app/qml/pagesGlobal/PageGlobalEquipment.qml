@@ -224,6 +224,7 @@ PageBase {
                                             ListElement { key: qsTr("Braumeister 200L"); value: Brauhelfer.AnlageTyp.Braumeister200}
                                             ListElement { key: qsTr("Braumeister 500L"); value: Brauhelfer.AnlageTyp.Braumeister500}
                                             ListElement { key: qsTr("Braumeister 1000L"); value: Brauhelfer.AnlageTyp.Braumeister1000}
+                                            ListElement { key: qsTr("Brauheld Pro"); value: Brauhelfer.AnlageTyp.BrauheldPro30}
                                         }
                                         currentIndex: switch(_model.Typ) {
                                                         case Brauhelfer.AnlageTyp.Standard: return 0;
@@ -235,6 +236,7 @@ PageBase {
                                                         case Brauhelfer.AnlageTyp.Braumeister200: return 6;
                                                         case Brauhelfer.AnlageTyp.Braumeister500: return 7;
                                                         case Brauhelfer.AnlageTyp.Braumeister1000: return 8;
+                                                        case Brauhelfer.AnlageTyp.BrauheldPro30: return 9;
                                                       }
                                         onActivated: _model.Typ = model.get(currentIndex).value
                                     }
@@ -316,7 +318,7 @@ PageBase {
                                                 text: qsTr("Sollmenge")
                                             }
                                             SpinBoxReal {
-                                                decimals: 0
+                                                decimals: 1
                                                 realValue: model.KorrekturMenge
                                                 onNewValue: model.KorrekturMenge = value
                                             }
@@ -495,6 +497,20 @@ PageBase {
                                             LabelUnit {
                                                 text: qsTr("l")
                                             }
+                                        }
+                                    }
+
+                                    GroupBox {
+                                        Layout.fillWidth: true
+                                        label: LabelSubheader {
+                                            text: qsTr("Bemerkung")
+                                        }
+                                        TextArea {
+                                            anchors.fill: parent
+                                            wrapMode: TextArea.Wrap
+                                            placeholderText: qsTr("Bemerkung")
+                                            text: model.Bemerkung
+                                            onTextChanged: if (activeFocus) model.Bemerkung = text
                                         }
                                     }
 

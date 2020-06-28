@@ -145,7 +145,7 @@ PageBase {
                                 }
                                 LabelNumber {
                                     Layout.preferredWidth: 80
-                                    precision: app.defs.einheitenPrecision[model.Einheit]
+                                    precision: 2
                                     value: model.erg_Menge * app.defs.einheitenDivider[model.Einheit]
                                 }
                                 LabelUnit {
@@ -510,7 +510,7 @@ PageBase {
                                 }
                                 LabelNumber {
                                     Layout.preferredWidth: 40
-                                    precision: app.defs.einheitenPrecision[model.Einheit]
+                                    precision: 2
                                     value: model.erg_Menge * app.defs.einheitenDivider[model.Einheit]
                                 }
                                 LabelUnit {
@@ -1014,7 +1014,7 @@ PageBase {
                                 }
                                 LabelNumber {
                                     Layout.preferredWidth: 40
-                                    precision: app.defs.einheitenPrecision[model.Einheit]
+                                    precision: 2
                                     value: model.erg_Menge * app.defs.einheitenDivider[model.Einheit]
                                 }
                                 LabelUnit {

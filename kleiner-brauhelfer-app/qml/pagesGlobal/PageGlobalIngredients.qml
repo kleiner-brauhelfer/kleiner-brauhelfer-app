@@ -46,7 +46,7 @@ PageBase {
             model: ProxyModelRohstoff {
                 sourceModel: Brauhelfer.modelWeitereZutaten
                 sortOrder: Qt.AscendingOrder
-                sortColumn: fieldIndex("Beschreibung")
+                sortColumn: fieldIndex("Name")
                 filter: app.settings.ingredientsFilter
             }
             headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
@@ -69,11 +69,11 @@ PageBase {
                         LabelPrim {
                             Layout.fillWidth: true
                             font.bold: true
-                            text: qsTr("Beschreibung")
+                            text: qsTr("Name")
                             MouseArea {
                                 anchors.fill: parent
                                 onClicked: {
-                                    var col = listView.model.fieldIndex("Beschreibung")
+                                    var col = listView.model.fieldIndex("Name")
                                     if (listView.model.sortColumn === col) {
                                         if (listView.model.sortOrder === Qt.AscendingOrder)
                                             listView.model.sortOrder = Qt.DescendingOrder
@@ -180,14 +180,14 @@ PageBase {
                         Layout.leftMargin: 8
                         Layout.rightMargin: 8
                         LabelPrim {
-                            id: tfBeschreibung
+                            id: tfName
                             Layout.fillWidth: true
                             opacity: model.Menge > 0 ? app.config.textOpacityFull : app.config.textOpacityHalf
                             text: model.Name
                             font.italic: model.InGebrauch
                             states: State {
                                 when: model.Menge > 0 && model.Mindesthaltbar < new Date()
-                                PropertyChanges { target: tfBeschreibung; color: Material.accent }
+                                PropertyChanges { target: tfName; color: Material.accent }
                             }
                         }
                         LabelNumber {
@@ -257,27 +257,27 @@ PageBase {
 
                                             Item {
                                                 property bool editing: false
-                                                id: itBeschreibung
+                                                id: itName
                                                 Layout.fillWidth: true
                                                 height: children[1].height
                                                 LabelSubheader {
                                                     anchors.fill: parent
-                                                    visible: !itBeschreibung.editing
+                                                    visible: !itName.editing
                                                     text: model.Name
                                                     font.italic: model.InGebrauch
                                                     horizontalAlignment: Text.AlignHCenter
                                                     MouseArea {
                                                         anchors.fill: parent
-                                                        onClicked: itBeschreibung.editing = true
+                                                        onClicked: itName.editing = true
                                                     }
                                                 }
                                                 TextFieldBase {
                                                     anchors.fill: parent
-                                                    visible: itBeschreibung.editing
+                                                    visible: itName.editing
                                                     horizontalAlignment: Text.AlignHCenter
                                                     text: model.Name
                                                     onTextChanged: if (activeFocus) model.Name = text
-                                                    onEditingFinished: itBeschreibung.editing = false
+                                                    onEditingFinished: itName.editing = false
                                                     onVisibleChanged: if (visible) forceActiveFocus()
                                                 }
 
@@ -307,7 +307,7 @@ PageBase {
                                         }
 
                                         SpinBoxReal {
-                                            decimals: app.defs.einheitenPrecision[_model.Einheit]
+                                            decimals: 2
                                             realValue: model.Menge
                                             onNewValue: model.Menge = value
                                         }
@@ -361,13 +361,29 @@ PageBase {
                                         }
 
                                         SpinBoxReal {
-                                            decimals: 1
+                                            decimals: 0
                                             realValue: model.Farbe
                                             onNewValue: model.Farbe = value
                                         }
 
                                         LabelUnit {
                                             text: qsTr("EBC")
+                                        }
+
+                                        LabelPrim {
+                                            Layout.columnSpan: 3
+                                            Layout.fillWidth: true
+                                            rightPadding: 8
+                                            text: qsTr("Eigenschaften")
+                                        }
+
+                                        TextArea {
+                                            Layout.columnSpan: 3
+                                            Layout.fillWidth: true
+                                            wrapMode: TextArea.Wrap
+                                            placeholderText: qsTr("Eigenschaften")
+                                            text: model.Eigenschaften
+                                            onTextChanged: if (activeFocus) model.Eigenschaften = text
                                         }
 
                                         LabelPrim {
@@ -384,6 +400,22 @@ PageBase {
                                             placeholderText: qsTr("Bemerkung")
                                             text: model.Bemerkung
                                             onTextChanged: if (activeFocus) model.Bemerkung = text
+                                        }
+
+                                        LabelPrim {
+                                            Layout.columnSpan: 3
+                                            Layout.fillWidth: true
+                                            rightPadding: 8
+                                            text: qsTr("Alternativen")
+                                        }
+
+                                        TextArea {
+                                            Layout.columnSpan: 3
+                                            Layout.fillWidth: true
+                                            wrapMode: TextArea.Wrap
+                                            placeholderText: qsTr("Alternativen")
+                                            text: model.Alternativen
+                                            onTextChanged: if (activeFocus) model.Alternativen = text
                                         }
 
                                         LabelPrim {
