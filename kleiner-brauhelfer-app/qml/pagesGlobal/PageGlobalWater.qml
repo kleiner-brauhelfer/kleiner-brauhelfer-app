@@ -542,6 +542,21 @@ PageBase {
                                     LabelUnit {
                                         text: qsTr("°dH")
                                     }
+
+                                    HorizontalDivider {
+                                        Layout.columnSpan: 3
+                                        Layout.fillWidth: true
+                                    }
+
+                                    TextArea {
+                                        Layout.columnSpan: 3
+                                        Layout.fillWidth: true
+                                        wrapMode: TextArea.Wrap
+                                        placeholderText: qsTr("Bemerkung")
+                                        text: model.Bemerkung
+                                        onTextChanged: if (activeFocus) model.Bemerkung = text
+                                    }
+
                                 }
                             }
                         }

@@ -6,72 +6,72 @@
     <message>
         <location filename="../qml/Defines.qml" line="5"/>
         <source>kg</source>
-        <translation type="unfinished"></translation>
+        <translation>kg</translation>
     </message>
     <message>
         <location filename="../qml/Defines.qml" line="6"/>
         <source>g</source>
-        <translation type="unfinished"></translation>
+        <translation>g</translation>
     </message>
     <message>
         <location filename="../qml/Defines.qml" line="7"/>
         <source>mg</source>
-        <translation type="unfinished"></translation>
+        <translation>mg</translation>
     </message>
     <message>
         <location filename="../qml/Defines.qml" line="8"/>
         <source>Stk.</source>
-        <translation type="unfinished"></translation>
+        <translation>pcs.</translation>
     </message>
     <message>
         <location filename="../qml/Defines.qml" line="9"/>
         <source>l</source>
-        <translation type="unfinished"></translation>
+        <translation>l</translation>
     </message>
     <message>
         <location filename="../qml/Defines.qml" line="10"/>
         <source>ml</source>
-        <translation type="unfinished"></translation>
+        <translation>ml</translation>
     </message>
     <message>
-        <location filename="../qml/Defines.qml" line="29"/>
+        <location filename="../qml/Defines.qml" line="21"/>
         <source>Honig</source>
-        <translation type="unfinished">Honey</translation>
+        <translation>Honey</translation>
     </message>
     <message>
-        <location filename="../qml/Defines.qml" line="30"/>
+        <location filename="../qml/Defines.qml" line="22"/>
         <source>Zucker</source>
-        <translation type="unfinished">Sugar</translation>
+        <translation>Sugar</translation>
     </message>
     <message>
-        <location filename="../qml/Defines.qml" line="31"/>
+        <location filename="../qml/Defines.qml" line="23"/>
         <source>Gewürz</source>
-        <translation type="unfinished">Spice</translation>
+        <translation>Spice</translation>
     </message>
     <message>
-        <location filename="../qml/Defines.qml" line="32"/>
+        <location filename="../qml/Defines.qml" line="24"/>
         <source>Frucht</source>
-        <translation type="unfinished">Fruit</translation>
+        <translation>Fruit</translation>
     </message>
     <message>
-        <location filename="../qml/Defines.qml" line="33"/>
+        <location filename="../qml/Defines.qml" line="25"/>
         <source>Sonstiges</source>
-        <translation type="unfinished">Miscellaneous</translation>
+        <translation>Miscellaneous</translation>
     </message>
     <message>
-        <location filename="../qml/Defines.qml" line="34"/>
+        <location filename="../qml/Defines.qml" line="26"/>
         <source>Kraut</source>
-        <translation type="unfinished"></translation>
+        <translation>Herbs</translation>
     </message>
     <message>
-        <location filename="../qml/Defines.qml" line="35"/>
+        <location filename="../qml/Defines.qml" line="27"/>
         <source>Wasseraufbereitung</source>
-        <translation type="unfinished"></translation>
+        <translation>Water adjustment</translation>
     </message>
     <message>
-        <location filename="../qml/Defines.qml" line="36"/>
+        <location filename="../qml/Defines.qml" line="28"/>
         <source>Klärmittel</source>
-        <translation type="unfinished"></translation>
+        <translation>Clearing agents</translation>
     </message>
 </context>
 <context>
@@ -84,24 +84,42 @@
     <message>
         <location filename="../qml/pagesOthers/PageAbout.qml" line="43"/>
         <source>Diese App dient als Ergänzung zum Programm &lt;a href=&quot;https://github.com/kleiner-brauhelfer/kleiner-brauhelfer-2&quot;&gt;kleiner-brauhelfer-2&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Diese App dient als Ergänzung zum Programm &lt;a href=&quot;http://www.joerum.de/kleiner-brauhelfer&quot;&gt;kleiner-brauhelfer&lt;/a&gt;.</source>
-        <translation type="vanished">This app is a complement to the program &lt;a href=&quot;http://www.joerum.de/kleiner-brauhelfer&quot;&gt;kleiner-brauhelfer&lt;/a&gt;.</translation>
+        <translation>This app is a complement to the program &lt;a href=&quot;https://github.com/kleiner-brauhelfer/kleiner-brauhelfer-2&quot;&gt;kleiner-brauhelfer-2&lt;/a&gt;.</translation>
     </message>
     <message>
         <location filename="../qml/pagesOthers/PageAbout.qml" line="51"/>
-        <source>Informationen und letzte Version &lt;a href=&quot;https://github.com/kleiner-brauhelfer/kleiner-brauhelfer-app&quot;&gt;kleiner-brauhelfer-app&lt;/a&gt;.</source>
+        <source>Informationen und letzte Version auf &lt;a href=&quot;https://github.com/kleiner-brauhelfer/kleiner-brauhelfer-app&quot;&gt;kleiner-brauhelfer-app&lt;/a&gt;.</source>
         <translation>Information and last version can be found at &lt;a href=&quot;https://github.com/kleiner-brauhelfer/kleiner-brauhelfer-app&quot;&gt;kleiner-brauhelfer-app&lt;/a&gt;.</translation>
     </message>
     <message>
-        <source>Diese App dient als Ergänzung zum Programm &lt;a href=&quot;http://www.joerum.de/kleiner-brauhelfer&quot;&gt;kleiner-brauhelfer&lt;/a&gt; von gremmel.</source>
-        <translation type="vanished">This app is a complement to the program &lt;a href=&quot;http://www.joerum.de/kleiner-brauhelfer&quot;&gt;kleiner-brauhelfer&lt;/a&gt; by gremmel.</translation>
+        <location filename="../qml/pagesOthers/PageAbout.qml" line="59"/>
+        <source>Der kleine-brauhelfer-2 ist als angepasste &lt;a href=&quot;https://de.wikipedia.org/wiki/Beerware&quot;&gt;Beerware&lt;/a&gt; lizenziert.</source>
+        <translation>The kleiner-brauhelfer-2 is licensed as adapted &lt;a href=&quot;https://de.wikipedia.org/wiki/Beerware&quot;&gt;Beerware&lt;/a&gt;.</translation>
     </message>
     <message>
-        <source>Die App wird von &lt;a href=&quot;mailto:bourgeoislab@gmail.com&quot;&gt;BourgeoisLab&lt;/a&gt; entwickelt.</source>
-        <translation type="vanished">The app is developed by &lt;a href=&quot;mailto:bourgeoislab@gmail.com&quot;&gt;BourgeoisLab&lt;/a&gt;.</translation>
+        <location filename="../qml/pagesOthers/PageAbout.qml" line="66"/>
+        <source>&lt;em&gt;Während die Nutzung generell kostenlos ist, erbittet der Autor von Beerware vom Nutzer dem Autor&lt;br/&gt;- bei Gelegenheit ein Bier auszugeben oder&lt;br/&gt;- ein Bier auf das Wohl des Autors zu trinken oder&lt;br/&gt;- dem Autor ein &lt;strong&gt;selbstgebrautes Bier zu schicken&lt;/&lt;strong&gt;.&lt;/em&gt;</source>
+        <translation>&lt;em&gt;While the use is generally free of charge, the author of Beerware asks the user to&lt;br/&gt;- give the author a beer or&lt;br/&gt;- to drink a beer on the author&apos;s behalf or&lt;br/&gt;- to send the author a &lt;strong&gt;home-brewed beer&lt;/strong&gt;.&lt;/em&gt;</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesOthers/PageAbout.qml" line="74"/>
+        <source>Die Einhaltung dieser Lizenzierungsbestimmung erfolgt auf freiwilliger Basis.</source>
+        <translation>Compliance with this licensing requirement is voluntary.</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesOthers/PageAbout.qml" line="82"/>
+        <source>&lt;strong&gt;Anschrift Deutschland:&lt;br/&gt;&lt;/strong&gt;Bourgeois Frédéric&lt;br/&gt;c/o LAS Burg 12002&lt;br/&gt;Hauptstraße 396&lt;br/&gt;D-79576 Weil am Rhein</source>
+        <translation>&lt;strong&gt;Address Gernany:&lt;br/&gt;&lt;/strong&gt;Bourgeois Frédéric&lt;br/&gt;c/o LAS Burg 12002&lt;br/&gt;Hauptstraße 396&lt;br/&gt;D-79576 Weil am Rhein</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesOthers/PageAbout.qml" line="90"/>
+        <source>&lt;strong&gt;Anschrift Schweiz:&lt;br/&gt;&lt;/strong&gt;Bourgeois Frédéric&lt;br/&gt;Lehenmattstrasse 158&lt;br/&gt;CH-4052 Basel</source>
+        <translation>&lt;strong&gt;Address Switzerland:&lt;br/&gt;&lt;/strong&gt;Bourgeois Frédéric&lt;br/&gt;Lehenmattstrasse 158&lt;br/&gt;CH-4052 Basel</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesOthers/PageAbout.qml" line="98"/>
+        <source>Ich würde mich über ein leckeres Bier sehr freuen!</source>
+        <translation>I would be very happy about a tasty beer!</translation>
     </message>
 </context>
 <context>
@@ -109,7 +127,7 @@
     <message>
         <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="21"/>
         <source>Sudauswahl</source>
-        <translation>Brew Selection</translation>
+        <translation>Batch selection</translation>
     </message>
     <message>
         <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="34"/>
@@ -120,167 +138,163 @@
         <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="47"/>
         <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="48"/>
         <source>Sudname</source>
-        <translation>Brew name</translation>
+        <translation>Batch name</translation>
     </message>
     <message>
         <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="49"/>
         <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="50"/>
         <source>Sudnummer</source>
-        <translation>Brew number</translation>
+        <translation>Batch number</translation>
     </message>
     <message>
         <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="51"/>
         <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="52"/>
-        <source>Braudatum</source>
-        <translation>Brew date</translation>
+        <source>Kategorie</source>
+        <translation>Category</translation>
     </message>
     <message>
         <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="53"/>
         <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="54"/>
-        <source>Gespeichert</source>
-        <translation>Saved</translation>
+        <source>Braudatum</source>
+        <translation>Brew date</translation>
     </message>
     <message>
         <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="55"/>
         <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="56"/>
+        <source>Gespeichert</source>
+        <translation>Saved</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="57"/>
+        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="58"/>
         <source>Erstellt</source>
         <translation>Created</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="181"/>
-        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="424"/>
+        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="192"/>
+        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="291"/>
+        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="455"/>
         <source>Rezept</source>
         <translation>Recipe</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="181"/>
+        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="192"/>
         <source>Gebraut</source>
         <translation>Brewed</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="190"/>
+        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="201"/>
         <source>nicht gebraut</source>
         <translation>not brewed</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="198"/>
+        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="209"/>
         <source>Woche</source>
-        <translation type="unfinished">Week</translation>
+        <translation>Week</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="200"/>
-        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="436"/>
+        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="211"/>
+        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="467"/>
         <source>verbraucht</source>
         <translation>consumed</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="192"/>
+        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="286"/>
+        <source>Sud</source>
+        <translation>Batch</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="203"/>
         <source>nicht abgefüllt</source>
         <translation>not bottled</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="196"/>
+        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="207"/>
         <source>reif in</source>
         <translation>ready in</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="196"/>
+        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="207"/>
         <source>Tage</source>
         <translation>Days</translation>
     </message>
     <message>
-        <source>reif seit</source>
-        <translation type="vanished">ready since</translation>
-    </message>
-    <message>
-        <source>Wochen</source>
-        <translation type="vanished">weeks</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="269"/>
+        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="300"/>
         <source>Menge</source>
         <translation>Amount</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="285"/>
+        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="316"/>
         <source>l</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="289"/>
+        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="320"/>
         <source>SW</source>
         <translation>OG</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="323"/>
+        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="354"/>
         <source>%vol</source>
-        <translation type="unfinished"></translation>
+        <translation>%vol</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="383"/>
+        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="414"/>
         <source>g/l</source>
         <translation></translation>
     </message>
     <message>
-        <source>Stammwürze</source>
-        <translation type="vanished">Original gravity</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="303"/>
+        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="334"/>
         <source>°P</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="307"/>
+        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="338"/>
         <source>Alkohol</source>
         <translation>Alcohol</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="327"/>
+        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="358"/>
         <source>Bittere</source>
         <translation>Bitterness</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="343"/>
+        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="374"/>
         <source>IBU</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="347"/>
+        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="378"/>
         <source>Farbe</source>
         <translation>Color</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="363"/>
+        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="394"/>
         <source>EBC</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="367"/>
+        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="398"/>
         <source>CO2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="428"/>
+        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="459"/>
         <source>gebraut</source>
-        <translation type="unfinished"></translation>
+        <translation>brewed</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="432"/>
+        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="463"/>
         <source>abgefüllt</source>
-        <translation type="unfinished"></translation>
+        <translation>bottled</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="457"/>
+        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="488"/>
         <source>alle</source>
         <translation>all</translation>
     </message>
     <message>
-        <source>nicht verbraucht</source>
-        <translation type="vanished">not consumed</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="469"/>
+        <location filename="../qml/pagesGlobal/PageGlobalAuswahl.qml" line="500"/>
         <source>Merkliste</source>
         <translation>Pinned</translation>
     </message>
@@ -305,180 +319,187 @@
     <message>
         <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="54"/>
         <source>Sude</source>
-        <translation type="unfinished"></translation>
+        <translation>Batches</translation>
     </message>
     <message>
         <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="117"/>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="300"/>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="324"/>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="387"/>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="416"/>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="467"/>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="496"/>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="302"/>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="326"/>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="389"/>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="418"/>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="469"/>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="498"/>
         <source>l</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="283"/>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="268"/>
+        <source>Verdampfungsrate</source>
+        <translation>Evaporation rate</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="277"/>
+        <source>l/h</source>
+        <translation>l/h</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="285"/>
         <source>Korrekturwerte</source>
         <translation>Correction values</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="253"/>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="255"/>
         <source>Sudhausausbeute</source>
         <translation>Mash efficiency</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="262"/>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="275"/>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="264"/>
         <source>%</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="266"/>
-        <source>Verdampfungsziffer</source>
-        <translation>Evaporation figure</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="291"/>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="293"/>
         <source>Nachguss</source>
-        <translation>Sparging water</translation>
+        <translation>Sparge water</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="304"/>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="306"/>
         <source>Farbwert</source>
         <translation>Color</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="312"/>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="314"/>
         <source>EBC</source>
         <translation></translation>
     </message>
     <message>
-        <source>Kosten</source>
-        <translation type="vanished">Cost</translation>
-    </message>
-    <message>
         <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="218"/>
         <source>Standard</source>
-        <translation type="unfinished">Standard</translation>
+        <translation>Standard</translation>
     </message>
     <message>
         <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="219"/>
         <source>Grainfather G30</source>
-        <translation type="unfinished"></translation>
+        <translation>Grainfather G30</translation>
     </message>
     <message>
         <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="220"/>
         <source>Grainfather G70</source>
-        <translation type="unfinished"></translation>
+        <translation>Grainfather G70</translation>
     </message>
     <message>
         <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="221"/>
         <source>Braumeister 10L</source>
-        <translation type="unfinished"></translation>
+        <translation>Braumeister 10L</translation>
     </message>
     <message>
         <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="222"/>
         <source>Braumeister 20L</source>
-        <translation type="unfinished"></translation>
+        <translation>Braumeister 20L</translation>
     </message>
     <message>
         <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="223"/>
         <source>Braumeister 50L</source>
-        <translation type="unfinished"></translation>
+        <translation>Braumeister 50L</translation>
     </message>
     <message>
         <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="224"/>
         <source>Braumeister 200L</source>
-        <translation type="unfinished"></translation>
+        <translation>Braumeister 200L</translation>
     </message>
     <message>
         <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="225"/>
         <source>Braumeister 500L</source>
-        <translation type="unfinished"></translation>
+        <translation>Braumeister 500L</translation>
     </message>
     <message>
         <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="226"/>
         <source>Braumeister 1000L</source>
-        <translation type="unfinished"></translation>
+        <translation>Braumeister 1000L</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="245"/>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="227"/>
+        <source>Brauheld Pro 30L</source>
+        <translation>Brauheld Pro 30L</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="247"/>
         <source>Kernwerte</source>
-        <translation type="unfinished"></translation>
+        <translation>Core Values</translation>
     </message>
     <message>
-        <source>Sonstiges</source>
-        <translation type="obsolete">Miscellaneous</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="316"/>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="318"/>
         <source>Sollmenge</source>
-        <translation type="unfinished"></translation>
+        <translation>Target amount</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="328"/>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="330"/>
         <source>Betriebskosten</source>
-        <translation type="unfinished"></translation>
+        <translation>Additional costs</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="344"/>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="346"/>
         <source>Maischekessel</source>
         <translation>Mash kettle</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="351"/>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="431"/>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="353"/>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="433"/>
         <source>Durchmesser</source>
         <translation>Diameter</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="359"/>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="375"/>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="404"/>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="439"/>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="455"/>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="484"/>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="361"/>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="377"/>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="406"/>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="441"/>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="457"/>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="486"/>
         <source>cm</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="367"/>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="447"/>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="369"/>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="449"/>
         <source>Höhe</source>
         <translation>Height</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="379"/>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="459"/>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="381"/>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="461"/>
         <source>Volumen</source>
         <translation>Volume</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="395"/>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="475"/>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="397"/>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="477"/>
         <source>Nutzbar Höhe</source>
         <translation>Usable height</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="408"/>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="488"/>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="410"/>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="490"/>
         <source>Nutzbares Volumen</source>
         <translation>Useable volume</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="424"/>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="426"/>
         <source>Sudpfanne</source>
         <translation>Brew kettle</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="504"/>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="506"/>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="511"/>
+        <source>Bemerkung</source>
+        <translation>Remarks</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="520"/>
         <source>Geräte</source>
         <translation>Gear</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="539"/>
+        <location filename="../qml/pagesGlobal/PageGlobalEquipment.qml" line="555"/>
         <source>Neues Gerät</source>
         <translation>New gear</translation>
     </message>
@@ -491,120 +512,122 @@
         <translation>Feedstock Hops</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="25"/>
+        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="34"/>
         <source>Suche</source>
         <translation>Search</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="62"/>
-        <source>Beschreibung</source>
-        <translation>Description</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="83"/>
-        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="296"/>
+        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="93"/>
+        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="306"/>
         <source>Menge</source>
         <translation>Amount</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="117"/>
+        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="127"/>
         <source>alle</source>
         <translation>all</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="122"/>
+        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="132"/>
         <source>vorhanden</source>
         <translation>in stock</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="127"/>
+        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="137"/>
         <source>in Gebrauch</source>
         <translation>in use</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="188"/>
-        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="306"/>
+        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="198"/>
+        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="316"/>
         <source>g</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="201"/>
+        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="211"/>
         <source>Rohstoff kann nicht gelöscht werden.</source>
         <translation>Ingredient can&apos;t be deleted.</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="202"/>
+        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="212"/>
         <source>Der Rohstoff wird von einem nichtgebrauten Sud verwendet.</source>
         <translation>The ingredient is used in a non-brewed brew.</translation>
     </message>
     <message>
-        <source>Alphasäure</source>
-        <translation type="vanished">alpha acidity</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="312"/>
-        <source>Alpha</source>
-        <translation type="unfinished"></translation>
+        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="72"/>
+        <source>Name</source>
+        <translation>Name</translation>
     </message>
     <message>
         <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="322"/>
+        <source>Alpha</source>
+        <translation>Alpha</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="332"/>
         <source>%</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="328"/>
+        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="338"/>
         <source>Pellets</source>
         <translation>Pellets</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="342"/>
+        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="352"/>
         <source>Typ</source>
         <translation>Type</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="349"/>
+        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="359"/>
         <source>Aroma</source>
         <translation>Aroma</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="349"/>
+        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="359"/>
         <source>Bitter</source>
         <translation>Bitterness</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="349"/>
+        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="359"/>
         <source>Universal</source>
         <translation>Universal</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="358"/>
-        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="365"/>
+        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="368"/>
+        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="375"/>
         <source>Eigenschaften</source>
         <translation>Characteristics</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="374"/>
-        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="381"/>
+        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="384"/>
+        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="391"/>
         <source>Bemerkung</source>
         <translation>Remarks</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="389"/>
+        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="400"/>
+        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="407"/>
+        <source>Alternativen</source>
+        <translation>Alternatives</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="415"/>
         <source>Preis</source>
         <translation>Price</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="399"/>
+        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="425"/>
         <source>kg</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="405"/>
+        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="431"/>
         <source>Eingelagert</source>
         <translation>Stocked</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="421"/>
+        <location filename="../qml/pagesGlobal/PageGlobalHops.qml" line="446"/>
         <source>Haltbar</source>
         <translation>Best before</translation>
     </message>
@@ -617,109 +640,101 @@
         <translation>Feedstock Ingredients</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="25"/>
+        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="34"/>
         <source>Suche</source>
         <translation>Search</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="62"/>
-        <source>Beschreibung</source>
-        <translation>Description</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="83"/>
-        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="296"/>
+        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="93"/>
+        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="306"/>
         <source>Menge</source>
         <translation>Amount</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="117"/>
+        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="127"/>
         <source>alle</source>
         <translation>all</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="122"/>
+        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="132"/>
         <source>vorhanden</source>
         <translation>in stock</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="127"/>
+        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="137"/>
         <source>in Gebrauch</source>
         <translation>in use</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="201"/>
+        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="211"/>
         <source>Rohstoff kann nicht gelöscht werden.</source>
         <translation>Ingredient can&apos;t be deleted.</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="202"/>
+        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="212"/>
         <source>Der Rohstoff wird von einem nichtgebrauten Sud verwendet.</source>
         <translation>The ingredient is used in a non-brewed brew.</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="317"/>
+        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="327"/>
         <source>Typ</source>
         <translation>Type</translation>
     </message>
     <message>
-        <source>Honig</source>
-        <translation type="vanished">Honey</translation>
+        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="72"/>
+        <source>Name</source>
+        <translation>Name</translation>
     </message>
     <message>
-        <source>Zucker</source>
-        <translation type="vanished">Sugar</translation>
-    </message>
-    <message>
-        <source>Gewürz</source>
-        <translation type="vanished">Spice</translation>
-    </message>
-    <message>
-        <source>Frucht</source>
-        <translation type="vanished">Fruit</translation>
-    </message>
-    <message>
-        <source>Sonstiges</source>
-        <translation type="vanished">Miscellaneous</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="332"/>
+        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="342"/>
         <source>Ausbeute</source>
-        <translation>Mash efficiency</translation>
+        <translation>Yield</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="344"/>
+        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="354"/>
         <source>%</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="350"/>
+        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="360"/>
         <source>Farbe</source>
         <translation>Color</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="360"/>
+        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="370"/>
         <source>EBC</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="367"/>
-        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="374"/>
+        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="377"/>
+        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="384"/>
+        <source>Eigenschaften</source>
+        <translation>Characteristics</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="393"/>
+        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="400"/>
         <source>Bemerkung</source>
         <translation>Remarks</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="382"/>
+        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="409"/>
+        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="416"/>
+        <source>Alternativen</source>
+        <translation>Alternatives</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="424"/>
         <source>Preis</source>
         <translation>Price</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="398"/>
+        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="440"/>
         <source>Eingelagert</source>
         <translation>Stocked</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="414"/>
+        <location filename="../qml/pagesGlobal/PageGlobalIngredients.qml" line="455"/>
         <source>Haltbar</source>
         <translation>Best before</translation>
     </message>
@@ -732,97 +747,108 @@
         <translation>Feedstock Malts</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="25"/>
+        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="34"/>
         <source>Suche</source>
         <translation>Search</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="62"/>
-        <source>Beschreibung</source>
-        <translation>Description</translation>
+        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="72"/>
+        <source>Name</source>
+        <translation>Name</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="83"/>
-        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="295"/>
+        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="93"/>
+        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="305"/>
         <source>Menge</source>
         <translation>Amount</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="117"/>
+        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="127"/>
         <source>alle</source>
         <translation>all</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="122"/>
+        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="132"/>
         <source>vorhanden</source>
         <translation>in stock</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="127"/>
+        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="137"/>
         <source>in Gebrauch</source>
         <translation>in use</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="188"/>
-        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="305"/>
-        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="387"/>
+        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="198"/>
+        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="315"/>
+        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="429"/>
         <source>kg</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="201"/>
+        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="211"/>
         <source>Rohstoff kann nicht gelöscht werden.</source>
         <translation>Ingredient can&apos;t be deleted.</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="202"/>
+        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="212"/>
         <source>Der Rohstoff wird von einem nichtgebrauten Sud verwendet.</source>
         <translation>The ingredient is used in a non-brewed brew.</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="311"/>
+        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="321"/>
         <source>Farbe</source>
         <translation>Color</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="321"/>
+        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="331"/>
         <source>EBC</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="327"/>
+        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="337"/>
+        <source>pH-Wert</source>
+        <translation>pH</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="353"/>
         <source>Max. Anteil</source>
         <translation>Max. share</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="339"/>
+        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="365"/>
         <source>%</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="346"/>
-        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="353"/>
-        <source>Anwendung</source>
-        <translation>Application</translation>
+        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="372"/>
+        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="379"/>
+        <source>Eigenschaften</source>
+        <translation>Characteristics</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="362"/>
-        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="369"/>
+        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="388"/>
+        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="395"/>
         <source>Bemerkung</source>
         <translation>Remarks</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="377"/>
+        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="404"/>
+        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="411"/>
+        <source>Alternativen</source>
+        <translation>Alternatives</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="419"/>
         <source>Preis</source>
         <translation>Price</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="393"/>
+        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="435"/>
         <source>Eingelagert</source>
         <translation>Stocked</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="409"/>
+        <location filename="../qml/pagesGlobal/PageGlobalMalt.qml" line="450"/>
         <source>Haltbar</source>
         <translation>Best before</translation>
     </message>
@@ -832,96 +858,80 @@
     <message>
         <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="16"/>
         <source>Brauübersicht</source>
-        <translation>Brew Overview</translation>
+        <translation>Batch History</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="30"/>
+        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="31"/>
         <source>Menge</source>
         <translation>Amount</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="36"/>
+        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="37"/>
         <source>SW</source>
-        <translation type="unfinished">OG</translation>
+        <translation>OG</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="42"/>
+        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="43"/>
         <source>SHA</source>
-        <translation type="unfinished"></translation>
+        <translation>Mash efficiency</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="48"/>
+        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="49"/>
         <source>Eff. SHA</source>
-        <translation type="unfinished"></translation>
+        <translation>Actual mash efficiency</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="25"/>
-        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="32"/>
+        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="26"/>
+        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="33"/>
         <source>l</source>
         <translation></translation>
     </message>
     <message>
-        <source>Stammwürze</source>
-        <translation type="vanished">Original gravity</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="38"/>
-        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="62"/>
+        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="39"/>
+        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="63"/>
         <source>°P</source>
         <translation></translation>
     </message>
     <message>
-        <source>Ausbeute</source>
-        <translation type="vanished">Mash efficiency</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="44"/>
-        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="50"/>
-        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="68"/>
-        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="74"/>
+        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="45"/>
+        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="51"/>
+        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="69"/>
+        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="75"/>
         <source>%</source>
         <translation></translation>
     </message>
     <message>
-        <source>Eff. Ausbeute</source>
-        <translation type="vanished">Actual mash efficiency</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="78"/>
+        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="79"/>
         <source>Kosten</source>
-        <translation>Cost</translation>
+        <translation>Costs</translation>
     </message>
     <message>
-        <source>Schüttung</source>
-        <translation type="vanished">Grist amount</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="54"/>
+        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="55"/>
         <source>Alkohol</source>
         <translation>Alcohol</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="56"/>
+        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="57"/>
         <source>%vol</source>
-        <translation type="unfinished"></translation>
+        <translation>%vol</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="60"/>
+        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="61"/>
         <source>SRE</source>
-        <translation type="unfinished"></translation>
+        <translation>FG</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="66"/>
+        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="67"/>
         <source>sEVG</source>
-        <translation type="unfinished"></translation>
+        <translation>FG</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="72"/>
+        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="73"/>
         <source>tEVG</source>
-        <translation type="unfinished"></translation>
+        <translation>Actual FG</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="140"/>
+        <location filename="../qml/pagesGlobal/PageGlobalUebersicht.qml" line="151"/>
         <source>Braudatum</source>
         <translation>Brew date</translation>
     </message>
@@ -936,7 +946,7 @@
     <message>
         <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="47"/>
         <source>Wasserprofil</source>
-        <translation type="unfinished"></translation>
+        <translation>Water profile</translation>
     </message>
     <message>
         <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="234"/>
@@ -945,62 +955,72 @@
     </message>
     <message>
         <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="244"/>
-        <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="297"/>
+        <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="299"/>
+        <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="354"/>
+        <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="409"/>
+        <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="446"/>
+        <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="483"/>
         <source>mg/l</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="260"/>
-        <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="313"/>
-        <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="350"/>
+        <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="315"/>
+        <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="370"/>
+        <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="425"/>
+        <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="462"/>
+        <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="499"/>
         <source>mmol/l</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="319"/>
-        <source>Magnesiumhärte</source>
-        <translation type="unfinished"></translation>
+        <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="344"/>
+        <source>Hydrogencarbonat</source>
+        <translation>Hydrogen carbonate</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="356"/>
-        <source>Carbonathärte</source>
-        <translation type="unfinished"></translation>
+        <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="399"/>
+        <source>Sulfat</source>
+        <translation>Sulfate</translation>
     </message>
     <message>
-        <source>Härtegrad</source>
-        <translation type="vanished">Hardness</translation>
+        <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="436"/>
+        <source>Chlorid</source>
+        <translation>Chlorid</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="473"/>
+        <source>Natrium</source>
+        <translation>Natrium</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="510"/>
+        <source>Korrektur</source>
+        <translation>Correction</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="555"/>
+        <source>Bemerkung</source>
+        <translation>Remarks</translation>
     </message>
     <message>
         <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="140"/>
-        <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="276"/>
-        <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="329"/>
-        <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="368"/>
-        <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="389"/>
+        <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="278"/>
+        <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="333"/>
+        <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="388"/>
+        <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="522"/>
+        <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="543"/>
         <source>°dH</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="266"/>
-        <source>Calciumhärte</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="287"/>
+        <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="289"/>
         <source>Magnesium</source>
         <translation>Magnesium</translation>
     </message>
     <message>
-        <source>Carbonhärte</source>
-        <translation type="vanished">Carbonate hardness</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="340"/>
-        <source>Säurekapazität</source>
-        <translation>Acid capacity</translation>
-    </message>
-    <message>
         <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="68"/>
-        <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="379"/>
+        <location filename="../qml/pagesGlobal/PageGlobalWater.qml" line="533"/>
         <source>Restalkalität</source>
         <translation>Residual alkalinity</translation>
     </message>
@@ -1013,145 +1033,131 @@
         <translation>Feedstock Yeast</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="25"/>
+        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="34"/>
         <source>Suche</source>
         <translation>Search</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="62"/>
-        <source>Beschreibung</source>
-        <translation>Description</translation>
+        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="72"/>
+        <source>Name</source>
+        <translation>Name</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="83"/>
-        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="295"/>
+        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="93"/>
+        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="305"/>
         <source>Menge</source>
         <translation>Amount</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="117"/>
+        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="127"/>
         <source>alle</source>
         <translation>all</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="122"/>
+        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="132"/>
         <source>vorhanden</source>
         <translation>in stock</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="127"/>
+        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="137"/>
         <source>in Gebrauch</source>
         <translation>in use</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="200"/>
+        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="210"/>
         <source>Rohstoff kann nicht gelöscht werden.</source>
         <translation>Ingredient can&apos;t be deleted.</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="201"/>
+        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="211"/>
         <source>Der Rohstoff wird von einem nichtgebrauten Sud verwendet.</source>
         <translation>The ingredient is used in a non-brewed brew.</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="311"/>
+        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="321"/>
         <source>Würzemenge</source>
         <translation>Wort amount</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="321"/>
+        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="331"/>
         <source>l</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="327"/>
+        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="337"/>
         <source>OG / UG</source>
         <translation>TF / LF</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="334"/>
+        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="344"/>
         <source>obergärig</source>
-        <translation>top-fermented</translation>
+        <translation>top-fermenting</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="334"/>
+        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="344"/>
         <source>untergärig</source>
-        <translation>bottom-fermented</translation>
+        <translation>bottom-fermenting</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="342"/>
+        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="352"/>
         <source>Trocken / flüssig</source>
         <translation>Dry / liquid</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="349"/>
+        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="359"/>
         <source>trocken</source>
         <translation>dry</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="349"/>
+        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="359"/>
         <source>flüssig</source>
         <translation>liquid</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="357"/>
-        <source>Verpackung</source>
-        <translation>Packaging</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="370"/>
+        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="367"/>
         <source>Sedimentation</source>
         <translation>Flocculation</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="377"/>
-        <source>hoch</source>
-        <translation>high</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="377"/>
-        <source>mittel</source>
-        <translation>medium</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="377"/>
-        <source>niedrig</source>
-        <translation>low</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="385"/>
+        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="380"/>
         <source>Vergärungsgrad</source>
         <translation>Fermentation</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="398"/>
+        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="393"/>
         <source>Temperatur</source>
         <translation>Temperature</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="412"/>
-        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="419"/>
+        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="407"/>
+        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="414"/>
         <source>Eigenschaften</source>
         <translation>Characteristics</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="428"/>
-        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="435"/>
+        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="423"/>
+        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="430"/>
         <source>Bemerkung</source>
         <translation>Remarks</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="443"/>
+        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="439"/>
+        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="446"/>
+        <source>Alternativen</source>
+        <translation>Alternatives</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="454"/>
         <source>Preis</source>
         <translation>Price</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="459"/>
+        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="470"/>
         <source>Eingelagert</source>
         <translation>Stocked</translation>
     </message>
     <message>
-        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="475"/>
+        <location filename="../qml/pagesGlobal/PageGlobalYeast.qml" line="485"/>
         <source>Haltbar</source>
         <translation>Best before</translation>
     </message>
@@ -1165,7 +1171,6 @@
     </message>
     <message>
         <location filename="../qml/pagesOthers/PageSettings.qml" line="71"/>
-        <location filename="../qml/pagesOthers/PageSettings.qml" line="157"/>
         <source>Datenbank</source>
         <translation>Database</translation>
     </message>
@@ -1200,52 +1205,47 @@
         <translation>Path to database</translation>
     </message>
     <message>
-        <location filename="../qml/pagesOthers/PageSettings.qml" line="157"/>
-        <source>Alle Dateien</source>
-        <translation>All files</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesOthers/PageSettings.qml" line="176"/>
+        <location filename="../qml/pagesOthers/PageSettings.qml" line="175"/>
         <source>Benötigt eine Dropbox App.</source>
         <translation>Requires a Dropbox App.</translation>
     </message>
     <message>
-        <location filename="../qml/pagesOthers/PageSettings.qml" line="181"/>
+        <location filename="../qml/pagesOthers/PageSettings.qml" line="180"/>
         <source>Dropbox Access Token</source>
         <translation>Dropbox access token</translation>
     </message>
     <message>
-        <location filename="../qml/pagesOthers/PageSettings.qml" line="204"/>
+        <location filename="../qml/pagesOthers/PageSettings.qml" line="203"/>
         <source>Pfad auf dem Server</source>
         <translation>Path on the server</translation>
     </message>
     <message>
-        <location filename="../qml/pagesOthers/PageSettings.qml" line="234"/>
+        <location filename="../qml/pagesOthers/PageSettings.qml" line="233"/>
         <source>Benötigt einen WebDav Server.</source>
         <translation>Requires a WebDav server.</translation>
     </message>
     <message>
-        <location filename="../qml/pagesOthers/PageSettings.qml" line="239"/>
+        <location filename="../qml/pagesOthers/PageSettings.qml" line="238"/>
         <source>URL</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesOthers/PageSettings.qml" line="263"/>
+        <location filename="../qml/pagesOthers/PageSettings.qml" line="262"/>
         <source>Benutzername</source>
         <translation>User name</translation>
     </message>
     <message>
-        <location filename="../qml/pagesOthers/PageSettings.qml" line="287"/>
+        <location filename="../qml/pagesOthers/PageSettings.qml" line="286"/>
         <source>Passwort</source>
         <translation>Password</translation>
     </message>
     <message>
-        <location filename="../qml/pagesOthers/PageSettings.qml" line="325"/>
+        <location filename="../qml/pagesOthers/PageSettings.qml" line="324"/>
         <source>Cache leeren</source>
         <translation>Clear cache</translation>
     </message>
     <message>
-        <location filename="../qml/pagesOthers/PageSettings.qml" line="353"/>
+        <location filename="../qml/pagesOthers/PageSettings.qml" line="352"/>
         <source>Sprache</source>
         <translation>Language</translation>
     </message>
@@ -1313,14 +1313,15 @@
         <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="192"/>
         <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="209"/>
         <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="244"/>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="256"/>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="288"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="257"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="269"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="301"/>
         <source>°P</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="182"/>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="248"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="261"/>
         <source>Tatsächlich</source>
         <translation>Actual</translation>
     </message>
@@ -1330,129 +1331,123 @@
         <translation>Green bottling time</translation>
     </message>
     <message>
-        <source>Schnellgärprobe liegt tiefer als Jungbier.</source>
-        <translation type="vanished">Fast fermentation probe is lower than the green beer.</translation>
-    </message>
-    <message>
         <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="225"/>
         <source>Restextrakt Jungbier</source>
         <translation>Residual extract green beer</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="264"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="249"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="344"/>
+        <source>Erwartet</source>
+        <translation>Expected</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="277"/>
         <source>Grünschlauchzeitpunkt noch nicht erreicht.</source>
         <translation>Green bottling time not reached.</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="272"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="285"/>
         <source>Bierwerte</source>
         <translation>Beer values</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="279"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="292"/>
         <source>Stammwürze</source>
         <translation>Original gravity</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="292"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="305"/>
         <source>Vergärungsgrad scheinbar</source>
         <translation>Fermentation</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="300"/>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="312"/>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="326"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="313"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="325"/>
         <source>%</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="304"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="317"/>
         <source>Vergärungsgrad tatsächlich</source>
         <translation>Actual fermentation</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="316"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="329"/>
         <source>Alkohol</source>
         <translation>Alcohol</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="334"/>
-        <source>Druck</source>
-        <translation>Pressure</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="341"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="368"/>
         <source>Temperatur Jungbier</source>
         <translation>Temperature green beer</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="351"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="378"/>
         <source>°C</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="355"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="361"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="382"/>
         <source>Spundungsdruck</source>
         <translation>Bung pressure</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="363"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="391"/>
         <source>bar</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="494"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="534"/>
         <source>Menge</source>
         <translation>Amount</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="501"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="541"/>
         <source>Jungbiermenge</source>
         <translation>Amount green beer</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="512"/>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="527"/>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="545"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="446"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="465"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="552"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="564"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="579"/>
         <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="597"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="649"/>
         <source>l</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="574"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="626"/>
         <source>Zusätzliche Kosten</source>
-        <translation type="unfinished"></translation>
+        <translation>Additional costs</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="588"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="640"/>
         <source>Gesamtkosten</source>
-        <translation type="unfinished"></translation>
+        <translation>Total costs</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="603"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="655"/>
         <source>Sud abgefüllt</source>
-        <translation>Brew bottled</translation>
+        <translation>Batch bottled/kegged</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="428"/>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="457"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="497"/>
         <source>ml/l</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="486"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="526"/>
         <source>g/l</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="532"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="584"/>
         <source>Biermenge</source>
         <translation>Beer amount</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="371"/>
-        <source>Speise &amp; Zucker</source>
-        <translation>Sugar</translation>
     </message>
     <message>
         <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="217"/>
@@ -1460,63 +1455,75 @@
         <translation>OG of green beer is lower than fast fermentation probe.</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="379"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="407"/>
         <source>Spunden</source>
-        <translation>No sugar addition</translation>
+        <translation>Force carbonation</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="388"/>
-        <source>Zuckerfaktor</source>
-        <translation>Sugar factor</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="404"/>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="517"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="569"/>
         <source>Speise</source>
         <translation>Unfermented wort</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="416"/>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="445"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="485"/>
         <source>ml</source>
         <translation></translation>
     </message>
     <message>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="339"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="353"/>
+        <source>%vol</source>
+        <translation>%vol</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="399"/>
+        <source>Karbonisierung</source>
+        <translation>Carbonation</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="416"/>
+        <source>Süsskraft Zucker</source>
+        <translation>Sugar factor</translation>
+    </message>
+    <message>
         <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="433"/>
+        <source>Wasser Zuckerlösung</source>
+        <translation>Water for sugar solution</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="453"/>
+        <source>Abgefüllte Speisemenge</source>
+        <translation>Saved unfermented wort</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="473"/>
         <source>Speiseanteil</source>
         <translation>Amount sugar</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="462"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="502"/>
         <source>Zuckeranteil</source>
         <translation>Sugar</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="474"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="514"/>
         <source>g</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="553"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="556"/>
+        <source>Verlust seit Anstellen</source>
+        <translation>Losses since time of pitching</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="605"/>
         <source>Abschluss</source>
         <translation>Completion</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="560"/>
+        <location filename="../qml/pagesSud/PageSudAbfuellen.qml" line="612"/>
         <source>Abfülldatum</source>
         <translation>Bottling date</translation>
-    </message>
-    <message>
-        <source>Nebenkosten</source>
-        <translation type="vanished">Additional costs</translation>
-    </message>
-    <message>
-        <source>Preis</source>
-        <translation type="vanished">Price</translation>
-    </message>
-    <message>
-        <source>Abgefüllt</source>
-        <translation type="vanished">Bottled</translation>
     </message>
 </context>
 <context>
@@ -1965,100 +1972,55 @@
         <translation>Remove ingredients from feedstock?</translation>
     </message>
     <message>
-        <source>Rezept</source>
-        <translation type="vanished">Recipe</translation>
-    </message>
-    <message>
-        <source>Sudname</source>
-        <translation type="vanished">Brew name</translation>
-    </message>
-    <message>
-        <source>Brauanlage</source>
-        <translation type="vanished">Brewing equipment</translation>
-    </message>
-    <message>
-        <source>Biermenge</source>
-        <translation type="vanished">Beer amount</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="455"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="662"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="815"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="891"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="714"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="921"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1180"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1241"/>
         <source>Stammwürze</source>
         <translation>Original gravity</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="428"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="466"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="635"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="673"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="831"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="902"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="640"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="680"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="725"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="894"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="932"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1196"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1252"/>
         <source>°P</source>
         <translation></translation>
     </message>
     <message>
-        <source>Bittere</source>
-        <translation type="vanished">Bitterness</translation>
-    </message>
-    <message>
-        <source>Farbe</source>
-        <translation type="vanished">Color</translation>
-    </message>
-    <message>
         <location filename="../qml/pagesSud/PageSudBrauen.qml" line="184"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="335"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="478"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="490"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="505"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="685"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="697"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="712"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="727"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="869"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="887"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="929"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="239"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="333"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="393"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="555"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="737"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="749"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="764"/>
         <location filename="../qml/pagesSud/PageSudBrauen.qml" line="944"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="958"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="972"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1165"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="956"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="971"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1106"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1118"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1152"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1237"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1279"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1294"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1308"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1322"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1502"/>
         <source>l</source>
         <translation></translation>
     </message>
     <message>
-        <source>Restalkalität</source>
-        <translation type="vanished">Residual alkalinity</translation>
-    </message>
-    <message>
-        <source>High Gravity Faktor</source>
-        <translation type="vanished">High gravity factor</translation>
-    </message>
-    <message>
         <location filename="../qml/pagesSud/PageSudBrauen.qml" line="84"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="746"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="759"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="799"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="991"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1004"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1022"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1035"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1341"/>
         <source>%</source>
         <translation></translation>
-    </message>
-    <message>
-        <source>Reifezeit</source>
-        <translation type="vanished">Aging time</translation>
-    </message>
-    <message>
-        <source>Wochen</source>
-        <translation type="vanished">weeks</translation>
-    </message>
-    <message>
-        <source>Bemerkung</source>
-        <translation type="vanished">Remarks</translation>
-    </message>
-    <message>
-        <source>Vorbereitung</source>
-        <translation type="vanished">Preparations</translation>
     </message>
     <message>
         <location filename="../qml/pagesSud/PageSudBrauen.qml" line="169"/>
@@ -2066,60 +2028,42 @@
         <translation>Strike water</translation>
     </message>
     <message>
-        <source>Faktor</source>
-        <translation type="vanished">Factor</translation>
-    </message>
-    <message>
-        <source>Faktor Empfehlung</source>
-        <translation type="vanished">Recommended factor</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="911"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1261"/>
         <source>Menge</source>
         <translation>Amount</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="189"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="340"/>
-        <source>Milchsäure 80%</source>
-        <translation>Lactic acid 80%</translation>
-    </message>
-    <message>
         <location filename="../qml/pagesSud/PageSudBrauen.qml" line="67"/>
         <source>Malz</source>
-        <translation type="unfinished">Malts</translation>
+        <translation>Malts</translation>
     </message>
     <message>
         <location filename="../qml/pagesSud/PageSudBrauen.qml" line="176"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="327"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="230"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="324"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="547"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1144"/>
         <source>Wassermenge</source>
-        <translation type="unfinished"></translation>
+        <translation>Amount of water</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="200"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="351"/>
-        <source>ml</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="204"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="355"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1014"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="290"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1351"/>
         <source>Temperatur</source>
         <translation>Temperature</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="213"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="239"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="259"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="364"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1025"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="252"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="265"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="299"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="346"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="359"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="409"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="441"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="473"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1362"/>
         <source>°C</source>
         <translation></translation>
-    </message>
-    <message>
-        <source>Malz schroten</source>
-        <translation type="vanished">Grind grist</translation>
     </message>
     <message>
         <location filename="../qml/pagesSud/PageSudBrauen.qml" line="93"/>
@@ -2130,7 +2074,7 @@
     <message>
         <location filename="../qml/pagesSud/PageSudBrauen.qml" line="101"/>
         <source>Gesamtschüttung</source>
-        <translation>Grist amount</translation>
+        <translation>Total grist</translation>
     </message>
     <message>
         <location filename="../qml/pagesSud/PageSudBrauen.qml" line="60"/>
@@ -2138,305 +2082,340 @@
         <translation>Mashing</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="228"/>
-        <source>Einmaischen</source>
-        <translation>Dough in</translation>
-    </message>
-    <message>
         <location filename="../qml/pagesSud/PageSudBrauen.qml" line="130"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="571"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1075"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="830"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1412"/>
         <source>Weitere Zutaten</source>
         <translation>Additional ingredients</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="401"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="550"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="613"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="809"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1080"/>
         <source>g</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="222"/>
-        <source>Rasten</source>
-        <translation>Halts</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="270"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="524"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="559"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="603"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="779"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="281"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="315"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="375"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="425"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="457"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="489"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="783"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="818"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="862"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1063"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1089"/>
         <source>min</source>
         <translation>min</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="280"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="500"/>
         <source>Jodprobe</source>
         <translation>Iodine probe</translation>
     </message>
     <message>
-        <source>Lila bis schwarz</source>
-        <translation type="vanished">violet to black</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="290"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="510"/>
         <source>reichlich unvergärbare Stärke</source>
         <translation>much fermentable sugars</translation>
     </message>
     <message>
-        <source>Rot bis braun</source>
-        <translation type="vanished">red to brown</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="297"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="517"/>
         <source>kaum noch unvergärbare Stärke</source>
         <translation>almost no fermentable sugars</translation>
     </message>
     <message>
-        <source>Gelb bis hellorange</source>
-        <translation type="vanished">yellow to light orange</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="304"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="524"/>
         <source>fertig (jodnormal)</source>
         <translation>ready</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="313"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="533"/>
         <source>Läutern</source>
         <translation>Lautering</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="320"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="540"/>
         <source>Nachguss</source>
-        <translation>Sparging water</translation>
+        <translation>Sparge water</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="381"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="593"/>
         <source>Vorderwürzehopfung</source>
         <translation>Pre-boil hopping</translation>
     </message>
     <message>
-        <source>Zielwerte</source>
-        <translation type="vanished">Target values</translation>
-    </message>
-    <message>
-        <source>Würzemenge 100°C</source>
-        <translation type="vanished">Wort amount 100°C</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="439"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="646"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="842"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="651"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="694"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="905"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1207"/>
         <source>°Brix</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="451"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="658"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="854"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="663"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="709"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="917"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1219"/>
         <source>g/ml</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="373"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="585"/>
         <source>Würzekochen</source>
         <translation>Boiling</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="494"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="753"/>
         <source>Würzemenge bei 20°C</source>
-        <translation type="unfinished"></translation>
+        <translation>Amount of wort at 20°C</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="533"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="792"/>
         <source>Hopfen</source>
         <translation>Hops</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="412"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="624"/>
         <source>Kochbeginn</source>
         <translation>Begin of boil</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="286"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="214"/>
+        <source>Maischplan</source>
+        <translation>Mashing scheme</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="243"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="337"/>
+        <source>Wassertemperatur</source>
+        <translation>Water temperature</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="256"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="350"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="462"/>
+        <source>Maischetemperatur</source>
+        <translation>Mash temperature</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="270"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="304"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="364"/>
+        <source>Rastdauer</source>
+        <translation>Rest duration</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="384"/>
+        <source>Maischemenge</source>
+        <translation>Amount or wort</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="398"/>
+        <source>Teilmaischezusatzrast</source>
+        <translation>Rest of partial wort</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="414"/>
+        <source>Teilmaischezusatzrastdauer</source>
+        <translation>Additional rest of partial wort</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="430"/>
+        <source>Teilmaischerast</source>
+        <translation>Rest temperatur of partial wort</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="446"/>
+        <source>Teilmaischerastdauer</source>
+        <translation>Additional rest temperatur of partial wort</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="478"/>
+        <source>Absetzdauer</source>
+        <translation>Settling time</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="506"/>
         <source>lila bis schwarz</source>
-        <translation type="unfinished"></translation>
+        <translation>violet to black</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="293"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="513"/>
         <source>rot bis braun</source>
-        <translation type="unfinished"></translation>
+        <translation>red to brown</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="300"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="520"/>
         <source>gelb bis hellorange</source>
-        <translation type="unfinished"></translation>
+        <translation>yellow to light orange</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="419"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="626"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="822"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="631"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="885"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1187"/>
         <source>Zielstammwürze</source>
         <translation>Target original gravity</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="470"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="677"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="669"/>
+        <source>mit weiteren Zutaten</source>
+        <translation>with additional ingredients</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="729"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="936"/>
         <source>Zielmenge bei 100°C</source>
         <translation>Target wort amount 100°C</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="482"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="689"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="741"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="948"/>
         <source>Zielmenge bei 20°C</source>
         <translation>Target wort amount 20°C</translation>
     </message>
     <message>
-        <source>Menge bei 20°C</source>
-        <translation type="vanished">Amount at 20°C</translation>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1508"/>
+        <source>Sud für Durchschnittsberechnung ignorieren</source>
+        <translation>Ignore this batch for calculating average</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="515"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="774"/>
         <source>Kochdauer</source>
         <translation>Boil time</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="701"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="960"/>
         <source>Würzemenge vor Hopfenseihen bei 20°C</source>
-        <translation type="unfinished"></translation>
+        <translation>Amount of wort at 20°C</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="716"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="982"/>
+        <source>Verdampfungsrate</source>
+        <translation>Evaporation rate</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="990"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1003"/>
+        <source>l/h</source>
+        <translation>l/h</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="995"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1027"/>
+        <source>Aus Rezept</source>
+        <translation>From recipe</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1044"/>
+        <source>Hopfenseihen</source>
+        <translation>Hops Filtering</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1095"/>
         <source>Würzemenge nach Hopfenseihen bei 20°C</source>
-        <translation type="unfinished"></translation>
+        <translation>Amount of wort at 20°C</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="770"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1052"/>
         <source>Nachisomerisierung</source>
         <translation>Isomerisation time</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="619"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="878"/>
         <source>Kochende</source>
         <translation>End of boil</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="738"/>
-        <source>Verdampfung</source>
-        <translation>Evaporation figure</translation>
-    </message>
-    <message>
-        <source>Sud</source>
-        <translation type="vanished">Brew</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="751"/>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="996"/>
-        <source>Anlage</source>
-        <translation>Brewing equipment</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="791"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1014"/>
         <source>Sudhausausbeute</source>
         <translation>Mash efficiency</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="808"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1110"/>
+        <source>Verlust</source>
+        <translation>Loss</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1127"/>
         <source>Anstellen</source>
         <translation>Pitch</translation>
     </message>
     <message>
-        <source>High Gravity Verschneidung</source>
-        <translation type="vanished">High gravity water</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="859"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1136"/>
         <source>High-Gravity Verdünnung</source>
-        <translation type="unfinished"></translation>
+        <translation>High gravity dilution</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="874"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1224"/>
         <source>Wasserverschneidung</source>
         <translation>Water cut</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="918"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1268"/>
         <source>Würzemenge</source>
         <translation>Wort amount</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="933"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1283"/>
         <source>Benötigte Speisemenge geschätzt (SRE 3°P, 20°C)</source>
         <translation>Estimated amount unfermented wort (3°P, 20°C)</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="948"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1298"/>
         <source>Abgefüllte Speisemenge</source>
-        <translation>Available unfermented wort</translation>
+        <translation>Saved unfermented wort</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="962"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1312"/>
         <source>Anstellmenge</source>
         <translation>Pitching amount</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="983"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1333"/>
         <source>Effektive Sudhausausbeute</source>
-        <translation>Actual mash efficiency</translation>
+        <translation>Effective brewhouse efficiency</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1034"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1371"/>
         <source>Gärung</source>
         <translation>Fermentation</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1042"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1379"/>
         <source>Hefe</source>
         <translation>Yeast</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1107"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1444"/>
         <source>Tage</source>
         <translation>days</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1123"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1460"/>
         <source>Abschluss</source>
         <translation>Completion</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1130"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1467"/>
         <source>Braudatum</source>
         <translation>Brew date</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1142"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1479"/>
         <source>Zusätzliche Kosten</source>
-        <translation type="unfinished"></translation>
+        <translation>Additional costs</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1156"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1493"/>
         <source>Gesamtkosten</source>
-        <translation type="unfinished"></translation>
+        <translation>Total costs</translation>
     </message>
     <message>
-        <source>Nebenkosten</source>
-        <translation type="vanished">Additional costs</translation>
-    </message>
-    <message>
-        <source>Preis</source>
-        <translation type="vanished">Price</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1171"/>
-        <source>Ausbeute für Durchschnitt nicht einbeziehen</source>
-        <translation>Exclude brew from average efficiency calculation</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1178"/>
+        <location filename="../qml/pagesSud/PageSudBrauen.qml" line="1515"/>
         <source>Sud gebraut</source>
-        <translation>Brewed</translation>
+        <translation>Batch brewed</translation>
     </message>
 </context>
 <context>
@@ -2489,13 +2468,13 @@
     <message>
         <location filename="../qml/pagesSud/PageSudGaerverlauf_1.qml" line="337"/>
         <source>Bemerkung</source>
-        <translation type="unfinished">Remarks</translation>
+        <translation>Remarks</translation>
     </message>
     <message>
         <location filename="../qml/pagesSud/PageSudGaerverlauf_1.qml" line="357"/>
         <location filename="../qml/pagesSud/PageSudGaerverlauf_1.qml" line="370"/>
         <source>%</source>
-        <translation type="unfinished"></translation>
+        <translation>%</translation>
     </message>
 </context>
 <context>
@@ -2578,13 +2557,13 @@
     <message>
         <location filename="../qml/pagesSud/PageSudGaerverlauf_2.qml" line="425"/>
         <source>Bemerkung</source>
-        <translation type="unfinished">Remarks</translation>
+        <translation>Remarks</translation>
     </message>
     <message>
         <location filename="../qml/pagesSud/PageSudGaerverlauf_2.qml" line="445"/>
         <location filename="../qml/pagesSud/PageSudGaerverlauf_2.qml" line="458"/>
         <source>%</source>
-        <translation type="unfinished"></translation>
+        <translation>%</translation>
     </message>
 </context>
 <context>
@@ -2592,7 +2571,7 @@
     <message>
         <location filename="../qml/pagesSud/PageSudGaerverlauf_3.qml" line="13"/>
         <source>Nachgärung</source>
-        <translation>Fermentation Priming</translation>
+        <translation>Priming/Conditioning</translation>
     </message>
     <message>
         <location filename="../qml/pagesSud/PageSudGaerverlauf_3.qml" line="25"/>
@@ -2627,7 +2606,7 @@
     <message>
         <location filename="../qml/pagesSud/PageSudGaerverlauf_3.qml" line="273"/>
         <source>Bemerkung</source>
-        <translation type="unfinished">Remarks</translation>
+        <translation>Remarks</translation>
     </message>
 </context>
 <context>
@@ -2648,152 +2627,153 @@
     <message>
         <location filename="../qml/pagesSud/PageSudInfo.qml" line="12"/>
         <source>Sudinfo</source>
-        <translation>Brew Info</translation>
+        <translation>Batch Info</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="118"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="142"/>
         <source>Gespeichert</source>
         <translation>Saved</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="110"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="133"/>
         <source>Erstellt</source>
         <translation>Created</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="82"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="100"/>
         <source>Gebraut</source>
         <translation>Brewed</translation>
     </message>
     <message>
-        <source>Angestellt</source>
-        <translation type="vanished">Pitching</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="92"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="112"/>
         <source>Abgefüllt</source>
         <translation>Bottled</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="102"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="124"/>
         <source>Verbraucht</source>
         <translation>Consumed</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="164"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="190"/>
         <source>Zusammenfassung</source>
         <translation>Summary</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="164"/>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="209"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="190"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="235"/>
         <source>Rezept</source>
         <translation>Recipe</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="59"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="75"/>
         <source>Status</source>
         <translation>Status</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="66"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="83"/>
         <source>nicht gebraut</source>
         <translation>not brewed</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="76"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="93"/>
         <source>verbraucht</source>
         <translation>consumed</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="68"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="85"/>
         <source>nicht abgefüllt</source>
         <translation>not bottled</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="72"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="49"/>
+        <source>Kategorie</source>
+        <translation>Category</translation>
+    </message>
+    <message>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="89"/>
         <source>reif in</source>
         <translation>ready in</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="72"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="89"/>
         <source>Tage</source>
         <translation>days</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="74"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="91"/>
         <source>reif seit</source>
         <translation>ready since</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="74"/>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="421"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="91"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="448"/>
         <source>Wochen</source>
-        <translation type="unfinished">weeks</translation>
+        <translation>weeks</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="127"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="152"/>
         <source>Bewertung</source>
-        <translation type="unfinished">Rating</translation>
+        <translation>Rating</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="172"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="198"/>
         <source>Anlage</source>
-        <translation>Brewing equipment</translation>
+        <translation>Brewing setup</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="180"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="206"/>
         <source>Wasserprofil</source>
-        <translation type="unfinished"></translation>
+        <translation>Water profile</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="202"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="228"/>
         <source>Sud</source>
-        <translation type="unfinished">Brew</translation>
+        <translation>Batch</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="218"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="245"/>
         <source>Menge</source>
         <translation>Amount</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="232"/>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="440"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="259"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="467"/>
         <source>l</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="254"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="281"/>
         <source>Sudhausausbeute</source>
-        <translation type="unfinished">Mash efficiency</translation>
+        <translation>Mash efficiency</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="272"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="299"/>
         <source>Vergärungsgrad</source>
-        <translation type="unfinished">Fermentation</translation>
+        <translation>Attenuation</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="321"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="348"/>
         <source>%vol</source>
-        <translation type="unfinished"></translation>
+        <translation>%vol</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="397"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="424"/>
         <source>g/l</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="407"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="434"/>
         <source>Reifezeit</source>
-        <translation type="unfinished">Aging time</translation>
+        <translation>Aging time</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="431"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="458"/>
         <source>Gesamtkosten</source>
-        <translation type="unfinished"></translation>
+        <translation>Total costs</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="237"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="264"/>
         <source>Stammwürze</source>
         <translation>Original gravity</translation>
     </message>
@@ -2805,142 +2785,125 @@
     <message>
         <location filename="../qml/pagesSud/PageSudInfo.qml" line="43"/>
         <source>Sudname</source>
-        <translation>Brew name</translation>
+        <translation>Batch name</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="49"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="64"/>
         <source>Sudnummer</source>
-        <translation>Brew number</translation>
+        <translation>Batch number</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="249"/>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="302"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="276"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="329"/>
         <source>°P</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="290"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="317"/>
         <source>Restextrakt</source>
         <translation>Residual extract</translation>
     </message>
     <message>
-        <source>Vergärungsgrad (scheinbar)</source>
-        <translation type="vanished">Fermentation</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="267"/>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="285"/>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="484"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="294"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="312"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="511"/>
         <source>%</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="307"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="334"/>
         <source>Alkohol</source>
         <translation>Alcohol</translation>
     </message>
     <message>
-        <source>Ausbeute</source>
-        <translation type="vanished">Mash efficiency</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="326"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="353"/>
         <source>Bittere</source>
         <translation>Bitterness</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="340"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="367"/>
         <source>IBU</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="345"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="372"/>
         <source>Farbe</source>
         <translation>Color</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="359"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="386"/>
         <source>EBC</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="364"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="391"/>
         <source>Restalkalität</source>
         <translation>Residual alkalinity</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="378"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="405"/>
         <source>°dH</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="383"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="410"/>
         <source>CO2</source>
         <translation></translation>
     </message>
     <message>
-        <source>Preis</source>
-        <translation type="vanished">Price</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="448"/>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="454"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="475"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="481"/>
         <source>Bemerkung</source>
         <translation>Remarks</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="464"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="491"/>
         <source>Malz</source>
         <translation>Malts</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="493"/>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="519"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="520"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="546"/>
         <source>kg</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="501"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="528"/>
         <source>Gesamtschüttung</source>
-        <translation type="unfinished">Grist amount</translation>
+        <translation>Total grist</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="529"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="556"/>
         <source>Hopfen</source>
         <translation>Hops</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="544"/>
-        <source>VWH</source>
-        <translation>Pre-boil</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="552"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="576"/>
         <source>g</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="593"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="618"/>
         <source>Weitere Zutaten</source>
         <translation>Additional ingredients</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="611"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="636"/>
         <source>Gärung</source>
         <translation>Fermentation</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="614"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="639"/>
         <source>Kochen</source>
         <translation>Boiling</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="617"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="642"/>
         <source>Maischen</source>
         <translation>Mashing</translation>
     </message>
     <message>
-        <location filename="../qml/pagesSud/PageSudInfo.qml" line="563"/>
+        <location filename="../qml/pagesSud/PageSudInfo.qml" line="587"/>
         <source>Hefe</source>
         <translation>Yeast</translation>
     </message>
@@ -2976,11 +2939,6 @@
         <location filename="../qml/pagesTools/PageToolBieranalyse.qml" line="64"/>
         <source>Standard</source>
         <translation>Standard</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesTools/PageToolBieranalyse.qml" line="64"/>
-        <source>Kleier</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/pagesTools/PageToolBieranalyse.qml" line="80"/>
@@ -3070,11 +3028,6 @@
         <location filename="../qml/pagesTools/PageToolBieranalyse.qml" line="230"/>
         <source>Die Standardformel liefert gleichmässig gute Werte, in endvergorenen Proben aber etwas zu hoch.</source>
         <translation>The standard formula given equally good values for all fermentation states.</translation>
-    </message>
-    <message>
-        <location filename="../qml/pagesTools/PageToolBieranalyse.qml" line="237"/>
-        <source>Die Kleier-Formel wurde von Kleier aus dem Hobbybrauer Forum ermittelt.</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3203,22 +3156,22 @@
     <message>
         <location filename="../qml/main.qml" line="112"/>
         <source>Die Datenbank ist ungültig.</source>
-        <translation type="unfinished"></translation>
+        <translation>The database is invalid.</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="117"/>
         <source>Die Datenbank kann nur mit der App v1.x.x geöffnet werden.</source>
-        <translation type="unfinished"></translation>
+        <translation>The database can only be opened with the App v1.x.x.</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="122"/>
         <source>Die Datenbank ist zu alt für die App und muss zuerst mit dem kleinen-brauhelfer aktualisiert werden.</source>
-        <translation type="unfinished"></translation>
+        <translation>The database is too old for the app and has to be updated with the kleiner-brauhelfer-2 first.</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="127"/>
         <source>Die App ist zu alt für diese Datenbank und muss zuerst aktualisiert werden.</source>
-        <translation type="unfinished"></translation>
+        <translation>The app is too old for this database and must be updated first.</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="234"/>
@@ -3246,10 +3199,6 @@
         <translation>This database is not supported.</translation>
     </message>
     <message>
-        <source>Die Datenbankversion (%1) ist zu hoch für die App.</source>
-        <translation type="vanished">The database version (%1) ist too high for the app.</translation>
-    </message>
-    <message>
         <location filename="../qml/main.qml" line="259"/>
         <source>SSL nicht unterstüzt</source>
         <translation>SSL not supported</translation>
@@ -3260,10 +3209,6 @@
 SSL run time: %2</source>
         <translation>SSL compile time: %1
 SSL run time: %2</translation>
-    </message>
-    <message>
-        <source>Änderungen speichern?</source>
-        <translation type="vanished">Save changes?</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="267"/>

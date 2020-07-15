@@ -46,9 +46,25 @@ PageBase {
                     }
                     LabelPrim {
                         Layout.fillWidth: true
+                        text: qsTr("Kategorie")
+                    }
+                    ComboBox {
+                        Layout.fillWidth: true
+                        enabled: !page.readOnly
+                        model: Brauhelfer.modelKategorien
+                        textRole: "Name"
+                        currentIndex: Qt.binding(findme)
+                        onActivated: Brauhelfer.sud.Kategorie = currentText
+                        Component.onCompleted: {
+                            currentIndex = Qt.binding(function(){return find(Brauhelfer.sud.Kategorie)})
+                        }
+                    }
+                    LabelPrim {
+                        Layout.fillWidth: true
                         text: qsTr("Sudnummer")
                     }
                     SpinBoxReal {
+                        Layout.fillWidth: true
                         enabled: !page.readOnly
                         decimals: 0
                         realValue: Brauhelfer.sud.Sudnummer
@@ -59,6 +75,7 @@ PageBase {
                         text: qsTr("Status")
                     }
                     LabelPrim {
+                        Layout.fillWidth: true
                         Layout.alignment: Qt.AlignHCenter
                         text: {
                             switch (Brauhelfer.sud.Status) {
@@ -78,38 +95,45 @@ PageBase {
                         }
                     }
                     Switch {
+                        Layout.fillWidth: true
                         enabled: !page.readOnly && app.brewForceEditable
                         text: qsTr("Gebraut")
                         checked: Brauhelfer.sud.Status >= Brauhelfer.Gebraut
                         onClicked: Brauhelfer.sud.Status = checked ? Brauhelfer.Gebraut : Brauhelfer.Rezept
                     }
                     LabelDate {
+                        Layout.fillWidth: true
                         Layout.alignment: Qt.AlignHCenter
                         date: Brauhelfer.sud.Braudatum
                     }
                     Switch {
+                        Layout.fillWidth: true
                         enabled: !page.readOnly && app.brewForceEditable
                         text: qsTr("Abgefüllt")
                         checked: Brauhelfer.sud.Status >= Brauhelfer.Abgefuellt
                         onClicked: Brauhelfer.sud.Status = checked ? Brauhelfer.Abgefuellt : Brauhelfer.Gebraut
                     }
                     LabelDate {
+                        Layout.fillWidth: true
                         Layout.alignment: Qt.AlignHCenter
                         date: Brauhelfer.sud.Abfuelldatum
                     }
                     Switch {
+                        Layout.fillWidth: true
                         enabled: !page.readOnly && (Brauhelfer.sud.Status >= Brauhelfer.Abgefuellt || app.brewForceEditable)
                         text: qsTr("Verbraucht")
                         checked: Brauhelfer.sud.Status >= Brauhelfer.Verbraucht
                         onClicked: Brauhelfer.sud.Status = checked ? Brauhelfer.Verbraucht : Brauhelfer.Abgefuellt
                     }
                     Text {
+                        Layout.fillWidth: true
                     }
                     LabelPrim {
                         Layout.fillWidth: true
                         text: qsTr("Erstellt")
                     }
                     LabelDate {
+                        Layout.fillWidth: true
                         Layout.alignment: Qt.AlignHCenter
                         date: Brauhelfer.sud.Erstellt
                     }
@@ -118,6 +142,7 @@ PageBase {
                         text: qsTr("Gespeichert")
                     }
                     LabelDateTime {
+                        Layout.fillWidth: true
                         Layout.alignment: Qt.AlignHCenter
                         date: Brauhelfer.sud.Gespeichert
                     }
@@ -127,6 +152,7 @@ PageBase {
                         text: qsTr("Bewertung")
                     }
                     Flow {
+                        Layout.fillWidth: true
                         Layout.alignment: Qt.AlignHCenter
                         visible: Brauhelfer.sud.BewertungMittel > 0
                         Image {
@@ -209,6 +235,7 @@ PageBase {
                         text: qsTr("Rezept")
                     }
                     LabelUnit {
+                        Layout.preferredWidth: 30
                         visible: Brauhelfer.sud.Status !== Brauhelfer.Rezept
                         text: " "
                     }
@@ -366,7 +393,7 @@ PageBase {
                     LabelNumber {
                         Layout.preferredWidth: 60
                         precision: 1
-                        value: Brauhelfer.sud.Status === Brauhelfer.Rezept ?  Brauhelfer.sud.RestalkalitaetSoll : Number.NaN
+                        value: Brauhelfer.sud.Status === Brauhelfer.Rezept ?  Brauhelfer.sud.RestalkalitaetSoll : Brauhelfer.sud.RestalkalitaetIst
                     }
                     LabelNumber {
                         Layout.preferredWidth: 60
@@ -539,16 +566,13 @@ PageBase {
                                 Layout.fillWidth: true
                                 text: model.Name + " (" + model.Alpha + "%)"
                             }
-                            LabelPrim {
-                                Layout.preferredWidth: 80
-                                text: model.Vorderwuerze ? qsTr("VWH") : ""
-                            }
                             LabelNumber {
                                 Layout.preferredWidth: 60
                                 precision: 1
                                 value: model.erg_Menge
                             }
                             LabelUnit {
+                                Layout.preferredWidth: 30
                                 text: qsTr("g")
                             }
                         }
@@ -579,6 +603,7 @@ PageBase {
                                 value: model.Menge
                             }
                             LabelUnit {
+                                Layout.preferredWidth: 30
                                 text: "x"
                             }
                         }

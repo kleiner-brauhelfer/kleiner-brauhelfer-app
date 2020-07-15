@@ -149,7 +149,7 @@ PageBase {
                                     value: model.erg_Menge * app.defs.einheitenDivider[model.Einheit]
                                 }
                                 LabelUnit {
-                                    Layout.preferredWidth: 60
+                                    Layout.preferredWidth: 30
                                     text: app.defs.einheiten[model.Einheit]
                                 }
                             }
@@ -168,20 +168,41 @@ PageBase {
                         font.bold: true
                         text: qsTr("Hauptguss")
                     }
-                    GridLayout {
-                        columns: 3
+                    ColumnLayout {
                         Layout.leftMargin: 8
-                        LabelPrim {
-                            Layout.fillWidth: true
-                            text: qsTr("Wassermenge")
+                        RowLayout {
+                            LabelPrim {
+                                Layout.fillWidth: true
+                                text: qsTr("Wassermenge")
+                            }
+                            LabelNumber {
+                                Layout.preferredWidth: 80
+                                value: Brauhelfer.sud.erg_WHauptguss
+                            }
+                            LabelUnit {
+                                Layout.preferredWidth: 30
+                                text: qsTr("l")
+                            }
                         }
-                        LabelNumber {
-                            Layout.preferredWidth: 80
-                            value: Brauhelfer.sud.erg_WHauptguss
-                        }
-                        LabelUnit {
-                            Layout.preferredWidth: 60
-                            text: qsTr("l")
+                        Repeater {
+                            model: Brauhelfer.sud.modelWasseraufbereitung
+                            delegate: RowLayout {
+                                RowLayout {
+                                    LabelPrim {
+                                        Layout.fillWidth: true
+                                        text: model.Name
+                                    }
+                                    LabelNumber {
+                                        Layout.preferredWidth: 80
+                                        precision: 2
+                                        value: model.Menge * Brauhelfer.sud.erg_WHauptguss
+                                    }
+                                    LabelUnit {
+                                        Layout.preferredWidth: 30
+                                        text: app.defs.einheiten[model.Einheit]
+                                    }
+                                }
+                            }
                         }
                     }
                     HorizontalDivider {
@@ -190,37 +211,283 @@ PageBase {
                     LabelPrim {
                         Layout.fillWidth: true
                         font.bold: true
-                        text: qsTr("Rasten")
+                        text: qsTr("Maischplan")
                     }
                     Repeater {
                         model: Brauhelfer.sud.modelRasten
-                        delegate: RowLayout {
+                        delegate: ColumnLayout {
                             Layout.leftMargin: 8
                             LabelPrim {
                                 Layout.fillWidth: true
                                 text: model.Name
                             }
-                            TextFieldNumber {
-                                Layout.preferredWidth: 40
-                                enabled: !page.readOnly
-                                precision: 0
-                                value: model.Temp
-                                onNewValue: model.Temp = value
+                            GridLayout {
+                                Layout.leftMargin: 8
+                                columns: 3
+                                visible: model.Typ === Brauhelfer.RastTyp.Einmaischen
+                                LabelPrim {
+                                    Layout.fillWidth: true
+                                    text: qsTr("Wassermenge")
+                                }
+                                LabelNumber {
+                                    Layout.preferredWidth: 80
+                                    precision: 1
+                                    value: model.Menge
+                                }
+                                LabelUnit {
+                                    Layout.preferredWidth: 30
+                                    text: qsTr("l")
+                                }
+                                LabelPrim {
+                                    Layout.fillWidth: true
+                                    text: qsTr("Wassertemperatur")
+                                }
+                                LabelNumber {
+                                    Layout.preferredWidth: 80
+                                    precision: 0
+                                    value: model.Param1
+                                }
+                                LabelUnit {
+                                    Layout.preferredWidth: 30
+                                    text: qsTr("°C")
+                                }
+                                LabelPrim {
+                                    Layout.fillWidth: true
+                                    text: qsTr("Maischetemperatur")
+                                }
+                                LabelNumber {
+                                    Layout.preferredWidth: 80
+                                    precision: 0
+                                    value: model.Temp
+                                }
+                                LabelUnit {
+                                    Layout.preferredWidth: 30
+                                    text: qsTr("°C")
+                                }
+                                LabelPrim {
+                                    visible: model.Dauer > 0
+                                    Layout.fillWidth: true
+                                    text: qsTr("Rastdauer")
+                                }
+                                LabelNumber {
+                                    visible: model.Dauer > 0
+                                    Layout.preferredWidth: 80
+                                    precision: 0
+                                    value: model.Dauer
+                                }
+                                LabelUnit {
+                                    visible: model.Dauer > 0
+                                    Layout.preferredWidth: 30
+                                    text: qsTr("min")
+                                }
                             }
-                            LabelUnit {
-                                Layout.preferredWidth: 30
-                                text: qsTr("°C")
+                            GridLayout {
+                                Layout.leftMargin: 8
+                                columns: 3
+                                visible: model.Typ === Brauhelfer.RastTyp.Temperatur
+                                LabelPrim {
+                                    Layout.fillWidth: true
+                                    text: qsTr("Temperatur")
+                                }
+                                LabelNumber {
+                                    Layout.preferredWidth: 80
+                                    precision: 0
+                                    value: model.Temp
+                                }
+                                LabelUnit {
+                                    Layout.preferredWidth: 30
+                                    text: qsTr("°C")
+                                }
+                                LabelPrim {
+                                    visible: model.Dauer > 0
+                                    Layout.fillWidth: true
+                                    text: qsTr("Rastdauer")
+                                }
+                                LabelNumber {
+                                    visible: model.Dauer > 0
+                                    Layout.preferredWidth: 80
+                                    precision: 0
+                                    value: model.Dauer
+                                }
+                                LabelUnit {
+                                    visible: model.Dauer > 0
+                                    Layout.preferredWidth: 30
+                                    text: qsTr("min")
+                                }
                             }
-                            TextFieldNumber {
-                                Layout.preferredWidth: 40
-                                enabled: !page.readOnly
-                                precision: 0
-                                value: model.Dauer
-                                onNewValue: model.Dauer = value
+                            GridLayout {
+                                Layout.leftMargin: 8
+                                columns: 3
+                                visible: model.Typ === Brauhelfer.RastTyp.Infusion
+                                LabelPrim {
+                                    Layout.fillWidth: true
+                                    text: qsTr("Wassermenge")
+                                }
+                                LabelNumber {
+                                    Layout.preferredWidth: 80
+                                    precision: 1
+                                    value: model.Menge
+                                }
+                                LabelUnit {
+                                    Layout.preferredWidth: 30
+                                    text: qsTr("l")
+                                }
+                                LabelPrim {
+                                    Layout.fillWidth: true
+                                    text: qsTr("Wassertemperatur")
+                                }
+                                LabelNumber {
+                                    Layout.preferredWidth: 80
+                                    precision: 0
+                                    value: model.Param1
+                                }
+                                LabelUnit {
+                                    Layout.preferredWidth: 30
+                                    text: qsTr("°C")
+                                }
+                                LabelPrim {
+                                    Layout.fillWidth: true
+                                    text: qsTr("Maischetemperatur")
+                                }
+                                LabelNumber {
+                                    Layout.preferredWidth: 80
+                                    precision: 0
+                                    value: model.Temp
+                                }
+                                LabelUnit {
+                                    Layout.preferredWidth: 30
+                                    text: qsTr("°C")
+                                }
+                                LabelPrim {
+                                    visible: model.Dauer > 0
+                                    Layout.fillWidth: true
+                                    text: qsTr("Rastdauer")
+                                }
+                                LabelNumber {
+                                    visible: model.Dauer > 0
+                                    Layout.preferredWidth: 80
+                                    precision: 0
+                                    value: model.Dauer
+                                }
+                                LabelUnit {
+                                    visible: model.Dauer > 0
+                                    Layout.preferredWidth: 30
+                                    text: qsTr("min")
+                                }
                             }
-                            LabelUnit {
-                                Layout.preferredWidth: 30
-                                text: qsTr("min")
+                            GridLayout {
+                                Layout.leftMargin: 8
+                                columns: 3
+                                visible: model.Typ === Brauhelfer.RastTyp.Dekoktion
+                                LabelPrim {
+                                    Layout.fillWidth: true
+                                    text: qsTr("Maischemenge")
+                                }
+                                LabelNumber {
+                                    Layout.preferredWidth: 80
+                                    precision: 1
+                                    value: model.Menge
+                                }
+                                LabelUnit {
+                                    Layout.preferredWidth: 30
+                                    text: qsTr("l")
+                                }
+                                LabelPrim {
+                                    visible: model.Param3 > 0
+                                    Layout.fillWidth: true
+                                    text: qsTr("Teilmaischezusatzrast")
+                                }
+                                LabelNumber {
+                                    visible: model.Param3 > 0
+                                    Layout.preferredWidth: 80
+                                    precision: 0
+                                    value: model.Param3
+                                }
+                                LabelUnit {
+                                    visible: model.Param3 > 0
+                                    Layout.preferredWidth: 30
+                                    text: qsTr("°C")
+                                }
+                                LabelPrim {
+                                    visible: model.Param3 > 0 && model.Param4 > 0
+                                    Layout.fillWidth: true
+                                    text: qsTr("Teilmaischezusatzrastdauer")
+                                }
+                                LabelNumber {
+                                    visible: model.Param3 > 0 && model.Param4 > 0
+                                    Layout.preferredWidth: 80
+                                    precision: 0
+                                    value: model.Param4
+                                }
+                                LabelUnit {
+                                    visible: model.Param3 > 0 && model.Param4 > 0
+                                    Layout.preferredWidth: 30
+                                    text: qsTr("min")
+                                }
+                                LabelPrim {
+                                    visible: model.Param1 > 0
+                                    Layout.fillWidth: true
+                                    text: qsTr("Teilmaischerast")
+                                }
+                                LabelNumber {
+                                    visible: model.Param1 > 0
+                                    Layout.preferredWidth: 80
+                                    precision: 0
+                                    value: model.Param1
+                                }
+                                LabelUnit {
+                                    visible: model.Param1 > 0
+                                    Layout.preferredWidth: 30
+                                    text: qsTr("°C")
+                                }
+                                LabelPrim {
+                                    visible: model.Param1 > 0 && model.Param2 > 0
+                                    Layout.fillWidth: true
+                                    text: qsTr("Teilmaischerastdauer")
+                                }
+                                LabelNumber {
+                                    visible: model.Param1 > 0 && model.Param2 > 0
+                                    Layout.preferredWidth: 80
+                                    precision: 0
+                                    value: model.Param2
+                                }
+                                LabelUnit {
+                                    visible: model.Param1 > 0 && model.Param2 > 0
+                                    Layout.preferredWidth: 30
+                                    text: qsTr("min")
+                                }
+                                LabelPrim {
+                                    visible: model.Temp > 0
+                                    Layout.fillWidth: true
+                                    text: qsTr("Maischetemperatur")
+                                }
+                                LabelNumber {
+                                    visible: model.Temp > 0
+                                    Layout.preferredWidth: 80
+                                    precision: 0
+                                    value: model.Temp
+                                }
+                                LabelUnit {
+                                    visible: model.Temp > 0
+                                    Layout.preferredWidth: 30
+                                    text: qsTr("°C")
+                                }
+                                LabelPrim {
+                                    visible: model.Temp > 0 && model.Dauer > 0
+                                    Layout.fillWidth: true
+                                    text: qsTr("Absetzdauer")
+                                }
+                                LabelNumber {
+                                    visible: model.Temp > 0 && model.Dauer > 0
+                                    Layout.preferredWidth: 80
+                                    precision: 0
+                                    value: model.Dauer
+                                }
+                                LabelUnit {
+                                    visible: model.Temp > 0 && model.Dauer > 0
+                                    Layout.preferredWidth: 30
+                                    text: qsTr("min")
+                                }
                             }
                         }
                     }
@@ -272,20 +539,41 @@ PageBase {
                         font.bold: true
                         text: qsTr("Nachguss")
                     }
-                    GridLayout {
-                        columns: 3
+                    ColumnLayout {
                         Layout.leftMargin: 8
-                        LabelPrim {
-                            Layout.fillWidth: true
-                            text: qsTr("Wassermenge")
+                        RowLayout {
+                            LabelPrim {
+                                Layout.fillWidth: true
+                                text: qsTr("Wassermenge")
+                            }
+                            LabelNumber {
+                                Layout.preferredWidth: 80
+                                value: Brauhelfer.sud.erg_WNachguss
+                            }
+                            LabelUnit {
+                                Layout.preferredWidth: 30
+                                text: qsTr("l")
+                            }
                         }
-                        LabelNumber {
-                            Layout.preferredWidth: 80
-                            value: Brauhelfer.sud.erg_WNachguss
-                        }
-                        LabelUnit {
-                            Layout.preferredWidth: 60
-                            text: qsTr("l")
+                        Repeater {
+                            model: Brauhelfer.sud.modelWasseraufbereitung
+                            delegate: RowLayout {
+                                RowLayout {
+                                    LabelPrim {
+                                        Layout.fillWidth: true
+                                        text: model.Name
+                                    }
+                                    LabelNumber {
+                                        Layout.preferredWidth: 80
+                                        precision: 2
+                                        value: model.Menge * Brauhelfer.sud.erg_WNachguss
+                                    }
+                                    LabelUnit {
+                                        Layout.preferredWidth: 30
+                                        text: app.defs.einheiten[model.Einheit]
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -321,7 +609,7 @@ PageBase {
                                 value: model.erg_Menge
                             }
                             LabelUnit {
-                                Layout.preferredWidth: 60
+                                Layout.preferredWidth: 30
                                 text: qsTr("g")
                             }
                         }
@@ -348,7 +636,7 @@ PageBase {
                             value: Brauhelfer.sud.SWSollKochbeginn
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 60
+                            Layout.preferredWidth: 30
                             text: qsTr("°P")
                         }
                         Item {
@@ -359,7 +647,7 @@ PageBase {
                             value: BierCalc.platoToBrix(lblSWSollKochbeginn.value)
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 60
+                            Layout.preferredWidth: 30
                             text: qsTr("°Brix")
                         }
                         Item {
@@ -371,9 +659,56 @@ PageBase {
                             value: BierCalc.platoToDichte(lblSWSollKochbeginn.value)
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 60
+                            Layout.preferredWidth: 30
                             text: qsTr("g/ml")
                         }
+
+                        LabelPrim {
+                            Layout.fillWidth: true
+                            visible: lblSWSollKochbeginnWz.value !== lblSWSollKochbeginn.value
+                            text: qsTr("mit weiteren Zutaten")
+                        }
+                        LabelPlato {
+                            id: lblSWSollKochbeginnWz
+                            Layout.preferredWidth: 80
+                            visible: lblSWSollKochbeginnWz.value !== lblSWSollKochbeginn.value
+                            value: Brauhelfer.sud.SWSollKochbeginnMitWz
+                        }
+                        LabelUnit {
+                            Layout.preferredWidth: 30
+                            visible: lblSWSollKochbeginnWz.value !== lblSWSollKochbeginn.value
+                            text: qsTr("°P")
+                        }
+                        Item {
+                            Layout.fillWidth: true
+                            visible: lblSWSollKochbeginnWz.value !== lblSWSollKochbeginn.value
+                        }
+                        LabelPlato {
+                            Layout.preferredWidth: 80
+                            visible: lblSWSollKochbeginnWz.value !== lblSWSollKochbeginn.value
+                            value: BierCalc.platoToBrix(lblSWSollKochbeginnWz.value)
+                        }
+                        LabelUnit {
+                            Layout.preferredWidth: 30
+                            visible: lblSWSollKochbeginnWz.value !== lblSWSollKochbeginn.value
+                            text: qsTr("°Brix")
+                        }
+                        Item {
+                            Layout.fillWidth: true
+                            visible: lblSWSollKochbeginnWz.value !== lblSWSollKochbeginn.value
+                        }
+                        LabelPlato {
+                            Layout.preferredWidth: 80
+                            visible: lblSWSollKochbeginnWz.value !== lblSWSollKochbeginn.value
+                            precision: 4
+                            value: BierCalc.platoToDichte(lblSWSollKochbeginnWz.value)
+                        }
+                        LabelUnit {
+                            Layout.preferredWidth: 30
+                            visible: lblSWSollKochbeginnWz.value !== lblSWSollKochbeginn.value
+                            text: qsTr("g/ml")
+                        }
+
                         LabelPrim {
                             Layout.fillWidth: true
                             text: qsTr("Stammwürze")
@@ -386,7 +721,7 @@ PageBase {
                             onNewValue: Brauhelfer.sud.SWKochbeginn = value
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 60
+                            Layout.preferredWidth: 30
                             text: qsTr("°P")
                         }
                         LabelPrim {
@@ -398,7 +733,7 @@ PageBase {
                             value: BierCalc.volumenWasser(20.0, 100.0, Brauhelfer.sud.MengeSollKochbeginn)
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 60
+                            Layout.preferredWidth: 30
                             text: qsTr("l")
                         }
                         LabelPrim {
@@ -410,7 +745,7 @@ PageBase {
                             value: Brauhelfer.sud.MengeSollKochbeginn
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 60
+                            Layout.preferredWidth: 30
                             text: qsTr("l")
                         }
                         LabelPrim {
@@ -425,7 +760,7 @@ PageBase {
                             onNewValue: Brauhelfer.sud.WuerzemengeKochbeginn = value
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 60
+                            Layout.preferredWidth: 30
                             text: qsTr("l")
                         }
                     }
@@ -444,7 +779,7 @@ PageBase {
                             value: Brauhelfer.sud.Kochdauer
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 60
+                            Layout.preferredWidth: 30
                             text: qsTr("min")
                         }
                     }
@@ -460,7 +795,7 @@ PageBase {
                         model: Brauhelfer.sud.modelHopfengaben
                         delegate: RowLayout {
                             Layout.leftMargin: 8
-                            visible: !model.Vorderwuerze
+                            visible: !model.Vorderwuerze && model.Zeit > 0
                             LabelPrim {
                                 Layout.fillWidth: true
                                 text: model.Name + " (" + model.Alpha + "%)"
@@ -520,7 +855,7 @@ PageBase {
                                 LabelNumber {
                                     Layout.preferredWidth: 40
                                     precision: 0
-                                    value: model.Typ === 0 || model.Typ === 1 ? Brauhelfer.sud.Kochdauer : model.Zugabedauer
+                                    value: model.Zugabedauer
                                 }
                                 LabelUnit {
                                     Layout.preferredWidth: 30
@@ -555,7 +890,7 @@ PageBase {
                             value: Brauhelfer.sud.SWSollKochende
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 60
+                            Layout.preferredWidth: 30
                             text: qsTr("°P")
                         }
                         Item {
@@ -566,7 +901,7 @@ PageBase {
                             value: BierCalc.platoToBrix(lblSWSollKochende.value)
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 60
+                            Layout.preferredWidth: 30
                             text: qsTr("°Brix")
                         }
                         Item {
@@ -578,7 +913,7 @@ PageBase {
                             value: BierCalc.platoToDichte(lblSWSollKochende.value)
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 60
+                            Layout.preferredWidth: 30
                             text: qsTr("g/ml")
                         }
                         LabelPrim {
@@ -593,7 +928,7 @@ PageBase {
                             onNewValue: Brauhelfer.sud.SWKochende = value
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 60
+                            Layout.preferredWidth: 30
                             text: qsTr("°P")
                         }
                         LabelPrim {
@@ -605,7 +940,7 @@ PageBase {
                             value: BierCalc.volumenWasser(20.0, 100.0, Brauhelfer.sud.MengeSollKochende)
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 60
+                            Layout.preferredWidth: 30
                             text: qsTr("l")
                         }
                         LabelPrim {
@@ -617,7 +952,7 @@ PageBase {
                             value: Brauhelfer.sud.MengeSollKochende
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 60
+                            Layout.preferredWidth: 30
                             text: qsTr("l")
                         }
                         LabelPrim {
@@ -632,22 +967,7 @@ PageBase {
                             onNewValue: Brauhelfer.sud.WuerzemengeVorHopfenseihen = value
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 60
-                            text: qsTr("l")
-                        }
-                        LabelPrim {
-                            Layout.fillWidth: true
-                            text: qsTr("Würzemenge nach Hopfenseihen bei 20°C")
-                        }
-                        TextFieldVolume {
-                            Layout.preferredWidth: 80
-                            enabled: !page.readOnly
-                            useDialog: true
-                            value: Brauhelfer.sud.WuerzemengeKochende
-                            onNewValue: Brauhelfer.sud.WuerzemengeKochende = value
-                        }
-                        LabelUnit {
-                            Layout.preferredWidth: 60
+                            Layout.preferredWidth: 30
                             text: qsTr("l")
                         }
                     }
@@ -666,45 +986,24 @@ PageBase {
                             value: Brauhelfer.sud.VerdampfungsrateIst
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 60
+                            Layout.preferredWidth: 30
                             text: qsTr("l/h")
                         }
                         LabelPrim {
                             Layout.fillWidth: true
                             Layout.leftMargin: 8
-                            text: "Ø " + qsTr("Anlage")
+                            text: qsTr("Aus Rezept")
                         }
                         LabelNumber {
                             Layout.preferredWidth: 80
-                            value: Brauhelfer.sud.AnlageVerdampfungsrate
+                            value: Brauhelfer.sud.Verdampfungsrate
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 60
+                            Layout.preferredWidth: 30
                             text: qsTr("l/h")
                         }
                     }
                     HorizontalDivider {
-                        Layout.fillWidth: true
-                    }
-                    RowLayout {
-                        visible: Brauhelfer.sud.Nachisomerisierungszeit > 0.0
-                        LabelPrim {
-                            Layout.fillWidth: true
-                            font.bold: true
-                            text: qsTr("Nachisomerisierung")
-                        }
-                        LabelNumber {
-                            Layout.preferredWidth: 80
-                            precision: 0
-                            value: Brauhelfer.sud.Nachisomerisierungszeit
-                        }
-                        LabelUnit {
-                            Layout.preferredWidth: 60
-                            text: qsTr("min")
-                        }
-                    }
-                    HorizontalDivider {
-                        visible: Brauhelfer.sud.Nachisomerisierungszeit > 0.0
                         Layout.fillWidth: true
                     }
                     GridLayout {
@@ -719,8 +1018,104 @@ PageBase {
                             value: Brauhelfer.sud.erg_Sudhausausbeute
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 60
+                            Layout.preferredWidth: 30
                             text: qsTr("%")
+                        }
+                        LabelPrim {
+                            Layout.fillWidth: true
+                            Layout.leftMargin: 8
+                            text: qsTr("Aus Rezept")
+                        }
+                        LabelNumber {
+                            Layout.preferredWidth: 80
+                            value: Brauhelfer.sud.Sudhausausbeute
+                        }
+                        LabelUnit {
+                            Layout.preferredWidth: 30
+                            text: qsTr("%")
+                        }
+                    }
+                    HorizontalDivider {
+                        Layout.fillWidth: true
+                    }
+                    LabelPrim {
+                        Layout.fillWidth: true
+                        font.bold: true
+                        text: qsTr("Hopfenseihen")
+                    }
+                    GridLayout {
+                        Layout.leftMargin: 8
+                        columns: 3
+                        LabelPrim {
+                            Layout.fillWidth: true
+                            visible: Brauhelfer.sud.Nachisomerisierungszeit > 0.0
+                            text: qsTr("Nachisomerisierung")
+                        }
+                        LabelNumber {
+                            Layout.preferredWidth: 80
+                            visible: Brauhelfer.sud.Nachisomerisierungszeit > 0.0
+                            precision: 0
+                            value: Brauhelfer.sud.Nachisomerisierungszeit
+                        }
+                        LabelUnit {
+                            Layout.preferredWidth: 30
+                            visible: Brauhelfer.sud.Nachisomerisierungszeit > 0.0
+                            text: qsTr("min")
+                        }
+                        Repeater {
+                            model: Brauhelfer.sud.modelHopfengaben
+                            delegate: RowLayout {
+                                Layout.columnSpan: 3
+                                visible: !model.Vorderwuerze && model.Zeit <= 0
+                                LabelPrim {
+                                    Layout.fillWidth: true
+                                    text: model.Name + " (" + model.Alpha + "%)"
+                                }
+                                LabelNumber {
+                                    Layout.preferredWidth: 40
+                                    value: model.erg_Menge
+                                }
+                                LabelUnit {
+                                    Layout.preferredWidth: 30
+                                    text: qsTr("g")
+                                }
+                                LabelNumber {
+                                    Layout.preferredWidth: 40
+                                    precision: 0
+                                    value: -model.Zeit
+                                }
+                                LabelUnit {
+                                    Layout.preferredWidth: 30
+                                    text: qsTr("min")
+                                }
+                            }
+                        }
+                        LabelPrim {
+                            Layout.fillWidth: true
+                            text: qsTr("Würzemenge nach Hopfenseihen bei 20°C")
+                        }
+                        TextFieldVolume {
+                            Layout.preferredWidth: 80
+                            enabled: !page.readOnly
+                            useDialog: true
+                            value: Brauhelfer.sud.WuerzemengeKochende
+                            onNewValue: Brauhelfer.sud.WuerzemengeKochende = value
+                        }
+                        LabelUnit {
+                            Layout.preferredWidth: 30
+                            text: qsTr("l")
+                        }
+                        LabelPrim {
+                            Layout.fillWidth: true
+                            text: qsTr("Verlust")
+                        }
+                        LabelNumber {
+                            Layout.preferredWidth: 40
+                            value: Brauhelfer.sud.WuerzemengeVorHopfenseihen - Brauhelfer.sud.WuerzemengeKochende
+                        }
+                        LabelUnit {
+                            Layout.preferredWidth: 30
+                            text: qsTr("l")
                         }
                     }
                 }
@@ -733,6 +1128,52 @@ PageBase {
                 }
                 ColumnLayout {
                     anchors.fill: parent
+
+                    LabelPrim {
+                        Layout.fillWidth: true
+                        visible: Brauhelfer.sud.highGravityFaktor > 0.0
+                        font.bold: true
+                        text: qsTr("High-Gravity Verdünnung")
+                    }
+                    ColumnLayout {
+                        Layout.leftMargin: 8
+                        visible: Brauhelfer.sud.highGravityFaktor > 0.0
+                        RowLayout {
+                            LabelPrim {
+                                Layout.fillWidth: true
+                                text: qsTr("Wassermenge")
+                            }
+                            LabelNumber {
+                                Layout.preferredWidth: 80
+                                value: Brauhelfer.sud.WasserHgf
+                            }
+                            LabelUnit {
+                                Layout.preferredWidth: 30
+                                text: qsTr("l")
+                            }
+                        }
+                        Repeater {
+                            model: Brauhelfer.sud.modelWasseraufbereitung
+                            delegate: RowLayout {
+                                RowLayout {
+                                    LabelPrim {
+                                        Layout.fillWidth: true
+                                        text: model.Name
+                                    }
+                                    LabelNumber {
+                                        Layout.preferredWidth: 80
+                                        precision: 2
+                                        value: model.Menge * Brauhelfer.sud.WasserHgf
+                                    }
+                                    LabelUnit {
+                                        Layout.preferredWidth: 30
+                                        text: app.defs.einheiten[model.Einheit]
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                     LabelPrim {
                         Layout.fillWidth: true
                         font.bold: true
@@ -751,7 +1192,7 @@ PageBase {
                             value: Brauhelfer.sud.SWSollAnstellen
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 60
+                            Layout.preferredWidth: 30
                             text: qsTr("°P")
                         }
                         Item {
@@ -762,7 +1203,7 @@ PageBase {
                             value: BierCalc.platoToBrix(lblSWSollAnstellen.value)
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 60
+                            Layout.preferredWidth: 30
                             text: qsTr("°Brix")
                         }
                         Item {
@@ -774,23 +1215,8 @@ PageBase {
                             value: BierCalc.platoToDichte(lblSWSollAnstellen.value)
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 60
+                            Layout.preferredWidth: 30
                             text: qsTr("g/ml")
-                        }
-                        LabelPrim {
-                            Layout.fillWidth: true
-                            visible: Brauhelfer.sud.highGravityFaktor > 0.0
-                            text: qsTr("High-Gravity Verdünnung")
-                        }
-                        LabelNumber {
-                            Layout.preferredWidth: 80
-                            visible: Brauhelfer.sud.highGravityFaktor > 0.0
-                            value: Brauhelfer.sud.Menge - Brauhelfer.sud.MengeSollKochende
-                        }
-                        LabelUnit {
-                            Layout.preferredWidth: 60
-                            visible: Brauhelfer.sud.highGravityFaktor > 0.0
-                            text: qsTr("l")
                         }
                         LabelPrim {
                             Layout.fillWidth: true
@@ -806,7 +1232,7 @@ PageBase {
                                                                  Brauhelfer.sud.WuerzemengeKochende * (1 + Brauhelfer.sud.highGravityFaktor/100))
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 60
+                            Layout.preferredWidth: 30
                             visible: lblWasserverschneidung.visible
                             text: qsTr("l")
                         }
@@ -822,7 +1248,7 @@ PageBase {
                             onNewValue: Brauhelfer.sud.SWAnstellen = value
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 60
+                            Layout.preferredWidth: 30
                             text: qsTr("°P")
                         }
                     }
@@ -849,7 +1275,7 @@ PageBase {
                             onNewValue: Brauhelfer.sud.WuerzemengeAnstellenTotal = value
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 60
+                            Layout.preferredWidth: 30
                             text: qsTr("l")
                         }
                         LabelPrim {
@@ -864,7 +1290,7 @@ PageBase {
                             }
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 60
+                            Layout.preferredWidth: 30
                             text: qsTr("l")
                         }
                         LabelPrim {
@@ -878,7 +1304,7 @@ PageBase {
                             onNewValue: Brauhelfer.sud.Speisemenge = value
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 60
+                            Layout.preferredWidth: 30
                             text: qsTr("l")
                         }
                         LabelPrim {
@@ -892,7 +1318,7 @@ PageBase {
                             onNewValue: Brauhelfer.sud.WuerzemengeAnstellen = value
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 60
+                            Layout.preferredWidth: 30
                             text: qsTr("l")
                         }
                     }
@@ -911,20 +1337,7 @@ PageBase {
                             value: Brauhelfer.sud.erg_EffektiveAusbeute
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 60
-                            text: qsTr("%")
-                        }
-                        LabelPrim {
-                            Layout.fillWidth: true
-                            Layout.leftMargin: 8
-                            text: "Ø " + qsTr("Anlage")
-                        }
-                        LabelNumber {
-                            Layout.preferredWidth: 80
-                            value: Brauhelfer.sud.AnlageSudhausausbeute
-                        }
-                        LabelUnit {
-                            Layout.preferredWidth: 60
+                            Layout.preferredWidth: 30
                             text: qsTr("%")
                         }
                     }
@@ -945,7 +1358,7 @@ PageBase {
                             onNewValue: this.value = value
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 60
+                            Layout.preferredWidth: 30
                             text: qsTr("°C")
                         }
                     }
@@ -982,7 +1395,7 @@ PageBase {
                                     value: model.Menge
                                 }
                                 LabelUnit {
-                                    Layout.preferredWidth: 60
+                                    Layout.preferredWidth: 30
                                     text: "x"
                                 }
                             }
@@ -1072,7 +1485,7 @@ PageBase {
                         onNewValue: Brauhelfer.sud.KostenWasserStrom = value
                     }
                     LabelUnit {
-                       Layout.preferredWidth: 60
+                       Layout.preferredWidth: 30
                         text: Qt.locale().currencySymbol()
                     }
                     LabelPrim {
@@ -1085,14 +1498,14 @@ PageBase {
                         value: Brauhelfer.sud.erg_Preis
                     }
                     LabelUnit {
-                        Layout.preferredWidth: 60
+                        Layout.preferredWidth: 30
                         text: Qt.locale().currencySymbol() + "/" + qsTr("l")
                     }
                     CheckBox {
                         Layout.columnSpan: 3
                         Layout.fillWidth: true
                         enabled: !page.readOnly
-                        text: qsTr("Ausbeute für Durchschnitt nicht einbeziehen")
+                        text: qsTr("Sud für Durchschnittsberechnung ignorieren")
                         checked: Brauhelfer.sud.AusbeuteIgnorieren
                         onClicked: Brauhelfer.sud.AusbeuteIgnorieren = checked
                     }

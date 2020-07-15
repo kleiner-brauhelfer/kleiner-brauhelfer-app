@@ -436,13 +436,12 @@ PageBase {
                                         }
 
                                         TextFieldDate {
+                                            Layout.fillWidth: true
                                             Layout.alignment: Qt.AlignHCenter
+                                            Layout.columnSpan: 2
                                             enabled: model.Menge > 0
                                             date: model.Eingelagert
                                             onNewDate: model.Eingelagert = date
-                                        }
-
-                                        LabelUnit {
                                         }
 
                                         LabelPrim {
@@ -453,7 +452,9 @@ PageBase {
 
                                         TextFieldDate {
                                             id: tfMindesthaltbar
+                                            Layout.fillWidth: true
                                             Layout.alignment: Qt.AlignHCenter
+                                            Layout.columnSpan: 2
                                             enabled: model.Menge > 0
                                             date: model.Mindesthaltbar
                                             onNewDate: model.Mindesthaltbar = date
@@ -461,9 +462,6 @@ PageBase {
                                                 when: tfMindesthaltbar.enabled && tfMindesthaltbar.date < new Date()
                                                 PropertyChanges { target: tfMindesthaltbar; color: Material.accent }
                                             }
-                                        }
-
-                                        LabelUnit {
                                         }
                                     }
                                 }

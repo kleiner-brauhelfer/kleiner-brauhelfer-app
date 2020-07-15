@@ -224,7 +224,7 @@ PageBase {
                                             ListElement { key: qsTr("Braumeister 200L"); value: Brauhelfer.AnlageTyp.Braumeister200}
                                             ListElement { key: qsTr("Braumeister 500L"); value: Brauhelfer.AnlageTyp.Braumeister500}
                                             ListElement { key: qsTr("Braumeister 1000L"); value: Brauhelfer.AnlageTyp.Braumeister1000}
-                                            ListElement { key: qsTr("Brauheld Pro"); value: Brauhelfer.AnlageTyp.BrauheldPro30}
+                                            ListElement { key: qsTr("Brauheld Pro 30L"); value: Brauhelfer.AnlageTyp.BrauheldPro30}
                                         }
                                         currentIndex: switch(_model.Typ) {
                                                         case Brauhelfer.AnlageTyp.Standard: return 0;
