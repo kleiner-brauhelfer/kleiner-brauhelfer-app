@@ -85,6 +85,7 @@ PageBase {
                                 anchors.left: parent.left
                                 anchors.right: parent.right
                                 RowLayout {
+                                    spacing: 16
                                     Layout.topMargin: 4
                                     Layout.bottomMargin: 4
                                     Layout.fillWidth: true
@@ -148,6 +149,7 @@ PageBase {
                 }
                 GridLayout {
                     anchors.fill: parent
+                    columnSpacing: 16
                     columns: 3
                     Switch {
                         id: ctrlSGPen
@@ -163,7 +165,6 @@ PageBase {
                         text: qsTr("Scheinbar")
                     }
                     TextFieldPlato {
-                        Layout.preferredWidth: 60
                         enabled: !page.readOnly && ctrlSGPen.checked
                         visible: ctrlSGPen.checked
                         useDialog: true
@@ -172,7 +173,6 @@ PageBase {
                         onNewValue: Brauhelfer.sud.SWSchnellgaerprobe = value
                     }
                     LabelUnit {
-                        Layout.preferredWidth: 30
                         visible: ctrlSGPen.checked
                         text: qsTr("°P")
                     }
@@ -182,12 +182,10 @@ PageBase {
                         text: qsTr("Tatsächlich")
                     }
                     LabelPlato {
-                        Layout.preferredWidth: 60
                         visible: ctrlSGPen.checked
                         value: BierCalc.toTRE(Brauhelfer.sud.SWIst, Brauhelfer.sud.SWSchnellgaerprobe)
                     }
                     LabelUnit {
-                        Layout.preferredWidth: 30
                         visible: ctrlSGPen.checked
                         text: qsTr("°P")
                     }
@@ -198,13 +196,11 @@ PageBase {
                     }
                     LabelPlato {
                         id: ctrlGS
-                        Layout.preferredWidth: 60
                         horizontalAlignment: Text.AlignHCenter
                         visible: ctrlSGPen.checked
                         value: Brauhelfer.sud.Gruenschlauchzeitpunkt
                     }
                     LabelUnit {
-                        Layout.preferredWidth: 30
                         visible: ctrlSGPen.checked
                         text: qsTr("°P")
                     }
@@ -226,13 +222,13 @@ PageBase {
                 }
                 GridLayout {
                     anchors.fill: parent
+                    columnSpacing: 16
                     columns: 3
                     LabelPrim {
                         Layout.fillWidth: true
                         text: qsTr("Scheinbar")
                     }
                     TextFieldPlato {
-                        Layout.preferredWidth: 60
                         enabled: !page.readOnly
                         useDialog: true
                         sw: Brauhelfer.sud.SWIst
@@ -240,7 +236,6 @@ PageBase {
                         onNewValue: Brauhelfer.sud.SWJungbier = value
                     }
                     LabelUnit {
-                        Layout.preferredWidth: 30
                         text: qsTr("°P")
                     }
                     LabelPrim {
@@ -249,11 +244,9 @@ PageBase {
                         text: qsTr("Erwartet")
                     }
                     LabelPlato {
-                        Layout.preferredWidth: 60
                         value: BierCalc.sreAusVergaerungsgrad(Brauhelfer.sud.SWIst, Brauhelfer.sud.Vergaerungsgrad)
                     }
                     LabelUnit {
-                        Layout.preferredWidth: 30
                         text: qsTr("°P")
                     }
                     LabelPrim {
@@ -261,11 +254,9 @@ PageBase {
                         text: qsTr("Tatsächlich")
                     }
                     LabelPlato {
-                        Layout.preferredWidth: 60
                         value: BierCalc.toTRE(Brauhelfer.sud.SWIst, Brauhelfer.sud.SWJungbier)
                     }
                     LabelUnit {
-                        Layout.preferredWidth: 30
                         text: qsTr("°P")
                     }
                     LabelPrim {
@@ -286,18 +277,17 @@ PageBase {
                 }
                 GridLayout {
                     anchors.fill: parent
+                    columnSpacing: 16
                     columns: 3
                     LabelPrim {
                         Layout.fillWidth: true
                         text: qsTr("Stammwürze")
                     }
                     LabelPlato {
-                        Layout.preferredWidth: 60
                         horizontalAlignment: Text.AlignHCenter
                         value: Brauhelfer.sud.SWIst
                     }
                     LabelUnit {
-                        Layout.preferredWidth: 30
                         text: qsTr("°P")
                     }
                     LabelPrim {
@@ -305,11 +295,9 @@ PageBase {
                         text: qsTr("Vergärungsgrad scheinbar")
                     }
                     LabelNumber {
-                        Layout.preferredWidth: 60
                         value: BierCalc.vergaerungsgrad(Brauhelfer.sud.SWIst, Brauhelfer.sud.SREIst)
                     }
                     LabelUnit {
-                        Layout.preferredWidth: 30
                         text: qsTr("%")
                     }
                     LabelPrim {
@@ -317,11 +305,9 @@ PageBase {
                         text: qsTr("Vergärungsgrad tatsächlich")
                     }
                     LabelNumber {
-                        Layout.preferredWidth: 60
                         value: BierCalc.vergaerungsgrad(Brauhelfer.sud.SWIst, BierCalc.toTRE(Brauhelfer.sud.SWIst, Brauhelfer.sud.SREIst))
                     }
                     LabelUnit {
-                        Layout.preferredWidth: 30
                         text: qsTr("%")
                     }
                     LabelPrim {
@@ -330,12 +316,10 @@ PageBase {
                     }
                     LabelNumber {
                         id: ctrlAlc
-                        Layout.preferredWidth: 60
                         precision: 1
                         value: Brauhelfer.sud.erg_Alkohol
                     }
                     LabelUnit {
-                        Layout.preferredWidth: 30
                         text: qsTr("%vol")
                     }
                     LabelPrim {
@@ -344,12 +328,10 @@ PageBase {
                         text: qsTr("Erwartet")
                     }
                     LabelNumber {
-                        Layout.preferredWidth: 60
                         precision: 1
                         value: Brauhelfer.sud.Alkohol
                     }
                     LabelUnit {
-                        Layout.preferredWidth: 30
                         text: qsTr("%vol")
                     }
                 }
@@ -362,19 +344,18 @@ PageBase {
                 }
                 GridLayout {
                     anchors.fill: parent
+                    columnSpacing: 16
                     columns: 3
                     LabelPrim {
                         Layout.fillWidth: true
                         text: qsTr("Temperatur Jungbier")
                     }
                     TextFieldTemperature {
-                        Layout.preferredWidth: 60
                         enabled: !page.readOnly
                         value: Brauhelfer.sud.TemperaturJungbier
                         onNewValue: Brauhelfer.sud.TemperaturJungbier = value
                     }
                     LabelUnit {
-                        Layout.preferredWidth: 30
                         text: qsTr("°C")
                     }
                     LabelPrim {
@@ -382,12 +363,10 @@ PageBase {
                         text: qsTr("Spundungsdruck")
                     }
                     LabelNumber {
-                        Layout.preferredWidth: 60
                         precision: 2
                         value: Brauhelfer.sud.Spundungsdruck
                     }
                     LabelUnit {
-                        Layout.preferredWidth: 30
                         text: qsTr("bar")
                     }
                 }
@@ -400,6 +379,7 @@ PageBase {
                 }
                 GridLayout {
                     anchors.fill: parent
+                    columnSpacing: 16
                     columns: 5
                     Switch {
                         id: ctrlSpunden
@@ -417,7 +397,6 @@ PageBase {
                     }
                     TextFieldNumber {
                         Layout.columnSpan: 2
-                        Layout.preferredWidth: 60
                         visible: tbZuckerAnteil.visible
                         min: 0.0
                         max: 2.0
@@ -433,7 +412,6 @@ PageBase {
                         text: qsTr("Wasser Zuckerlösung")
                     }
                     TextFieldNumber {
-                        Layout.preferredWidth: 60
                         visible: !ctrlSpunden.checked
                         precision: 2
                         enabled: !page.readOnly
@@ -441,7 +419,6 @@ PageBase {
                         onNewValue: Brauhelfer.sud.VerschneidungAbfuellen = value
                     }
                     LabelUnit {
-                        Layout.preferredWidth: 30
                         visible: !ctrlSpunden.checked
                         text: qsTr("l")
                     }
@@ -453,14 +430,12 @@ PageBase {
                         text: qsTr("Abgefüllte Speisemenge")
                     }
                     TextFieldNumber {
-                        Layout.preferredWidth: 60
                         visible: !ctrlSpunden.checked
                         enabled: !page.readOnly
                         value: Brauhelfer.sud.Speisemenge
                         onNewValue: Brauhelfer.sud.Speisemenge = value
                     }
                     LabelUnit {
-                        Layout.preferredWidth: 30
                         visible: !ctrlSpunden.checked
                         text: qsTr("l")
                     }
@@ -474,25 +449,21 @@ PageBase {
                     }
                     LabelNumber {
                         id: tbSpeiseAnteil
-                        Layout.preferredWidth: 60
                         visible: !ctrlSpunden.checked
                         precision: 0
                         value: Brauhelfer.sud.SpeiseAnteil
                     }
                     LabelUnit {
-                        Layout.preferredWidth: 30
                         visible: tbSpeiseAnteil.visible
                         text: qsTr("ml")
                     }
                     LabelNumber {
-                        Layout.preferredWidth: 60
                         horizontalAlignment: Text.AlignHCenter
                         visible: tbSpeiseAnteil.visible
                         precision: 1
                         value: Brauhelfer.sud.JungbiermengeAbfuellen > 0.0 ? Brauhelfer.sud.SpeiseAnteil / Brauhelfer.sud.JungbiermengeAbfuellen : 0.0
                     }
                     LabelUnit {
-                        Layout.preferredWidth: 30
                         visible: tbSpeiseAnteil.visible
                         text: qsTr("ml/l")
                     }
@@ -503,25 +474,21 @@ PageBase {
                     }
                     LabelNumber {
                         id: tbZuckerAnteil
-                        Layout.preferredWidth: 60
                         visible: !ctrlSpunden.checked && value > 0.0
                         precision: 0
                         value: Brauhelfer.sud.ZuckerAnteil / app.settings.sugarFactor
                     }
                     LabelUnit {
-                        Layout.preferredWidth: 30
                         visible: tbZuckerAnteil.visible
                         text: qsTr("g")
                     }
                     LabelNumber {
-                        Layout.preferredWidth: 60
                         horizontalAlignment: Text.AlignHCenter
                         visible: tbZuckerAnteil.visible
                         precision: 1
                         value: Brauhelfer.sud.JungbiermengeAbfuellen > 0.0 ? tbZuckerAnteil.value / Brauhelfer.sud.JungbiermengeAbfuellen : 0.0
                     }
                     LabelUnit {
-                        Layout.preferredWidth: 30
                         visible: tbZuckerAnteil.visible
                         text: qsTr("g/l")
                     }
@@ -535,6 +502,7 @@ PageBase {
                 }
                 GridLayout {
                     anchors.fill: parent
+                    columnSpacing: 16
                     columns: 3
                     LabelPrim {
                         Layout.fillWidth: true
@@ -542,13 +510,11 @@ PageBase {
                     }
                     TextFieldVolume {
                         id: ctrlJungbiermenge
-                        Layout.preferredWidth: 60
                         enabled: !page.readOnly
                         value: Brauhelfer.sud.JungbiermengeAbfuellen
                         onNewValue: Brauhelfer.sud.JungbiermengeAbfuellen = value
                     }
                     LabelUnit {
-                        Layout.preferredWidth: 30
                         text: qsTr("l")
                     }
                     LabelPrim {
@@ -556,11 +522,9 @@ PageBase {
                         text: qsTr("Verlust seit Anstellen")
                     }
                     LabelNumber {
-                        Layout.preferredWidth: 60
                         value: Brauhelfer.sud.WuerzemengeAnstellen - Brauhelfer.sud.JungbiermengeAbfuellen
                     }
                     LabelUnit {
-                        Layout.preferredWidth: 30
                         text: qsTr("l")
                     }
                     LabelPrim {
@@ -569,12 +533,10 @@ PageBase {
                         text: qsTr("Speise")
                     }
                     LabelNumber {
-                        Layout.preferredWidth: 60
                         visible: !ctrlSpunden.checked
                         value: Brauhelfer.sud.SpeiseAnteil / 1000
                     }
                     LabelUnit {
-                        Layout.preferredWidth: 30
                         visible: !ctrlSpunden.checked
                         text: qsTr("l")
                     }
@@ -585,14 +547,12 @@ PageBase {
                     }
                     TextFieldVolume {
                         id: ctrlBiermenge
-                        Layout.preferredWidth: 60
                         visible: !ctrlSpunden.checked
                         enabled: !page.readOnly
                         value: Brauhelfer.sud.erg_AbgefuellteBiermenge
                         onNewValue: Brauhelfer.sud.erg_AbgefuellteBiermenge = value
                     }
                     LabelUnit {
-                        Layout.preferredWidth: 30
                         visible: !ctrlSpunden.checked
                         text: qsTr("l")
                     }
@@ -606,6 +566,7 @@ PageBase {
                 }
                 GridLayout {
                     anchors.fill: parent
+                    columnSpacing: 16
                     columns: 3
                     LabelPrim {
                         Layout.fillWidth: true
@@ -632,7 +593,6 @@ PageBase {
                         onNewValue: Brauhelfer.sud.KostenWasserStrom = value
                     }
                     LabelUnit {
-                       Layout.preferredWidth: 30
                         text: Qt.locale().currencySymbol()
                     }
                     LabelPrim {
@@ -640,12 +600,10 @@ PageBase {
                         text: qsTr("Gesamtkosten")
                     }
                     LabelNumber {
-                        Layout.preferredWidth: 60
                         precision: 2
                         value: Brauhelfer.sud.erg_Preis
                     }
                     LabelUnit {
-                        Layout.preferredWidth: 30
                         text: Qt.locale().currencySymbol() + "/" + qsTr("l")
                     }
                     Button {

@@ -70,52 +70,46 @@ PageBase {
                         model: Brauhelfer.sud.modelMalzschuettung
                         delegate: RowLayout {
                             Layout.leftMargin: 8
+                            spacing: 16
                             LabelPrim {
                                 Layout.fillWidth: true
                                 text: model.Name
                             }
                             LabelNumber {
-                                Layout.preferredWidth: 40
                                 precision: 1
                                 value: model.Prozent
                             }
                             LabelUnit {
-                                Layout.preferredWidth: 30
                                 text: qsTr("%")
                             }
                             LabelNumber {
-                                Layout.preferredWidth: 40
                                 precision: 2
                                 value: model.erg_Menge
                             }
                             LabelUnit {
-                                Layout.preferredWidth: 30
                                 text: qsTr("kg")
                             }
                         }
                     }
                     RowLayout {
                         Layout.leftMargin: 8
+                        spacing: 16
                         LabelPrim {
                             Layout.fillWidth: true
                             text: qsTr("Gesamtschüttung")
                         }
                         Label {
-                            Layout.preferredWidth: 40
                             text: ""
                         }
                         Label {
-                            Layout.preferredWidth: 30
                             text: ""
                         }
                         LabelNumber {
-                            Layout.preferredWidth: 40
                             font.bold: true
                             precision: 2
                             value: Brauhelfer.sud.erg_S_Gesamt
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             text: qsTr("kg")
                         }
                     }
@@ -139,17 +133,16 @@ PageBase {
                         delegate: ColumnLayout {
                             Layout.leftMargin: 8
                             RowLayout {
+                                spacing: 16
                                 LabelPrim {
                                     Layout.fillWidth: true
                                     text: model.Name
                                 }
                                 LabelNumber {
-                                    Layout.preferredWidth: 80
                                     precision: 2
                                     value: model.erg_Menge * app.defs.einheitenDivider[model.Einheit]
                                 }
                                 LabelUnit {
-                                    Layout.preferredWidth: 30
                                     text: app.defs.einheiten[model.Einheit]
                                 }
                             }
@@ -171,36 +164,32 @@ PageBase {
                     ColumnLayout {
                         Layout.leftMargin: 8
                         RowLayout {
+                            spacing: 16
                             LabelPrim {
                                 Layout.fillWidth: true
                                 text: qsTr("Wassermenge")
                             }
                             LabelNumber {
-                                Layout.preferredWidth: 80
                                 value: Brauhelfer.sud.erg_WHauptguss
                             }
                             LabelUnit {
-                                Layout.preferredWidth: 30
                                 text: qsTr("l")
                             }
                         }
                         Repeater {
                             model: Brauhelfer.sud.modelWasseraufbereitung
                             delegate: RowLayout {
-                                RowLayout {
-                                    LabelPrim {
-                                        Layout.fillWidth: true
-                                        text: model.Name
-                                    }
-                                    LabelNumber {
-                                        Layout.preferredWidth: 80
-                                        precision: 2
-                                        value: model.Menge * Brauhelfer.sud.erg_WHauptguss
-                                    }
-                                    LabelUnit {
-                                        Layout.preferredWidth: 30
-                                        text: app.defs.einheiten[model.Einheit]
-                                    }
+                                spacing: 16
+                                LabelPrim {
+                                    Layout.fillWidth: true
+                                    text: model.Name
+                                }
+                                LabelNumber {
+                                    precision: 2
+                                    value: model.Menge * Brauhelfer.sud.erg_WHauptguss
+                                }
+                                LabelUnit {
+                                    text: app.defs.einheiten[model.Einheit]
                                 }
                             }
                         }
@@ -222,20 +211,19 @@ PageBase {
                                 text: model.Name
                             }
                             GridLayout {
-                                Layout.leftMargin: 8
                                 columns: 3
+                                Layout.leftMargin: 8
+                                columnSpacing: 16
                                 visible: model.Typ === Brauhelfer.RastTyp.Einmaischen
                                 LabelPrim {
                                     Layout.fillWidth: true
                                     text: qsTr("Wassermenge")
                                 }
                                 LabelNumber {
-                                    Layout.preferredWidth: 80
                                     precision: 1
                                     value: model.Menge
                                 }
                                 LabelUnit {
-                                    Layout.preferredWidth: 30
                                     text: qsTr("l")
                                 }
                                 LabelPrim {
@@ -243,12 +231,10 @@ PageBase {
                                     text: qsTr("Wassertemperatur")
                                 }
                                 LabelNumber {
-                                    Layout.preferredWidth: 80
                                     precision: 0
                                     value: model.Param1
                                 }
                                 LabelUnit {
-                                    Layout.preferredWidth: 30
                                     text: qsTr("°C")
                                 }
                                 LabelPrim {
@@ -256,12 +242,10 @@ PageBase {
                                     text: qsTr("Maischetemperatur")
                                 }
                                 LabelNumber {
-                                    Layout.preferredWidth: 80
                                     precision: 0
                                     value: model.Temp
                                 }
                                 LabelUnit {
-                                    Layout.preferredWidth: 30
                                     text: qsTr("°C")
                                 }
                                 LabelPrim {
@@ -271,18 +255,17 @@ PageBase {
                                 }
                                 LabelNumber {
                                     visible: model.Dauer > 0
-                                    Layout.preferredWidth: 80
                                     precision: 0
                                     value: model.Dauer
                                 }
                                 LabelUnit {
                                     visible: model.Dauer > 0
-                                    Layout.preferredWidth: 30
                                     text: qsTr("min")
                                 }
                             }
                             GridLayout {
                                 Layout.leftMargin: 8
+                                columnSpacing: 16
                                 columns: 3
                                 visible: model.Typ === Brauhelfer.RastTyp.Temperatur
                                 LabelPrim {
@@ -290,12 +273,10 @@ PageBase {
                                     text: qsTr("Temperatur")
                                 }
                                 LabelNumber {
-                                    Layout.preferredWidth: 80
                                     precision: 0
                                     value: model.Temp
                                 }
                                 LabelUnit {
-                                    Layout.preferredWidth: 30
                                     text: qsTr("°C")
                                 }
                                 LabelPrim {
@@ -305,18 +286,17 @@ PageBase {
                                 }
                                 LabelNumber {
                                     visible: model.Dauer > 0
-                                    Layout.preferredWidth: 80
                                     precision: 0
                                     value: model.Dauer
                                 }
                                 LabelUnit {
                                     visible: model.Dauer > 0
-                                    Layout.preferredWidth: 30
                                     text: qsTr("min")
                                 }
                             }
                             GridLayout {
                                 Layout.leftMargin: 8
+                                columnSpacing: 16
                                 columns: 3
                                 visible: model.Typ === Brauhelfer.RastTyp.Infusion
                                 LabelPrim {
@@ -324,12 +304,10 @@ PageBase {
                                     text: qsTr("Wassermenge")
                                 }
                                 LabelNumber {
-                                    Layout.preferredWidth: 80
                                     precision: 1
                                     value: model.Menge
                                 }
                                 LabelUnit {
-                                    Layout.preferredWidth: 30
                                     text: qsTr("l")
                                 }
                                 LabelPrim {
@@ -337,12 +315,10 @@ PageBase {
                                     text: qsTr("Wassertemperatur")
                                 }
                                 LabelNumber {
-                                    Layout.preferredWidth: 80
                                     precision: 0
                                     value: model.Param1
                                 }
                                 LabelUnit {
-                                    Layout.preferredWidth: 30
                                     text: qsTr("°C")
                                 }
                                 LabelPrim {
@@ -350,12 +326,10 @@ PageBase {
                                     text: qsTr("Maischetemperatur")
                                 }
                                 LabelNumber {
-                                    Layout.preferredWidth: 80
                                     precision: 0
                                     value: model.Temp
                                 }
                                 LabelUnit {
-                                    Layout.preferredWidth: 30
                                     text: qsTr("°C")
                                 }
                                 LabelPrim {
@@ -365,18 +339,17 @@ PageBase {
                                 }
                                 LabelNumber {
                                     visible: model.Dauer > 0
-                                    Layout.preferredWidth: 80
                                     precision: 0
                                     value: model.Dauer
                                 }
                                 LabelUnit {
                                     visible: model.Dauer > 0
-                                    Layout.preferredWidth: 30
                                     text: qsTr("min")
                                 }
                             }
                             GridLayout {
                                 Layout.leftMargin: 8
+                                columnSpacing: 16
                                 columns: 3
                                 visible: model.Typ === Brauhelfer.RastTyp.Dekoktion
                                 LabelPrim {
@@ -384,12 +357,10 @@ PageBase {
                                     text: qsTr("Maischemenge")
                                 }
                                 LabelNumber {
-                                    Layout.preferredWidth: 80
                                     precision: 1
                                     value: model.Menge
                                 }
                                 LabelUnit {
-                                    Layout.preferredWidth: 30
                                     text: qsTr("l")
                                 }
                                 LabelPrim {
@@ -399,13 +370,11 @@ PageBase {
                                 }
                                 LabelNumber {
                                     visible: model.Param3 > 0
-                                    Layout.preferredWidth: 80
                                     precision: 0
                                     value: model.Param3
                                 }
                                 LabelUnit {
                                     visible: model.Param3 > 0
-                                    Layout.preferredWidth: 30
                                     text: qsTr("°C")
                                 }
                                 LabelPrim {
@@ -415,13 +384,11 @@ PageBase {
                                 }
                                 LabelNumber {
                                     visible: model.Param3 > 0 && model.Param4 > 0
-                                    Layout.preferredWidth: 80
                                     precision: 0
                                     value: model.Param4
                                 }
                                 LabelUnit {
                                     visible: model.Param3 > 0 && model.Param4 > 0
-                                    Layout.preferredWidth: 30
                                     text: qsTr("min")
                                 }
                                 LabelPrim {
@@ -431,13 +398,11 @@ PageBase {
                                 }
                                 LabelNumber {
                                     visible: model.Param1 > 0
-                                    Layout.preferredWidth: 80
                                     precision: 0
                                     value: model.Param1
                                 }
                                 LabelUnit {
                                     visible: model.Param1 > 0
-                                    Layout.preferredWidth: 30
                                     text: qsTr("°C")
                                 }
                                 LabelPrim {
@@ -447,13 +412,11 @@ PageBase {
                                 }
                                 LabelNumber {
                                     visible: model.Param1 > 0 && model.Param2 > 0
-                                    Layout.preferredWidth: 80
                                     precision: 0
                                     value: model.Param2
                                 }
                                 LabelUnit {
                                     visible: model.Param1 > 0 && model.Param2 > 0
-                                    Layout.preferredWidth: 30
                                     text: qsTr("min")
                                 }
                                 LabelPrim {
@@ -463,13 +426,11 @@ PageBase {
                                 }
                                 LabelNumber {
                                     visible: model.Temp > 0
-                                    Layout.preferredWidth: 80
                                     precision: 0
                                     value: model.Temp
                                 }
                                 LabelUnit {
                                     visible: model.Temp > 0
-                                    Layout.preferredWidth: 30
                                     text: qsTr("°C")
                                 }
                                 LabelPrim {
@@ -479,13 +440,11 @@ PageBase {
                                 }
                                 LabelNumber {
                                     visible: model.Temp > 0 && model.Dauer > 0
-                                    Layout.preferredWidth: 80
                                     precision: 0
                                     value: model.Dauer
                                 }
                                 LabelUnit {
                                     visible: model.Temp > 0 && model.Dauer > 0
-                                    Layout.preferredWidth: 30
                                     text: qsTr("min")
                                 }
                             }
@@ -501,6 +460,7 @@ PageBase {
                     }
                     GridLayout {
                         Layout.leftMargin: 8
+                        columnSpacing: 16
                         columns: 2
                         LabelPrim {
                             text: qsTr("lila bis schwarz")
@@ -542,36 +502,32 @@ PageBase {
                     ColumnLayout {
                         Layout.leftMargin: 8
                         RowLayout {
+                            spacing: 16
                             LabelPrim {
                                 Layout.fillWidth: true
                                 text: qsTr("Wassermenge")
                             }
                             LabelNumber {
-                                Layout.preferredWidth: 80
                                 value: Brauhelfer.sud.erg_WNachguss
                             }
                             LabelUnit {
-                                Layout.preferredWidth: 30
                                 text: qsTr("l")
                             }
                         }
                         Repeater {
                             model: Brauhelfer.sud.modelWasseraufbereitung
                             delegate: RowLayout {
-                                RowLayout {
-                                    LabelPrim {
-                                        Layout.fillWidth: true
-                                        text: model.Name
-                                    }
-                                    LabelNumber {
-                                        Layout.preferredWidth: 80
-                                        precision: 2
-                                        value: model.Menge * Brauhelfer.sud.erg_WNachguss
-                                    }
-                                    LabelUnit {
-                                        Layout.preferredWidth: 30
-                                        text: app.defs.einheiten[model.Einheit]
-                                    }
+                                spacing: 16
+                                LabelPrim {
+                                    Layout.fillWidth: true
+                                    text: model.Name
+                                }
+                                LabelNumber {
+                                    precision: 2
+                                    value: model.Menge * Brauhelfer.sud.erg_WNachguss
+                                }
+                                LabelUnit {
+                                    text: app.defs.einheiten[model.Einheit]
                                 }
                             }
                         }
@@ -599,17 +555,16 @@ PageBase {
                         onItemAdded: if (item.visible) ++countVisible
                         delegate: RowLayout {
                             Layout.leftMargin: 8
+                            spacing: 16
                             visible: model.Vorderwuerze
                             LabelPrim {
                                 Layout.fillWidth: true
                                 text: model.Name + " (" + model.Alpha + "%)"
                             }
                             LabelNumber {
-                                Layout.preferredWidth: 80
                                 value: model.erg_Menge
                             }
                             LabelUnit {
-                                Layout.preferredWidth: 30
                                 text: qsTr("g")
                             }
                         }
@@ -625,6 +580,7 @@ PageBase {
                     }
                     GridLayout {
                         Layout.leftMargin: 8
+                        columnSpacing: 16
                         columns: 3
                         LabelPrim {
                             Layout.fillWidth: true
@@ -632,34 +588,28 @@ PageBase {
                         }
                         LabelPlato {
                             id: lblSWSollKochbeginn
-                            Layout.preferredWidth: 80
                             value: Brauhelfer.sud.SWSollKochbeginn
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             text: qsTr("°P")
                         }
                         Item {
                             Layout.fillWidth: true
                         }
                         LabelPlato {
-                            Layout.preferredWidth: 80
                             value: BierCalc.platoToBrix(lblSWSollKochbeginn.value)
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             text: qsTr("°Brix")
                         }
                         Item {
                             Layout.fillWidth: true
                         }
                         LabelPlato {
-                            Layout.preferredWidth: 80
                             precision: 4
                             value: BierCalc.platoToDichte(lblSWSollKochbeginn.value)
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             text: qsTr("g/ml")
                         }
 
@@ -670,12 +620,10 @@ PageBase {
                         }
                         LabelPlato {
                             id: lblSWSollKochbeginnWz
-                            Layout.preferredWidth: 80
                             visible: lblSWSollKochbeginnWz.value !== lblSWSollKochbeginn.value
                             value: Brauhelfer.sud.SWSollKochbeginnMitWz
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             visible: lblSWSollKochbeginnWz.value !== lblSWSollKochbeginn.value
                             text: qsTr("°P")
                         }
@@ -684,12 +632,10 @@ PageBase {
                             visible: lblSWSollKochbeginnWz.value !== lblSWSollKochbeginn.value
                         }
                         LabelPlato {
-                            Layout.preferredWidth: 80
                             visible: lblSWSollKochbeginnWz.value !== lblSWSollKochbeginn.value
                             value: BierCalc.platoToBrix(lblSWSollKochbeginnWz.value)
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             visible: lblSWSollKochbeginnWz.value !== lblSWSollKochbeginn.value
                             text: qsTr("°Brix")
                         }
@@ -698,13 +644,11 @@ PageBase {
                             visible: lblSWSollKochbeginnWz.value !== lblSWSollKochbeginn.value
                         }
                         LabelPlato {
-                            Layout.preferredWidth: 80
                             visible: lblSWSollKochbeginnWz.value !== lblSWSollKochbeginn.value
                             precision: 4
                             value: BierCalc.platoToDichte(lblSWSollKochbeginnWz.value)
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             visible: lblSWSollKochbeginnWz.value !== lblSWSollKochbeginn.value
                             text: qsTr("g/ml")
                         }
@@ -714,14 +658,12 @@ PageBase {
                             text: qsTr("Stammwürze")
                         }
                         TextFieldPlato {
-                            Layout.preferredWidth: 80
                             enabled: !page.readOnly
                             useDialog: true
                             value: Brauhelfer.sud.SWKochbeginn
                             onNewValue: Brauhelfer.sud.SWKochbeginn = value
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             text: qsTr("°P")
                         }
                         LabelPrim {
@@ -729,11 +671,9 @@ PageBase {
                             text: qsTr("Zielmenge bei 100°C")
                         }
                         LabelNumber {
-                            Layout.preferredWidth: 80
                             value: BierCalc.volumenWasser(20.0, 100.0, Brauhelfer.sud.MengeSollKochbeginn)
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             text: qsTr("l")
                         }
                         LabelPrim {
@@ -741,11 +681,9 @@ PageBase {
                             text: qsTr("Zielmenge bei 20°C")
                         }
                         LabelNumber {
-                            Layout.preferredWidth: 80
                             value: Brauhelfer.sud.MengeSollKochbeginn
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             text: qsTr("l")
                         }
                         LabelPrim {
@@ -753,14 +691,12 @@ PageBase {
                             text: qsTr("Würzemenge bei 20°C")
                         }
                         TextFieldVolume {
-                            Layout.preferredWidth: 80
                             enabled: !page.readOnly
                             useDialog: true
                             value: Brauhelfer.sud.WuerzemengeKochbeginn
                             onNewValue: Brauhelfer.sud.WuerzemengeKochbeginn = value
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             text: qsTr("l")
                         }
                     }
@@ -768,18 +704,17 @@ PageBase {
                         Layout.fillWidth: true
                     }
                     RowLayout {
+                        spacing: 16
                         LabelPrim {
                             Layout.fillWidth: true
                             font.bold: true
                             text: qsTr("Kochdauer")
                         }
                         LabelNumber {
-                            Layout.preferredWidth: 80
                             precision: 0
                             value: Brauhelfer.sud.Kochdauer
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             text: qsTr("min")
                         }
                     }
@@ -795,26 +730,23 @@ PageBase {
                         model: Brauhelfer.sud.modelHopfengaben
                         delegate: RowLayout {
                             Layout.leftMargin: 8
+                            spacing: 16
                             visible: !model.Vorderwuerze && model.Zeit > 0
                             LabelPrim {
                                 Layout.fillWidth: true
                                 text: model.Name + " (" + model.Alpha + "%)"
                             }
                             LabelNumber {
-                                Layout.preferredWidth: 40
                                 value: model.erg_Menge
                             }
                             LabelUnit {
-                                Layout.preferredWidth: 30
                                 text: qsTr("g")
                             }
                             LabelNumber {
-                                Layout.preferredWidth: 40
                                 precision: 0
                                 value: model.Zeit
                             }
                             LabelUnit {
-                                Layout.preferredWidth: 30
                                 text: qsTr("min")
                             }
                         }
@@ -839,26 +771,23 @@ PageBase {
                         delegate: ColumnLayout {
                             Layout.leftMargin: 8
                             RowLayout {
+                                spacing: 16
                                 LabelPrim {
                                     Layout.fillWidth: true
                                     text: model.Name
                                 }
                                 LabelNumber {
-                                    Layout.preferredWidth: 40
                                     precision: 2
                                     value: model.erg_Menge * app.defs.einheitenDivider[model.Einheit]
                                 }
                                 LabelUnit {
-                                    Layout.preferredWidth: 30
                                     text: app.defs.einheiten[model.Einheit]
                                 }
                                 LabelNumber {
-                                    Layout.preferredWidth: 40
                                     precision: 0
                                     value: model.Zugabedauer
                                 }
                                 LabelUnit {
-                                    Layout.preferredWidth: 30
                                     text: qsTr("min")
                                 }
                             }
@@ -879,6 +808,7 @@ PageBase {
                     }
                     GridLayout {
                         Layout.leftMargin: 8
+                        columnSpacing: 16
                         columns: 3
                         LabelPrim {
                             Layout.fillWidth: true
@@ -886,34 +816,28 @@ PageBase {
                         }
                         LabelPlato {
                             id: lblSWSollKochende
-                            Layout.preferredWidth: 80
                             value: Brauhelfer.sud.SWSollKochende
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             text: qsTr("°P")
                         }
                         Item {
                             Layout.fillWidth: true
                         }
                         LabelPlato {
-                            Layout.preferredWidth: 80
                             value: BierCalc.platoToBrix(lblSWSollKochende.value)
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             text: qsTr("°Brix")
                         }
                         Item {
                             Layout.fillWidth: true
                         }
                         LabelPlato {
-                            Layout.preferredWidth: 80
                             precision: 4
                             value: BierCalc.platoToDichte(lblSWSollKochende.value)
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             text: qsTr("g/ml")
                         }
                         LabelPrim {
@@ -921,14 +845,12 @@ PageBase {
                             text: qsTr("Stammwürze")
                         }
                         TextFieldPlato {
-                            Layout.preferredWidth: 80
                             enabled: !page.readOnly
                             useDialog: true
                             value: Brauhelfer.sud.SWKochende
                             onNewValue: Brauhelfer.sud.SWKochende = value
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             text: qsTr("°P")
                         }
                         LabelPrim {
@@ -936,11 +858,9 @@ PageBase {
                             text: qsTr("Zielmenge bei 100°C")
                         }
                         LabelNumber {
-                            Layout.preferredWidth: 80
                             value: BierCalc.volumenWasser(20.0, 100.0, Brauhelfer.sud.MengeSollKochende)
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             text: qsTr("l")
                         }
                         LabelPrim {
@@ -948,11 +868,9 @@ PageBase {
                             text: qsTr("Zielmenge bei 20°C")
                         }
                         LabelNumber {
-                            Layout.preferredWidth: 80
                             value: Brauhelfer.sud.MengeSollKochende
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             text: qsTr("l")
                         }
                         LabelPrim {
@@ -960,14 +878,12 @@ PageBase {
                             text: qsTr("Würzemenge vor Hopfenseihen bei 20°C")
                         }
                         TextFieldVolume {
-                            Layout.preferredWidth: 80
                             enabled: !page.readOnly
                             useDialog: true
                             value: Brauhelfer.sud.WuerzemengeVorHopfenseihen
                             onNewValue: Brauhelfer.sud.WuerzemengeVorHopfenseihen = value
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             text: qsTr("l")
                         }
                     }
@@ -975,6 +891,7 @@ PageBase {
                         Layout.fillWidth: true
                     }
                     GridLayout {
+                        columnSpacing: 16
                         columns: 3
                         LabelPrim {
                             Layout.fillWidth: true
@@ -982,11 +899,9 @@ PageBase {
                             text: qsTr("Verdampfungsrate")
                         }
                         LabelNumber {
-                            Layout.preferredWidth: 80
                             value: Brauhelfer.sud.VerdampfungsrateIst
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             text: qsTr("l/h")
                         }
                         LabelPrim {
@@ -995,11 +910,9 @@ PageBase {
                             text: qsTr("Aus Rezept")
                         }
                         LabelNumber {
-                            Layout.preferredWidth: 80
                             value: Brauhelfer.sud.Verdampfungsrate
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             text: qsTr("l/h")
                         }
                     }
@@ -1007,6 +920,7 @@ PageBase {
                         Layout.fillWidth: true
                     }
                     GridLayout {
+                        columnSpacing: 16
                         columns: 3
                         LabelPrim {
                             Layout.fillWidth: true
@@ -1014,11 +928,9 @@ PageBase {
                             text: qsTr("Sudhausausbeute")
                         }
                         LabelNumber {
-                            Layout.preferredWidth: 80
                             value: Brauhelfer.sud.erg_Sudhausausbeute
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             text: qsTr("%")
                         }
                         LabelPrim {
@@ -1027,11 +939,9 @@ PageBase {
                             text: qsTr("Aus Rezept")
                         }
                         LabelNumber {
-                            Layout.preferredWidth: 80
                             value: Brauhelfer.sud.Sudhausausbeute
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             text: qsTr("%")
                         }
                     }
@@ -1045,6 +955,7 @@ PageBase {
                     }
                     GridLayout {
                         Layout.leftMargin: 8
+                        columnSpacing: 16
                         columns: 3
                         LabelPrim {
                             Layout.fillWidth: true
@@ -1052,13 +963,11 @@ PageBase {
                             text: qsTr("Nachisomerisierung")
                         }
                         LabelNumber {
-                            Layout.preferredWidth: 80
                             visible: Brauhelfer.sud.Nachisomerisierungszeit > 0.0
                             precision: 0
                             value: Brauhelfer.sud.Nachisomerisierungszeit
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             visible: Brauhelfer.sud.Nachisomerisierungszeit > 0.0
                             text: qsTr("min")
                         }
@@ -1066,26 +975,23 @@ PageBase {
                             model: Brauhelfer.sud.modelHopfengaben
                             delegate: RowLayout {
                                 Layout.columnSpan: 3
+                                spacing: 16
                                 visible: !model.Vorderwuerze && model.Zeit <= 0
                                 LabelPrim {
                                     Layout.fillWidth: true
                                     text: model.Name + " (" + model.Alpha + "%)"
                                 }
                                 LabelNumber {
-                                    Layout.preferredWidth: 40
                                     value: model.erg_Menge
                                 }
                                 LabelUnit {
-                                    Layout.preferredWidth: 30
                                     text: qsTr("g")
                                 }
                                 LabelNumber {
-                                    Layout.preferredWidth: 40
                                     precision: 0
                                     value: -model.Zeit
                                 }
                                 LabelUnit {
-                                    Layout.preferredWidth: 30
                                     text: qsTr("min")
                                 }
                             }
@@ -1095,14 +1001,12 @@ PageBase {
                             text: qsTr("Würzemenge nach Hopfenseihen bei 20°C")
                         }
                         TextFieldVolume {
-                            Layout.preferredWidth: 80
                             enabled: !page.readOnly
                             useDialog: true
                             value: Brauhelfer.sud.WuerzemengeKochende
                             onNewValue: Brauhelfer.sud.WuerzemengeKochende = value
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             text: qsTr("l")
                         }
                         LabelPrim {
@@ -1110,11 +1014,9 @@ PageBase {
                             text: qsTr("Verlust")
                         }
                         LabelNumber {
-                            Layout.preferredWidth: 40
                             value: Brauhelfer.sud.WuerzemengeVorHopfenseihen - Brauhelfer.sud.WuerzemengeKochende
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             text: qsTr("l")
                         }
                     }
@@ -1139,36 +1041,32 @@ PageBase {
                         Layout.leftMargin: 8
                         visible: Brauhelfer.sud.highGravityFaktor > 0.0
                         RowLayout {
+                            spacing: 16
                             LabelPrim {
                                 Layout.fillWidth: true
                                 text: qsTr("Wassermenge")
                             }
                             LabelNumber {
-                                Layout.preferredWidth: 80
                                 value: Brauhelfer.sud.WasserHgf
                             }
                             LabelUnit {
-                                Layout.preferredWidth: 30
                                 text: qsTr("l")
                             }
                         }
                         Repeater {
                             model: Brauhelfer.sud.modelWasseraufbereitung
                             delegate: RowLayout {
-                                RowLayout {
-                                    LabelPrim {
-                                        Layout.fillWidth: true
-                                        text: model.Name
-                                    }
-                                    LabelNumber {
-                                        Layout.preferredWidth: 80
-                                        precision: 2
-                                        value: model.Menge * Brauhelfer.sud.WasserHgf
-                                    }
-                                    LabelUnit {
-                                        Layout.preferredWidth: 30
-                                        text: app.defs.einheiten[model.Einheit]
-                                    }
+                                spacing: 16
+                                LabelPrim {
+                                    Layout.fillWidth: true
+                                    text: model.Name
+                                }
+                                LabelNumber {
+                                    precision: 2
+                                    value: model.Menge * Brauhelfer.sud.WasserHgf
+                                }
+                                LabelUnit {
+                                    text: app.defs.einheiten[model.Einheit]
                                 }
                             }
                         }
@@ -1182,40 +1080,35 @@ PageBase {
                     GridLayout {
                         columns: 3
                         Layout.leftMargin: 8
+                        columnSpacing: 16
                         LabelPrim {
                             Layout.fillWidth: true
                             text: qsTr("Zielstammwürze")
                         }
                         LabelPlato {
                             id: lblSWSollAnstellen
-                            Layout.preferredWidth: 80
                             value: Brauhelfer.sud.SWSollAnstellen
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             text: qsTr("°P")
                         }
                         Item {
                             Layout.fillWidth: true
                         }
                         LabelPlato {
-                            Layout.preferredWidth: 80
                             value: BierCalc.platoToBrix(lblSWSollAnstellen.value)
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             text: qsTr("°Brix")
                         }
                         Item {
                             Layout.fillWidth: true
                         }
                         LabelPlato {
-                            Layout.preferredWidth: 80
                             precision: 4
                             value: BierCalc.platoToDichte(lblSWSollAnstellen.value)
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             text: qsTr("g/ml")
                         }
                         LabelPrim {
@@ -1225,14 +1118,12 @@ PageBase {
                         }
                         LabelNumber {
                             id: lblWasserverschneidung
-                            Layout.preferredWidth: 80
                             visible: value > 0
                             value: BierCalc.verschneidung(Brauhelfer.sud.SWAnstellen,
                                                                  Brauhelfer.sud.SWSollAnstellen,
                                                                  Brauhelfer.sud.WuerzemengeKochende * (1 + Brauhelfer.sud.highGravityFaktor/100))
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             visible: lblWasserverschneidung.visible
                             text: qsTr("l")
                         }
@@ -1241,14 +1132,12 @@ PageBase {
                             text: qsTr("Stammwürze")
                         }
                         TextFieldPlato {
-                            Layout.preferredWidth: 80
                             enabled: !page.readOnly
                             useDialog: true
                             value: Brauhelfer.sud.SWAnstellen
                             onNewValue: Brauhelfer.sud.SWAnstellen = value
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             text: qsTr("°P")
                         }
                     }
@@ -1263,19 +1152,18 @@ PageBase {
                     GridLayout {
                         columns: 3
                         Layout.leftMargin: 8
+                        columnSpacing: 16
                         LabelPrim {
                             Layout.fillWidth: true
                             text: qsTr("Würzemenge")
                         }
                         TextFieldVolume {
                             id: tfWuerzemenge
-                            Layout.preferredWidth: 80
                             enabled: !page.readOnly
                             value: Brauhelfer.sud.WuerzemengeAnstellenTotal
                             onNewValue: Brauhelfer.sud.WuerzemengeAnstellenTotal = value
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             text: qsTr("l")
                         }
                         LabelPrim {
@@ -1283,14 +1171,12 @@ PageBase {
                             text: qsTr("Benötigte Speisemenge geschätzt (SRE 3°P, 20°C)")
                         }
                         LabelNumber {
-                            Layout.preferredWidth: 80
                             value: {
                                 var c = BierCalc.speise(Brauhelfer.sud.CO2, Brauhelfer.sud.SWAnstellen, 3.0, 3.0, 20.0)
                                 return c * Brauhelfer.sud.WuerzemengeAnstellenTotal/(1+c)
                             }
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             text: qsTr("l")
                         }
                         LabelPrim {
@@ -1298,13 +1184,11 @@ PageBase {
                             text: qsTr("Abgefüllte Speisemenge")
                         }
                         TextFieldVolume {
-                            Layout.preferredWidth: 80
                             enabled: !page.readOnly
                             value: Brauhelfer.sud.Speisemenge
                             onNewValue: Brauhelfer.sud.Speisemenge = value
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             text: qsTr("l")
                         }
                         LabelPrim {
@@ -1312,13 +1196,11 @@ PageBase {
                             text: qsTr("Anstellmenge")
                         }
                         TextFieldVolume {
-                            Layout.preferredWidth: 80
                             enabled: !page.readOnly
                             value: Brauhelfer.sud.WuerzemengeAnstellen
                             onNewValue: Brauhelfer.sud.WuerzemengeAnstellen = value
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             text: qsTr("l")
                         }
                     }
@@ -1327,17 +1209,16 @@ PageBase {
                     }
                     GridLayout {
                         columns: 3
+                        columnSpacing: 16
                         LabelPrim {
                             Layout.fillWidth: true
                             font.bold: true
                             text: qsTr("Effektive Sudhausausbeute")
                         }
                         LabelNumber {
-                            Layout.preferredWidth: 80
                             value: Brauhelfer.sud.erg_EffektiveAusbeute
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             text: qsTr("%")
                         }
                     }
@@ -1345,6 +1226,7 @@ PageBase {
                         Layout.fillWidth: true
                     }
                     RowLayout {
+                        spacing: 16
                         LabelPrim {
                             Layout.fillWidth: true
                             font.bold: true
@@ -1352,13 +1234,11 @@ PageBase {
                         }
                         TextFieldTemperature {
                             id: tfTemperature
-                            Layout.preferredWidth: 80
                             enabled: !page.readOnly
                             value: 20.0
                             onNewValue: this.value = value
                         }
                         LabelUnit {
-                            Layout.preferredWidth: 30
                             text: qsTr("°C")
                         }
                     }
@@ -1384,18 +1264,17 @@ PageBase {
                         delegate: ColumnLayout {
                             Layout.leftMargin: 8
                             RowLayout {
+                                spacing: 16
                                 Layout.leftMargin: 8
                                 LabelPrim {
                                     Layout.fillWidth: true
                                     text: model.Name
                                 }
                                 LabelNumber {
-                                    Layout.preferredWidth: 80
                                     precision: 0
                                     value: model.Menge
                                 }
                                 LabelUnit {
-                                    Layout.preferredWidth: 30
                                     text: "x"
                                 }
                             }
@@ -1421,26 +1300,23 @@ PageBase {
                         delegate: ColumnLayout {
                             Layout.leftMargin: 8
                             RowLayout {
+                                spacing: 16
                                 LabelPrim {
                                     Layout.fillWidth: true
                                     text: model.Name
                                 }
                                 LabelNumber {
-                                    Layout.preferredWidth: 40
                                     precision: 2
                                     value: model.erg_Menge * app.defs.einheitenDivider[model.Einheit]
                                 }
                                 LabelUnit {
-                                    Layout.preferredWidth: 30
                                     text: app.defs.einheiten[model.Einheit]
                                 }
                                 LabelNumber {
-                                    Layout.preferredWidth: 40
                                     precision: 0
                                     value: model.Zugabedauer/ 1440
                                 }
                                 LabelUnit {
-                                    Layout.preferredWidth: 30
                                     text: qsTr("Tage")
                                 }
                             }
@@ -1461,6 +1337,7 @@ PageBase {
                 }
                 GridLayout {
                     anchors.fill: parent
+                    columnSpacing: 16
                     columns: 3
                     LabelPrim {
                         Layout.fillWidth: true
@@ -1485,7 +1362,6 @@ PageBase {
                         onNewValue: Brauhelfer.sud.KostenWasserStrom = value
                     }
                     LabelUnit {
-                       Layout.preferredWidth: 30
                         text: Qt.locale().currencySymbol()
                     }
                     LabelPrim {
@@ -1493,12 +1369,10 @@ PageBase {
                         text: qsTr("Gesamtkosten")
                     }
                     LabelNumber {
-                        Layout.preferredWidth: 80
                         precision: 2
                         value: Brauhelfer.sud.erg_Preis
                     }
                     LabelUnit {
-                        Layout.preferredWidth: 30
                         text: Qt.locale().currencySymbol() + "/" + qsTr("l")
                     }
                     CheckBox {

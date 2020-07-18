@@ -291,7 +291,6 @@ PageBase {
                                 text: qsTr("Rezept")
                             }
                             LabelUnit {
-                                Layout.fillWidth: true
                                 visible: model.Status !== Brauhelfer.Rezept
                                 text: ""
                             }
@@ -312,7 +311,6 @@ PageBase {
                                 value: model.Menge
                             }
                             LabelUnit {
-                                Layout.fillWidth: true
                                 text: qsTr("l")
                             }
                             LabelPrim {
@@ -330,7 +328,6 @@ PageBase {
                                 value: model.SW
                             }
                             LabelUnit {
-                                Layout.fillWidth: true
                                 text: qsTr("°P")
                             }
                             LabelPrim {
@@ -350,7 +347,6 @@ PageBase {
                                 value: model.Alkohol
                             }
                             LabelUnit {
-                                Layout.fillWidth: true
                                 text: qsTr("%vol")
                             }
                             LabelPrim {
@@ -370,7 +366,6 @@ PageBase {
                                 value: model.IBU
                             }
                             LabelUnit {
-                                Layout.fillWidth: true
                                 text: qsTr("IBU")
                             }
                             LabelPrim {
@@ -390,7 +385,6 @@ PageBase {
                                 value: model.erg_Farbe
                             }
                             LabelUnit {
-                                Layout.fillWidth: true
                                 text: qsTr("EBC")
                             }
                             LabelPrim {
@@ -410,7 +404,6 @@ PageBase {
                                 value: model.CO2
                             }
                             LabelUnit {
-                                Layout.fillWidth: true
                                 text: qsTr("g/l")
                             }
                         }
