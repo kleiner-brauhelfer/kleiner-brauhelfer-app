@@ -21,6 +21,7 @@ ModelSud::ModelSud(Brauhelfer *bh, QSqlDatabase db) :
     connect(this, SIGNAL(rowChanged(const QModelIndex&)), this, SLOT(onRowChanged(const QModelIndex&)));
     mVirtualField.append("MengeSoll");
     mVirtualField.append("SWIst");
+    mVirtualField.append("SRE");
     mVirtualField.append("SREIst");
     mVirtualField.append("MengeIst");
     mVirtualField.append("IbuIst");
@@ -159,6 +160,12 @@ QVariant ModelSud::dataExt(const QModelIndex &idx) const
     case ColSWIst:
     {
         return data(idx.row(), ColSWAnstellen).toDouble() + swWzGaerungCurrent[idx.row()];
+    }
+    case ColSRE:
+    {
+        double sw = data(idx.row(), ColSW).toDouble();
+        double vg = data(idx.row(), ColVergaerungsgrad).toDouble();
+        return BierCalc::sreAusVergaerungsgrad(sw, vg);
     }
     case ColSREIst:
     {
@@ -776,8 +783,13 @@ void ModelSud::update(int row)
         double sre = data(row, ColSREIst).toDouble();
         double sw = data(row, ColSWAnstellen).toDouble() + swWzGaerungCurrent[row];
         double menge = data(row, ColJungbiermengeAbfuellen).toDouble();
-        double verschneidung = data(row, ColVerschneidungAbfuellen).toDouble();
-        double alcZucker = BierCalc::alkoholVonZucker(data(row, ColZuckerAnteil).toDouble() / menge);
+        double verschneidung = 0.0;
+        double alcZucker = 0.0;
+        if (!data(row, ColSpunden).toBool())
+        {
+            verschneidung = data(row, ColVerschneidungAbfuellen).toDouble();
+            alcZucker = BierCalc::alkoholVonZucker(data(row, ColZuckerAnteil).toDouble() / menge);
+        }
         setData(row, Colerg_Alkohol, BierCalc::alkohol(sw, sre, alcZucker) / (1 + verschneidung/menge));
 
         // erg_AbgefuellteBiermenge
