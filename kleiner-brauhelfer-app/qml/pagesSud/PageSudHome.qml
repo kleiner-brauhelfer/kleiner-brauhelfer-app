@@ -24,7 +24,7 @@ PageBase {
             boundsBehavior: Flickable.OvershootBounds
             snapMode: GridView.SnapToRow
             clip: true
-            cellWidth: app.width / (Math.floor(app.width / 100))
+            cellWidth: app.width / (Math.floor(app.width / (100 * app.settings.scalingfactor)))
             cellHeight: cellWidth
             ScrollIndicator.vertical: ScrollIndicator { }
 
@@ -51,8 +51,8 @@ PageBase {
                     border.width: 1
                     Image {
                         id: image
-                        width: 48
-                        height: 48
+                        width: 48 * app.settings.scalingfactor
+                        height: width
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.horizontalCenter: parent.horizontalCenter
                         source: "qrc:/images/" + page.icon
@@ -70,7 +70,7 @@ PageBase {
             }
         }
 
-        Switch {
+        SwitchBase {
             Layout.fillWidth: true
             text: qsTr("Alle Eingabefelder entsperren")
             checked: app.brewForceEditable

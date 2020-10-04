@@ -59,7 +59,7 @@ Drawer {
                         Layout.fillHeight: true
                         verticalAlignment: Text.AlignBottom
                         text: Qt.application.name
-                        font.pixelSize: 16
+                        font.pointSize: 16 * app.settings.scalingfactor
                         font.weight: Font.Bold
                         color: Material.background
                     }
@@ -69,6 +69,7 @@ Drawer {
                         Layout.rightMargin: 8
                         Layout.bottomMargin: 4
                         horizontalAlignment: Text.AlignRight
+                        font.pointSize: 14 * app.settings.scalingfactor
                         text: "v" + Qt.application.version
                         color: Material.background
                     }

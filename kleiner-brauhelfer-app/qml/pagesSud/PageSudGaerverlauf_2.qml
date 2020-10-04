@@ -156,7 +156,7 @@ PageBase {
                             leftPadding: 8
                             date: Zeitstempel
                         }
-                        Label {
+                        LabelPrim {
                             text: model.Bemerkung === "" ? " " : "*"
                         }
                         LabelPlato {
@@ -206,7 +206,7 @@ PageBase {
             Layout.fillWidth: true
             visible: listViewWeitereZutaten.count > 0
         }
-        LabelSubheader {
+        LabelHeader {
             Layout.fillWidth: true
             Layout.leftMargin: 8
             Layout.rightMargin: 8
@@ -417,7 +417,7 @@ PageBase {
                         text: qsTr("°C")
                     }
 
-                    TextArea {
+                    TextAreaBase {
                         Layout.fillWidth: true
                         Layout.columnSpan: 3
                         enabled: !page.readOnly

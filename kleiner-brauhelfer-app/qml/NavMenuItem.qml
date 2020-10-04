@@ -21,13 +21,13 @@ ToolButton {
     }
 
     RowLayout {
-        spacing: 16
+        spacing: 16 * app.settings.scalingfactor
         anchors.verticalCenter: parent.verticalCenter
 
         Item {
             Layout.leftMargin: 8
-            width: 24
-            height: 24
+            width: 24 * app.settings.scalingfactor
+            height: width
 
             Image {
                 id: icon
@@ -49,7 +49,7 @@ ToolButton {
             text: page.title
             opacity: currentPage ? 1.0 : enabled ? 0.87 : 0.37
             color: currentPage ? Material.primary : Material.foreground
-            font.pixelSize: 16
+            font.pointSize: 16 * app.settings.scalingfactor
             font.bold: currentPage
             elide: Text.ElideRight
         }

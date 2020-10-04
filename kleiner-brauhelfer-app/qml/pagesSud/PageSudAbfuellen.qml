@@ -55,7 +55,7 @@ PageBase {
                 visible: listViewWeitereZutaten.count > 0
                 Layout.fillWidth: true
                 contentHeight: contentLayout.height
-                label: LabelSubheader {
+                label: LabelHeader {
                     text: qsTr("Weitere Zutaten")
                 }
                 ColumnLayout {
@@ -144,14 +144,14 @@ PageBase {
 
             GroupBox {
                 Layout.fillWidth: true
-                label: LabelSubheader {
+                label: LabelHeader {
                     text: qsTr("Restextrakt Schnellgärprobe")
                 }
                 GridLayout {
                     anchors.fill: parent
                     columnSpacing: 16
                     columns: 3
-                    Switch {
+                    SwitchBase {
                         id: ctrlSGPen
                         Layout.columnSpan: 3
                         text: qsTr("Aktiviert")
@@ -217,7 +217,7 @@ PageBase {
 
             GroupBox {
                 Layout.fillWidth: true
-                label: LabelSubheader {
+                label: LabelHeader {
                     text: qsTr("Restextrakt Jungbier")
                 }
                 GridLayout {
@@ -272,7 +272,7 @@ PageBase {
 
             GroupBox {
                 Layout.fillWidth: true
-                label: LabelSubheader {
+                label: LabelHeader {
                     text: qsTr("Bierwerte")
                 }
                 GridLayout {
@@ -339,7 +339,7 @@ PageBase {
 
             GroupBox {
                 Layout.fillWidth: true
-                label: LabelSubheader {
+                label: LabelHeader {
                     text: qsTr("Spundungsdruck")
                 }
                 GridLayout {
@@ -374,14 +374,14 @@ PageBase {
 
             GroupBox {
                 Layout.fillWidth: true
-                label: LabelSubheader {
+                label: LabelHeader {
                     text: qsTr("Karbonisierung")
                 }
                 GridLayout {
                     anchors.fill: parent
                     columnSpacing: 16
                     columns: 5
-                    Switch {
+                    SwitchBase {
                         id: ctrlSpunden
                         Layout.columnSpan: 5
                         text: qsTr("Spunden")
@@ -497,7 +497,7 @@ PageBase {
 
             GroupBox {
                 Layout.fillWidth: true
-                label: LabelSubheader {
+                label: LabelHeader {
                     text: qsTr("Menge")
                 }
                 GridLayout {
@@ -561,7 +561,7 @@ PageBase {
 
             GroupBox {
                 Layout.fillWidth: true
-                label: LabelSubheader {
+                label: LabelHeader {
                     text: qsTr("Abschluss")
                 }
                 GridLayout {
@@ -606,7 +606,7 @@ PageBase {
                     LabelUnit {
                         text: Qt.locale().currencySymbol() + "/" + qsTr("l")
                     }
-                    Button {
+                    ButtonBase {
                         id: ctrlAbgefuellt
                         Layout.columnSpan: 3
                         Layout.fillWidth: true

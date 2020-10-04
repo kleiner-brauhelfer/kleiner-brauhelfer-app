@@ -177,7 +177,7 @@ PageBase {
                                             id: itName
                                             Layout.fillWidth: true
                                             height: children[1].height
-                                            LabelSubheader {
+                                            LabelHeader {
                                                 anchors.fill: parent
                                                 visible: !itName.editing
                                                 text: model.Name
@@ -211,7 +211,7 @@ PageBase {
                                         }
                                     }
 
-                                    ComboBox {
+                                    ComboBoxBase {
                                         Layout.fillWidth: true
                                         textRole: "key"
                                         model: ListModel {
@@ -243,7 +243,7 @@ PageBase {
 
                                     GroupBox {
                                         Layout.fillWidth: true
-                                        label: LabelSubheader {
+                                        label: LabelHeader {
                                             text: qsTr("Kernwerte")
                                         }
 
@@ -281,7 +281,7 @@ PageBase {
 
                                     GroupBox {
                                         Layout.fillWidth: true
-                                        label: LabelSubheader {
+                                        label: LabelHeader {
                                             text: qsTr("Korrekturwerte")
                                         }
 
@@ -342,7 +342,7 @@ PageBase {
 
                                     GroupBox {
                                         Layout.fillWidth: true
-                                        label: LabelSubheader {
+                                        label: LabelHeader {
                                             text: qsTr("Maischekessel")
                                         }
                                         GridLayout {
@@ -422,7 +422,7 @@ PageBase {
 
                                     GroupBox {
                                         Layout.fillWidth: true
-                                        label: LabelSubheader {
+                                        label: LabelHeader {
                                             text: qsTr("Sudpfanne")
                                         }
                                         GridLayout {
@@ -502,10 +502,10 @@ PageBase {
 
                                     GroupBox {
                                         Layout.fillWidth: true
-                                        label: LabelSubheader {
+                                        label: LabelHeader {
                                             text: qsTr("Bemerkung")
                                         }
-                                        TextArea {
+                                        TextAreaBase {
                                             anchors.fill: parent
                                             wrapMode: TextArea.Wrap
                                             placeholderText: qsTr("Bemerkung")
@@ -516,7 +516,7 @@ PageBase {
 
                                     GroupBox {
                                         Layout.fillWidth: true
-                                        label: LabelSubheader {
+                                        label: LabelHeader {
                                             text: qsTr("Geräte")
                                         }
                                         ColumnLayout {

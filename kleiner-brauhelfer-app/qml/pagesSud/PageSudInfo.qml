@@ -30,7 +30,7 @@ PageBase {
 
             GroupBox {
                 Layout.fillWidth: true
-                label: LabelSubheader {
+                label: LabelHeader {
                     text: qsTr("Info")
                 }
                 GridLayout {
@@ -48,7 +48,7 @@ PageBase {
                         Layout.fillWidth: true
                         text: qsTr("Kategorie")
                     }
-                    ComboBox {
+                    ComboBoxBase {
                         Layout.fillWidth: true
                         enabled: !page.readOnly
                         model: Brauhelfer.modelKategorien
@@ -94,7 +94,7 @@ PageBase {
                             }
                         }
                     }
-                    Switch {
+                    SwitchBase {
                         Layout.fillWidth: true
                         enabled: !page.readOnly && app.brewForceEditable
                         text: qsTr("Gebraut")
@@ -106,7 +106,7 @@ PageBase {
                         Layout.alignment: Qt.AlignHCenter
                         date: Brauhelfer.sud.Braudatum
                     }
-                    Switch {
+                    SwitchBase {
                         Layout.fillWidth: true
                         enabled: !page.readOnly && app.brewForceEditable
                         text: qsTr("Abgefüllt")
@@ -118,14 +118,14 @@ PageBase {
                         Layout.alignment: Qt.AlignHCenter
                         date: Brauhelfer.sud.Abfuelldatum
                     }
-                    Switch {
+                    SwitchBase {
                         Layout.fillWidth: true
                         enabled: !page.readOnly && (Brauhelfer.sud.Status >= Brauhelfer.Abgefuellt || app.brewForceEditable)
                         text: qsTr("Verbraucht")
                         checked: Brauhelfer.sud.Status >= Brauhelfer.Verbraucht
                         onClicked: Brauhelfer.sud.Status = checked ? Brauhelfer.Verbraucht : Brauhelfer.Abgefuellt
                     }
-                    Text {
+                    LabelPrim {
                         Layout.fillWidth: true
                     }
                     LabelPrim {
@@ -186,7 +186,7 @@ PageBase {
 
             GroupBox {
                 Layout.fillWidth: true
-                label: LabelSubheader {
+                label: LabelHeader {
                     text: Brauhelfer.sud.Status === Brauhelfer.Rezept ? qsTr("Rezept") : qsTr("Zusammenfassung")
                 }
                 GridLayout {
@@ -474,10 +474,10 @@ PageBase {
 
             GroupBox {
                 Layout.fillWidth: true
-                label: LabelSubheader {
+                label: LabelHeader {
                     text: qsTr("Bemerkung")
                 }
-                TextArea {
+                TextAreaBase {
                     anchors.fill: parent
                     opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
                     wrapMode: TextArea.Wrap
@@ -490,7 +490,7 @@ PageBase {
             GroupBox {
                 Layout.fillWidth: true
                 visible: repeaterMalz.count > 0
-                label: LabelSubheader {
+                label: LabelHeader {
                     text: qsTr("Malz")
                 }
                 ColumnLayout {
@@ -528,10 +528,10 @@ PageBase {
                             Layout.fillWidth: true
                             text: qsTr("Gesamtschüttung")
                         }
-                        Label {
+                        LabelPrim {
                             text: ""
                         }
-                        Label {
+                        LabelPrim {
                             text: ""
                         }
                         LabelNumber {
@@ -549,7 +549,7 @@ PageBase {
             GroupBox {
                 Layout.fillWidth: true
                 visible: repeaterHopfen.count > 0
-                label: LabelSubheader {
+                label: LabelHeader {
                     text: qsTr("Hopfen")
                 }
                 ColumnLayout {
@@ -579,7 +579,7 @@ PageBase {
             GroupBox {
                 Layout.fillWidth: true
                 visible: repeaterHefe.count > 0
-                label: LabelSubheader {
+                label: LabelHeader {
                     text: qsTr("Hefe")
                 }
                 ColumnLayout {
@@ -609,7 +609,7 @@ PageBase {
             GroupBox {
                 Layout.fillWidth: true
                 visible: repeaterWZutaten.count > 0
-                label: LabelSubheader {
+                label: LabelHeader {
                     text: qsTr("Weitere Zutaten")
                 }
                 ColumnLayout {

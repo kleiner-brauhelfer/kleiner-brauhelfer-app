@@ -154,7 +154,7 @@ PageBase {
                             leftPadding: 8
                             date: Zeitstempel
                         }
-                        Label {
+                        LabelPrim {
                             text: model.Bemerkung === "" ? " " : "*"
                         }
                         LabelNumber {
@@ -265,7 +265,7 @@ PageBase {
                         text: qsTr("°C")
                     }
 
-                    TextArea {
+                    TextAreaBase {
                         Layout.fillWidth: true
                         Layout.columnSpan: 3
                         enabled: !page.readOnly

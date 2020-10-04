@@ -1,7 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
-import QtQuick.Controls.Material 2.15
 import QtGraphicalEffects 1.0
 import Qt.labs.platform 1.1
 
@@ -16,10 +15,11 @@ PageBase {
 
     Flickable {
         anchors.fill: parent
-        anchors.margins: 8
-        boundsBehavior: Flickable.OvershootBounds
-        contentHeight: layout.height
+        anchors.margins: 4
         clip: true
+        contentHeight: layout.height
+        boundsBehavior: Flickable.OvershootBounds
+        onMovementStarted: forceActiveFocus()
         ScrollIndicator.vertical: ScrollIndicator {}
 
         MouseAreaCatcher {
@@ -28,7 +28,6 @@ PageBase {
 
         ColumnLayout {
             id: layout
-            spacing: 8
             anchors.top: parent.top
             anchors.left: parent.left
             anchors.right: parent.right
@@ -58,317 +57,290 @@ PageBase {
                 }
             }
 
-            Item {
+            GroupBox {
                 Layout.fillWidth: true
-                Layout.topMargin: 8
-                height: childrenRect.height
-
-                LabelSubheader {
-                    id: lblDatabase
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    anchors.right: imgDatabase.left
+                label: LabelHeader {
                     text: qsTr("Datenbank")
                 }
-
-                Image {
-                    id: imgDatabase
-                    width: 24
-                    height: 24
-                    anchors.right: parent.right
-                    anchors.verticalCenter: lblDatabase.verticalCenter
-                    source: Brauhelfer.connected ? "qrc:/images/ic_check_circle.png" : "qrc:/images/ic_cancel.png"
-                    layer.enabled: true
-                    layer.effect: ColorOverlay {
-                        color: Brauhelfer.connected ? "green" : "red"
-                    }
-                }
-            }
-
-            ComboBox {
-                Layout.fillWidth: true
-                Layout.leftMargin: 8
-                Layout.rightMargin: 8
-                model: [qsTr("Lokal"), qsTr("Dropbox"), qsTr("WebDav")]
-                currentIndex: SyncService.serviceId
-                onCurrentIndexChanged: {
-                    if (activeFocus) {
-                        SyncService.serviceId = currentIndex
-                        layout.connect()
-                        navPane.setFocus()
-                    }
-                }
-            }
-
-            ColumnLayout {
-                Layout.fillWidth: true
-                visible: SyncService.serviceId === SyncService.Local
-                LabelPrim {
-                    Layout.fillWidth: true
-                    Layout.topMargin: 8
-                    Layout.bottomMargin: 8
-                    font.italic: true
-                    text: qsTr("Benötigt Berechtigung für den Speicher.")
-                }
-                Label {
-                    Layout.fillWidth: true
-                    color: Material.primary
-                    text: qsTr("Pfad zur lokalen Datenbank")
-                }
-                Item {
-                    Layout.fillWidth: true
-                    height: tfDatabasePathLocal.height
-                    TextFieldBase {
-                        property bool reconnect: false
-                        id: tfDatabasePathLocal
-                        anchors.top: parent.top
-                        anchors.left: parent.left
-                        anchors.right: btnDatabasePathLocal.left
-                        anchors.rightMargin: 8
-                        inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase
-                        placeholderText: "kb_daten.sqlite"
-                        text: SyncService.syncServiceLocal.filePathLocal
-                        selectByMouse: true
-                        onTextChanged: {
-                            if (activeFocus)
-                                reconnect = true
+                ColumnLayout {
+                    anchors.fill: parent
+                    RowLayout {
+                        Layout.fillWidth: true
+                        ComboBoxBase {
+                            Layout.fillWidth: true
+                            model: [qsTr("Lokal"), qsTr("Dropbox"), qsTr("WebDav")]
+                            currentIndex: SyncService.serviceId
+                            onCurrentIndexChanged: {
+                                if (activeFocus) {
+                                    SyncService.serviceId = currentIndex
+                                    layout.connect()
+                                    navPane.setFocus()
+                                }
+                            }
                         }
-                        onEditingFinished: {
-                            SyncService.syncServiceLocal.filePathLocal = text
-                            if (reconnect)
-                                layout.connect()
-                            reconnect = false
+                        Image {
+                            width: 24
+                            height: 24
+                            source: Brauhelfer.connected ? "qrc:/images/ic_check_circle.png" : "qrc:/images/ic_cancel.png"
+                            layer.enabled: true
+                            layer.effect: ColorOverlay {
+                                color: Brauhelfer.connected ? "green" : "red"
+                            }
                         }
                     }
-                    ToolButton {
-                        id: btnDatabasePathLocal
-                        width: 50
-                        anchors.right: parent.right
-                        anchors.verticalCenter: tfDatabasePathLocal.verticalCenter
-                        onClicked: openDialog.open()
-                        contentItem: Image {
-                            source: "qrc:/images/ic_folder.png"
-                            anchors.centerIn: parent
-                            opacity: parent.enabled ? 1 : 0.5
+                    ColumnLayout {
+                        Layout.fillWidth: true
+                        visible: SyncService.serviceId === SyncService.Local
+                        LabelPrim {
+                            Layout.fillWidth: true
+                            Layout.topMargin: 8
+                            Layout.bottomMargin: 8
+                            font.italic: true
+                            text: qsTr("Benötigt Berechtigung für den Speicher.")
                         }
-                        FileDialog {
-                            id: openDialog
-                            title: qsTr("Pfad zur Datenbank")
-                            onAccepted: {
-                                tfDatabasePathLocal.text = Utils.toLocalFile(openDialog.file)
-                                SyncService.syncServiceLocal.filePathLocal = tfDatabasePathLocal.text
-                                layout.connect()
+                        LabelSubheader {
+                            Layout.fillWidth: true
+                            text: qsTr("Pfad zur lokalen Datenbank")
+                        }
+                        RowLayout {
+                            Layout.fillWidth: true
+                            TextFieldBase {
+                                property bool reconnect: false
+                                id: tfDatabasePathLocal
+                                Layout.fillWidth: true
+                                inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase
+                                placeholderText: "kb_daten.sqlite"
+                                text: SyncService.syncServiceLocal.filePathLocal
+                                selectByMouse: true
+                                onTextChanged: {
+                                    if (activeFocus)
+                                        reconnect = true
+                                }
+                                onEditingFinished: {
+                                    SyncService.syncServiceLocal.filePathLocal = text
+                                    if (reconnect)
+                                        layout.connect()
+                                    reconnect = false
+                                }
+                            }
+                            ToolButton {
+                                width: 50
+                                onClicked: openDialog.open()
+                                contentItem: Image {
+                                    source: "qrc:/images/ic_folder.png"
+                                    anchors.centerIn: parent
+                                    opacity: parent.enabled ? 1 : 0.5
+                                }
+                                FileDialog {
+                                    id: openDialog
+                                    title: qsTr("Pfad zur Datenbank")
+                                    onAccepted: {
+                                        tfDatabasePathLocal.text = Utils.toLocalFile(openDialog.file)
+                                        SyncService.syncServiceLocal.filePathLocal = tfDatabasePathLocal.text
+                                        layout.connect()
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    ColumnLayout {
+                        Layout.fillWidth: true
+                        visible: SyncService.serviceId === SyncService.Dropbox
+                        LabelPrim {
+                            Layout.fillWidth: true
+                            Layout.topMargin: 8
+                            Layout.bottomMargin: 8
+                            font.italic: true
+                            text: qsTr("Benötigt eine Dropbox App.")
+                        }
+                        LabelSubheader {
+                            Layout.fillWidth: true
+                            text: qsTr("Dropbox Access Token")
+                        }
+                        TextFieldBase {
+                            property bool reconnect: false
+                            Layout.fillWidth: true
+                            placeholderText: "token"
+                            inputMethodHints: Qt.ImhNoAutoUppercase
+                            text: SyncService.syncServiceDropbox.accessToken
+                            selectByMouse: true
+                            onTextChanged: {
+                                if (activeFocus)
+                                    reconnect = true
+                            }
+                            onEditingFinished: {
+                                SyncService.syncServiceDropbox.accessToken = text
+                                if (reconnect)
+                                    layout.connect()
+                                reconnect = false
+                            }
+                        }
+                        LabelSubheader {
+                            Layout.fillWidth: true
+                            text: qsTr("Pfad auf dem Server")
+                        }
+                        TextFieldBase {
+                            property bool reconnect: false
+                            Layout.fillWidth: true
+                            inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase
+                            placeholderText: "/kb_daten.sqlite"
+                            text: SyncService.syncServiceDropbox.filePathServer
+                            selectByMouse: true
+                            onTextChanged: {
+                                if (activeFocus)
+                                    reconnect = true
+                            }
+                            onEditingFinished: {
+                                SyncService.syncServiceDropbox.filePathServer = text
+                                if (reconnect)
+                                    layout.connect()
+                                reconnect = false
+                            }
+                        }
+                    }
+                    ColumnLayout {
+                        Layout.fillWidth: true
+                        visible: SyncService.serviceId === SyncService.WebDav
+                        LabelPrim {
+                            Layout.fillWidth: true
+                            Layout.topMargin: 8
+                            Layout.bottomMargin: 8
+                            font.italic: true
+                            text: qsTr("Benötigt einen WebDav Server.")
+                        }
+                        LabelSubheader {
+                            Layout.fillWidth: true
+                            text: qsTr("URL")
+                        }
+                        TextFieldBase {
+                            property bool reconnect: false
+                            Layout.fillWidth: true
+                            inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhUrlCharactersOnly
+                            placeholderText: "http://server:port/kb_daten.sqlite"
+                            text: SyncService.syncServiceWebDav.filePathServer
+                            selectByMouse: true
+                            onTextChanged: {
+                                if (activeFocus)
+                                    reconnect = true
+                            }
+                            onEditingFinished: {
+                                SyncService.syncServiceWebDav.filePathServer = text
+                                if (reconnect)
+                                    layout.connect()
+                                reconnect = false
+                            }
+                        }
+                        LabelSubheader {
+                            Layout.fillWidth: true
+                            text: qsTr("Benutzername")
+                        }
+                        TextFieldBase {
+                            property bool reconnect: false
+                            Layout.fillWidth: true
+                            inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase
+                            text: SyncService.syncServiceWebDav.user
+                            selectByMouse: true
+                            onTextChanged: {
+                                if (activeFocus)
+                                    reconnect = true
+                            }
+                            onEditingFinished: {
+                                SyncService.syncServiceWebDav.user = text
+                                if (reconnect)
+                                    layout.connect()
+                                reconnect = false
+                            }
+                        }
+                        LabelSubheader {
+                            Layout.fillWidth: true
+                            text: qsTr("Passwort")
+                        }
+                        TextFieldBase {
+                            property bool reconnect: false
+                            Layout.fillWidth: true
+                            inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase
+                            text: SyncService.syncServiceWebDav.password
+                            echoMode: TextInput.Password
+                            selectByMouse: true
+                            onTextChanged: {
+                                if (activeFocus)
+                                    reconnect = true
+                            }
+                            onEditingFinished: {
+                                SyncService.syncServiceWebDav.password = text
+                                if (reconnect)
+                                    layout.connect()
+                                reconnect = false
+                            }
+                        }
+                    }
+                    RowLayout {
+                        Layout.fillWidth: true
+                        LabelSubheader {
+                            Layout.fillWidth: true
+                            text: qsTr("Cache leeren")
+                        }
+                        ToolButton {
+                            width: 50
+                            onClicked: {
+                                Brauhelfer.disconnectDatabase()
+                                SyncService.clearCache()
+                                connect()
+                            }
+                            contentItem: Image {
+                                source: "qrc:/images/ic_delete.png"
+                                anchors.centerIn: parent
+                                opacity: parent.enabled ? 1 : 0.5
                             }
                         }
                     }
                 }
             }
 
-            ColumnLayout {
+            GroupBox {
                 Layout.fillWidth: true
-                visible: SyncService.serviceId === SyncService.Dropbox
-                LabelPrim {
-                    Layout.fillWidth: true
-                    Layout.topMargin: 8
-                    Layout.bottomMargin: 8
-                    font.italic: true
-                    text: qsTr("Benötigt eine Dropbox App.")
+                label: LabelHeader {
+                    text: qsTr("Sprache")
                 }
-                Label {
-                    Layout.fillWidth: true
-                    color: Material.primary
-                    text: qsTr("Dropbox Access Token")
-                }
-                TextFieldBase {
-                    property bool reconnect: false
-                    Layout.fillWidth: true
-                    placeholderText: "token"
-                    inputMethodHints: Qt.ImhNoAutoUppercase
-                    text: SyncService.syncServiceDropbox.accessToken
-                    selectByMouse: true
-                    onTextChanged: {
-                        if (activeFocus)
-                            reconnect = true
-                    }
-                    onEditingFinished: {
-                        SyncService.syncServiceDropbox.accessToken = text
-                        if (reconnect)
-                            layout.connect()
-                        reconnect = false
-                    }
-                }
-                Label {
-                    Layout.fillWidth: true
-                    color: Material.primary
-                    text: qsTr("Pfad auf dem Server")
-                }
-                TextFieldBase {
-                    property bool reconnect: false
-                    Layout.fillWidth: true
-                    inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase
-                    placeholderText: "/kb_daten.sqlite"
-                    text: SyncService.syncServiceDropbox.filePathServer
-                    selectByMouse: true
-                    onTextChanged: {
-                        if (activeFocus)
-                            reconnect = true
-                    }
-                    onEditingFinished: {
-                        SyncService.syncServiceDropbox.filePathServer = text
-                        if (reconnect)
-                            layout.connect()
-                        reconnect = false
+                ColumnLayout {
+                    anchors.fill: parent
+                    ComboBoxBase {
+                        Layout.fillWidth: true
+                        model: ["Deutsch", "English"]
+                        currentIndex: app.settings.languageIndex
+                        onCurrentIndexChanged: {
+                            if (activeFocus) {
+                                app.settings.languageIndex = currentIndex
+                                app.updateLanguage()
+                                navPane.setFocus()
+                            }
+                        }
                     }
                 }
             }
 
-            ColumnLayout {
+            GroupBox {
                 Layout.fillWidth: true
-                visible: SyncService.serviceId === SyncService.WebDav
-                LabelPrim {
-                    Layout.fillWidth: true
-                    Layout.topMargin: 8
-                    Layout.bottomMargin: 8
-                    font.italic: true
-                    text: qsTr("Benötigt einen WebDav Server.")
+                label: LabelHeader {
+                    text: qsTr("Skalierung")
                 }
-                Label {
-                    Layout.fillWidth: true
-                    color: Material.primary
-                    text: qsTr("URL")
-                }
-                TextFieldBase {
-                    property bool reconnect: false
-                    Layout.fillWidth: true
-                    inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhUrlCharactersOnly
-                    placeholderText: "http://server:port/kb_daten.sqlite"
-                    text: SyncService.syncServiceWebDav.filePathServer
-                    selectByMouse: true
-                    onTextChanged: {
-                        if (activeFocus)
-                            reconnect = true
-                    }
-                    onEditingFinished: {
-                        SyncService.syncServiceWebDav.filePathServer = text
-                        if (reconnect)
-                            layout.connect()
-                        reconnect = false
+                ColumnLayout {
+                    anchors.fill: parent
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Slider {
+                            Layout.fillWidth: true
+                            from: 0.25
+                            to: 3
+                            stepSize: 0.01
+                            value: app.settings.scalingfactor
+                            onValueChanged: app.settings.scalingfactor = value
+                        }
+                        LabelPrim {
+                            text: Math.round(app.settings.scalingfactor*100) + "%";
+                        }
                     }
                 }
-
-                Label {
-                    Layout.fillWidth: true
-                    color: Material.primary
-                    text: qsTr("Benutzername")
-                }
-
-                TextFieldBase {
-                    property bool reconnect: false
-                    Layout.fillWidth: true
-                    inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase
-                    text: SyncService.syncServiceWebDav.user
-                    selectByMouse: true
-                    onTextChanged: {
-                        if (activeFocus)
-                            reconnect = true
-                    }
-                    onEditingFinished: {
-                        SyncService.syncServiceWebDav.user = text
-                        if (reconnect)
-                            layout.connect()
-                        reconnect = false
-                    }
-                }
-
-                Label {
-                    Layout.fillWidth: true
-                    color: Material.primary
-                    text: qsTr("Passwort")
-                }
-
-                TextFieldBase {
-                    property bool reconnect: false
-                    Layout.fillWidth: true
-                    inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase
-                    text: SyncService.syncServiceWebDav.password
-                    echoMode: TextInput.Password
-                    selectByMouse: true
-                    onTextChanged: {
-                        if (activeFocus)
-                            reconnect = true
-                    }
-                    onEditingFinished: {
-                        SyncService.syncServiceWebDav.password = text
-                        if (reconnect)
-                            layout.connect()
-                        reconnect = false
-                    }
-                }
-            }
-
-            Item {
-                height: 24
-            }
-
-            Item {
-                Layout.fillWidth: true
-                height: btnClearCache.height
-
-                Label {
-                    id: lblCache
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    anchors.right: btnClearCache.left
-                    anchors.rightMargin: 8
-                    color: Material.primary
-                    text: qsTr("Cache leeren")
-                }
-
-                ToolButton {
-                    id: btnClearCache
-                    width: 50
-                    anchors.right: parent.right
-                    anchors.verticalCenter: lblCache.verticalCenter
-                    onClicked: {
-                        Brauhelfer.disconnectDatabase()
-                        SyncService.clearCache()
-                        connect()
-                    }
-                    contentItem: Image {
-                        source: "qrc:/images/ic_delete.png"
-                        anchors.centerIn: parent
-                        opacity: parent.enabled ? 1 : 0.5
-                    }
-                }
-            }
-
-            HorizontalDivider {
-                Layout.fillWidth: true
-            }
-
-            LabelSubheader {
-                Layout.fillWidth: true
-                Layout.topMargin: 8
-                text: qsTr("Sprache")
-            }
-
-            ComboBox {
-                Layout.fillWidth: true
-                Layout.leftMargin: 8
-                Layout.rightMargin: 8
-                model: ["Deutsch", "English"]
-                currentIndex: app.settings.languageIndex
-                onCurrentIndexChanged: {
-                    if (activeFocus) {
-                        app.settings.languageIndex = currentIndex
-                        app.updateLanguage()
-                        navPane.setFocus()
-                    }
-                }
-            }
-
-            HorizontalDivider {
-                Layout.fillWidth: true
             }
         }
     }

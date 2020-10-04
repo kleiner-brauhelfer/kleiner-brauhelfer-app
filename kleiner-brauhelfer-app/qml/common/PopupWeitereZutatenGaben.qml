@@ -38,7 +38,7 @@ PopupBase {
                         anchors.right: parent.right
                         columns: 2
 
-                        LabelSubheader {
+                        LabelHeader {
                             Layout.columnSpan: 2
                             Layout.fillWidth: true
                             text: model.Name
@@ -86,7 +86,7 @@ PopupBase {
                             onNewDate: model.EntnahmeDatum = date
                         }
 
-                        TextArea {
+                        TextAreaBase {
                             Layout.columnSpan: 2
                             Layout.fillWidth: true
                             wrapMode: TextArea.Wrap
@@ -95,7 +95,7 @@ PopupBase {
                             onTextChanged: if (activeFocus) model.Bemerkung = text
                         }
 
-                        Button {
+                        ButtonBase {
                             function addIngredient() {
                                 model.ZugabeDatum = tfDateFrom.date
                                 model.Zugabestatus = 1

@@ -52,5 +52,11 @@
         <file>qml/pagesGlobal/PageGlobalWater.qml</file>
         <file>qml/pagesGlobal/PageGlobalEquipment.qml</file>
         <file>qml/common/TextFieldBase.qml</file>
+        <file>qml/common/LabelHeader.qml</file>
+        <file>qml/common/ComboBoxBase.qml</file>
+        <file>qml/common/CheckBoxBase.qml</file>
+        <file>qml/common/TextAreaBase.qml</file>
+        <file>qml/common/SwitchBase.qml</file>
+        <file>qml/common/ButtonBase.qml</file>
     </qresource>
 </RCC>

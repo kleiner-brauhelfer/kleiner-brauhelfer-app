@@ -194,7 +194,7 @@ PageBase {
                                             id: itName
                                             Layout.fillWidth: true
                                             height: children[1].height
-                                            LabelSubheader {
+                                            LabelHeader {
                                                 anchors.fill: parent
                                                 visible: !itName.editing
                                                 text: model.Name
@@ -548,7 +548,7 @@ PageBase {
                                         Layout.fillWidth: true
                                     }
 
-                                    TextArea {
+                                    TextAreaBase {
                                         Layout.columnSpan: 3
                                         Layout.fillWidth: true
                                         wrapMode: TextArea.Wrap

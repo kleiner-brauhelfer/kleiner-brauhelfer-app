@@ -222,7 +222,7 @@ PageBase {
                                     }
                                 }
 
-                                TextArea {
+                                TextAreaBase {
                                     Layout.fillWidth: true
                                     wrapMode: TextArea.Wrap
                                     placeholderText: qsTr("Bemerkung")
@@ -234,11 +234,8 @@ PageBase {
                                     Layout.fillWidth: true
                                 }
 
-                                LabelPrim {
+                                LabelHeader {
                                     text: qsTr("Gesamteindruck")
-                                    color: Material.primary
-                                    font.pixelSize: 16
-                                    font.bold: true
                                 }
 
                                 Frame {
@@ -288,7 +285,7 @@ PageBase {
                                     }
                                 }
 
-                                TextArea {
+                                TextAreaBase {
                                     Layout.fillWidth: true
                                     wrapMode: TextArea.Wrap
                                     placeholderText: qsTr("Bemerkung")
@@ -300,11 +297,8 @@ PageBase {
                                     Layout.fillWidth: true
                                 }
 
-                                LabelPrim {
+                                LabelHeader {
                                     text: qsTr("Farbe & Klarheit")
-                                    color: Material.primary
-                                    font.pixelSize: 16
-                                    font.bold: true
                                 }
 
                                 Frame {
@@ -376,7 +370,7 @@ PageBase {
                                     }
                                 }
 
-                                TextArea {
+                                TextAreaBase {
                                     Layout.fillWidth: true
                                     wrapMode: TextArea.Wrap
                                     placeholderText: qsTr("Bemerkung")
@@ -388,11 +382,8 @@ PageBase {
                                     Layout.fillWidth: true
                                 }
 
-                                LabelPrim {
+                                LabelHeader {
                                     text: qsTr("Schaum")
-                                    color: Material.primary
-                                    font.pixelSize: 16
-                                    font.bold: true
                                 }
 
                                 Frame {
@@ -478,7 +469,7 @@ PageBase {
                                     }
                                 }
 
-                                TextArea {
+                                TextAreaBase {
                                     Layout.fillWidth: true
                                     wrapMode: TextArea.Wrap
                                     placeholderText: qsTr("Bemerkung")
@@ -490,73 +481,70 @@ PageBase {
                                     Layout.fillWidth: true
                                 }
 
-                                LabelPrim {
+                                LabelHeader {
                                     text: qsTr("Geruch")
-                                    color: Material.primary
-                                    font.pixelSize: 16
-                                    font.bold: true
                                 }
 
                                 Frame {
                                     Layout.fillWidth: true
                                     Flow {
                                         anchors.fill: parent
-                                        CheckBox {
+                                        CheckBoxBase {
                                             text: qsTr("rein, abgerundet")
                                             checked: model.Geruch & (1 << 0)
                                             onClicked: checked ? model.Geruch |= (1 << 0) : model.Geruch &= ~(1 << 0)
                                         }
-                                        CheckBox {
+                                        CheckBoxBase {
                                             text: qsTr("frisch")
                                             checked: model.Geruch & (1 << 1)
                                             onClicked: checked ? model.Geruch |= (1 << 1) : model.Geruch &= ~(1 << 1)
                                         }
-                                        CheckBox {
+                                        CheckBoxBase {
                                             text: qsTr("wohlriechend")
                                             checked: model.Geruch & (1 << 2)
                                             onClicked: checked ? model.Geruch |= (1 << 2) : model.Geruch &= ~(1 << 2)
                                         }
-                                        CheckBox {
+                                        CheckBoxBase {
                                             text: qsTr("unangenehm, unausgewogen")
                                             checked: model.Geruch & (1 << 3)
                                             onClicked: checked ? model.Geruch |= (1 << 3) : model.Geruch &= ~(1 << 3)
                                         }
-                                        CheckBox {
+                                        CheckBoxBase {
                                             text: qsTr("hopfenaromatisch, hopfig")
                                             checked: model.Geruch & (1 << 4)
                                             onClicked: checked ? model.Geruch |= (1 << 4) : model.Geruch &= ~(1 << 4)
                                         }
-                                        CheckBox {
+                                        CheckBoxBase {
                                             text: qsTr("malzaromatisch, malzig")
                                             checked: model.Geruch & (1 << 5)
                                             onClicked: checked ? model.Geruch |= (1 << 5) : model.Geruch &= ~(1 << 5)
                                         }
-                                        CheckBox {
+                                        CheckBoxBase {
                                             text: qsTr("süsslich, nach Würze")
                                             checked: model.Geruch & (1 << 6)
                                             onClicked: checked ? model.Geruch |= (1 << 6) : model.Geruch &= ~(1 << 6)
                                         }
-                                        CheckBox {
+                                        CheckBoxBase {
                                             text: qsTr("heftig")
                                             checked: model.Geruch & (1 << 7)
                                             onClicked: checked ? model.Geruch |= (1 << 7) : model.Geruch &= ~(1 << 7)
                                         }
-                                        CheckBox {
+                                        CheckBoxBase {
                                             text: qsTr("fruchtig")
                                             checked: model.Geruch & (1 << 8)
                                             onClicked: checked ? model.Geruch |= (1 << 8) : model.Geruch &= ~(1 << 8)
                                         }
-                                        CheckBox {
+                                        CheckBoxBase {
                                             text: qsTr("gewürzig")
                                             checked: model.Geruch & (1 << 9)
                                             onClicked: checked ? model.Geruch |= (1 << 9) : model.Geruch &= ~(1 << 9)
                                         }
-                                        CheckBox {
+                                        CheckBoxBase {
                                             text: qsTr("säuerlich")
                                             checked: model.Geruch & (1 << 10)
                                             onClicked: checked ? model.Geruch |= (1 << 10) : model.Geruch &= ~(1 << 10)
                                         }
-                                        CheckBox {
+                                        CheckBoxBase {
                                             text: qsTr("Geruchsfehler")
                                             checked: model.Geruch & (1 << 11)
                                             onClicked: checked ? model.Geruch |= (1 << 11) : model.Geruch &= ~(1 << 11)
@@ -564,7 +552,7 @@ PageBase {
                                     }
                                 }
 
-                                TextArea {
+                                TextAreaBase {
                                     Layout.fillWidth: true
                                     wrapMode: TextArea.Wrap
                                     placeholderText: qsTr("Bemerkung")
@@ -576,78 +564,75 @@ PageBase {
                                     Layout.fillWidth: true
                                 }
 
-                                LabelPrim {
+                                LabelHeader {
                                     text: qsTr("Geschmack")
-                                    color: Material.primary
-                                    font.pixelSize: 16
-                                    font.bold: true
                                 }
 
                                 Frame {
                                     Layout.fillWidth: true
                                     Flow {
                                         anchors.fill: parent
-                                        CheckBox {
+                                        CheckBoxBase {
                                             text: qsTr("rein")
                                             checked: model.Geschmack & (1 << 0)
                                             onClicked: checked ? model.Geschmack |= (1 << 0) : model.Geschmack &= ~(1 << 0)
                                         }
-                                        CheckBox {
+                                        CheckBoxBase {
                                             text: qsTr("ausgewogen, rund")
                                             checked: model.Geschmack & (1 << 1)
                                             onClicked: checked ? model.Geschmack |= (1 << 1) : model.Geschmack &= ~(1 << 1)
                                         }
-                                        CheckBox {
+                                        CheckBoxBase {
                                             text: qsTr("gehaltsvoll")
                                             checked: model.Geschmack & (1 << 2)
                                             onClicked: checked ? model.Geschmack |= (1 << 2) : model.Geschmack &= ~(1 << 2)
                                         }
-                                        CheckBox {
+                                        CheckBoxBase {
                                             text: qsTr("unausgewogen, kantig")
                                             checked: model.Geschmack & (1 << 3)
                                             onClicked: checked ? model.Geschmack |= (1 << 3) : model.Geschmack &= ~(1 << 3)
                                         }
-                                        CheckBox {
+                                        CheckBoxBase {
                                             text: qsTr("unreif, unrein")
                                             checked: model.Geschmack & (1 << 4)
                                             onClicked: checked ? model.Geschmack |= (1 << 4) : model.Geschmack &= ~(1 << 4)
                                         }
-                                        CheckBox {
+                                        CheckBoxBase {
                                             text: qsTr("hopfenaromatisch, hopfig")
                                             checked: model.Geschmack & (1 << 5)
                                             onClicked: checked ? model.Geschmack |= (1 << 5) : model.Geschmack &= ~(1 << 5)
                                         }
-                                        CheckBox {
+                                        CheckBoxBase {
                                             text: qsTr("malzaromatisch, malzig")
                                             checked: model.Geschmack & (1 << 6)
                                             onClicked: checked ? model.Geschmack |= (1 << 6) : model.Geschmack &= ~(1 << 6)
                                         }
-                                        CheckBox {
+                                        CheckBoxBase {
                                             text: qsTr("süsslich, klebrig")
                                             checked: model.Geschmack & (1 << 7)
                                             onClicked: checked ? model.Geschmack |= (1 << 7) : model.Geschmack &= ~(1 << 7)
                                         }
-                                        CheckBox {
+                                        CheckBoxBase {
                                             text: qsTr("säuerlich")
                                             checked: model.Geschmack & (1 << 8)
                                             onClicked: checked ? model.Geschmack |= (1 << 8) : model.Geschmack &= ~(1 << 8)
                                         }
-                                        CheckBox {
+                                        CheckBoxBase {
                                             text: qsTr("gewürzig")
                                             checked: model.Geschmack & (1 << 9)
                                             onClicked: checked ? model.Geschmack |= (1 << 9) : model.Geschmack &= ~(1 << 9)
                                         }
-                                        CheckBox {
+                                        CheckBoxBase {
                                             text: qsTr("fruchtig")
                                             checked: model.Geschmack & (1 << 10)
                                             onClicked: checked ? model.Geschmack |= (1 << 10) : model.Geschmack &= ~(1 << 10)
                                         }
-                                        CheckBox {
+                                        CheckBoxBase {
                                             text: qsTr("heftig")
                                             checked: model.Geschmack & (1 << 11)
                                             onClicked: checked ? model.Geschmack |= (1 << 11) : model.Geschmack &= ~(1 << 11)
                                         }
-                                        CheckBox {
+                                        CheckBoxBase {
                                             text: qsTr("Geschmacksfehler")
                                             checked: model.Geschmack & (1 << 12)
                                             onClicked: checked ? model.Geschmack |= (1 << 12) : model.Geschmack &= ~(1 << 12)
@@ -655,7 +640,7 @@ PageBase {
                                     }
                                 }
 
-                                TextArea {
+                                TextAreaBase {
                                     Layout.fillWidth: true
                                     wrapMode: TextArea.Wrap
                                     placeholderText: qsTr("Bemerkung")
@@ -667,11 +652,8 @@ PageBase {
                                     Layout.fillWidth: true
                                 }
 
-                                LabelPrim {
+                                LabelHeader {
                                     text: qsTr("Antrunk")
-                                    color: Material.primary
-                                    font.pixelSize: 16
-                                    font.bold: true
                                 }
 
                                 Frame {
@@ -721,7 +703,7 @@ PageBase {
                                     }
                                 }
 
-                                TextArea {
+                                TextAreaBase {
                                     Layout.fillWidth: true
                                     wrapMode: TextArea.Wrap
                                     placeholderText: qsTr("Bemerkung")
@@ -733,11 +715,8 @@ PageBase {
                                     Layout.fillWidth: true
                                 }
 
-                                LabelPrim {
+                                LabelHeader {
                                     text: qsTr("Haupttrunk")
-                                    color: Material.primary
-                                    font.pixelSize: 16
-                                    font.bold: true
                                 }
 
                                 Frame {
@@ -772,7 +751,7 @@ PageBase {
                                     }
                                 }
 
-                                TextArea {
+                                TextAreaBase {
                                     Layout.fillWidth: true
                                     wrapMode: TextArea.Wrap
                                     placeholderText: qsTr("Bemerkung")
@@ -784,11 +763,8 @@ PageBase {
                                     Layout.fillWidth: true
                                 }
 
-                                LabelPrim {
+                                LabelHeader {
                                     text: qsTr("Nachtrunk")
-                                    color: Material.primary
-                                    font.pixelSize: 16
-                                    font.bold: true
                                 }
 
                                 Frame {
@@ -843,7 +819,7 @@ PageBase {
                                     }
                                 }
 
-                                TextArea {
+                                TextAreaBase {
                                     Layout.fillWidth: true
                                     wrapMode: TextArea.Wrap
                                     placeholderText: qsTr("Bemerkung")

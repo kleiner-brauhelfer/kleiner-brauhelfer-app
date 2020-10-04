@@ -260,7 +260,7 @@ PageBase {
                                                 id: itName
                                                 Layout.fillWidth: true
                                                 height: children[1].height
-                                                LabelSubheader {
+                                                LabelHeader {
                                                     anchors.fill: parent
                                                     visible: !itName.editing
                                                     text: model.Name
@@ -338,7 +338,7 @@ PageBase {
                                             text: qsTr("Pellets")
                                         }
 
-                                        CheckBox {
+                                        CheckBoxBase {
                                             Layout.columnSpan: 2
                                             Layout.fillWidth: true
                                             Layout.alignment: Qt.AlignLeft
@@ -352,7 +352,7 @@ PageBase {
                                             text: qsTr("Typ")
                                         }
 
-                                        ComboBox {
+                                        ComboBoxBase {
                                             Layout.columnSpan: 2
                                             Layout.fillWidth: true
                                             Layout.rightMargin: 4
@@ -368,7 +368,7 @@ PageBase {
                                             text: qsTr("Eigenschaften")
                                         }
 
-                                        TextArea {
+                                        TextAreaBase {
                                             Layout.columnSpan: 3
                                             Layout.fillWidth: true
                                             wrapMode: TextArea.Wrap
@@ -384,7 +384,7 @@ PageBase {
                                             text: qsTr("Bemerkung")
                                         }
 
-                                        TextArea {
+                                        TextAreaBase {
                                             Layout.columnSpan: 3
                                             Layout.fillWidth: true
                                             wrapMode: TextArea.Wrap
@@ -400,7 +400,7 @@ PageBase {
                                             text: qsTr("Alternativen")
                                         }
 
-                                        TextArea {
+                                        TextAreaBase {
                                             Layout.columnSpan: 3
                                             Layout.fillWidth: true
                                             wrapMode: TextArea.Wrap

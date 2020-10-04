@@ -19,7 +19,7 @@ SpinBox {
     to: max * factor
     value: realValue * factor
 
-    font.pixelSize: 14
+    font.pointSize: 14 * app.settings.scalingfactor
 
     validator: DoubleValidator {
         bottom: Math.min(from, to)

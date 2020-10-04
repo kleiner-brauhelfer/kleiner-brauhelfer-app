@@ -26,7 +26,7 @@ PageBase {
             anchors.left: parent.left
             anchors.right: parent.right
 
-            LabelSubheader {
+            LabelHeader {
                 text: Qt.application.name + " v" + Qt.application.version
                 Layout.fillWidth: true
                 horizontalAlignment: Label.AlignHCenter

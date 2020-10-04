@@ -35,7 +35,7 @@ PageBase {
                 inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhLowercaseOnly
                 onTextChanged: listView.model.filterText = text
             }
-            ComboBox {
+            ComboBoxBase {
                 property string sortFieldName: ""
                 property int sortOrder: Qt.DescendingOrder
                 id: sortComboBox
@@ -172,7 +172,7 @@ PageBase {
                         color: selected ? Material.primary : Material.foreground
                         opacity: selected ? 1.00 : 0.87
                         font.bold: selected
-                        font.pixelSize: 16
+                        font.pointSize: 16 * app.settings.scalingfactor
                     }
 
                     LabelSec {
@@ -461,7 +461,7 @@ PageBase {
                         filter: ProxyModelSud.Verbraucht
                     }
                 }
-                CheckBox {
+                CheckBoxBase {
                     padding: 0
                     checked: app.settings.brewsFilter & model.filter
                     text: model.text
@@ -473,7 +473,7 @@ PageBase {
                     }
                 }
             }
-            CheckBox {
+            CheckBoxBase {
                 padding: 0
                 tristate: true
                 checkState: app.settings.brewsFilter === ProxyModelSud.Alle ? Qt.Checked :
@@ -486,7 +486,7 @@ PageBase {
                         app.settings.brewsFilter = ProxyModelSud.Alle
                 }
             }
-            CheckBox {
+            CheckBoxBase {
                 leftPadding: 18
                 padding: 0
                 checked: app.settings.brewsMerklisteFilter

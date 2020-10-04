@@ -56,7 +56,7 @@ PageBase {
 
             GroupBox {
                 Layout.fillWidth: true
-                label: LabelSubheader {
+                label: LabelHeader {
                     text: qsTr("Maischen")
                 }
                 ColumnLayout {
@@ -98,10 +98,10 @@ PageBase {
                             Layout.fillWidth: true
                             text: qsTr("Gesamtschüttung")
                         }
-                        Label {
+                        LabelPrim {
                             text: ""
                         }
-                        Label {
+                        LabelPrim {
                             text: ""
                         }
                         LabelNumber {
@@ -489,7 +489,7 @@ PageBase {
 
             GroupBox {
                 Layout.fillWidth: true
-                label: LabelSubheader {
+                label: LabelHeader {
                     text: qsTr("Läutern")
                 }
                 ColumnLayout {
@@ -537,7 +537,7 @@ PageBase {
 
             GroupBox {
                 Layout.fillWidth: true
-                label: LabelSubheader {
+                label: LabelHeader {
                     text: qsTr("Würzekochen")
                 }
                 ColumnLayout {
@@ -1025,7 +1025,7 @@ PageBase {
 
             GroupBox {
                 Layout.fillWidth: true
-                label: LabelSubheader {
+                label: LabelHeader {
                     text: qsTr("Anstellen")
                 }
                 ColumnLayout {
@@ -1247,7 +1247,7 @@ PageBase {
 
             GroupBox {
                 Layout.fillWidth: true
-                label: LabelSubheader {
+                label: LabelHeader {
                     text: qsTr("Gärung")
                 }
                 ColumnLayout {
@@ -1332,7 +1332,7 @@ PageBase {
 
             GroupBox {
                 Layout.fillWidth: true
-                label: LabelSubheader {
+                label: LabelHeader {
                     text: qsTr("Abschluss")
                 }
                 GridLayout {
@@ -1375,7 +1375,7 @@ PageBase {
                     LabelUnit {
                         text: Qt.locale().currencySymbol() + "/" + qsTr("l")
                     }
-                    CheckBox {
+                    CheckBoxBase {
                         Layout.columnSpan: 3
                         Layout.fillWidth: true
                         enabled: !page.readOnly
@@ -1383,7 +1383,7 @@ PageBase {
                         checked: Brauhelfer.sud.AusbeuteIgnorieren
                         onClicked: Brauhelfer.sud.AusbeuteIgnorieren = checked
                     }
-                    Button {
+                    ButtonBase {
                         Layout.columnSpan: 3
                         Layout.fillWidth: true
                         text: qsTr("Sud gebraut")

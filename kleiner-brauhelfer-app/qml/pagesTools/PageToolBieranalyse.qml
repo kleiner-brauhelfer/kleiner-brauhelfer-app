@@ -38,7 +38,7 @@ PageBase {
             anchors.left: parent.left
             anchors.right: parent.right
 
-            LabelSubheader {
+            LabelHeader {
                 Layout.fillWidth: true
                 horizontalAlignment: Label.AlignHCenter
                 text: qsTr("Bieranalyse mit dem Refraktometer") 
@@ -56,7 +56,7 @@ PageBase {
                     Layout.fillWidth: true
                     text: qsTr("Formel")
                 }
-                ComboBox {
+                ComboBoxBase {
                     id: cbFormel
                     Layout.fillWidth: true
                     Layout.leftMargin: 8

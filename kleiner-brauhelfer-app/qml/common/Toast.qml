@@ -38,7 +38,7 @@ Popup {
         id: toastLabel
         leftPadding: 16
         rightPadding: 16
-        font.pixelSize: 16
+        font.pointSize: 16 * app.settings.scalingfactor
         color: Material.background
     }
 }

@@ -150,7 +150,7 @@ PageBase {
                             font.bold: true
                             text: qsTr("Braudatum")
                         }
-                        ComboBox {
+                        ComboBoxBase {
                             Layout.preferredWidth: 120
                             flat: true
                             textRole: "text"
@@ -161,7 +161,7 @@ PageBase {
                                 navPane.setFocus()
                             }
                         }
-                        ComboBox {
+                        ComboBoxBase {
                             Layout.preferredWidth: 120
                             flat: true
                             textRole: "text"

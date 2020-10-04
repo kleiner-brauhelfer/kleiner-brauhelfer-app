@@ -47,6 +47,7 @@ ApplicationWindow {
         property real sugarFactor: 1.0
         property int uebersichtIndex1: 0
         property int uebersichtIndex2: 1
+        property real scalingfactor: 1.0
     }
 
     // scheduler to do stuff in the background, use run() or runExt()

@@ -15,9 +15,12 @@ ToolBar {
     signal clickedLeft()
     signal clickedRight()
 
+    height: layout.implicitHeight
+
     MouseAreaCatcher { }
 
     RowLayout {
+        id: layout
         anchors.fill: parent
         Layout.leftMargin: 4
         Layout.rightMargin: 4
@@ -39,7 +42,7 @@ ToolBar {
                 horizontalAlignment: Label.AlignHCenter
                 Layout.fillWidth: true
                 color: Material.background
-                font.pixelSize: 20
+                font.pointSize: 20 * app.settings.scalingfactor
                 font.bold: true
                 elide: Text.ElideRight
             }
@@ -49,7 +52,7 @@ ToolBar {
                 horizontalAlignment: Label.AlignHCenter
                 Layout.fillWidth: true
                 color: Material.background
-                font.pixelSize: 16
+                font.pointSize: 16 * app.settings.scalingfactor
                 elide: Text.ElideRight
             }
         }
