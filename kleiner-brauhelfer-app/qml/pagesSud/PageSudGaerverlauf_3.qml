@@ -61,6 +61,9 @@ PageBase {
             Component.onCompleted: if (!readOnly) positionViewAtEnd()
             ScrollIndicator.vertical: ScrollIndicator {}
             header: Rectangle {
+                property var widthCol1: headerLabel1.width
+                property var widthCol2: headerLabel2.width
+                property var widthCol3: headerLabel3.width
                 z: 2
                 width: listView.width
                 height: header.height
@@ -69,8 +72,13 @@ PageBase {
                 ColumnLayout {
                     id: header
                     width: parent.width
+                    spacing: 8
                     RowLayout {
                         Layout.fillWidth: true
+                        Layout.topMargin: 8
+                        Layout.bottomMargin: 8
+                        Layout.leftMargin: 8
+                        Layout.rightMargin: 8
                         LabelPrim {
                             Layout.fillWidth: true
                             leftPadding: 8
@@ -78,19 +86,19 @@ PageBase {
                             text: qsTr("Datum")
                         }
                         LabelPrim {
-                            Layout.preferredWidth: 70
+                            id: headerLabel1
                             font.bold: true
-                            text: chart.title2
+                            text: qsTr("Druck [bar]")
                         }
                         LabelPrim {
-                            Layout.preferredWidth: 70
+                            id: headerLabel2
                             font.bold: true
-                            text: chart.title3
+                            text: qsTr("Temp [°C]")
                         }
                         LabelPrim {
-                            Layout.preferredWidth: 70
+                            id: headerLabel3
                             font.bold: true
-                            text: chart.title1
+                            text: qsTr("CO2 [g/ml]")
                         }
                     }
                     HorizontalDivider {
@@ -158,21 +166,21 @@ PageBase {
                             text: model.Bemerkung === "" ? " " : "*"
                         }
                         LabelNumber {
-                            Layout.preferredWidth: 70
-                            unit: "bar"
+                            Layout.preferredWidth: listView.headerItem.widthCol1
+                            horizontalAlignment: Text.AlignHCenter
                             value: model.Druck
                             color: chart.color2
                         }
                         LabelNumber {
-                            Layout.preferredWidth: 70
+                            Layout.preferredWidth: listView.headerItem.widthCol2
+                            horizontalAlignment: Text.AlignHCenter
                             precision: 1
-                            unit: "°C"
                             value: model.Temp
                             color: chart.color3
                         }
                         LabelNumber {
-                            Layout.preferredWidth: 70
-                            unit: "g/ml"
+                            Layout.preferredWidth: listView.headerItem.widthCol3
+                            horizontalAlignment: Text.AlignHCenter
                             value: model.CO2
                             color: chart.color1
                         }

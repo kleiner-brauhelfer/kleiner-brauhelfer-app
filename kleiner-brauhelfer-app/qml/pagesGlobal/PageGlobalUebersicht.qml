@@ -134,6 +134,8 @@ PageBase {
             headerPositioning: ListView.OverlayHeader
             ScrollIndicator.vertical: ScrollIndicator {}
             header: Rectangle {
+                property var widthCol1: headerLabel1.width
+                property var widthCol2: headerLabel2.width
                 z: 2
                 width: listView.width
                 height: header.height
@@ -141,8 +143,11 @@ PageBase {
                 ColumnLayout {
                     id: header
                     width: listView.width
+                    spacing: 8
                     RowLayout {
                         Layout.fillWidth: true
+                        Layout.topMargin: 8
+                        Layout.bottomMargin: 8
                         Layout.leftMargin: 8
                         Layout.rightMargin: 8
                         LabelPrim {
@@ -151,7 +156,7 @@ PageBase {
                             text: qsTr("Braudatum")
                         }
                         ComboBoxBase {
-                            Layout.preferredWidth: 120
+                            id: headerLabel1
                             flat: true
                             textRole: "text"
                             model: selectionModel
@@ -162,7 +167,7 @@ PageBase {
                             }
                         }
                         ComboBoxBase {
-                            Layout.preferredWidth: 120
+                            id: headerLabel2
                             flat: true
                             textRole: "text"
                             model: selectionModel
@@ -210,14 +215,14 @@ PageBase {
                             date: model.Braudatum
                         }
                         LabelNumber {
-                            Layout.preferredWidth: 120
+                            Layout.preferredWidth: listView.headerItem.widthCol1
                             color: chart.color1
                             precision: item1.precision
                             unit: item1.unit
                             value: model[item1.field]
                         }
                         LabelNumber {
-                            Layout.preferredWidth: 120
+                            Layout.preferredWidth: listView.headerItem.widthCol2
                             color: chart.color2
                             precision: item2.precision
                             unit: item2.unit

@@ -52,6 +52,7 @@ PageBase {
             headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
             ScrollIndicator.vertical: ScrollIndicator {}
             header: Rectangle {
+                property var widthCol1: headerLabel1.width
                 z: 2
                 width: listView.width
                 height: header.height
@@ -59,7 +60,7 @@ PageBase {
                 ColumnLayout {
                     id: header
                     width: parent.width
-                    spacing: 0
+                    spacing: 8
                     RowLayout {
                         Layout.fillWidth: true
                         Layout.topMargin: 8
@@ -87,7 +88,7 @@ PageBase {
                             }
                         }
                         LabelPrim {
-                            Layout.preferredWidth: 80
+                            id: headerLabel1
                             horizontalAlignment: Text.AlignHCenter
                             font.bold: true
                             text: qsTr("Menge")
@@ -191,7 +192,7 @@ PageBase {
                             }
                         }
                         LabelNumber {
-                            Layout.preferredWidth: 80
+                            Layout.preferredWidth: listView.headerItem.widthCol1
                             horizontalAlignment: Text.AlignHCenter
                             opacity: model.Menge > 0 ? app.config.textOpacityFull : app.config.textOpacityHalf
                             precision: 0

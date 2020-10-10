@@ -22,6 +22,8 @@ PageBase {
         headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
         ScrollIndicator.vertical: ScrollIndicator {}
         header: Rectangle {
+            property var widthCol1: headerLabel1.width
+            property var widthCol2: headerLabel2.width
             z: 2
             width: listView.width
             height: header.height
@@ -29,7 +31,7 @@ PageBase {
             ColumnLayout {
                 id: header
                 width: parent.width
-                spacing: 0
+                spacing: 8
                 RowLayout {
                     Layout.fillWidth: true
                     Layout.topMargin: 8
@@ -42,13 +44,13 @@ PageBase {
                         text: qsTr("Datum")
                     }
                     LabelPrim {
-                        Layout.preferredWidth: 80
+                        id: headerLabel1
                         horizontalAlignment: Qt.AlignHCenter
                         font.bold: true
                         text: qsTr("Woche")
                     }
                     LabelPrim {
-                        Layout.preferredWidth: 150
+                        id: headerLabel2
                         horizontalAlignment: Qt.AlignHCenter
                         font.bold: true
                         text: qsTr("Bewertung")
@@ -112,13 +114,13 @@ PageBase {
                         date: model.Datum
                     }
                     LabelPrim {
-                        Layout.preferredWidth: 80
+                        Layout.preferredWidth: listView.headerItem.widthCol1
                         horizontalAlignment: Qt.AlignHCenter
                         verticalAlignment: Qt.AlignVCenter
                         text: model.Woche
                     }
                     Flow {
-                        Layout.preferredWidth: 150
+                        Layout.preferredWidth: listView.headerItem.widthCol2
                         Layout.alignment: Qt.AlignHCenter
                         Image {
                             source: model.Sterne > 0 ? "qrc:/images/ic_star.png" : "qrc:/images/ic_star_border.png"

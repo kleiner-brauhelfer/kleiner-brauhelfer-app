@@ -22,6 +22,8 @@ PageBase {
         headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
         ScrollIndicator.vertical: ScrollIndicator {}
         header: Rectangle {
+            property var widthCol1: headerLabel1.width
+            property var widthCol2: headerLabel2.width
             z: 2
             width: listView.width
             height: header.height
@@ -29,7 +31,7 @@ PageBase {
             ColumnLayout {
                 id: header
                 width: parent.width
-                spacing: 0
+                spacing: 8
                 RowLayout {
                     Layout.fillWidth: true
                     Layout.topMargin: 8
@@ -42,13 +44,13 @@ PageBase {
                         text: qsTr("Brauanlage")
                     }
                     LabelPrim {
-                        Layout.preferredWidth: 80
+                        id: headerLabel1
                         horizontalAlignment: Text.AlignHCenter
                         font.bold: true
-                        text: qsTr("Vermögen")
+                        text: qsTr("Vermögen [l]")
                     }
                     LabelPrim {
-                        Layout.preferredWidth: 80
+                        id: headerLabel2
                         horizontalAlignment: Text.AlignHCenter
                         font.bold: true
                         text: qsTr("Sude")
@@ -111,14 +113,13 @@ PageBase {
                         text: model.Name
                     }
                     LabelNumber {
-                        Layout.preferredWidth: 80
+                        Layout.preferredWidth: listView.headerItem.widthCol1
                         horizontalAlignment: Text.AlignHCenter
                         precision: 0
-                        unit: qsTr("l")
                         value: model.Vermoegen
                     }
                     LabelNumber {
-                        Layout.preferredWidth: 80
+                        Layout.preferredWidth: listView.headerItem.widthCol2
                         horizontalAlignment: Text.AlignHCenter
                         precision: 0
                         value: model.AnzahlSude
