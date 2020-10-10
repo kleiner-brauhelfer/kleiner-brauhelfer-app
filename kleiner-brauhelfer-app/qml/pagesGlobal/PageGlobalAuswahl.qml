@@ -39,7 +39,7 @@ PageBase {
                 property string sortFieldName: ""
                 property int sortOrder: Qt.DescendingOrder
                 id: sortComboBox
-                Layout.preferredWidth: 150
+                Layout.preferredWidth: width
                 Layout.leftMargin: 8
                 Layout.rightMargin: 8
                 flat: true

@@ -6,7 +6,7 @@ ORGANIZATION = kleiner-brauhelfer
 TARGET = kleiner-brauhelfer-app
 VER_MAJ = 2
 VER_MIN = 2
-VER_PAT = 0
+VER_PAT = 1
 VERSION = $$sprintf("%1.%2.%3",$$VER_MAJ,$$VER_MIN,$$VER_PAT)
 DEFINES += ORGANIZATION=\\\"$$ORGANIZATION\\\" TARGET=\\\"$$TARGET\\\" VERSION=\\\"$$VERSION\\\"
 DEFINES += VER_MAJ=\"$$VER_MAJ\" VER_MIN=\"$$VER_MIN\" VER_PAT=\"$$VER_PAT\"
@@ -40,6 +40,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 # android deployment
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+ANDROID_ABIS = armeabi-v7a arm64-v8a x86 x86_64
 ANDROID_EXTRA_LIBS += \
     $$PWD/android/libs/arm/libcrypto_1_1.so \
     $$PWD/android/libs/arm/libssl_1_1.so \

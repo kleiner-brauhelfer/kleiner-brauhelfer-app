@@ -61,7 +61,7 @@ TextFieldNumber {
                                 tfDensity.value = BierCalc.platoToDichte(tfPlato.value)
                             }
                             else {
-                                tfDensity.value = BierCalc.brixToDichte(textfield.sw, tfBrix.value)
+                                tfDensity.value = BierCalc.brixToDichte(textfield.sw, tfBrix.value, BierCalc.Standard)
                                 tfPlato.value = BierCalc.dichteToPlato(tfDensity.value)
                             }
                         }
