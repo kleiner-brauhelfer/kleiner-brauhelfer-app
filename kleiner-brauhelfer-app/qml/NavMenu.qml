@@ -8,7 +8,7 @@ Drawer {
 
     z: 1
     leftPadding: 0    
-    width: Math.min(240, Math.min(app.width, app.height) * 2 / 3)
+    width: layout.width
     height: app.height
 
     Flickable {
@@ -22,30 +22,19 @@ Drawer {
             focus: false
             anchors.top: parent.top
             anchors.left: parent.left
-            anchors.right: parent.right
             spacing: 0
 
-            Item {
-                Layout.fillWidth: true
-                height: 60
-
-                Rectangle {
-                    anchors.fill: parent
-                    color: Material.primary
-                    MouseArea {
-                       anchors.fill: parent
-                       onClicked: close()
-                    }
+            Rectangle {
+                Layout.preferredWidth: childrenRect.width
+                Layout.preferredHeight: childrenRect.height
+                color: Material.primary
+                MouseArea {
+                   anchors.fill: parent
+                   onClicked: close()
                 }
-
-                GridLayout{
-                    anchors.fill: parent
-                    columns: 2
-                    rows: 2
-
+                RowLayout {
                     Item {
-                        Layout.rowSpan: 2
-                        width: 48
+                        width: 48 * app.settings.scalingfactor
                         height: width
                         Image {
                             width: parent.width
@@ -53,31 +42,22 @@ Drawer {
                             source: "qrc:/images/logo.png"
                         }
                     }
-
-                    Label {
+                    ColumnLayout {
                         Layout.fillWidth: true
-                        Layout.fillHeight: true
-                        verticalAlignment: Text.AlignBottom
-                        text: Qt.application.name
-                        font.pointSize: 16 * app.settings.scalingfactor
-                        font.weight: Font.Bold
-                        color: Material.background
-                    }
-
-                    Label {
-                        Layout.fillWidth: true
-                        Layout.rightMargin: 8
-                        Layout.bottomMargin: 4
-                        horizontalAlignment: Text.AlignRight
-                        font.pointSize: 14 * app.settings.scalingfactor
-                        text: "v" + Qt.application.version
-                        color: Material.background
+                        Layout.margins: 4
+                        Label {
+                            text: Qt.application.name
+                            font.pointSize: 14 * app.settings.scalingfactor
+                            font.weight: Font.Bold
+                            color: Material.background
+                        }
+                        Label {
+                            text: "v" + Qt.application.version
+                            font.pointSize: 12 * app.settings.scalingfactor
+                            color: Material.background
+                        }
                     }
                 }
-            }
-
-            Item {
-                height: 8
             }
 
             Repeater {

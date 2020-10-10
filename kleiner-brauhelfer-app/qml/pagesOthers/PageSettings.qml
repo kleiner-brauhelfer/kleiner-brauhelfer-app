@@ -68,6 +68,7 @@ PageBase {
                         Layout.fillWidth: true
                         ComboBoxBase {
                             Layout.fillWidth: true
+                            Layout.preferredHeight: height
                             model: [qsTr("Lokal"), qsTr("Dropbox"), qsTr("WebDav")]
                             currentIndex: SyncService.serviceId
                             onCurrentIndexChanged: {
@@ -306,6 +307,7 @@ PageBase {
                     anchors.fill: parent
                     ComboBoxBase {
                         Layout.fillWidth: true
+                        Layout.preferredHeight: height
                         model: ["Deutsch", "English"]
                         currentIndex: app.settings.languageIndex
                         onCurrentIndexChanged: {

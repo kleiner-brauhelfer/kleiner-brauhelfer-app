@@ -6,7 +6,9 @@ ComboBox {
     property int modelWidth
 
     font.pointSize: 14 * app.settings.scalingfactor
+    popup.font.pointSize: 14 * app.settings.scalingfactor
     width: (sizeToContents) ? modelWidth + 2*leftPadding + 2*rightPadding : implicitWidth
+    height: implicitHeight * app.settings.scalingfactor
 
     TextMetrics {
         id: textMetrics
