@@ -342,6 +342,12 @@ PageBase {
                             text: Math.round(app.settings.scalingfactor*100) + "%";
                         }
                     }
+                    LabelPrim {
+                        Layout.fillWidth: true
+                        visible: app.settings.scalingfactor != 1
+                        font.italic: true
+                        text: qsTr("Keine durchgängige korrekte Darstellung.")
+                    }
                 }
             }
         }

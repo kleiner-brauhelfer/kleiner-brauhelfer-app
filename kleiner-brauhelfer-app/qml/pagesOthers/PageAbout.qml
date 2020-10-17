@@ -26,16 +26,6 @@ PageBase {
             anchors.left: parent.left
             anchors.right: parent.right
 
-            LabelHeader {
-                text: Qt.application.name + " v" + Qt.application.version
-                Layout.fillWidth: true
-                horizontalAlignment: Label.AlignHCenter
-            }
-
-            HorizontalDivider {
-                Layout.fillWidth: true
-            }
-
             LabelPrim {
                 wrapMode: Text.Wrap
                 Layout.fillWidth: true

@@ -62,6 +62,7 @@ PageBase {
                     Layout.leftMargin: 8
                     Layout.rightMargin: 8
                     model: [qsTr("Terrill"), qsTr("Terrill Linear"), qsTr("Standard")]
+                    currentIndex: 2
                     opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
                     onCurrentIndexChanged: navPane.setFocus()
                 }
@@ -77,7 +78,7 @@ PageBase {
                 Layout.rightMargin: 8
                 columns: 3
                 LabelPrim {
-                    text: qsTr("Vor der Vergärung")
+                    text: qsTr("Vor Vergärung")
                 }
                 SpinBoxReal {
                     Layout.fillWidth: true
@@ -93,7 +94,7 @@ PageBase {
                 }
 
                 LabelPrim {
-                    text: qsTr("Nach der Vergärung")
+                    text: qsTr("Nach Vergärung")
                 }
                 SpinBoxReal {
                     Layout.fillWidth: true
@@ -144,7 +145,12 @@ PageBase {
                     text: qsTr("g/ml")
                 }
                 LabelPrim {
-                    text: qsTr("Restextrakt scheinbar")
+                    Layout.columnSpan: 3
+                    text: qsTr("Scheinbar")
+                }
+                LabelPrim {
+                    Layout.leftMargin: 8
+                    text: qsTr("Restextrakt")
                 }
                 LabelPlato {
                     id: lblSRE
@@ -156,7 +162,8 @@ PageBase {
                     text: qsTr("°P")
                 }
                 LabelPrim {
-                    text: qsTr("Vergärungsgrad scheinbar")
+                    Layout.leftMargin: 8
+                    text: qsTr("Vergärungsgrad")
                 }
                 LabelNumber {
                     id: lblSVG
@@ -168,7 +175,12 @@ PageBase {
                     text: qsTr("%")
                 }
                 LabelPrim {
-                    text: qsTr("Restextrakt wirklich")
+                    Layout.columnSpan: 3
+                    text: qsTr("Tatsächlich")
+                }
+                LabelPrim {
+                    Layout.leftMargin: 8
+                    text: qsTr("Restextrakt")
                 }
                 LabelPlato {
                     id: lblTRE
@@ -180,7 +192,8 @@ PageBase {
                     text: qsTr("°P")
                 }
                 LabelPrim {
-                    text: qsTr("Vergärungsgrad wirklich")
+                    Layout.leftMargin: 8
+                    text: qsTr("Vergärungsgrad")
                 }
                 LabelNumber {
                     id: lblTVG
