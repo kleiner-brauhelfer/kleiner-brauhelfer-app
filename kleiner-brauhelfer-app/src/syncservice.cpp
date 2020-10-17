@@ -38,7 +38,7 @@ bool SyncService::checkIfServiceAvailable()
         timer.start(8000);
         loop.exec();
         if (timer.isActive())
-            _online = reply->bytesAvailable();
+            _online = reply->error() == QNetworkReply::NetworkError::NoError;
         else
             _online = false;
     }
