@@ -43,32 +43,24 @@ https://hobbybrauer.de/forum/viewtopic.php?f=3&t=17466
 
 ## Setup
 ### Synchronization mit Dropbox
-1. Dropbox developer area aufrufen https://www.dropbox.com/developers.
-
-![Dropbox 01](doc/Dropbox_01.png)
-
-2. Einloggen mit Dropbox account.
-3. Auf "Create your app" klicken.
-4. "Dropbox API" auswählen.
-
-![Dropbox 01](doc/Dropbox_02.png)
-
-5. Man kann entweder "App folder" oder "Full Dropbox" auswählen, aber "Full Dropbox" benötigt weniger Einstellungen.
-6. App Name definieren.
-7. Auf "Create app" klicken.
-8. Auf der nächsten Seite auf "Generate" klicken, unterhalb von "Generated access token".
-
-![Dropbox 01](doc/Dropbox_03.png)
-
-9. Falls "App folder" ausgwälhlt wurde, muss die Datenbank dort platziert werden. Bei "Full Dropbox" kann die Datenbank irgendwo platziert werden.
-10. Pfad der Datenbank ("kb_daten.sqlite") auf der Dropbox ausfinding machen.
-
-![Dropbox 01](doc/Dropbox_04.png)
-
-11. kleiner-brauhelfer-app starten und zu den Einstellungen wechseln.
-
-![Dropbox 01](doc/Dropbox_05.png)
-
-12. Access token eingeben.
-13. Relativer Pfad zur Datebank eingeben (z.B. /Apps/kleiner-brauhelfer/kb_daten.sqlite).
+1. *Dropbox developer area* aufrufen https://www.dropbox.com/developers.
+2. Oben rechts auf *App Console* klicken.
+3. Auf *Create your app* klicken.
+4. *Scoped access* auswählen.
+5. *App folder* auswählen.
+6. App Name wählen.
+7. Auf *Create app* klicken.
+8. Auf der nächsten Seite ber *Access token expiration* auf *No expiration* umstellen.
+9. Bei *Generated access token* untendran auf *Generate* klicken.
+10. Oben auf den *Permissions* Reiter wechseln.
+11. Folgende Optionen anwählen *files.metadata.write* und *files.content.write*.
+12. Einstellungen mit *Submit* bestätigen.
+10. Die Dropbox Seite aufrufen https://www.dropbox.com und dabei die *Dropbox developer area* offen lassen.
+11. Bei den Datein sollte es jetzt einen Unterordner *App* und darin einen weiteren Unterordner mit dem App Name geben.
+12. Datebankdatei dorthin platzieren.
+13. *kleiner-brauhelfer-app* starten und zu den Einstellungen wechseln.
+12. Access token aus der *Dropbox developer area* eingeben.
+13. Pfad zur Datebank eingeben (z.B. /kb_daten.sqlite).
 14. Die App sollte sich verbinden, sobald beide Felder korrekt ausgefüllt wurden.
+15. Im Desktopprogramm *kleiner-brauhelfer* die Datenbank im entsprechenden Dropbox Ordner auswählen.
+16. Fertig!?
