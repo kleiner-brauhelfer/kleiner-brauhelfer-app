@@ -50,17 +50,18 @@ https://hobbybrauer.de/forum/viewtopic.php?f=3&t=17466
 5. *App folder* auswählen.
 6. App Name wählen.
 7. Auf *Create app* klicken.
-8. Auf der nächsten Seite ber *Access token expiration* auf *No expiration* umstellen.
-9. Bei *Generated access token* untendran auf *Generate* klicken.
-10. Oben auf den *Permissions* Reiter wechseln.
-11. Folgende Optionen anwählen *files.metadata.write* und *files.content.write*.
-12. Einstellungen mit *Submit* bestätigen.
-10. Die Dropbox Seite aufrufen https://www.dropbox.com und dabei die *Dropbox developer area* offen lassen.
-11. Bei den Datein sollte es jetzt einen Unterordner *App* und darin einen weiteren Unterordner mit dem App Name geben.
-12. Datebankdatei dorthin platzieren.
-13. *kleiner-brauhelfer-app* starten und zu den Einstellungen wechseln.
-12. Access token aus der *Dropbox developer area* eingeben.
-13. Pfad zur Datebank eingeben (z.B. /kb_daten.sqlite).
-14. Die App sollte sich verbinden, sobald beide Felder korrekt ausgefüllt wurden.
-15. Im Desktopprogramm *kleiner-brauhelfer* die Datenbank im entsprechenden Dropbox Ordner auswählen.
-16. Fertig!?
+8. Oben auf den *Permissions* Reiter wechseln.
+9. Folgende Optionen anwählen *files.metadata.write* und *files.content.write*.
+10. Einstellungen mit *Submit* bestätigen.
+11. Zurück zum *Settings* Reiter wechseln.
+12. Bei *Access token expiration* auf *No expiration* umstellen.
+13. Bei *Generated access token* untendran auf *Generate* klicken.
+14. Die Dropbox Seite aufrufen https://www.dropbox.com und dabei die *Dropbox developer area* offen lassen.
+15. Bei den Datein sollte es jetzt einen Unterordner *App* und darin einen weiteren Unterordner mit dem App Name geben.
+16. Datebankdatei dorthin platzieren.
+17. *kleiner-brauhelfer-app* starten und zu den Einstellungen wechseln.
+18. *Access token* aus der *Dropbox developer area* eingeben. Möglicherweise muss ein neues Token generiert werden.
+19. Unter *Pfad* den Pfad zur Datenbank inklusive Dateiname eingeben. Befindet sich die Datei direkt im Hauptordner des erstellten Dropboxorder, dann lautet der Pfad */kb_daten.sqlite*.
+20. Die App sollte sich verbinden, sobald beide Felder ausgefüllt wurden.
+21. Im Desktopprogramm *kleiner-brauhelfer* die Datenbank vom entsprechenden Dropbox Ordner auswählen.
+22. Fertig!?
