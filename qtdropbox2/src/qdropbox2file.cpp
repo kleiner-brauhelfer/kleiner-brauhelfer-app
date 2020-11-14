@@ -3,7 +3,10 @@
 QDropbox2File::QDropbox2File(QObject *parent)
     : QIODevice(parent),
       IQDropbox2Entity(),
-      QNAM(this)
+      QNAM(this),
+      _buffer(nullptr),
+      eventLoop(nullptr),
+      _metadata(nullptr)
 {
     init(nullptr, "");
 }
@@ -11,7 +14,10 @@ QDropbox2File::QDropbox2File(QObject *parent)
 QDropbox2File::QDropbox2File(QDropbox2 *api, QObject *parent)
     : QIODevice(parent),
       IQDropbox2Entity(),
-      QNAM(this)
+      QNAM(this),
+      _buffer(nullptr),
+      eventLoop(nullptr),
+      _metadata(nullptr)
 {
     init(api, "");
 }
@@ -19,14 +25,20 @@ QDropbox2File::QDropbox2File(QDropbox2 *api, QObject *parent)
 QDropbox2File::QDropbox2File(const QString& filename, QDropbox2 *api, QObject *parent)
     : QIODevice(parent),
       IQDropbox2Entity(),
-      QNAM(this)
+      QNAM(this),
+      _buffer(nullptr),
+      eventLoop(nullptr),
+      _metadata(nullptr)
 {
     init(api, filename);
 }
 
 QDropbox2File::QDropbox2File(const QDropbox2File& source)
     : QIODevice(source.parent()),
-      IQDropbox2Entity(source)
+      IQDropbox2Entity(source),
+      _buffer(nullptr),
+      eventLoop(nullptr),
+      _metadata(nullptr)
 {
     init(source._api, source._filename);
 }
