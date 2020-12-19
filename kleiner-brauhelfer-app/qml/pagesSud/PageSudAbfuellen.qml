@@ -389,6 +389,21 @@ PageBase {
                         checked: Brauhelfer.sud.Spunden
                         onClicked: Brauhelfer.sud.Spunden = checked
                     }
+
+                    LabelPrim {
+                        Layout.fillWidth: true
+                        Layout.columnSpan: 3
+                        text: qsTr("Temperatur")
+                    }
+                    TextFieldTemperature {
+                        enabled: !page.readOnly
+                        value: Brauhelfer.sud.TemperaturKarbonisierung
+                        onNewValue: Brauhelfer.sud.TemperaturKarbonisierung = value
+                    }
+                    LabelUnit {
+                        text: qsTr("°C")
+                    }
+
                     LabelPrim {
                         Layout.fillWidth: true
                         Layout.columnSpan: 3
