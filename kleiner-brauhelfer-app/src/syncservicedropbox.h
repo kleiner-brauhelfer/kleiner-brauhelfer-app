@@ -4,8 +4,8 @@
 #include "syncservice.h"
 #include <QObject>
 #include <QSettings>
-
-class QDropbox2;
+#include <QNetworkReply>
+#include <QStringListModel>
 
 /**
  * @brief Dropbox synchronization service
@@ -16,6 +16,7 @@ class SyncServiceDropbox : public SyncService
 
     Q_PROPERTY(QString accessToken READ accessToken WRITE setAccessToken NOTIFY accessTokenChanged)
     Q_PROPERTY(QString filePathServer READ filePathServer WRITE setFilePathServer NOTIFY filePathServerChanged)
+    Q_PROPERTY(QStringListModel* folderContent READ folderContent NOTIFY accessTokenChanged)
 
 public:
 
@@ -33,6 +34,12 @@ public:
      * @return True on success
      */
     bool synchronize(SyncDirection direction) Q_DECL_OVERRIDE;
+
+    /**
+     * @brief Gets the folder content
+     * @return List of files
+     */
+    QStringListModel *folderContent();
 
     /**
      * @brief Gets the server access token
@@ -72,6 +79,10 @@ signals:
      */
     void filePathServerChanged(const QString &filePath);
 
+private slots:
+    void error(QNetworkReply::NetworkError error);
+    void sslErrors(const QList<QSslError>& errors);
+
 private:
 
     bool downloadFile();
@@ -79,8 +90,9 @@ private:
     QString getServerRevision();
     QString getLocalRevision() const;
     void setLocalRevision(const QString &revision);
-
-    QDropbox2* _dbox;
+    QNetworkAccessManager* _netManager;
+    QNetworkReply* _netReply;
+    QStringListModel* _fileContent;
 };
 
 #endif // SYNCSERVICEDROPBOX_H

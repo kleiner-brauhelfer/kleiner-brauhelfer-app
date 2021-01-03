@@ -3,6 +3,7 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 import QtGraphicalEffects 1.0
 import Qt.labs.platform 1.1
+import QtQuick.Dialogs 1.3
 
 import "../common"
 import qmlutils 1.0
@@ -21,6 +22,19 @@ PageBase {
         boundsBehavior: Flickable.OvershootBounds
         onMovementStarted: forceActiveFocus()
         ScrollIndicator.vertical: ScrollIndicator {}
+
+        Connections {
+            target: SyncService
+            function onErrorOccurred(code, msg) {
+                messageDialogError.text = msg
+                messageDialogError.open()
+            }
+        }
+
+        MessageDialog {
+            id: messageDialogError
+            icon: MessageDialog.Warning
+        }
 
         MouseAreaCatcher {
             anchors.fill: parent
@@ -171,7 +185,7 @@ PageBase {
                             }
                             onEditingFinished: {
                                 SyncService.syncServiceDropbox.accessToken = text
-                                if (reconnect)
+                                if (reconnect && SyncService.syncServiceDropbox.filePathServer !== "")
                                     layout.connect()
                                 reconnect = false
                             }
@@ -180,21 +194,24 @@ PageBase {
                             Layout.fillWidth: true
                             text: qsTr("Pfad auf dem Server")
                         }
-                        TextFieldBase {
+                        ComboBoxBase {
                             property bool reconnect: false
                             Layout.fillWidth: true
-                            inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase
-                            placeholderText: "/kb_daten.sqlite"
-                            text: SyncService.syncServiceDropbox.filePathServer
-                            selectByMouse: true
-                            onTextChanged: {
+                            Layout.preferredHeight: height
+                            editable: true
+                            model: SyncService.syncServiceDropbox.folderContent
+                            textRole: "display"
+                            Component.onCompleted: editText = SyncService.syncServiceDropbox.filePathServer
+                            onEditTextChanged: {
                                 if (activeFocus)
                                     reconnect = true
                             }
-                            onEditingFinished: {
-                                SyncService.syncServiceDropbox.filePathServer = text
-                                if (reconnect)
+                            onFocusChanged: {
+                                if (reconnect) {
+                                    SyncService.syncServiceDropbox.filePathServer = editText
                                     layout.connect()
+                                    navPane.setFocus()
+                                }
                                 reconnect = false
                             }
                         }

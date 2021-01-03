@@ -90,7 +90,7 @@ signals:
 private slots:
     void authenticationRequired(QNetworkReply *reply, QAuthenticator *authenticator);
     void error(QNetworkReply::NetworkError error);
-    void sslErrors(const QList<QSslError> &errors);
+    void sslErrors(const QList<QSslError>& errors);
 
 private:
     bool downloadFile();

@@ -62,9 +62,12 @@ PageBase {
                     Layout.leftMargin: 8
                     Layout.rightMargin: 8
                     model: [qsTr("Terrill"), qsTr("Terrill Linear"), qsTr("Standard")]
-                    currentIndex: 2
+                    currentIndex: app.settings.refractometerIndex
                     opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
-                    onCurrentIndexChanged: navPane.setFocus()
+                    onCurrentIndexChanged: {
+                        app.settings.refractometerIndex = currentIndex
+                        navPane.setFocus()
+                    }
                 }
             }
 
@@ -139,7 +142,7 @@ PageBase {
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignRight
                     precision: 4
-                    value: BierCalc.brixToDichte(lblSW.value, brixEnd, cbFormel.currentIndex)
+                    value: BierCalc.brixToDichte(lblSW.value, brixEnd, app.settings.refractometerIndex)
                 }
                 LabelUnit {
                     text: qsTr("g/ml")

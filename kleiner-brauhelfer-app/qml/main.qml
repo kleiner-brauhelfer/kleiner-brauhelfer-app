@@ -48,6 +48,7 @@ ApplicationWindow {
         property int uebersichtIndex1: 0
         property int uebersichtIndex2: 1
         property real scalingfactor: 1.0
+        property int refractometerIndex: 2
     }
 
     // scheduler to do stuff in the background, use run() or runExt()
@@ -105,10 +106,13 @@ ApplicationWindow {
                 }
 
                 // check if everything ok
-                if (Brauhelfer.readonly)
+                if (Brauhelfer.readonly) {
                     messageDialogReadonly.open()
-                if (!Brauhelfer.connected)
-                    messageDialogGotoSettings.open()
+                }
+                if (!Brauhelfer.connected) {
+                    if (!pageSettings.visible)
+                        messageDialogGotoSettings.open()
+                }
                 else if (Brauhelfer.databaseVersion < 0) {
                     messageDialogUnsupportedDatabaseVersion.informativeText = qsTr("Die Datenbank ist ungültig.")
                     messageDialogUnsupportedDatabaseVersion.open()
@@ -358,8 +362,8 @@ ApplicationWindow {
     SwipeView {
         id: viewOthers
         visible: false
-        PageSettings {}
-        PageAbout {}
+        PageSettings {id: pageSettings}
+        PageAbout {id: pageAbout}
     }
 
     // main view containing the swipe views

@@ -42,25 +42,27 @@ bool SyncServiceWebDav::downloadFile()
     _AuthenticationGiven = false;
 
     QEventLoop loop;
-    _netReply= _netManager->get(req);
+    _netReply = _netManager->get(req);
     connect(_netReply, SIGNAL(sslErrors(const QList<QSslError>&)), this, SLOT(sslErrors(const QList<QSslError>&)));
-    connect(_netReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error(QNetworkReply::NetworkError)));
-    connect(_netReply, SIGNAL(downloadProgress(qint64,qint64)), this, SIGNAL(progress(qint64,qint64)));
+    connect(_netReply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(error(QNetworkReply::NetworkError)));
     connect(_netReply, SIGNAL(finished()), &loop, SLOT(quit()));
     loop.exec();
 
-    QFile dstFile(getFilePath());
-    QFileInfo finfo(dstFile);
-    QDir dir(finfo.absolutePath());
-    if (!dir.exists())
+    if (_netReply->error() == QNetworkReply::NoError)
     {
-        dir.mkpath(".");
-    }
-    if (dstFile.open(QIODevice::WriteOnly))
-    {
-        if (dstFile.write(_netReply->readAll()) != -1)
-            ret = true;
-        dstFile.close();
+        QFile dstFile(getFilePath());
+        QFileInfo finfo(dstFile);
+        QDir dir(finfo.absolutePath());
+        if (!dir.exists())
+        {
+            dir.mkpath(".");
+        }
+        if (dstFile.open(QIODevice::WriteOnly))
+        {
+            if (dstFile.write(_netReply->readAll()) != -1)
+                ret = true;
+            dstFile.close();
+        }
     }
 
     return ret;
@@ -78,12 +80,14 @@ bool SyncServiceWebDav::uploadFile()
         _AuthenticationGiven = false;
 
         QEventLoop loop;
-        _netReply= _netManager->put(req, srcFile.readAll());
+        _netReply = _netManager->put(req, srcFile.readAll());
         connect(_netReply, SIGNAL(sslErrors(const QList<QSslError>&)), this, SLOT(sslErrors(const QList<QSslError>&)));
-        connect(_netReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error(QNetworkReply::NetworkError)));
-        connect(_netReply, SIGNAL(downloadProgress(qint64,qint64)), this, SIGNAL(progress(qint64,qint64)));
+        connect(_netReply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(error(QNetworkReply::NetworkError)));
         connect(_netReply, SIGNAL(finished()), &loop, SLOT(quit()));
         loop.exec();
+
+        if (_netReply->error() == QNetworkReply::NoError)
+            ret = true;
 
         srcFile.close();
     }
@@ -92,7 +96,7 @@ bool SyncServiceWebDav::uploadFile()
 
 void SyncServiceWebDav::error(QNetworkReply::NetworkError error)
 {
-    emit errorOccurred((int)error, "");
+    emit errorOccurred((int)error, _netReply->errorString());
 }
 
 void SyncServiceWebDav::sslErrors(const QList<QSslError> &errors)
@@ -109,65 +113,55 @@ bool SyncServiceWebDav::synchronize(SyncDirection direction)
         return false;
     }
 
-    checkIfServiceAvailable();
-
-    if (isServiceAvailable())
+    if (QFile::exists(getFilePath()))
     {
-        if (QFile::exists(getFilePath()))
+        if (direction == SyncDirection::Download)
         {
-            if (direction == SyncDirection::Download)
+            if (downloadFile())
             {
-                if (downloadFile())
-                {
-                    setState(SyncState::Updated);
-                    return true;
-                }
-                else
-                {
-                    setState(SyncState::Failed);
-                    return false;
-                }
+                setState(SyncState::Updated);
+                return true;
             }
             else
             {
-                if (uploadFile())
-                {
-                    setState( SyncState::Updated);
-                    return true;
-                }
-                else
-                {
-                    setState(SyncState::Failed);
-                    return false;
-                }
+                setState(SyncState::Failed);
+                return false;
             }
         }
         else
         {
-            if (direction == SyncDirection::Download)
+            if (uploadFile())
             {
-                if (downloadFile())
-                {
-                    setState(SyncState::Updated);
-                    return true;
-                }
-                else
-                {
-                    setState(SyncState::Failed);
-                    return false;
-                }
+                setState( SyncState::Updated);
+                return true;
             }
             else
             {
-                setState(SyncState::NotFound);
+                setState(SyncState::Failed);
                 return false;
             }
         }
     }
     else
     {
-        setState(SyncState::Offline);
-        return false;
+        if (direction == SyncDirection::Download)
+        {
+            if (downloadFile())
+            {
+                setState(SyncState::Updated);
+                return true;
+            }
+            else
+            {
+                setState(SyncState::Failed);
+                return false;
+            }
+        }
+        else
+        {
+            setState(SyncState::NotFound);
+            return false;
+        }
     }
 }
 

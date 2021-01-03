@@ -1,9 +1,7 @@
 #include "syncservicemanager.h"
 
 #include "syncservicelocal.h"
-#if DROPBOX_EN
-  #include "syncservicedropbox.h"
-#endif
+#include "syncservicedropbox.h"
 #include "syncservicewebdav.h"
 
 bool SyncServiceManager::supportsSsl()
@@ -26,17 +24,12 @@ SyncServiceManager::SyncServiceManager(QSettings *settings, QObject *parent) :
     mSettings(settings)
 {
     mSyncServiceLocal = new SyncServiceLocal(mSettings);
-    connect(mSyncServiceLocal, SIGNAL(progress(qint64,qint64)), this, SIGNAL(progress(qint64,qint64)));
     connect(mSyncServiceLocal, SIGNAL(errorOccurred(int,const QString&)), this, SIGNAL(errorOccurred(int,const QString&)));
     mServices.append(mSyncServiceLocal);
-  #if DROPBOX_EN
     mSyncServiceDropbox = new SyncServiceDropbox(mSettings);
-    connect(mSyncServiceDropbox, SIGNAL(progress(qint64,qint64)), this, SIGNAL(progress(qint64,qint64)));
     connect(mSyncServiceDropbox, SIGNAL(errorOccurred(int,const QString&)), this, SIGNAL(errorOccurred(int,const QString&)));
     mServices.append(mSyncServiceDropbox);
-  #endif
     mSyncServiceWebDav = new SyncServiceWebDav(mSettings);
-    connect(mSyncServiceWebDav, SIGNAL(progress(qint64,qint64)), this, SIGNAL(progress(qint64,qint64)));
     connect(mSyncServiceWebDav, SIGNAL(errorOccurred(int,const QString&)), this, SIGNAL(errorOccurred(int,const QString&)));
     mServices.append(mSyncServiceWebDav);
     setServiceId((SyncServiceId)mSettings->value("SyncService/Id", 0).toInt());
@@ -76,11 +69,6 @@ void SyncServiceManager::setServiceId(SyncServiceId id)
         emit serviceIdChanged(serviceId());
         emit serviceChanged(service());
     }
-}
-
-bool SyncServiceManager::serviceAvailable() const
-{
-    return service()->isServiceAvailable();
 }
 
 QString SyncServiceManager::filePath() const

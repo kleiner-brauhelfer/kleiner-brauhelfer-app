@@ -6,7 +6,7 @@ ORGANIZATION = kleiner-brauhelfer
 TARGET = kleiner-brauhelfer-app
 VER_MAJ = 2
 VER_MIN = 2
-VER_PAT = 1
+VER_PAT = 2
 VERSION = $$sprintf("%1.%2.%3",$$VER_MAJ,$$VER_MIN,$$VER_PAT)
 DEFINES += ORGANIZATION=\\\"$$ORGANIZATION\\\" TARGET=\\\"$$TARGET\\\" VERSION=\\\"$$VERSION\\\"
 DEFINES += VER_MAJ=\"$$VER_MAJ\" VER_MIN=\"$$VER_MIN\" VER_PAT=\"$$VER_PAT\"
@@ -22,16 +22,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += warn_on
 
 !android: DESTDIR = $$OUT_PWD/..
-
-# enable / disable dropbox support
-CONFIG += dropbox_en
-dropbox_en {
-    !android: LIBS += -L$$OUT_PWD/../ -lqtdropbox2
-    android: LIBS += -L$$OUT_PWD/../qtdropbox2/ -lqtdropbox2_$${QT_ARCH}
-    INCLUDEPATH += $$PWD/../qtdropbox2/src
-    DEPENDPATH += $$PWD/../qtdropbox2/src
-    DEFINES += DROPBOX_EN=1
-}
 
 # default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

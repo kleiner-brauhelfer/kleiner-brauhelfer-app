@@ -11,7 +11,6 @@ class SyncService : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(bool serviceAvailable READ isServiceAvailable NOTIFY serviceAvailableChanged)
     Q_PROPERTY(QString filePath READ getFilePath NOTIFY filePathChanged)
     Q_PROPERTY(SyncState state READ getState NOTIFY stateChanged)
 
@@ -52,18 +51,6 @@ public:
     virtual ~SyncService();
 
     /**
-     * @brief Checks if the synchronization server is available
-     * @return True if available
-     */
-    Q_INVOKABLE bool checkIfServiceAvailable();
-
-    /**
-     * @brief State of the synchronization server availability
-     * @return True if available
-     */
-    bool isServiceAvailable() const;
-
-    /**
      * @brief Gets the path to the local file
      * @return Path
      */
@@ -92,24 +79,11 @@ public:
 signals:
 
     /**
-     * @brief Download or upload progress
-     * @param current Current number of bytes transferred
-     * @param total Total number of bytes to transfer
-     */
-    void progress(qint64 current, qint64 total);
-
-    /**
      * @brief Emitted when an error occurred
      * @param errorcode Error code
      * @param errormessage Error message
      */
     void errorOccurred(int errorcode, const QString& errormessage);
-
-    /**
-     * @brief Signal when the service availability changed
-     * @param serviceAvailable Service availability
-     */
-    void serviceAvailableChanged(bool serviceAvailable);
 
     /**
      * @brief Signal when the file path changed
@@ -121,7 +95,7 @@ signals:
      * @brief Signal when the state changed
      * @param state State
      */
-    void stateChanged(SyncState state);
+    void stateChanged(SyncService::SyncState state);
 
 protected:
 
@@ -148,7 +122,6 @@ protected:
     QString _urlServerCheck;
 
 private:
-    bool _online;
     QString _filePath;
     SyncState _state;
 };

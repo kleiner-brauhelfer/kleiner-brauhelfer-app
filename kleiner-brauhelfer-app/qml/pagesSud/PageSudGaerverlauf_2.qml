@@ -331,6 +331,24 @@ PageBase {
                         source: "qrc:/images/refractometer.png"
                     }
 
+                    ComboBoxBase {
+                        Layout.columnSpan: 2
+                        Layout.fillWidth: true
+                        Layout.leftMargin: 8
+                        Layout.rightMargin: 8
+                        model: [qsTr("Terrill"), qsTr("Terrill Linear"), qsTr("Standard")]
+                        currentIndex: app.settings.refractometerIndex
+                        opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
+                        onCurrentIndexChanged: {
+                            app.settings.refractometerIndex = currentIndex
+                            navPane.setFocus()
+                        }
+                    }
+
+                    Label {
+                        text: ""
+                    }
+
                     TextFieldPlato {
                         id: tfBrix
                         Layout.alignment: Qt.AlignHCenter
@@ -339,7 +357,7 @@ PageBase {
                             this.value = value
                             var brix = value
                             if (!isNaN(brix)) {
-                                var density = BierCalc.brixToDichte(Brauhelfer.sud.SWIst, brix, BierCalc.Standard)
+                                var density = BierCalc.brixToDichte(Brauhelfer.sud.SWIst, brix, app.settings.refractometerIndex)
                                 var sre = BierCalc.dichteToPlato(density)
                                 tfDensity.value = density
                                 model.Restextrakt = sre

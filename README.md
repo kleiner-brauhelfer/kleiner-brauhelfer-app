@@ -6,10 +6,18 @@ Die kleiner-brauhelfer-app ist eine App, welche die Software [kleiner-brauhelfer
 https://hobbybrauer.de/forum/viewtopic.php?f=3&t=17466
 
 ## Download letzte Version
-- [Version 2.2.0](https://github.com/kleiner-brauhelfer/kleiner-brauhelfer-app/releases/latest) passend zum [kleinen-brauhelfer-2](https://github.com/kleiner-brauhelfer/kleiner-brauhelfer-2)
+- [Version 2.2.2](https://github.com/kleiner-brauhelfer/kleiner-brauhelfer-app/releases/latest) passend zum [kleinen-brauhelfer-2](https://github.com/kleiner-brauhelfer/kleiner-brauhelfer-2)
 - [Version 1.0.0](https://github.com/kleiner-brauhelfer/kleiner-brauhelfer-app/releases/tag/v1.0.0) passend zum [kleinen-brauhelfer bis 1.4.4.6](https://github.com/Gremmel/kleiner-brauhelfer)
 
 ## Änderungen & Erweiterungen
+
+### Version 2.2.2 (03.01.2021)
+- Neu: Kompatibel zum kleiner-brauhelfer-2 v2.2.2
+- Neu: Vereinfachte Konfiguration für Dropbox
+
+### Version 2.2.1 (20.10.2020)
+- Neu: Skalierungsfaktor (noch nicht durchgehend umgesetzt)
+- Fix: Dropbox
 
 ### Version 2.2.0 (18.07.2020)
 - Neu: Kompatibel zum kleiner-brauhelfer-2 v2.2.0
