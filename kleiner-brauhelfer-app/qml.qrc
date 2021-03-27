@@ -19,6 +19,7 @@
         <file>qml/pagesSud/PageSudHome.qml</file>
         <file>qml/pagesSud/PageSudAbfuellen.qml</file>
         <file>qml/pagesSud/PageSudBrauen.qml</file>
+        <file>qml/pagesSud/PageSudGaerung.qml</file>
         <file>qml/pagesSud/PageSudGaerverlauf_1.qml</file>
         <file>qml/pagesSud/PageSudGaerverlauf_2.qml</file>
         <file>qml/pagesSud/PageSudGaerverlauf_3.qml</file>

@@ -1,7 +1,5 @@
 #include "modelsud.h"
 #include "brauhelfer.h"
-#include "modelausruestung.h"
-#include "modelnachgaerverlauf.h"
 #include <math.h>
 #include <qmath.h>
 
@@ -56,12 +54,9 @@ ModelSud::ModelSud(Brauhelfer *bh, QSqlDatabase db) :
     mVirtualField.append("PhMalz");
     mVirtualField.append("PhMaische");
     mVirtualField.append("PhMaischeSoll");
-    mVirtualField.append("AnlageVerdampfungsrate");
-    mVirtualField.append("AnlageSudhausausbeute");
     mVirtualField.append("FaktorHauptgussEmpfehlung");
     mVirtualField.append("WHauptgussEmpfehlung");
     mVirtualField.append("BewertungMittel");
-    mVirtualField.append("TemperaturKarbonisierung");
 }
 
 void ModelSud::createConnections()
@@ -156,6 +151,10 @@ QVariant ModelSud::dataExt(const QModelIndex &idx) const
         return QDateTime::fromString(QSqlTableModel::data(idx).toString(), Qt::ISODate);
     }
     case ColGespeichert:
+    {
+        return QDateTime::fromString(QSqlTableModel::data(idx).toString(), Qt::ISODate);
+    }
+    case ColReifungStart:
     {
         return QDateTime::fromString(QSqlTableModel::data(idx).toString(), Qt::ISODate);
     }
@@ -282,9 +281,7 @@ QVariant ModelSud::dataExt(const QModelIndex &idx) const
         Brauhelfer::SudStatus status = static_cast<Brauhelfer::SudStatus>(data(idx.row(), ColStatus).toInt());
         if (status >= Brauhelfer::SudStatus::Abgefuellt)
         {
-            QDateTime dt = bh->modelNachgaerverlauf()->getLastDateTime(data(idx.row(), ColID).toInt());
-            if (!dt.isValid())
-                dt = data(idx.row(), ColAbfuelldatum).toDateTime();
+            QDateTime dt = data(idx.row(), ColReifungStart).toDateTime();
             if (dt.isValid())
                 return dt.daysTo(QDateTime::currentDateTime()) / 7 + 1;
         }
@@ -295,9 +292,7 @@ QVariant ModelSud::dataExt(const QModelIndex &idx) const
         Brauhelfer::SudStatus status = static_cast<Brauhelfer::SudStatus>(data(idx.row(), ColStatus).toInt());
         if (status >= Brauhelfer::SudStatus::Abgefuellt)
         {
-            QDateTime dt = bh->modelNachgaerverlauf()->getLastDateTime(data(idx.row(), ColID).toInt());
-            if (!dt.isValid())
-                dt = data(idx.row(), ColAbfuelldatum).toDateTime();
+            QDateTime dt = data(idx.row(), ColReifungStart).toDateTime();
             if (dt.isValid())
             {
                 qint64 tageReifung = dt.daysTo(QDateTime::currentDateTime());
@@ -477,14 +472,6 @@ QVariant ModelSud::dataExt(const QModelIndex &idx) const
         }
         return 0;
     }
-    case ColAnlageVerdampfungsrate:
-    {
-        return dataAnlage(idx.row(), ModelAusruestung::ColVerdampfungsrate);
-    }
-    case ColAnlageSudhausausbeute:
-    {
-        return dataAnlage(idx.row(), ModelAusruestung::ColSudhausausbeute);
-    }
     case ColFaktorHauptgussEmpfehlung:
     {
         double ebc = data(idx.row(), Colerg_Farbe).toDouble();
@@ -505,10 +492,6 @@ QVariant ModelSud::dataExt(const QModelIndex &idx) const
         default:
             return data(idx.row(), Colerg_S_Gesamt).toDouble() * data(idx.row(), ColFaktorHauptguss).toDouble();
         }
-    }
-    case ColTemperaturKarbonisierung:
-    {
-        return temperaturKarbonisierung;
     }
     case ColBewertungMittel:
     {
@@ -545,6 +528,10 @@ bool ModelSud::setDataExt_impl(const QModelIndex &idx, const QVariant &value)
         return QSqlTableModel::setData(idx, value.toDateTime().toString(Qt::ISODate));
     }
     case ColGespeichert:
+    {
+        return QSqlTableModel::setData(idx, value.toDateTime().toString(Qt::ISODate));
+    }
+    case ColReifungStart:
     {
         return QSqlTableModel::setData(idx, value.toDateTime().toString(Qt::ISODate));
     }
@@ -715,11 +702,6 @@ bool ModelSud::setDataExt_impl(const QModelIndex &idx, const QVariant &value)
         }
         return true;
     }
-    case ColTemperaturKarbonisierung:
-    {
-        temperaturKarbonisierung = value.toDouble();
-        return true;
-    }
     default:
         return QSqlTableModel::setData(idx, value);
     }
@@ -731,7 +713,6 @@ Qt::ItemFlags ModelSud::flags(const QModelIndex &idx) const
     switch (idx.column())
     {
     case ColWuerzemengeAnstellenTotal:
-    case ColTemperaturKarbonisierung:
         itemFlags |= Qt::ItemIsEditable;
         break;
     }
@@ -1120,6 +1101,10 @@ void ModelSud::defaultValues(QMap<int, QVariant> &values) const
         values.insert(ColTemperaturJungbier, 12.0);
     if (!values.contains(ColTemperaturKarbonisierung))
         values.insert(ColTemperaturKarbonisierung, 12.0);
+    if (!values.contains(ColSudhausausbeute))
+        values.insert(ColSudhausausbeute, 60.0);
+    if (!values.contains(ColVerdampfungsrate))
+        values.insert(ColVerdampfungsrate, 2.0);
     if (!values.contains(ColStatus))
         values.insert(ColStatus, static_cast<int>(Brauhelfer::SudStatus::Rezept));
 }

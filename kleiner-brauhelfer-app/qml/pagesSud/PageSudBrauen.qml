@@ -556,7 +556,7 @@ PageBase {
                         delegate: RowLayout {
                             Layout.leftMargin: 8
                             spacing: 16
-                            visible: model.Vorderwuerze
+                            visible: model.Vorderwuerze === Brauhelfer.HopfenZeitpunkt.Vorderwuerze
                             LabelPrim {
                                 Layout.fillWidth: true
                                 text: model.Name + " (" + model.Alpha + "%)"
@@ -731,7 +731,7 @@ PageBase {
                         delegate: RowLayout {
                             Layout.leftMargin: 8
                             spacing: 16
-                            visible: !model.Vorderwuerze && model.Zeit > 0
+                            visible: model.Vorderwuerze !== Brauhelfer.HopfenZeitpunkt.Vorderwuerze && model.Zeit > 0
                             LabelPrim {
                                 Layout.fillWidth: true
                                 text: model.Name + " (" + model.Alpha + "%)"
@@ -976,7 +976,7 @@ PageBase {
                             delegate: RowLayout {
                                 Layout.columnSpan: 3
                                 spacing: 16
-                                visible: !model.Vorderwuerze && model.Zeit <= 0
+                                visible: model.Vorderwuerze !== Brauhelfer.HopfenZeitpunkt.Vorderwuerze && model.Zeit <= 0
                                 LabelPrim {
                                     Layout.fillWidth: true
                                     text: model.Name + " (" + model.Alpha + "%)"
@@ -1327,6 +1327,21 @@ PageBase {
                             }
                         }
                     }
+                }
+            }
+
+            GroupBox {
+                Layout.fillWidth: true
+                label: LabelHeader {
+                    text: qsTr("Bemerkung")
+                }
+                TextAreaBase {
+                    anchors.fill: parent
+                    opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
+                    wrapMode: TextArea.Wrap
+                    placeholderText: qsTr("Bemerkung")
+                    text: Brauhelfer.sud.BemerkungBrauen
+                    onTextChanged: if (activeFocus) Brauhelfer.sud.BemerkungBrauen = text
                 }
             }
 

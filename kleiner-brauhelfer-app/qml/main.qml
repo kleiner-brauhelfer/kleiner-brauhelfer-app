@@ -336,6 +336,7 @@ ApplicationWindow {
                 addItem(pageSudGaerverlauf_2)
                 addItem(pageSudAbfuellen)
                 addItem(pageSudGaerverlauf_3)
+                addItem(pageSudGaerung)
                 addItem(pageSudBewertung)
             }
             if (count > 0)
@@ -349,6 +350,7 @@ ApplicationWindow {
     PageSudGaerverlauf_2 { id: pageSudGaerverlauf_2 }
     PageSudAbfuellen { id: pageSudAbfuellen }
     PageSudGaerverlauf_3 { id: pageSudGaerverlauf_3 }
+    PageSudGaerung { id: pageSudGaerung }
     PageSudBewertung { id: pageSudBewertung }
 
     // tools pages

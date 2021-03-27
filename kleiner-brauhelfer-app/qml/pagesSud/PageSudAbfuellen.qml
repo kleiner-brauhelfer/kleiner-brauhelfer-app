@@ -577,6 +577,21 @@ PageBase {
             GroupBox {
                 Layout.fillWidth: true
                 label: LabelHeader {
+                    text: qsTr("Bemerkung")
+                }
+                TextAreaBase {
+                    anchors.fill: parent
+                    opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
+                    wrapMode: TextArea.Wrap
+                    placeholderText: qsTr("Bemerkung")
+                    text: Brauhelfer.sud.BemerkungAbfuellen
+                    onTextChanged: if (activeFocus) Brauhelfer.sud.BemerkungAbfuellen = text
+                }
+            }
+
+            GroupBox {
+                Layout.fillWidth: true
+                label: LabelHeader {
                     text: qsTr("Abschluss")
                 }
                 GridLayout {
