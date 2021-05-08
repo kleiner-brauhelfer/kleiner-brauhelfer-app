@@ -27,10 +27,14 @@ TextFieldBase {
     onActiveFocusChanged: text = activeFocus ? formatedText() : Qt.binding(formatedText)
     text: formatedText()
     onTextChanged: {
-        if (activeFocus && acceptableInput) {
-            var _value = Number.fromLocaleString(Qt.locale(), text)
-            if (value !== _value)
-                newValue(_value)
+        if (activeFocus) {
+            if (Qt.locale().decimalPoint === ",")
+                text = text.replace(".", ",")
+            if (acceptableInput) {
+                var _value = Number.fromLocaleString(Qt.locale(), text)
+                if (value !== _value)
+                    newValue(_value)
+            }
         }
     }
 }
