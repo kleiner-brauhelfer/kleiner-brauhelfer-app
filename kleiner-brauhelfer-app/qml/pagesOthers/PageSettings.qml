@@ -149,7 +149,7 @@ PageBase {
                                     id: openDialog
                                     title: qsTr("Pfad zur Datenbank")
                                     onAccepted: {
-                                        tfDatabasePathLocal.text = Utils.toLocalFile(openDialog.fileUrl)
+                                        tfDatabasePathLocal.text = decodeURIComponent(fileUrl)
                                         SyncService.syncServiceLocal.filePathLocal = tfDatabasePathLocal.text
                                         layout.connect()
                                     }

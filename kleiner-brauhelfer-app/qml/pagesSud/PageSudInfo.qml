@@ -67,6 +67,7 @@ PageBase {
                         Layout.fillWidth: true
                         enabled: !page.readOnly
                         decimals: 0
+                        max: 9999
                         realValue: Brauhelfer.sud.Sudnummer
                         onNewValue: Brauhelfer.sud.Sudnummer = value
                     }
