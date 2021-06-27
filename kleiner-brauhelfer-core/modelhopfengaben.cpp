@@ -8,8 +8,8 @@ ModelHopfengaben::ModelHopfengaben(Brauhelfer* bh, QSqlDatabase db) :
 {
     mVirtualField.append("IBUAnteil");
     mVirtualField.append("Ausbeute");
-    connect(bh->modelSud(), SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&, const QVector<int>&)),
-            this, SLOT(onSudDataChanged(const QModelIndex&)));
+    connect(bh->modelSud(), SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)),
+            this, SLOT(onSudDataChanged(QModelIndex)));
 }
 
 QVariant ModelHopfengaben::dataExt(const QModelIndex &idx) const
@@ -219,7 +219,10 @@ bool ModelHopfengaben::setDataExt(const QModelIndex &idx, const QVariant &value)
                 dauer = bh->modelSud()->dataSud(data(idx.row(), ColSudID), ModelSud::ColKochdauer).toInt();
                 break;
             case Brauhelfer::HopfenZeitpunkt::Kochende:
+                dauer = 0;
+                break;
             case Brauhelfer::HopfenZeitpunkt::Ausschlagen:
+                dauer = -bh->modelSud()->dataSud(data(idx.row(), ColSudID), ModelSud::ColNachisomerisierungszeit).toInt();
                 break;
             }
             QSqlTableModel::setData(index(idx.row(), ColZeit), dauer);
