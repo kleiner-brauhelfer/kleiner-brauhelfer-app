@@ -84,6 +84,7 @@ class LIB_EXPORT SudObject : public QObject
     Q_PROPERTY_SUD(QString, BemerkungAbfuellen, toString())
     Q_PROPERTY_SUD(QString, BemerkungGaerung, toString())
     Q_PROPERTY_SUD(QDateTime, ReifungStart, toDateTime())
+    Q_PROPERTY_SUD(double, VerduennungAnstellen, toDouble())
     // virtual fields in table Sud
     Q_PROPERTY_SUD_READONLY(double, MengeSoll, toDouble())
     Q_PROPERTY_SUD_READONLY(double, SWIst, toDouble())
@@ -204,11 +205,25 @@ public:
     QVariant getAnlageData(int col) const;
 
     /**
+     * @brief setAnlageData
+     * @param col
+     * @param value
+     */
+    void setAnlageData(int col, const QVariant &value);
+
+    /**
      * @brief getWasserValue
      * @param col
      * @return
      */
     QVariant getWasserData(int col) const;
+
+    /**
+     * @brief setWasserData
+     * @param col
+     * @param value
+     */
+    void setWasserData(int col, const QVariant &value);
 
     /**
      * @brief Gets the different tables

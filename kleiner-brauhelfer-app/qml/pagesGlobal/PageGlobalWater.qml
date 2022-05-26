@@ -553,6 +553,7 @@ PageBase {
                                         Layout.fillWidth: true
                                         wrapMode: TextArea.Wrap
                                         placeholderText: qsTr("Bemerkung")
+                                        textFormat: Text.RichText
                                         text: model.Bemerkung
                                         onTextChanged: if (activeFocus) model.Bemerkung = text
                                     }

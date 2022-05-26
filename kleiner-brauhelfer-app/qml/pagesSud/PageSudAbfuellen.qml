@@ -584,6 +584,7 @@ PageBase {
                     opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
                     wrapMode: TextArea.Wrap
                     placeholderText: qsTr("Bemerkung")
+                    textFormat: Text.RichText
                     text: Brauhelfer.sud.BemerkungAbfuellen
                     onTextChanged: if (activeFocus) Brauhelfer.sud.BemerkungAbfuellen = text
                 }

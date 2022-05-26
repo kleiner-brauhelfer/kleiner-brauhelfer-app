@@ -948,18 +948,12 @@ PageBase {
                     HorizontalDivider {
                         Layout.fillWidth: true
                     }
-                    LabelPrim {
-                        Layout.fillWidth: true
-                        font.bold: true
-                        text: qsTr("Hopfenseihen")
-                    }
-                    GridLayout {
-                        Layout.leftMargin: 8
-                        columnSpacing: 16
-                        columns: 3
+                    RowLayout {
+                        spacing: 16
                         LabelPrim {
                             Layout.fillWidth: true
                             visible: Brauhelfer.sud.Nachisomerisierungszeit > 0.0
+                            font.bold: true
                             text: qsTr("Nachisomerisierung")
                         }
                         LabelNumber {
@@ -971,53 +965,41 @@ PageBase {
                             visible: Brauhelfer.sud.Nachisomerisierungszeit > 0.0
                             text: qsTr("min")
                         }
-                        Repeater {
-                            model: Brauhelfer.sud.modelHopfengaben
-                            delegate: RowLayout {
-                                Layout.columnSpan: 3
-                                spacing: 16
-                                visible: model.Vorderwuerze !== Brauhelfer.HopfenZeitpunkt.Vorderwuerze && model.Zeit <= 0
-                                LabelPrim {
-                                    Layout.fillWidth: true
-                                    text: model.Name + " (" + model.Alpha + "%)"
-                                }
-                                LabelNumber {
-                                    value: model.erg_Menge
-                                }
-                                LabelUnit {
-                                    text: qsTr("g")
-                                }
-                                LabelNumber {
-                                    precision: 0
-                                    value: -model.Zeit
-                                }
-                                LabelUnit {
-                                    text: qsTr("min")
-                                }
+                    }
+                    HorizontalDivider {
+                        Layout.fillWidth: true
+                        visible: repeaterHopfengabenAusschlagen.count > 0
+                    }
+                    LabelPrim {
+                        Layout.fillWidth: true
+                        visible: repeaterHopfengabenAusschlagen.count > 0
+                        font.bold: true
+                        text: qsTr("Hopfen Ausschlagen")
+                    }
+                    Repeater {
+                        id: repeaterHopfengabenAusschlagen
+                        model: Brauhelfer.sud.modelHopfengaben
+                        delegate: RowLayout {
+                            Layout.leftMargin: 8
+                            spacing: 16
+                            visible: model.Vorderwuerze !== Brauhelfer.HopfenZeitpunkt.Vorderwuerze && model.Zeit <= 0
+                            LabelPrim {
+                                Layout.fillWidth: true
+                                text: model.Name + " (" + model.Alpha + "%)"
                             }
-                        }
-                        LabelPrim {
-                            Layout.fillWidth: true
-                            text: qsTr("Würzemenge nach Hopfenseihen bei 20°C")
-                        }
-                        TextFieldVolume {
-                            enabled: !page.readOnly
-                            useDialog: true
-                            value: Brauhelfer.sud.WuerzemengeKochende
-                            onNewValue: Brauhelfer.sud.WuerzemengeKochende = value
-                        }
-                        LabelUnit {
-                            text: qsTr("l")
-                        }
-                        LabelPrim {
-                            Layout.fillWidth: true
-                            text: qsTr("Verlust")
-                        }
-                        LabelNumber {
-                            value: Brauhelfer.sud.WuerzemengeVorHopfenseihen - Brauhelfer.sud.WuerzemengeKochende
-                        }
-                        LabelUnit {
-                            text: qsTr("l")
+                            LabelNumber {
+                                value: model.erg_Menge
+                            }
+                            LabelUnit {
+                                text: qsTr("g")
+                            }
+                            LabelNumber {
+                                precision: 0
+                                value: -model.Zeit
+                            }
+                            LabelUnit {
+                                text: qsTr("min")
+                            }
                         }
                     }
                 }
@@ -1155,10 +1137,43 @@ PageBase {
                         columnSpacing: 16
                         LabelPrim {
                             Layout.fillWidth: true
-                            text: qsTr("Würzemenge")
+                            text: qsTr("Würzemenge nach Hopfenseihen")
                         }
                         TextFieldVolume {
-                            id: tfWuerzemenge
+                            enabled: !page.readOnly
+                            value: Brauhelfer.sud.WuerzemengeKochende
+                            onNewValue: Brauhelfer.sud.WuerzemengeKochende = value
+                        }
+                        LabelUnit {
+                            text: qsTr("l")
+                        }
+                        LabelPrim {
+                            Layout.fillWidth: true
+                            text: qsTr("Verlust")
+                        }
+                        LabelNumber {
+                            value: Brauhelfer.sud.WuerzemengeVorHopfenseihen - Brauhelfer.sud.WuerzemengeKochende
+                        }
+                        LabelUnit {
+                            text: qsTr("l")
+                        }
+                        LabelPrim {
+                            Layout.fillWidth: true
+                            text: qsTr("Wassermenge für Verdünnung")
+                        }
+                        TextFieldVolume {
+                            enabled: !page.readOnly
+                            value: Brauhelfer.sud.VerduennungAnstellen
+                            onNewValue: Brauhelfer.sud.VerduennungAnstellen = value
+                        }
+                        LabelUnit {
+                            text: qsTr("l")
+                        }
+                        LabelPrim {
+                            Layout.fillWidth: true
+                            text: qsTr("Gesamtwürzemenge")
+                        }
+                        TextFieldVolume {
                             enabled: !page.readOnly
                             value: Brauhelfer.sud.WuerzemengeAnstellenTotal
                             onNewValue: Brauhelfer.sud.WuerzemengeAnstellenTotal = value
@@ -1340,6 +1355,7 @@ PageBase {
                     opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
                     wrapMode: TextArea.Wrap
                     placeholderText: qsTr("Bemerkung")
+                    textFormat: Text.RichText
                     text: Brauhelfer.sud.BemerkungBrauen
                     onTextChanged: if (activeFocus) Brauhelfer.sud.BemerkungBrauen = text
                 }

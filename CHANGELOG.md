@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 2.4.0 (25.05.2022)
+- Neu: Kompatibel zum kleiner-brauhelfer-2 v2.4.0
+
 ## Version 2.3.0 (25.03.2021)
 - Neu: Kompatibel zum kleiner-brauhelfer-2 v2.3.0
 

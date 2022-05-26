@@ -74,8 +74,6 @@ void ModelSud::createConnections()
             this, SLOT(onOtherModelRowChanged(QModelIndex)));
     connect(bh->modelAusruestung(), SIGNAL(rowChanged(QModelIndex)),
             this, SLOT(onAnlageRowChanged(QModelIndex)));
-    connect(bh->modelWasser(), SIGNAL(rowChanged(QModelIndex)),
-            this, SLOT(onWasserRowChanged(QModelIndex)));
 }
 
 void ModelSud::onModelReset()
@@ -106,8 +104,12 @@ void ModelSud::onOtherModelRowChanged(const QModelIndex &idx)
 
 void ModelSud::onAnlageRowChanged(const QModelIndex &idx)
 {
-    const QList<int> ignore = {ModelAusruestung::ColBemerkung};
-    if (ignore.contains(idx.column()))
+    const QList<int> updateList = {ModelAusruestung::ColTyp,
+                                   ModelAusruestung::ColKorrekturWasser,
+                                   ModelAusruestung::ColKorrekturFarbe,
+                                   ModelAusruestung::ColKorrekturMenge,
+                                   ModelAusruestung::ColKosten};
+    if (!updateList.contains(idx.column()))
         return;
     QVariant name = bh->modelAusruestung()->data(idx.row(), ModelAusruestung::ColName);
     for (int row = 0; row < rowCount(); ++row)
@@ -119,19 +121,6 @@ void ModelSud::onAnlageRowChanged(const QModelIndex &idx)
             else
                 update(row);
         }
-    }
-}
-
-void ModelSud::onWasserRowChanged(const QModelIndex &idx)
-{
-    const QList<int> ignore = {ModelWasser::ColBemerkung};
-    if (ignore.contains(idx.column()))
-        return;
-    QVariant name = bh->modelWasser()->data(idx.row(), ModelWasser::ColName);
-    for (int row = 0; row < rowCount(); ++row)
-    {
-        if (data(row, ColWasserprofil) == name)
-            update(row);
     }
 }
 
@@ -590,7 +579,24 @@ bool ModelSud::setDataExt_impl(const QModelIndex &idx, const QVariant &value)
         {
             Brauhelfer::SudStatus status = static_cast<Brauhelfer::SudStatus>(data(idx.row(), ColStatus).toInt());
             if (status == Brauhelfer::SudStatus::Rezept)
-                setData(idx.row(), ColWuerzemengeAnstellenTotal, value);
+            {
+                double v = value.toDouble() + data(idx.row(), ColVerduennungAnstellen).toDouble() - data(idx.row(), ColSpeisemenge).toDouble();
+                setData(idx.row(), ColWuerzemengeAnstellen, v);
+            }
+            return true;
+        }
+        return false;
+    }
+    case ColVerduennungAnstellen:
+    {
+        if (QSqlTableModel::setData(idx, value))
+        {
+            Brauhelfer::SudStatus status = static_cast<Brauhelfer::SudStatus>(data(idx.row(), ColStatus).toInt());
+            if (status == Brauhelfer::SudStatus::Rezept)
+            {
+                double v = value.toDouble() + data(idx.row(), ColWuerzemengeKochende).toDouble() - data(idx.row(), ColSpeisemenge).toDouble();
+                setData(idx.row(), ColWuerzemengeAnstellen, v);
+            }
             return true;
         }
         return false;
@@ -613,7 +619,7 @@ bool ModelSud::setDataExt_impl(const QModelIndex &idx, const QVariant &value)
     }
     case ColSpeisemenge:
     {
-        double v = data(idx.row(), ColWuerzemengeAnstellenTotal).toDouble() - value.toDouble();
+        double v = data(idx.row(), ColWuerzemengeAnstellen).toDouble() + data(idx).toDouble() - value.toDouble();
         if (QSqlTableModel::setData(idx, value))
         {
             Brauhelfer::SudStatus status = static_cast<Brauhelfer::SudStatus>(data(idx.row(), ColStatus).toInt());
@@ -736,9 +742,19 @@ QVariant ModelSud::dataAnlage(int row, int col) const
     return bh->modelAusruestung()->getValueFromSameRow(ModelAusruestung::ColName, data(row, ColAnlage), col);
 }
 
+void ModelSud::setDataAnlage(int row, int col, const QVariant& value)
+{
+    bh->modelAusruestung()->setValueFromSameRow(ModelAusruestung::ColName, data(row, ColAnlage), col, value);
+}
+
 QVariant ModelSud::dataWasser(int row, int col) const
 {
     return bh->modelWasser()->getValueFromSameRow(ModelWasser::ColName, data(row, ColWasserprofil), col);
+}
+
+void ModelSud::setDataWasser(int row, int col, const QVariant& value)
+{
+    bh->modelWasser()->setValueFromSameRow(ModelWasser::ColName, data(row, ColWasserprofil), col, value);
 }
 
 void ModelSud::update(int row, int colChanged)

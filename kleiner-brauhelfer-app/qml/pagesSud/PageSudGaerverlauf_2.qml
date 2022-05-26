@@ -336,7 +336,7 @@ PageBase {
                         Layout.fillWidth: true
                         Layout.leftMargin: 8
                         Layout.rightMargin: 8
-                        model: [qsTr("Terrill"), qsTr("Terrill Linear"), qsTr("Standard")]
+                        model: [qsTr("Terrill"), qsTr("Terrill Linear"), qsTr("Standard"), qsTr("Novotny")]
                         currentIndex: app.settings.refractometerIndex
                         opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
                         onCurrentIndexChanged: {

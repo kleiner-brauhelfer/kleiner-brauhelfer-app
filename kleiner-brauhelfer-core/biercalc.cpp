@@ -3,6 +3,7 @@
 #include <cmath>
 #include <limits>
 
+
 double BierCalc::faktorPlatoToBrix = 1.03;
 
 double BierCalc::brixToPlato(double brix)
@@ -28,6 +29,12 @@ double BierCalc::brixToDichte(double sw, double brix, FormulaBrixToPlato formel)
         return 1.0000 - 0.00085683*sw + 0.0034941*b;
     case Standard:
         return 1.001843-0.002318474*sw - 0.000007775*sw*sw - 0.000000034*sw*sw*sw + 0.00574*brix + 0.00003344*brix*brix + 0.000000086*brix*brix*brix;
+    case Novotny:
+        // http://www.diversity.beer/2017/01/pocitame-nova-korekce-refraktometru.html
+        return (-1 * 0.002349)*sw + 0.006276*b + 1;
+
+        // quadratische Formel, laut Novotny geringfügig genauer, damit aber genauer als die Messungenauigkeit, daher reicht die lineare Formel aus.
+        //return 1.335*pow(10,-5)*pow(sw,2) - 3.239*pow(10,-5)*sw*b + 2.961*pow(10,-5)*pow(b,2) - 2.421*pow(10,-3)*sw + 6.219*pow(10, -3)*b + 1;
     default:
         return 0.0;
     }
@@ -175,12 +182,9 @@ double BierCalc::toSRE(double sw, double tre)
 
 double BierCalc::vergaerungsgrad(double sw, double re)
 {
-    if (sw <= 0.0)
+    if (sw == 0.0)
         return 0.0;
-    double res = (1 - re / sw) * 100;
-    if (res < 0.0)
-        res = 0.0;
-    return res;
+    return (1 - re / sw) * 100;
 }
 
 double BierCalc::sreAusVergaerungsgrad(double sw, double vg)
@@ -226,12 +230,13 @@ double BierCalc::p(double co2, double T)
 double BierCalc::gruenschlauchzeitpunkt(double co2Soll, double sw, double sreSchnellgaerprobe, double T)
 {
     double tre = toTRE(sw, sreSchnellgaerprobe);
+    if (tre < 0.0)
+        tre = 0.0;
     double co2Noetig = co2Soll - co2(0.0, T);
     double extraktCO2 = co2Noetig / (co2Zucker() * 10);
-    double res = toSRE(sw, tre + extraktCO2);
-    if (res < 0.0)
-        res = 0.0;
-    return res;
+    if (extraktCO2 < 0.0)
+        extraktCO2 = 0.0;
+    return toSRE(sw, tre + extraktCO2);
 }
 
 double BierCalc::spundungsdruck(double co2Soll, double T)
