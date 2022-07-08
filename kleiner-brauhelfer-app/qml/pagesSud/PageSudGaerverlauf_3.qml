@@ -57,7 +57,7 @@ PageBase {
             clip: true
             boundsBehavior: Flickable.OvershootBounds
             model: Brauhelfer.sud.modelNachgaerverlauf
-            headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
+            //headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
             Component.onCompleted: if (!readOnly) positionViewAtEnd()
             ScrollIndicator.vertical: ScrollIndicator {}
             header: Rectangle {

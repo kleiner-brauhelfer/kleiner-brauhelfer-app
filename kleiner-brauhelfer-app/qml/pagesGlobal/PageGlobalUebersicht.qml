@@ -83,47 +83,37 @@ PageBase {
             }
         }
 
-        // workaround for clip bug
-        Item {
-            z: 2
+        Chart {
+            id: chart
             Layout.fillWidth: true
             Layout.fillHeight: true
-            Rectangle {
-                anchors.fill: parent
-                color: Material.background
+            timeformat: "MM.yy"
+            title1: item1.text
+            color1: "#741EA6"
+            title2: item2.text
+            color2: "#2E4402"
+            series2.width: 2
+            legend.visible: false
+            VXYModelMapper {
+                model: listView.model
+                series: chart.series1
+                xColumn: listView.model.fieldIndex("Braudatum")
+                yColumn: listView.model.fieldIndex(item1.field)
             }
-
-            Chart {
-                id: chart
-                anchors.fill: parent
-                timeformat: "MM.yy"
-                title1: item1.text
-                color1: "#741EA6"
-                title2: item2.text
-                color2: "#2E4402"
-                series2.width: 2
-                legend.visible: false
-                VXYModelMapper {
-                    model: listView.model
-                    series: chart.series1
-                    xColumn: listView.model.fieldIndex("Braudatum")
-                    yColumn: listView.model.fieldIndex(item1.field)
-                }
-                VXYModelMapper {
-                    model: listView.model
-                    series: chart.series2
-                    xColumn: listView.model.fieldIndex("Braudatum")
-                    yColumn: listView.model.fieldIndex(item2.field)
-                }
-                Component.onCompleted: listView.model.invalidate()
+            VXYModelMapper {
+                model: listView.model
+                series: chart.series2
+                xColumn: listView.model.fieldIndex("Braudatum")
+                yColumn: listView.model.fieldIndex(item2.field)
             }
+            Component.onCompleted: listView.model.invalidate()
         }
 
         ListView {
             id: listView
             Layout.fillWidth: true
             Layout.fillHeight: true
-            //clip: true
+            clip: true
             boundsBehavior: Flickable.OvershootBounds
             model: ProxyModelSud {
                 sourceModel: app.pageGlobalAuswahl.getModel()
@@ -131,7 +121,7 @@ PageBase {
                 sortOrder: Qt.AscendingOrder
                 sortColumn: fieldIndex("Braudatum")
             }
-            headerPositioning: ListView.OverlayHeader
+            //headerPositioning: ListView.OverlayHeader
             ScrollIndicator.vertical: ScrollIndicator {}
             header: Rectangle {
                 property var widthCol1: headerLabel1.width

@@ -24,7 +24,7 @@ PageBase {
             sortColumn: fieldIndex("Name")
             filterKeyColumn: fieldIndex("Name")
         }
-        headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
+        //headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
         ScrollIndicator.vertical: ScrollIndicator {}
         header: Rectangle {
             property var widthCol1: headerLabel1.width

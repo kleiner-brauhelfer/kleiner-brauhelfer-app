@@ -19,7 +19,7 @@ PageBase {
         anchors.fill: parent
         boundsBehavior: Flickable.OvershootBounds
         model: Brauhelfer.modelAusruestung
-        headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
+        //headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
         ScrollIndicator.vertical: ScrollIndicator {}
         header: Rectangle {
             property var widthCol1: headerLabel1.width

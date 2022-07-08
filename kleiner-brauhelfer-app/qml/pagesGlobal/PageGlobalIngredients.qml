@@ -17,29 +17,19 @@ PageBase {
         anchors.fill: parent
         spacing: 0
 
-        // workaround for clip bug
-        Item {
-            z: 2
+        TextFieldBase {
+            id: tfFilter
             Layout.fillWidth: true
             Layout.leftMargin: 8
             Layout.rightMargin: 8
-            height: tfFilter.height
-            Rectangle {
-                anchors.fill: parent
-                color: Material.background
-            }
-            TextFieldBase {
-                id: tfFilter
-                anchors.fill: parent
-                placeholderText: qsTr("Suche")
-                inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhLowercaseOnly
-                onTextChanged: listView.model.setFilterString(text)
-            }
+            placeholderText: qsTr("Suche")
+            inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhLowercaseOnly
+            onTextChanged: listView.model.setFilterString(text)
         }
 
         ListView {
             id: listView
-            //clip: true
+            clip: true
             Layout.fillWidth: true
             Layout.fillHeight: true
             boundsBehavior: Flickable.OvershootBounds
@@ -49,7 +39,7 @@ PageBase {
                 sortColumn: fieldIndex("Name")
                 filter: app.settings.ingredientsFilter
             }
-            headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
+            //headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
             ScrollIndicator.vertical: ScrollIndicator {}
             header: Rectangle {
                 property var widthCol1: headerLabel1.width
