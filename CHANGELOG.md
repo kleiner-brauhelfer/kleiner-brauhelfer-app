@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 2.4.1 (08.07.2022)
+- Fix: Scrollen bei diversen Listen
+
 ## Version 2.4.0 (25.05.2022)
 - Neu: Kompatibel zum kleiner-brauhelfer-2 v2.4.0
 
