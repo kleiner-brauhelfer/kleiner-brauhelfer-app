@@ -127,11 +127,11 @@ signals:
     void serviceChanged(SyncService *service);
 
     /**
-     * @brief Emitted when an error occurred
-     * @param errorcode Error code
-     * @param errormessage Error message
+     * @brief Signal to emit a messsage
+     * @param type Type
+     * @param txt Message
      */
-    void errorOccurred(int errorcode, const QString& errormessage);
+    void message(int type, const QString& txt);
 
     /**
      * @brief Signal when the file path changed

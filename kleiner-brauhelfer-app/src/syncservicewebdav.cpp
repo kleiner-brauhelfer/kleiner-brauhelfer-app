@@ -43,7 +43,7 @@ bool SyncServiceWebDav::downloadFile()
 
     QEventLoop loop;
     _netReply = _netManager->get(req);
-    connect(_netReply, SIGNAL(sslErrors(const QList<QSslError>&)), this, SLOT(sslErrors(const QList<QSslError>&)));
+    connect(_netReply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(sslErrors(QList<QSslError>)));
     connect(_netReply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(error(QNetworkReply::NetworkError)));
     connect(_netReply, SIGNAL(finished()), &loop, SLOT(quit()));
     loop.exec();
@@ -81,7 +81,7 @@ bool SyncServiceWebDav::uploadFile()
 
         QEventLoop loop;
         _netReply = _netManager->put(req, srcFile.readAll());
-        connect(_netReply, SIGNAL(sslErrors(const QList<QSslError>&)), this, SLOT(sslErrors(const QList<QSslError>&)));
+        connect(_netReply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(sslErrors(QList<QSslError>)));
         connect(_netReply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(error(QNetworkReply::NetworkError)));
         connect(_netReply, SIGNAL(finished()), &loop, SLOT(quit()));
         loop.exec();
@@ -96,7 +96,8 @@ bool SyncServiceWebDav::uploadFile()
 
 void SyncServiceWebDav::error(QNetworkReply::NetworkError error)
 {
-    emit errorOccurred((int)error, _netReply->errorString());
+    Q_UNUSED(error)
+    emit message(QtMsgType::QtCriticalMsg, _netReply->errorString());
 }
 
 void SyncServiceWebDav::sslErrors(const QList<QSslError> &errors)

@@ -24,13 +24,13 @@ SyncServiceManager::SyncServiceManager(QSettings *settings, QObject *parent) :
     mSettings(settings)
 {
     mSyncServiceLocal = new SyncServiceLocal(mSettings);
-    connect(mSyncServiceLocal, SIGNAL(errorOccurred(int,const QString&)), this, SIGNAL(errorOccurred(int,const QString&)));
+    connect(mSyncServiceLocal, SIGNAL(message(int,QString)), this, SIGNAL(message(int,QString)));
     mServices.append(mSyncServiceLocal);
     mSyncServiceDropbox = new SyncServiceDropbox(mSettings);
-    connect(mSyncServiceDropbox, SIGNAL(errorOccurred(int,const QString&)), this, SIGNAL(errorOccurred(int,const QString&)));
+    connect(mSyncServiceDropbox, SIGNAL(message(int,QString)), this, SIGNAL(message(int,QString)));
     mServices.append(mSyncServiceDropbox);
     mSyncServiceWebDav = new SyncServiceWebDav(mSettings);
-    connect(mSyncServiceWebDav, SIGNAL(errorOccurred(int,const QString&)), this, SIGNAL(errorOccurred(int,const QString&)));
+    connect(mSyncServiceWebDav, SIGNAL(message(int,QString)), this, SIGNAL(message(int,QString)));
     mServices.append(mSyncServiceWebDav);
     setServiceId((SyncServiceId)mSettings->value("SyncService/Id", 0).toInt());
 }

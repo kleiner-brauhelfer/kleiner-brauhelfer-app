@@ -24,15 +24,26 @@ PageBase {
 
         Connections {
             target: SyncService
-            function onErrorOccurred(code, msg) {
-                messageDialogError.text = msg
-                messageDialogError.open()
+            function onMessage(type, txt) {
+                switch(type) {
+                case 1:
+                    messageDialog.icon = MessageDialog.Warning
+                    break
+                case 2:
+                case 3:
+                    messageDialog.icon = MessageDialog.Critical
+                    break
+                default:
+                    messageDialog.icon = MessageDialog.Information
+
+                }
+                messageDialog.text = txt
+                messageDialog.open()
             }
         }
 
         MessageDialog {
-            id: messageDialogError
-            icon: MessageDialog.Warning
+            id: messageDialog
         }
 
         MouseAreaCatcher {
@@ -53,7 +64,8 @@ PageBase {
                         app.connect()
                     break
                 case SyncService.Dropbox:
-                    if (SyncService.syncServiceDropbox.accessToken !== "" &&
+                    if (SyncService.syncServiceDropbox.appKey !== "" &&
+                        SyncService.syncServiceDropbox.appSecret !== "" &&
                         SyncService.syncServiceDropbox.filePathServer !== "")
                         app.connect()
                     break
@@ -119,7 +131,7 @@ PageBase {
                         RowLayout {
                             Layout.fillWidth: true
                             TextFieldBase {
-                                property bool reconnect: false
+                                property bool wasEdited: false
                                 id: tfDatabasePathLocal
                                 Layout.fillWidth: true
                                 inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase
@@ -128,13 +140,15 @@ PageBase {
                                 selectByMouse: true
                                 onTextChanged: {
                                     if (activeFocus)
-                                        reconnect = true
+                                        wasEdited = true
                                 }
                                 onEditingFinished: {
-                                    SyncService.syncServiceLocal.filePathLocal = text
-                                    if (reconnect)
+                                    if (wasEdited)
+                                    {
+                                        SyncService.syncServiceLocal.filePathLocal = text
                                         layout.connect()
-                                    reconnect = false
+                                        wasEdited = false
+                                    }
                                 }
                             }
                             ToolButton {
@@ -165,54 +179,100 @@ PageBase {
                             Layout.topMargin: 8
                             Layout.bottomMargin: 8
                             font.italic: true
-                            text: qsTr("Benötigt eine Dropbox App.")
+                            text: qsTr("Benötigt eine <a href=\"https://www.dropbox.com/developers/apps\">Dropbox App</a>.")
+                            onLinkActivated: Qt.openUrlExternally(link)
                         }
                         LabelSubheader {
                             Layout.fillWidth: true
-                            text: qsTr("Dropbox Access Token")
+                            text: qsTr("App key")
                         }
                         TextFieldBase {
-                            property bool reconnect: false
+                            property bool wasEdited: false
                             Layout.fillWidth: true
-                            placeholderText: "token"
+                            placeholderText: "App key"
                             inputMethodHints: Qt.ImhNoAutoUppercase
-                            text: SyncService.syncServiceDropbox.accessToken
+                            text: SyncService.syncServiceDropbox.appKey
                             selectByMouse: true
                             onTextChanged: {
                                 if (activeFocus)
-                                    reconnect = true
+                                    wasEdited = true
                             }
                             onEditingFinished: {
-                                SyncService.syncServiceDropbox.accessToken = text
-                                if (reconnect && SyncService.syncServiceDropbox.filePathServer !== "")
-                                    layout.connect()
-                                reconnect = false
+                                if (wasEdited)
+                                {
+                                    SyncService.syncServiceDropbox.appKey = text
+                                    if (SyncService.syncServiceDropbox.appKey !== "" &&
+                                        SyncService.syncServiceDropbox.appSecret !== "" &&
+                                        SyncService.syncServiceDropbox.filePathServer !== "")
+                                    {
+                                        layout.connect()
+                                    }
+                                    wasEdited = false
+                                }
+                            }
+                        }
+                        LabelSubheader {
+                            Layout.fillWidth: true
+                            text: qsTr("App secret")
+                        }
+                        TextFieldBase {
+                            property bool wasEdited: false
+                            Layout.fillWidth: true
+                            placeholderText: "App secret"
+                            inputMethodHints: Qt.ImhNoAutoUppercase
+                            echoMode: TextInput.Password
+                            text: SyncService.syncServiceDropbox.appSecret
+                            selectByMouse: true
+                            onTextChanged: {
+                                if (activeFocus)
+                                    wasEdited = true
+                            }
+                            onEditingFinished: {
+                                if (wasEdited)
+                                {
+                                    SyncService.syncServiceDropbox.appSecret = text
+                                    if (SyncService.syncServiceDropbox.appKey !== "" &&
+                                        SyncService.syncServiceDropbox.appSecret !== "" &&
+                                        SyncService.syncServiceDropbox.filePathServer !== "")
+                                    {
+                                        layout.connect()
+                                    }
+                                    wasEdited = false
+                                }
                             }
                         }
                         LabelSubheader {
                             Layout.fillWidth: true
                             text: qsTr("Pfad auf dem Server")
                         }
-                        ComboBoxBase {
-                            property bool reconnect: false
+                        TextFieldBase {
+                            property bool wasEdited: false
                             Layout.fillWidth: true
-                            Layout.preferredHeight: height
-                            editable: true
-                            model: SyncService.syncServiceDropbox.folderContent
-                            textRole: "display"
-                            Component.onCompleted: editText = SyncService.syncServiceDropbox.filePathServer
-                            onEditTextChanged: {
+                            placeholderText: "/kb_daten.sqlite"
+                            text: SyncService.syncServiceDropbox.filePathServer
+                            selectByMouse: true
+                            onTextChanged: {
                                 if (activeFocus)
-                                    reconnect = true
+                                    wasEdited = true
                             }
-                            onFocusChanged: {
-                                if (reconnect) {
-                                    SyncService.syncServiceDropbox.filePathServer = editText
-                                    layout.connect()
-                                    navPane.setFocus()
+                            onEditingFinished: {
+                                if (wasEdited)
+                                {
+                                    SyncService.syncServiceDropbox.filePathServer = text
+                                    if (SyncService.syncServiceDropbox.appKey !== "" &&
+                                        SyncService.syncServiceDropbox.appSecret !== "" &&
+                                        SyncService.syncServiceDropbox.filePathServer !== "")
+                                    {
+                                        layout.connect()
+                                    }
+                                    wasEdited = false
                                 }
-                                reconnect = false
                             }
+                        }
+                        ButtonBase {
+                            Layout.fillWidth: true
+                            text: qsTr("Zugriff erlauben")
+                            onClicked: SyncService.syncServiceDropbox.grantAccess()
                         }
                     }
                     ColumnLayout {
@@ -230,7 +290,7 @@ PageBase {
                             text: qsTr("URL")
                         }
                         TextFieldBase {
-                            property bool reconnect: false
+                            property bool wasEdited: false
                             Layout.fillWidth: true
                             inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhUrlCharactersOnly
                             placeholderText: "http://server:port/kb_daten.sqlite"
@@ -238,13 +298,15 @@ PageBase {
                             selectByMouse: true
                             onTextChanged: {
                                 if (activeFocus)
-                                    reconnect = true
+                                    wasEdited = true
                             }
                             onEditingFinished: {
-                                SyncService.syncServiceWebDav.filePathServer = text
-                                if (reconnect)
+                                if (wasEdited)
+                                {
+                                    SyncService.syncServiceWebDav.filePathServer = text
                                     layout.connect()
-                                reconnect = false
+                                    wasEdited = false
+                                }
                             }
                         }
                         LabelSubheader {
@@ -252,20 +314,22 @@ PageBase {
                             text: qsTr("Benutzername")
                         }
                         TextFieldBase {
-                            property bool reconnect: false
+                            property bool wasEdited: false
                             Layout.fillWidth: true
                             inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase
                             text: SyncService.syncServiceWebDav.user
                             selectByMouse: true
                             onTextChanged: {
                                 if (activeFocus)
-                                    reconnect = true
+                                    wasEdited = true
                             }
                             onEditingFinished: {
-                                SyncService.syncServiceWebDav.user = text
-                                if (reconnect)
+                                if (wasEdited)
+                                {
+                                    SyncService.syncServiceWebDav.user = text
                                     layout.connect()
-                                reconnect = false
+                                    wasEdited = false
+                                }
                             }
                         }
                         LabelSubheader {
@@ -273,7 +337,7 @@ PageBase {
                             text: qsTr("Passwort")
                         }
                         TextFieldBase {
-                            property bool reconnect: false
+                            property bool wasEdited: false
                             Layout.fillWidth: true
                             inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase
                             text: SyncService.syncServiceWebDav.password
@@ -281,13 +345,15 @@ PageBase {
                             selectByMouse: true
                             onTextChanged: {
                                 if (activeFocus)
-                                    reconnect = true
+                                    wasEdited = true
                             }
                             onEditingFinished: {
-                                SyncService.syncServiceWebDav.password = text
-                                if (reconnect)
+                                if (wasEdited)
+                                {
+                                    SyncService.syncServiceWebDav.password = text
                                     layout.connect()
-                                reconnect = false
+                                    wasEdited = false
+                                }
                             }
                         }
                     }

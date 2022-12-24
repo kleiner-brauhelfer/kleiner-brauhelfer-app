@@ -1,4 +1,4 @@
-QT += core gui widgets qml quick quickcontrols2 charts sql network xml
+QT += core gui widgets qml quick quickcontrols2 charts sql network networkauth xml
 android: QT += androidextras
 
 # organization, application name and version
@@ -6,7 +6,7 @@ ORGANIZATION = kleiner-brauhelfer
 TARGET = kleiner-brauhelfer-app
 VER_MAJ = 2
 VER_MIN = 4
-VER_PAT = 1
+VER_PAT = 2
 VERSION = $$sprintf("%1.%2.%3",$$VER_MAJ,$$VER_MIN,$$VER_PAT)
 DEFINES += ORGANIZATION=\\\"$$ORGANIZATION\\\" TARGET=\\\"$$TARGET\\\" VERSION=\\\"$$VERSION\\\"
 DEFINES += VER_MAJ=\"$$VER_MAJ\" VER_MIN=\"$$VER_MIN\" VER_PAT=\"$$VER_PAT\"

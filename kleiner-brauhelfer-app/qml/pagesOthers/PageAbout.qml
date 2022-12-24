@@ -29,6 +29,12 @@ PageBase {
             LabelPrim {
                 wrapMode: Text.Wrap
                 Layout.fillWidth: true
+                text: Qt.application.name + "\nv" + Qt.application.version
+            }
+
+            LabelPrim {
+                wrapMode: Text.Wrap
+                Layout.fillWidth: true
                 textFormat: Text.RichText
                 text: qsTr("Diese App dient als Ergänzung zum Programm <a href=\"http://kleiner-brauhelfer.github.io\">kleiner-brauhelfer-2</a>.")
                 onLinkActivated: Qt.openUrlExternally(link)

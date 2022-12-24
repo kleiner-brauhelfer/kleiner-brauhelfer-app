@@ -74,16 +74,16 @@ public:
      * @brief Clears the whole cache
      * @note All local files will be deleted
      */
-    Q_INVOKABLE static void clearCache();
+    Q_INVOKABLE void clearCache();
 
 signals:
 
     /**
-     * @brief Emitted when an error occurred
-     * @param errorcode Error code
-     * @param errormessage Error message
+     * @brief Signal to emit a messsage
+     * @param type Type
+     * @param txt Message
      */
-    void errorOccurred(int errorcode, const QString& errormessage);
+    void message(int type, const QString& txt);
 
     /**
      * @brief Signal when the file path changed
@@ -110,6 +110,11 @@ protected:
      * @param state State
      */
     void setState(SyncState state);
+
+    /**
+     * @brief clearCachedSettings
+     */
+    virtual void clearCachedSettings();
 
     /**
      * @brief Gets a path to store a file in the cache

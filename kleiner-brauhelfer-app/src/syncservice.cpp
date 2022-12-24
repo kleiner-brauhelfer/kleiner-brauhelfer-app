@@ -50,6 +50,12 @@ void SyncService::clearCache()
         QDir subDir(cache.absoluteFilePath(dirItem));
         subDir.removeRecursively();
     }
+
+    clearCachedSettings();
+}
+
+void SyncService::clearCachedSettings()
+{
 }
 
 QString SyncService::cacheFilePath(const QString filePath)
