@@ -12,6 +12,7 @@ PageBase {
     id: page
     title: qsTr("Ausrüstung")
     icon: "equipment.png"
+    readOnly: Brauhelfer.readonly || app.settings.readonly
 
     ListView {
         id: listView
@@ -171,6 +172,7 @@ PageBase {
 
                                         Item {
                                             width: btnRemove.width
+                                            visible: !page.readOnly
                                         }
 
                                         Item {
@@ -185,6 +187,7 @@ PageBase {
                                                 horizontalAlignment: Text.AlignHCenter
                                                 MouseArea {
                                                     anchors.fill: parent
+                                                    enabled: !page.readOnly
                                                     onClicked: itName.editing = true
                                                 }
                                             }
@@ -204,6 +207,7 @@ PageBase {
                                         ToolButton {
                                             id: btnRemove
                                             Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                                            visible: !page.readOnly
                                             onClicked: listView.currentItem.remove()
                                             contentItem: Image {
                                                 source: "qrc:/images/ic_delete.png"
@@ -239,6 +243,7 @@ PageBase {
                                                         case Brauhelfer.AnlageTyp.Braumeister1000: return 8;
                                                         case Brauhelfer.AnlageTyp.BrauheldPro30: return 9;
                                                       }
+                                        enabled: !page.readOnly
                                         onActivated: _model.Typ = model.get(currentIndex).value
                                     }
 
@@ -258,6 +263,7 @@ PageBase {
                                             SpinBoxReal {
                                                 decimals: 1
                                                 stepSize: 1
+                                                enabled: !page.readOnly
                                                 realValue: model.Sudhausausbeute
                                                 onNewValue: model.Sudhausausbeute = value
                                             }
@@ -271,6 +277,7 @@ PageBase {
                                             SpinBoxReal {
                                                 decimals: 1
                                                 stepSize: 1
+                                                enabled: !page.readOnly
                                                 realValue: model.Verdampfungsrate
                                                 onNewValue: model.Verdampfungsrate = value
                                             }
@@ -296,6 +303,7 @@ PageBase {
                                             SpinBoxReal {
                                                 decimals: 1
                                                 stepSize: 1
+                                                enabled: !page.readOnly
                                                 realValue: model.KorrekturWasser
                                                 onNewValue: model.KorrekturWasser = value
                                             }
@@ -308,6 +316,7 @@ PageBase {
                                             }
                                             SpinBoxReal {
                                                 decimals: 0
+                                                enabled: !page.readOnly
                                                 realValue: model.KorrekturFarbe
                                                 onNewValue: model.KorrekturFarbe = value
                                             }
@@ -320,6 +329,7 @@ PageBase {
                                             }
                                             SpinBoxReal {
                                                 decimals: 1
+                                                enabled: !page.readOnly
                                                 realValue: model.KorrekturMenge
                                                 onNewValue: model.KorrekturMenge = value
                                             }
@@ -332,6 +342,7 @@ PageBase {
                                             }
                                             SpinBoxReal {
                                                 decimals: 2
+                                                enabled: !page.readOnly
                                                 realValue: model.Kosten
                                                 onNewValue: model.Kosten = value
                                             }
@@ -355,6 +366,7 @@ PageBase {
                                             }
                                             SpinBoxReal {
                                                 decimals: 1
+                                                enabled: !page.readOnly
                                                 realValue: model.Maischebottich_Durchmesser
                                                 onNewValue: model.Maischebottich_Durchmesser = value
                                             }
@@ -371,6 +383,7 @@ PageBase {
                                             }
                                             SpinBoxReal {
                                                 decimals: 1
+                                                enabled: !page.readOnly
                                                 realValue: model.Maischebottich_Hoehe
                                                 onNewValue: model.Maischebottich_Hoehe = value
                                             }
@@ -400,6 +413,7 @@ PageBase {
                                             SpinBoxReal {
                                                 decimals: 1
                                                 max: model.Maischebottich_Hoehe
+                                                enabled: !page.readOnly
                                                 realValue: model.Maischebottich_MaxFuellhoehe
                                                 onNewValue: model.Maischebottich_MaxFuellhoehe = value
                                             }
@@ -435,6 +449,7 @@ PageBase {
                                             }
                                             SpinBoxReal {
                                                 decimals: 1
+                                                enabled: !page.readOnly
                                                 realValue: model.Sudpfanne_Durchmesser
                                                 onNewValue: model.Sudpfanne_Durchmesser = value
                                             }
@@ -451,6 +466,7 @@ PageBase {
                                             }
                                             SpinBoxReal {
                                                 decimals: 1
+                                                enabled: !page.readOnly
                                                 realValue: model.Sudpfanne_Hoehe
                                                 onNewValue: model.Sudpfanne_Hoehe = value
                                             }
@@ -480,6 +496,7 @@ PageBase {
                                             SpinBoxReal {
                                                 decimals: 1
                                                 max: model.Sudpfanne_Hoehe
+                                                enabled: !page.readOnly
                                                 realValue: model.Sudpfanne_MaxFuellhoehe
                                                 onNewValue: model.Sudpfanne_MaxFuellhoehe = value
                                             }
@@ -511,6 +528,7 @@ PageBase {
                                             wrapMode: TextArea.Wrap
                                             placeholderText: qsTr("Bemerkung")
                                             textFormat: Text.RichText
+                                            enabled: !page.readOnly
                                             text: model.Bemerkung
                                             onTextChanged: if (activeFocus) model.Bemerkung = text
                                         }
@@ -535,6 +553,7 @@ PageBase {
                                                     visible: !model.deleted
                                                     TextFieldBase {
                                                         Layout.fillWidth: true
+                                                        enabled: !page.readOnly
                                                         text: model.Bezeichnung
                                                         onTextChanged: if (activeFocus) model.Bezeichnung = text
                                                     }
@@ -545,6 +564,7 @@ PageBase {
                                                             source: "qrc:/images/ic_remove.png"
                                                             anchors.centerIn: parent
                                                         }
+                                                        visible: !page.readOnly
                                                         onClicked: repeater.model.removeRow(index)
                                                     }
                                                 }
@@ -554,6 +574,7 @@ PageBase {
                                                 TextFieldBase {
                                                     id: tfNewGear
                                                     Layout.fillWidth: true
+                                                    enabled: !page.readOnly
                                                     placeholderText: qsTr("Neues Gerät")
                                                 }
                                                 ToolButton {
@@ -568,6 +589,7 @@ PageBase {
                                                         }
                                                     }
                                                     enabled: tfNewGear.text !== ""
+                                                    visible: !page.readOnly
                                                     onClicked: {
                                                         repeater.model.append({"AusruestungAnlagenID": anlagenID, "Bezeichnung": tfNewGear.text})
                                                         tfNewGear.text = ""
@@ -591,6 +613,7 @@ PageBase {
             anchors.bottom: listView.bottom
             anchors.bottomMargin: 8
             imageSource: "qrc:/images/ic_add_white.png"
+            visible: !page.readOnly
             onClicked: {
                 listView.model.append()
                 listView.currentIndex = listView.count - 1

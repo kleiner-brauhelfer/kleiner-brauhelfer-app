@@ -49,6 +49,7 @@ ApplicationWindow {
         property int uebersichtIndex2: 1
         property real scalingfactor: 1.0
         property int refractometerIndex: 2
+        property bool readonly: false
     }
 
     // scheduler to do stuff in the background, use run() or runExt()

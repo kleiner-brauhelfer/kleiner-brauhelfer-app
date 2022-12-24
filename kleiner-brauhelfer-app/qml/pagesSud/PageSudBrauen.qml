@@ -13,7 +13,7 @@ PageBase {
     id: page
     title: qsTr("Brauen")
     icon: "brauen.png"
-    readOnly: Brauhelfer.readonly || (Brauhelfer.sud.Status > Brauhelfer.Rezept && !app.brewForceEditable)
+    readOnly: Brauhelfer.readonly || app.settings.readonly || (Brauhelfer.sud.Status > Brauhelfer.Rezept && !app.brewForceEditable)
 
     Flickable {
         anchors.fill: parent

@@ -12,7 +12,7 @@ PageBase {
     id: page
     title: qsTr("Gärung")
     icon: "gaerung.png"
-    readOnly: Brauhelfer.readonly || (Brauhelfer.sud.Status !== Brauhelfer.Abgefuellt && !app.brewForceEditable)
+    readOnly: Brauhelfer.readonly || app.settings.readonly || (Brauhelfer.sud.Status !== Brauhelfer.Abgefuellt && !app.brewForceEditable)
 
     Flickable {
         anchors.fill: parent
@@ -63,7 +63,7 @@ PageBase {
                         id: tfAbfuelldatum
                         Layout.columnSpan: 2
                         Layout.fillWidth: true
-                        enabled: !(Brauhelfer.readonly || (Brauhelfer.sud.Status !== Brauhelfer.Abgefuellt && !app.brewForceEditable))
+                        enabled: !(Brauhelfer.readonly || app.settings.readonly || (Brauhelfer.sud.Status !== Brauhelfer.Abgefuellt && !app.brewForceEditable))
                         date: Brauhelfer.sud.ReifungStart
                         onNewDate: {
                             Brauhelfer.sud.ReifungStart = date

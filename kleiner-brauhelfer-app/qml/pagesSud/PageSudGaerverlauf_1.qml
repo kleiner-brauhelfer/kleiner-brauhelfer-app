@@ -12,7 +12,7 @@ PageBase {
     id: page
     title: qsTr("Schnellgärung")
     icon: "schnellgaerverlauf.png"
-    readOnly: Brauhelfer.readonly || (Brauhelfer.sud.Status !== Brauhelfer.Gebraut && !app.brewForceEditable)
+    readOnly: Brauhelfer.readonly || app.settings.readonly || (Brauhelfer.sud.Status !== Brauhelfer.Gebraut && !app.brewForceEditable)
 
     ColumnLayout {
         property alias listView: listView

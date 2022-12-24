@@ -357,6 +357,12 @@ PageBase {
                             }
                         }
                     }
+                    CheckBoxBase {
+                        Layout.fillWidth: true
+                        text: qsTr("Schreibgeschützt")
+                        checked: app.settings.readonly
+                        onClicked: app.settings.readonly = checked
+                    }
                     RowLayout {
                         Layout.fillWidth: true
                         LabelSubheader {

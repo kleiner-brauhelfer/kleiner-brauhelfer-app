@@ -12,7 +12,7 @@ PageBase {
     title: qsTr("Sudinfo")
     icon: "ic_info_outline.png"
     enabled: Brauhelfer.sud.isLoaded
-    readOnly: Brauhelfer.readonly
+    readOnly: Brauhelfer.readonly || app.settings.readonly
 
     Flickable {
         anchors.fill: parent

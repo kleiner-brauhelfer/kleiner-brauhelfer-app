@@ -12,6 +12,7 @@ PageBase {
     id: page
     title: qsTr("Rohstoff Wasser")
     icon: "water.png"
+    readOnly: Brauhelfer.readonly || app.settings.readonly
 
     ListView {
         id: listView
@@ -187,6 +188,7 @@ PageBase {
 
                                         Item {
                                             width: btnRemove.width
+                                            visible: !page.readOnly
                                         }
 
                                         Item {
@@ -201,6 +203,7 @@ PageBase {
                                                 horizontalAlignment: Text.AlignHCenter
                                                 MouseArea {
                                                     anchors.fill: parent
+                                                    enabled: !page.readOnly
                                                     onClicked: itName.editing = true
                                                 }
                                             }
@@ -220,6 +223,7 @@ PageBase {
                                         ToolButton {
                                             id: btnRemove
                                             Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                                            visible: !page.readOnly
                                             onClicked: listView.currentItem.remove()
                                             contentItem: Image {
                                                 source: "qrc:/images/ic_delete.png"
@@ -236,6 +240,7 @@ PageBase {
 
                                     SpinBoxReal {
                                         decimals: 2
+                                        enabled: !page.readOnly
                                         realValue: model.Calcium
                                         onNewValue: model.Calcium = value
                                     }
@@ -252,6 +257,7 @@ PageBase {
 
                                     SpinBoxReal {
                                         decimals: 3
+                                        enabled: !page.readOnly
                                         realValue: model.CalciumMmol
                                         onNewValue: model.CalciumMmol = value
                                     }
@@ -270,6 +276,7 @@ PageBase {
                                         decimals: 2
                                         min: 0
                                         max: 99
+                                        enabled: !page.readOnly
                                         realValue: model.CalciumHaerte
                                         onNewValue: model.CalciumHaerte = value
                                     }
@@ -291,6 +298,7 @@ PageBase {
 
                                     SpinBoxReal {
                                         decimals: 2
+                                        enabled: !page.readOnly
                                         realValue: model.Magnesium
                                         onNewValue: model.Magnesium = value
                                     }
@@ -307,6 +315,7 @@ PageBase {
 
                                     SpinBoxReal {
                                         decimals: 3
+                                        enabled: !page.readOnly
                                         realValue: model.MagnesiumMmol
                                         onNewValue: model.MagnesiumMmol = value
                                     }
@@ -325,6 +334,7 @@ PageBase {
                                         decimals: 2
                                         min: 0
                                         max: 99
+                                        enabled: !page.readOnly
                                         realValue: model.MagnesiumHaerte
                                         onNewValue: model.MagnesiumHaerte = value
                                     }
@@ -346,6 +356,7 @@ PageBase {
 
                                     SpinBoxReal {
                                         decimals: 2
+                                        enabled: !page.readOnly
                                         realValue: model.Hydrogencarbonat
                                         onNewValue: model.Hydrogencarbonat = value
                                     }
@@ -362,6 +373,7 @@ PageBase {
 
                                     SpinBoxReal {
                                         decimals: 3
+                                        enabled: !page.readOnly
                                         realValue: model.HydrogencarbonatMmol
                                         onNewValue: model.HydrogencarbonatMmol = value
                                     }
@@ -380,6 +392,7 @@ PageBase {
                                         decimals: 2
                                         min: 0
                                         max: 99
+                                        enabled: !page.readOnly
                                         realValue: model.CarbonatHaerte
                                         onNewValue: model.CarbonatHaerte = value
                                     }
@@ -401,6 +414,7 @@ PageBase {
 
                                     SpinBoxReal {
                                         decimals: 2
+                                        enabled: !page.readOnly
                                         realValue: model.Sulfat
                                         onNewValue: model.Sulfat = value
                                     }
@@ -417,6 +431,7 @@ PageBase {
 
                                     SpinBoxReal {
                                         decimals: 3
+                                        enabled: !page.readOnly
                                         realValue: model.SulfatMmol
                                         onNewValue: model.SulfatMmol = value
                                     }
@@ -438,6 +453,7 @@ PageBase {
 
                                     SpinBoxReal {
                                         decimals: 2
+                                        enabled: !page.readOnly
                                         realValue: model.Chlorid
                                         onNewValue: model.Chlorid = value
                                     }
@@ -454,6 +470,7 @@ PageBase {
 
                                     SpinBoxReal {
                                         decimals: 3
+                                        enabled: !page.readOnly
                                         realValue: model.ChloridMmol
                                         onNewValue: model.ChloridMmol = value
                                     }
@@ -475,6 +492,7 @@ PageBase {
 
                                     SpinBoxReal {
                                         decimals: 2
+                                        enabled: !page.readOnly
                                         realValue: model.Natrium
                                         onNewValue: model.Natrium = value
                                     }
@@ -491,6 +509,7 @@ PageBase {
 
                                     SpinBoxReal {
                                         decimals: 3
+                                        enabled: !page.readOnly
                                         realValue: model.NatriumMmol
                                         onNewValue: model.NatriumMmol = value
                                     }
@@ -514,6 +533,7 @@ PageBase {
                                         decimals: 2
                                         min: -99
                                         max: 99
+                                        enabled: !page.readOnly
                                         realValue: model.RestalkalitaetAdd
                                         onNewValue: model.RestalkalitaetAdd = value
                                     }
@@ -554,6 +574,7 @@ PageBase {
                                         wrapMode: TextArea.Wrap
                                         placeholderText: qsTr("Bemerkung")
                                         textFormat: Text.RichText
+                                        enabled: !page.readOnly
                                         text: model.Bemerkung
                                         onTextChanged: if (activeFocus) model.Bemerkung = text
                                     }

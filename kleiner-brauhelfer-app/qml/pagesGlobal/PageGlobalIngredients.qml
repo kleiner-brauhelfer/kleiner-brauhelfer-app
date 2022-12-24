@@ -10,8 +10,9 @@ import ProxyModelRohstoff 1.0
 
 PageBase {
     id: page
-    title: qsTr("Rohstoff w. Zutaten")
+    title: qsTr("Rohstoff Zusätze")
     icon: "ingredients.png"
+    readOnly: Brauhelfer.readonly || app.settings.readonly
 
     ColumnLayout {
         anchors.fill: parent
@@ -244,6 +245,7 @@ PageBase {
 
                                             Item {
                                                 width: btnRemove.width
+                                                visible: !page.readOnly
                                             }
 
                                             Item {
@@ -259,6 +261,7 @@ PageBase {
                                                     horizontalAlignment: Text.AlignHCenter
                                                     MouseArea {
                                                         anchors.fill: parent
+                                                        enabled: !page.readOnly
                                                         onClicked: itName.editing = true
                                                     }
                                                 }
@@ -278,6 +281,7 @@ PageBase {
                                             ToolButton {
                                                 id: btnRemove
                                                 Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                                                visible: !page.readOnly
                                                 onClicked: {
                                                     if (model.InGebrauch)
                                                         messageDialogDelete.open()
@@ -299,6 +303,7 @@ PageBase {
 
                                         SpinBoxReal {
                                             decimals: 2
+                                            enabled: !page.readOnly
                                             realValue: model.Menge
                                             onNewValue: model.Menge = value
                                         }
@@ -307,6 +312,7 @@ PageBase {
                                             id: einheiten
                                             Layout.preferredWidth: width
                                             model: app.defs.einheiten
+                                            enabled: !page.readOnly
                                             currentIndex: _model.Einheit
                                             onActivated: _model.Einheit = index
                                         }
@@ -322,6 +328,7 @@ PageBase {
                                             Layout.fillWidth: true
                                             Layout.rightMargin: 4
                                             model: app.defs.zusatzTypname
+                                            enabled: !page.readOnly
                                             currentIndex: _model.Typ
                                             onActivated: _model.Typ = index
                                         }
@@ -336,6 +343,7 @@ PageBase {
                                             min: 0
                                             max: 100
                                             decimals: 0
+                                            enabled: !page.readOnly
                                             realValue: model.Ausbeute
                                             onNewValue: model.Ausbeute = value
                                         }
@@ -352,6 +360,7 @@ PageBase {
 
                                         SpinBoxReal {
                                             decimals: 0
+                                            enabled: !page.readOnly
                                             realValue: model.Farbe
                                             onNewValue: model.Farbe = value
                                         }
@@ -372,6 +381,7 @@ PageBase {
                                             Layout.fillWidth: true
                                             wrapMode: TextArea.Wrap
                                             placeholderText: qsTr("Eigenschaften")
+                                            enabled: !page.readOnly
                                             text: model.Eigenschaften
                                             onTextChanged: if (activeFocus) model.Eigenschaften = text
                                         }
@@ -388,6 +398,7 @@ PageBase {
                                             Layout.fillWidth: true
                                             wrapMode: TextArea.Wrap
                                             placeholderText: qsTr("Bemerkung")
+                                            enabled: !page.readOnly
                                             text: model.Bemerkung
                                             onTextChanged: if (activeFocus) model.Bemerkung = text
                                         }
@@ -404,6 +415,7 @@ PageBase {
                                             Layout.fillWidth: true
                                             wrapMode: TextArea.Wrap
                                             placeholderText: qsTr("Alternativen")
+                                            enabled: !page.readOnly
                                             text: model.Alternativen
                                             onTextChanged: if (activeFocus) model.Alternativen = text
                                         }
@@ -416,6 +428,7 @@ PageBase {
 
                                         SpinBoxReal {
                                             decimals: 2
+                                            enabled: !page.readOnly
                                             realValue: model.Preis
                                             onNewValue: model.Preis = value
                                         }
@@ -434,7 +447,7 @@ PageBase {
                                             Layout.fillWidth: true
                                             Layout.alignment: Qt.AlignHCenter
                                             Layout.columnSpan: 2
-                                            enabled: model.Menge > 0
+                                            enabled: model.Menge > 0 && !page.readOnly
                                             date: model.Eingelagert
                                             onNewDate: model.Eingelagert = date
                                         }
@@ -450,7 +463,7 @@ PageBase {
                                             Layout.fillWidth: true
                                             Layout.alignment: Qt.AlignHCenter
                                             Layout.columnSpan: 2
-                                            enabled: model.Menge > 0
+                                            enabled: model.Menge > 0 && !page.readOnly
                                             date: model.Mindesthaltbar
                                             onNewDate: model.Mindesthaltbar = date
                                             states: State {

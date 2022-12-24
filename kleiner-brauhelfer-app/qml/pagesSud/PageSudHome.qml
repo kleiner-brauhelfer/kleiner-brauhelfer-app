@@ -11,7 +11,6 @@ PageBase {
     title: qsTr("Auswahl")
     icon: "ic_view_module.png"
     enabled: Brauhelfer.sud.isLoaded
-    readOnly: Brauhelfer.readonly
 
     ColumnLayout {
         anchors.fill: parent

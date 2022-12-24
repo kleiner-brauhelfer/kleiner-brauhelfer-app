@@ -12,7 +12,7 @@ PageBase {
     id: page
     title: qsTr("Abfüllen")
     icon: "abfuellen.png"
-    readOnly: Brauhelfer.readonly || (Brauhelfer.sud.Status !== Brauhelfer.Gebraut && !app.brewForceEditable)
+    readOnly: Brauhelfer.readonly || app.settings.readonly || (Brauhelfer.sud.Status !== Brauhelfer.Gebraut && !app.brewForceEditable)
 
     Flickable {
         anchors.fill: parent
