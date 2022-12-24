@@ -485,6 +485,7 @@ PageBase {
                     placeholderText: qsTr("Bemerkung")
                     textFormat: Text.RichText
                     text: Brauhelfer.sud.Kommentar
+                    onLinkActivated: Qt.openUrlExternally(link)
                     onTextChanged: if (activeFocus) Brauhelfer.sud.Kommentar = text
                 }
             }

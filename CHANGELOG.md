@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 2.4.2 (24.12.2022)
+- Neu: Dropbox Synchronisierung überarbeitet (neu über App key und App secret)
+- Neu: Schreibschutzmodus
+- Fix: Links in den Bemerkungsfelder
+
 ## Version 2.4.1 (08.07.2022)
 - Fix: Scrollen bei diversen Listen
 
