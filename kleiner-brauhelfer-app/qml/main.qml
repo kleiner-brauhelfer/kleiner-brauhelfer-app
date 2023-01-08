@@ -1,7 +1,7 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Dialogs 1.3
-import Qt.labs.settings 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Dialogs
+import Qt.labs.settings
 
 import "common"
 import "pagesGlobal"
@@ -236,7 +236,6 @@ ApplicationWindow {
     // message dialog to show readonly message
     MessageDialog {
         id: messageDialogReadonly
-        icon: MessageDialog.Information
         text: qsTr("Synchronisationsdienst ist nicht verfügbar.")
         informativeText: qsTr("Datenbank wird nur lesend geöffnet.")
     }
@@ -244,7 +243,6 @@ ApplicationWindow {
     // message dialog going to the settings
     MessageDialog {
         id: messageDialogGotoSettings
-        icon: MessageDialog.Warning
         text: qsTr("Verbindung mit der Datenbank fehlgeschlagen.")
         informativeText: qsTr("Einstellungen überprüfen.")
         onAccepted: navPane.goSettings()
@@ -253,7 +251,6 @@ ApplicationWindow {
     // message dialog for unsupported database version
     MessageDialog {
         id: messageDialogUnsupportedDatabaseVersion
-        icon: MessageDialog.Warning
         text: qsTr("Diese Datenbank wird nicht unterstüzt.")
         onAccepted: navPane.goSettings()
     }
@@ -261,7 +258,6 @@ ApplicationWindow {
     // message dialog for unsupported database version
     MessageDialog {
         id: messageDialogSslError
-        icon: MessageDialog.Warning
         text: qsTr("SSL nicht unterstüzt")
         informativeText: qsTr("SSL compile time: %1\nSSL run time: %2").arg(SyncService.sslLibraryBuildVersionString()).arg(SyncService.sslLibraryVersionString())
     }
@@ -269,20 +265,26 @@ ApplicationWindow {
     // message dialog to ask for quit
     MessageDialog {
         id: messageDialogQuit
-        icon: MessageDialog.Question
         text: qsTr("Soll das Programm geschlossen werden?")
-        standardButtons: StandardButton.Ok | StandardButton.Cancel
+        buttons: MessageDialog.Ok | MessageDialog.Cancel
         onAccepted: Qt.quit()
     }
 
     // message dialog to ask for save and quit
     MessageDialog {
         id: messageDialogQuitSave
-        icon: MessageDialog.Question
         text: qsTr("Änderungen vor dem Schliessen speichern?")
-        standardButtons: StandardButton.Save | StandardButton.Discard | StandardButton.Cancel
-        onAccepted: app.saveAndQuit()
-        onDiscard: Qt.quit()
+        buttons: MessageDialog.Save | MessageDialog.Discard | MessageDialog.Cancel
+        onButtonClicked: {
+            switch (button) {
+            case MessageDialog.Save:
+                app.saveAndQuit()
+                break;
+            case MessageDialog.Discard:
+                Qt.quit()
+                break;
+            }
+        }
     }
 
     // header
@@ -312,8 +314,8 @@ ApplicationWindow {
         property alias pageGlobalAuswahl: pageGlobalAuswahl
         id: viewGlobal
         visible: false
-        PageGlobalAuswahl { id: pageGlobalAuswahl; onClicked: loadBrew(id) }
-        PageGlobalUebersicht { onClicked: loadBrew(id) }
+        PageGlobalAuswahl { id: pageGlobalAuswahl; onClicked: id => loadBrew(id) }
+        PageGlobalUebersicht { onClicked: id => loadBrew(id) }
         PageGlobalMalt { }
         PageGlobalHops { }
         PageGlobalYeast { }
@@ -328,7 +330,7 @@ ApplicationWindow {
         visible: false
         function build() {
             while (count > 0)
-                removeItem(0)
+                takeItem(0)
             if (Brauhelfer.sud.isLoaded) {
                 addItem(pageSudHome)
                 addItem(pageSudInfo)

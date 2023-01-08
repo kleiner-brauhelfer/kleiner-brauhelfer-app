@@ -1,8 +1,8 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.15
-import QtQuick.Controls.Material 2.15
-import QtQuick.Dialogs 1.3
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Controls.Material
+import QtQuick.Dialogs
 
 import brauhelfer 1.0
 
@@ -110,11 +110,9 @@ PopupBase {
                             MessageDialog {
                                 property var item: null
                                 id: messageDialog
-                                icon: StandardIcon.Question
                                 text: qsTr("Rohstoff vom Bestand abziehen?")
-                                standardButtons: StandardButton.Yes | StandardButton.No
-                                //buttons: MessageDialog.Yes | MessageDialog.No
-                                onYes: Brauhelfer.rohstoffAbziehen(
+                                buttons: MessageDialog.Yes | MessageDialog.No
+                                onAccepted: Brauhelfer.rohstoffAbziehen(
                                            model.Typ === Brauhelfer.ZusatzTyp.Hopfen ? Brauhelfer.RohstoffTyp.Hopfen : Brauhelfer.RohstoffTyp.Zusatz,
                                            model.Name,
                                            model.erg_Menge)

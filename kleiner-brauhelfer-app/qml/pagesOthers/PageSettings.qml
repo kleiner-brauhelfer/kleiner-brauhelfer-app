@@ -1,8 +1,8 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.15
-import QtGraphicalEffects 1.0
-import QtQuick.Dialogs 1.3
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import Qt5Compat.GraphicalEffects
+import QtQuick.Dialogs
 
 import "../common"
 import qmlutils 1.0
@@ -25,18 +25,6 @@ PageBase {
         Connections {
             target: SyncService
             function onMessage(type, txt) {
-                switch(type) {
-                case 1:
-                    messageDialog.icon = MessageDialog.Warning
-                    break
-                case 2:
-                case 3:
-                    messageDialog.icon = MessageDialog.Critical
-                    break
-                default:
-                    messageDialog.icon = MessageDialog.Information
-
-                }
                 messageDialog.text = txt
                 messageDialog.open()
             }

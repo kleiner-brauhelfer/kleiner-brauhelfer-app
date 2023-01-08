@@ -1,10 +1,10 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.15
-import QtQuick.Controls.Material 2.15
-import QtGraphicalEffects 1.0
-import QtCharts 2.2
-import QtQuick.Dialogs 1.3
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Controls.Material
+import Qt5Compat.GraphicalEffects
+import QtCharts
+import QtQuick.Dialogs
 
 import "../common"
 import brauhelfer 1.0
@@ -233,7 +233,7 @@ PageBase {
             model: ProxyModel {
                 sourceModel: Brauhelfer.sud.modelWeitereZutatenGaben
                 filterKeyColumn: fieldIndex("Zeitpunkt")
-                filterRegExp: /0/
+                filterRegularExpression: /0/
             }
             delegate: ItemDelegate {
                 width: listView.width
