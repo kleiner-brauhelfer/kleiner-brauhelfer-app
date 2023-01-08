@@ -230,7 +230,7 @@ PageBase {
                                     placeholderText: qsTr("Bemerkung")
                                     textFormat: Text.RichText
                                     text: model.Bemerkung
-                                    onLinkActivated: Qt.openUrlExternally(link)
+                                    onLinkActivated: (link) => Qt.openUrlExternally(link)
                                     onTextChanged: if (activeFocus) model.Bemerkung = text
                                 }
 

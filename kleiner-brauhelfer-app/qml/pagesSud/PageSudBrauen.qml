@@ -552,7 +552,7 @@ PageBase {
                         property int countVisible: 0
                         id: repVWH
                         model: Brauhelfer.sud.modelHopfengaben
-                        onItemAdded: if (item.visible) ++countVisible
+                        onItemAdded: (index,item) => { if (item.visible) ++countVisible }
                         delegate: RowLayout {
                             Layout.leftMargin: 8
                             spacing: 16
@@ -1357,7 +1357,7 @@ PageBase {
                     placeholderText: qsTr("Bemerkung")
                     textFormat: Text.RichText
                     text: Brauhelfer.sud.BemerkungBrauen
-                    onLinkActivated: Qt.openUrlExternally(link)
+                    onLinkActivated: (link) => Qt.openUrlExternally(link)
                     onTextChanged: if (activeFocus) Brauhelfer.sud.BemerkungBrauen = text
                 }
             }

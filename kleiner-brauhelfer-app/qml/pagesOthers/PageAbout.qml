@@ -37,7 +37,7 @@ PageBase {
                 Layout.fillWidth: true
                 textFormat: Text.RichText
                 text: qsTr("Diese App dient als Ergänzung zum Programm <a href=\"http://kleiner-brauhelfer.github.io\">kleiner-brauhelfer-2</a>.")
-                onLinkActivated: Qt.openUrlExternally(link)
+                onLinkActivated: (link) => Qt.openUrlExternally(link)
             }
 
             LabelPrim {
@@ -45,7 +45,7 @@ PageBase {
                 Layout.fillWidth: true
                 textFormat: Text.RichText
                 text: qsTr("Informationen und letzte Version auf <a href=\"https://github.com/kleiner-brauhelfer/kleiner-brauhelfer-app\">kleiner-brauhelfer-app</a>.")
-                onLinkActivated: Qt.openUrlExternally(link)
+                onLinkActivated: (link) => Qt.openUrlExternally(link)
             }
 
         }

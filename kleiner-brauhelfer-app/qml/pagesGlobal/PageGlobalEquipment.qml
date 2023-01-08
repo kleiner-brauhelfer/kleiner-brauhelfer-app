@@ -530,7 +530,7 @@ PageBase {
                                             textFormat: Text.RichText
                                             enabled: !page.readOnly
                                             text: model.Bemerkung
-                                            onLinkActivated: Qt.openUrlExternally(link)
+                                            onLinkActivated: (link) => Qt.openUrlExternally(link)
                                             onTextChanged: if (activeFocus) model.Bemerkung = text
                                         }
                                     }

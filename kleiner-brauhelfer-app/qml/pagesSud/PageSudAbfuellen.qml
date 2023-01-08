@@ -586,7 +586,7 @@ PageBase {
                     placeholderText: qsTr("Bemerkung")
                     textFormat: Text.RichText
                     text: Brauhelfer.sud.BemerkungAbfuellen
-                    onLinkActivated: Qt.openUrlExternally(link)
+                    onLinkActivated: (link) => Qt.openUrlExternally(link)
                     onTextChanged: if (activeFocus) Brauhelfer.sud.BemerkungAbfuellen = text
                 }
             }

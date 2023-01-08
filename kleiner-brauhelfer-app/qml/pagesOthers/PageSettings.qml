@@ -35,7 +35,6 @@ PageBase {
                     break
                 default:
                     messageDialog.icon = MessageDialog.Information
-
                 }
                 messageDialog.text = txt
                 messageDialog.open()
@@ -180,7 +179,7 @@ PageBase {
                             Layout.bottomMargin: 8
                             font.italic: true
                             text: qsTr("Benötigt eine <a href=\"https://www.dropbox.com/developers/apps\">Dropbox App</a>.")
-                            onLinkActivated: Qt.openUrlExternally(link)
+                            onLinkActivated: (link) => Qt.openUrlExternally(link)
                         }
                         LabelSubheader {
                             Layout.fillWidth: true

@@ -312,8 +312,8 @@ ApplicationWindow {
         property alias pageGlobalAuswahl: pageGlobalAuswahl
         id: viewGlobal
         visible: false
-        PageGlobalAuswahl { id: pageGlobalAuswahl; onClicked: loadBrew(id) }
-        PageGlobalUebersicht { onClicked: loadBrew(id) }
+        PageGlobalAuswahl { id: pageGlobalAuswahl; onClicked: (id) => loadBrew(id) }
+        PageGlobalUebersicht { onClicked: (id) => loadBrew(id) }
         PageGlobalMalt { }
         PageGlobalHops { }
         PageGlobalYeast { }
@@ -328,7 +328,7 @@ ApplicationWindow {
         visible: false
         function build() {
             while (count > 0)
-                removeItem(0)
+                takeItem(0)
             if (Brauhelfer.sud.isLoaded) {
                 addItem(pageSudHome)
                 addItem(pageSudInfo)

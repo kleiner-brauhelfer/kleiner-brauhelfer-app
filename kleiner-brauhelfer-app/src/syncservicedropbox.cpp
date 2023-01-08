@@ -29,7 +29,11 @@ SyncServiceDropbox::SyncServiceDropbox(QSettings *settings) :
     _oauth2->setRefreshToken(refreshToken());
     _oauth2->setToken(accessToken());
     _oauth2->setReplyHandler(new QOAuthHttpServerReplyHandler(5476, this));
+  #if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+    _oauth2->setModifyParametersFunction([](QAbstractOAuth::Stage stage, QMultiMap<QString, QVariant>* parameters)
+  #else
     _oauth2->setModifyParametersFunction([](QAbstractOAuth::Stage stage, QVariantMap* parameters)
+  #endif
     {
         switch (stage)
         {
