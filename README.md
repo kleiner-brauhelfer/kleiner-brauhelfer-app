@@ -31,7 +31,7 @@ Siehe [Changelog](CHANGELOG.md).
 6. App Name wählen.
 7. Auf *Create app* klicken.
 8. Oben auf den *Permissions* Reiter wechseln.
-9. Folgende Optionen anwählen *files.metadata.write* und *files.content.write*.
+9. Folgende Berechtigungen aktivieren: *files.metadata.write*, *files.metadata.read*, *files.content.write* und *files.content.read*
 10. Einstellungen mit *Submit* bestätigen.
 11. Zurück zum *Settings* Reiter wechseln.
 12. Bei *Redirect URIs* *http://127.0.0.1:5476/* eintragen.
