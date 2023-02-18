@@ -344,7 +344,7 @@ PageBase {
                                 Layout.fillWidth: true
                                 opacity: model.Status === Brauhelfer.Rezept ? app.config.textOpacityFull : app.config.textOpacityHalf
                                 precision: 1
-                                value: model.Alkohol
+                                value: model.AlkoholSoll
                             }
                             LabelUnit {
                                 text: qsTr("%vol")

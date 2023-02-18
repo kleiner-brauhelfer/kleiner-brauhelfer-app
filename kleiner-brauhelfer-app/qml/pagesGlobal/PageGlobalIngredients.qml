@@ -355,6 +355,25 @@ PageBase {
                                         LabelPrim {
                                             Layout.fillWidth: true
                                             rightPadding: 8
+                                            text: qsTr("Unvergärbar")
+                                        }
+
+                                        CheckBoxBase {
+                                            Layout.columnSpan: 2
+                                            Layout.fillWidth: true
+                                            Layout.alignment: Qt.AlignLeft
+                                            enabled: !page.readOnly
+                                            checked: model.Unvergaerbar
+                                            onClicked: model.Unvergaerbar = checked
+                                        }
+
+                                        LabelUnit {
+                                            text: qsTr("%")
+                                        }
+
+                                        LabelPrim {
+                                            Layout.fillWidth: true
+                                            rightPadding: 8
                                             text: qsTr("Farbe")
                                         }
 

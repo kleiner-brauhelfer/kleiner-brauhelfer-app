@@ -329,7 +329,7 @@ PageBase {
                     }
                     LabelNumber {
                         precision: 1
-                        value: Brauhelfer.sud.Alkohol
+                        value: Brauhelfer.sud.AlkoholSoll
                     }
                     LabelUnit {
                         text: qsTr("%vol")

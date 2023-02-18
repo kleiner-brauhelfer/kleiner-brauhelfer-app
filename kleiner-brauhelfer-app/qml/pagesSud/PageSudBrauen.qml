@@ -193,6 +193,21 @@ PageBase {
                                 }
                             }
                         }
+                        LabelPrim {
+                            Layout.fillWidth: true
+                            font.bold: true
+                            text: qsTr("Bemerkung")
+                        }
+                        TextAreaBase {
+                            Layout.fillWidth: true
+                            opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
+                            wrapMode: TextArea.Wrap
+                            placeholderText: qsTr("Bemerkung")
+                            textFormat: Text.RichText
+                            text: Brauhelfer.sud.BemerkungWasseraufbereitung
+                            onLinkActivated: (link) => Qt.openUrlExternally(link)
+                            onTextChanged: if (activeFocus) Brauhelfer.sud.BemerkungWasseraufbereitung = text
+                        }
                     }
                     HorizontalDivider {
                         Layout.fillWidth: true
@@ -450,6 +465,21 @@ PageBase {
                             }
                         }
                     }
+                    LabelPrim {
+                        Layout.fillWidth: true
+                        font.bold: true
+                        text: qsTr("Bemerkung")
+                    }
+                    TextAreaBase {
+                        Layout.fillWidth: true
+                        opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
+                        wrapMode: TextArea.Wrap
+                        placeholderText: qsTr("Bemerkung")
+                        textFormat: Text.RichText
+                        text: Brauhelfer.sud.BemerkungMaischplan
+                        onLinkActivated: (link) => Qt.openUrlExternally(link)
+                        onTextChanged: if (activeFocus) Brauhelfer.sud.BemerkungMaischplan = text
+                    }
                     HorizontalDivider {
                         Layout.fillWidth: true
                     }
@@ -483,6 +513,24 @@ PageBase {
                             Layout.fillWidth: true
                             text: qsTr("fertig (jodnormal)")
                         }
+                    }
+                    HorizontalDivider {
+                        Layout.fillWidth: true
+                    }
+                    LabelPrim {
+                        Layout.fillWidth: true
+                        font.bold: true
+                        text: qsTr("Bemerkung")
+                    }
+                    TextAreaBase {
+                        Layout.fillWidth: true
+                        opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
+                        wrapMode: TextArea.Wrap
+                        placeholderText: qsTr("Bemerkung")
+                        textFormat: Text.RichText
+                        text: Brauhelfer.sud.BemerkungZutatenMaischen
+                        onLinkActivated: (link) => Qt.openUrlExternally(link)
+                        onTextChanged: if (activeFocus) Brauhelfer.sud.BemerkungZutatenMaischen = text
                     }
                 }
             }
@@ -1002,6 +1050,24 @@ PageBase {
                             }
                         }
                     }
+                    HorizontalDivider {
+                        Layout.fillWidth: true
+                    }
+                    LabelPrim {
+                        Layout.fillWidth: true
+                        font.bold: true
+                        text: qsTr("Bemerkung")
+                    }
+                    TextAreaBase {
+                        Layout.fillWidth: true
+                        opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
+                        wrapMode: TextArea.Wrap
+                        placeholderText: qsTr("Bemerkung")
+                        textFormat: Text.RichText
+                        text: Brauhelfer.sud.BemerkungZutatenKochen
+                        onLinkActivated: (link) => Qt.openUrlExternally(link)
+                        onTextChanged: if (activeFocus) Brauhelfer.sud.BemerkungZutatenKochen = text
+                    }
                 }
             }
 
@@ -1029,7 +1095,7 @@ PageBase {
                                 text: qsTr("Wassermenge")
                             }
                             LabelNumber {
-                                value: Brauhelfer.sud.WasserHgf
+                                value: Brauhelfer.sud.MengeSollHgf
                             }
                             LabelUnit {
                                 text: qsTr("l")
@@ -1169,6 +1235,61 @@ PageBase {
                         LabelUnit {
                             text: qsTr("l")
                         }
+
+                        LabelPrim {
+                            id: hefestarter
+                            Layout.fillWidth: true
+                            visible: Brauhelfer.sud.MengeHefestarter > 0
+                            text: qsTr("Hefestarter")
+                        }
+                        LabelNumber {
+                            precision: 2
+                            visible: hefestarter.visible
+                            value: Brauhelfer.sud.MengeHefestarter
+                        }
+                        LabelUnit {
+                            visible: hefestarter.visible
+                            text: qsTr("l")
+                        }
+                        Item {
+                            visible: hefestarter.visible
+                            Layout.fillWidth: true
+                        }
+                        LabelPlato {
+                            visible: hefestarter.visible
+                            id: lblSWHefestarter
+                            value: Brauhelfer.sud.SWHefestarter
+                        }
+                        LabelUnit {
+                            visible: hefestarter.visible
+                            text: qsTr("°P")
+                        }
+                        Item {
+                            visible: hefestarter.visible
+                            Layout.fillWidth: true
+                        }
+                        LabelPlato {
+                            visible: hefestarter.visible
+                            value: BierCalc.platoToBrix(lblSWHefestarter.value)
+                        }
+                        LabelUnit {
+                            visible: hefestarter.visible
+                            text: qsTr("°Brix")
+                        }
+                        Item {
+                            visible: hefestarter.visible
+                            Layout.fillWidth: true
+                        }
+                        LabelPlato {
+                            visible: hefestarter.visible
+                            precision: 4
+                            value: BierCalc.platoToDichte(lblSWHefestarter.value)
+                        }
+                        LabelUnit {
+                            visible: hefestarter.visible
+                            text: qsTr("g/ml")
+                        }
+
                         LabelPrim {
                             Layout.fillWidth: true
                             text: qsTr("Gesamtwürzemenge")
@@ -1341,6 +1462,24 @@ PageBase {
                                 text: model.Bemerkung
                             }
                         }
+                    }
+                    HorizontalDivider {
+                        Layout.fillWidth: true
+                    }
+                    LabelPrim {
+                        Layout.fillWidth: true
+                        font.bold: true
+                        text: qsTr("Bemerkung")
+                    }
+                    TextAreaBase {
+                        Layout.fillWidth: true
+                        opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
+                        wrapMode: TextArea.Wrap
+                        placeholderText: qsTr("Bemerkung")
+                        textFormat: Text.RichText
+                        text: Brauhelfer.sud.BemerkungZutatenGaerung
+                        onLinkActivated: (link) => Qt.openUrlExternally(link)
+                        onTextChanged: if (activeFocus) Brauhelfer.sud.BemerkungZutatenGaerung = text
                     }
                 }
             }

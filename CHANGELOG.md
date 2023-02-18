@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 2.5.0 (26.02.2023)
+- Neu: Kompatibel zum kleiner-brauhelfer-2 v2.5.0
+
 ## Version 2.4.2 (24.12.2022)
 - Neu: Dropbox Synchronisierung überarbeitet (neu über App key und App secret)
 - Neu: Schreibschutzmodus
