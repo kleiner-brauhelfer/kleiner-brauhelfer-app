@@ -43,7 +43,7 @@ PageBase {
             //headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
             ScrollIndicator.vertical: ScrollIndicator {}
             header: Rectangle {
-                property var widthCol1: headerLabel1.width
+                property int widthCol1: headerLabel1.width
                 z: 2
                 width: listView.width
                 height: header.height
@@ -359,6 +359,11 @@ PageBase {
                                             onActivated: _model.Typ = index
                                         }
 
+                                        HorizontalDivider {
+                                            Layout.fillWidth: true
+                                            Layout.columnSpan: 3
+                                        }
+
                                         LabelPrim {
                                             Layout.columnSpan: 3
                                             Layout.fillWidth: true
@@ -408,6 +413,11 @@ PageBase {
                                             enabled: !page.readOnly
                                             text: model.Alternativen
                                             onTextChanged: if (activeFocus) model.Alternativen = text
+                                        }
+
+                                        HorizontalDivider {
+                                            Layout.fillWidth: true
+                                            Layout.columnSpan: 3
                                         }
 
                                         LabelPrim {
@@ -460,6 +470,19 @@ PageBase {
                                                 when: tfMindesthaltbar.enabled && tfMindesthaltbar.date < new Date()
                                                 PropertyChanges { target: tfMindesthaltbar; color: Material.accent }
                                             }
+                                        }
+
+                                        HorizontalDivider {
+                                            Layout.fillWidth: true
+                                            Layout.columnSpan: 3
+                                        }
+
+                                        TextFieldBase {
+                                            Layout.fillWidth: true
+                                            Layout.columnSpan: 3
+                                            placeholderText: qsTr("Link")
+                                            text: model.Link
+                                            onTextChanged: if (activeFocus) model.Link = text
                                         }
                                     }
                                 }

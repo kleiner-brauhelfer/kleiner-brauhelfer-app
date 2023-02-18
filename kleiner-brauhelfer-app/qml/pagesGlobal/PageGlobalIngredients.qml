@@ -43,7 +43,7 @@ PageBase {
             //headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
             ScrollIndicator.vertical: ScrollIndicator {}
             header: Rectangle {
-                property var widthCol1: headerLabel1.width
+                property int widthCol1: headerLabel1.width
                 z: 2
                 width: listView.width
                 height: header.height
@@ -367,10 +367,6 @@ PageBase {
                                             onClicked: model.Unvergaerbar = checked
                                         }
 
-                                        LabelUnit {
-                                            text: qsTr("%")
-                                        }
-
                                         LabelPrim {
                                             Layout.fillWidth: true
                                             rightPadding: 8
@@ -386,6 +382,11 @@ PageBase {
 
                                         LabelUnit {
                                             text: qsTr("EBC")
+                                        }
+
+                                        HorizontalDivider {
+                                            Layout.fillWidth: true
+                                            Layout.columnSpan: 3
                                         }
 
                                         LabelPrim {
@@ -439,6 +440,11 @@ PageBase {
                                             onTextChanged: if (activeFocus) model.Alternativen = text
                                         }
 
+                                        HorizontalDivider {
+                                            Layout.fillWidth: true
+                                            Layout.columnSpan: 3
+                                        }
+
                                         LabelPrim {
                                             Layout.fillWidth: true
                                             rightPadding: 8
@@ -453,7 +459,7 @@ PageBase {
                                         }
 
                                         LabelUnit {
-                                            text: Qt.locale().currencySymbol() + "/[kg/l/Stk]"
+                                            text: Qt.locale().currencySymbol() + "/" + app.defs.einheiten[model.Einheit]
                                         }
 
                                         LabelPrim {
@@ -489,6 +495,19 @@ PageBase {
                                                 when: tfMindesthaltbar.enabled && tfMindesthaltbar.date < new Date()
                                                 PropertyChanges { target: tfMindesthaltbar; color: Material.accent }
                                             }
+                                        }
+
+                                        HorizontalDivider {
+                                            Layout.fillWidth: true
+                                            Layout.columnSpan: 3
+                                        }
+
+                                        TextFieldBase {
+                                            Layout.fillWidth: true
+                                            Layout.columnSpan: 3
+                                            placeholderText: qsTr("Link")
+                                            text: model.Link
+                                            onTextChanged: if (activeFocus) model.Link = text
                                         }
                                     }
                                 }

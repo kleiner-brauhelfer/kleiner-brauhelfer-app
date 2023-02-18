@@ -10,7 +10,7 @@ import ProxyModel 1.0
 
 PageBase {
     id: page
-    title: qsTr("Rohstoff Wasser")
+    title: qsTr("Wasserprofile")
     icon: "water.png"
     readOnly: Brauhelfer.readonly || app.settings.readonly
 
@@ -351,14 +351,14 @@ PageBase {
                                     LabelPrim {
                                         Layout.fillWidth: true
                                         rightPadding: 8
-                                        text: qsTr("Hydrogencarbonat")
+                                        text: qsTr("Natrium")
                                     }
 
                                     SpinBoxReal {
                                         decimals: 2
                                         enabled: !page.readOnly
-                                        realValue: model.Hydrogencarbonat
-                                        onNewValue: model.Hydrogencarbonat = value
+                                        realValue: model.Natrium
+                                        onNewValue: model.Natrium = value
                                     }
 
                                     LabelUnit {
@@ -374,31 +374,12 @@ PageBase {
                                     SpinBoxReal {
                                         decimals: 3
                                         enabled: !page.readOnly
-                                        realValue: model.HydrogencarbonatMmol
-                                        onNewValue: model.HydrogencarbonatMmol = value
+                                        realValue: model.NatriumMmol
+                                        onNewValue: model.NatriumMmol = value
                                     }
 
                                     LabelUnit {
                                         text: qsTr("mmol/l")
-                                    }
-
-                                    LabelPrim {
-                                        Layout.fillWidth: true
-                                        rightPadding: 8
-                                        text: ""
-                                    }
-
-                                    SpinBoxReal {
-                                        decimals: 2
-                                        min: 0
-                                        max: 99
-                                        enabled: !page.readOnly
-                                        realValue: model.CarbonatHaerte
-                                        onNewValue: model.CarbonatHaerte = value
-                                    }
-
-                                    LabelUnit {
-                                        text: qsTr("°dH")
                                     }
 
                                     HorizontalDivider {
@@ -487,14 +468,14 @@ PageBase {
                                     LabelPrim {
                                         Layout.fillWidth: true
                                         rightPadding: 8
-                                        text: qsTr("Natrium")
+                                        text: qsTr("Hydrogencarbonat")
                                     }
 
                                     SpinBoxReal {
                                         decimals: 2
                                         enabled: !page.readOnly
-                                        realValue: model.Natrium
-                                        onNewValue: model.Natrium = value
+                                        realValue: model.Hydrogencarbonat
+                                        onNewValue: model.Hydrogencarbonat = value
                                     }
 
                                     LabelUnit {
@@ -510,12 +491,31 @@ PageBase {
                                     SpinBoxReal {
                                         decimals: 3
                                         enabled: !page.readOnly
-                                        realValue: model.NatriumMmol
-                                        onNewValue: model.NatriumMmol = value
+                                        realValue: model.HydrogencarbonatMmol
+                                        onNewValue: model.HydrogencarbonatMmol = value
                                     }
 
                                     LabelUnit {
                                         text: qsTr("mmol/l")
+                                    }
+
+                                    LabelPrim {
+                                        Layout.fillWidth: true
+                                        rightPadding: 8
+                                        text: ""
+                                    }
+
+                                    SpinBoxReal {
+                                        decimals: 2
+                                        min: 0
+                                        max: 99
+                                        enabled: !page.readOnly
+                                        realValue: model.CarbonatHaerte
+                                        onNewValue: model.CarbonatHaerte = value
+                                    }
+
+                                    LabelUnit {
+                                        text: qsTr("°dH")
                                     }
 
                                     HorizontalDivider {
@@ -540,11 +540,6 @@ PageBase {
 
                                     LabelUnit {
                                         text: qsTr("°dH")
-                                    }
-
-                                    HorizontalDivider {
-                                        Layout.columnSpan: 3
-                                        Layout.fillWidth: true
                                     }
 
                                     LabelPrim {

@@ -45,8 +45,6 @@ ApplicationWindow {
         property bool brewsMerklisteFilter: false
         property int ingredientsFilter: 0
         property real sugarFactor: 1.0
-        property int uebersichtIndex1: 0
-        property int uebersichtIndex2: 1
         property real scalingfactor: 1.0
         property int refractometerIndex: 2
         property bool readonly: false
@@ -313,13 +311,12 @@ ApplicationWindow {
         id: viewGlobal
         visible: false
         PageGlobalAuswahl { id: pageGlobalAuswahl; onClicked: (id) => loadBrew(id) }
-        PageGlobalUebersicht { onClicked: (id) => loadBrew(id) }
         PageGlobalMalt { }
         PageGlobalHops { }
         PageGlobalYeast { }
         PageGlobalIngredients { }
-        PageGlobalWater { }
         PageGlobalEquipment { }
+        PageGlobalWater { }
     }
 
     // brew pages
