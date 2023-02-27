@@ -1,6 +1,7 @@
 # kleiner-brauhelfer-app
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/kleiner-brauhelfer/kleiner-brauhelfer-app)](https://github.com/kleiner-brauhelfer/kleiner-brauhelfer-app/releases/latest/)
 [![GitHub Release Date](https://img.shields.io/github/release-date/kleiner-brauhelfer/kleiner-brauhelfer-app)](https://github.com/kleiner-brauhelfer/kleiner-brauhelfer-app/releases/latest/)
+[![GitHub Downlaods](https://img.shields.io/github/downloads/kleiner-brauhelfer/kleiner-brauhelfer-app/total)](https://github.com/kleiner-brauhelfer/kleiner-brauhelfer-app/releases/latest/)
 
 Die kleiner-brauhelfer-app ist eine App, welche die Software [kleiner-brauhelfer-2](https://github.com/kleiner-brauhelfer/kleiner-brauhelfer-2) ergänzt. Die App wird nur für Android Geräte kompiliert, sollte aber auch mit anderen Betriebssysteme kompatibel sein.
 
