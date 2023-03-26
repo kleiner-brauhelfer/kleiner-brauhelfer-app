@@ -23,8 +23,8 @@ PageBase {
         //headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
         ScrollIndicator.vertical: ScrollIndicator {}
         header: Rectangle {
-            property var widthCol1: headerLabel1.width
-            property var widthCol2: headerLabel2.width
+            property int widthCol1: headerLabel1.width
+            property int widthCol2: headerLabel2.width
             z: 2
             width: listView.width
             height: header.height
@@ -144,7 +144,6 @@ PageBase {
                     anchors.right: parent.right
                     anchors.margins: 8
                     spacing: 16
-                    height: contentChildren[currentIndex].implicitHeight + 2 * anchors.margins
                     clip: true
                     currentIndex: listView.currentIndex
                     onCurrentIndexChanged: listView.currentIndex = currentIndex
@@ -530,7 +529,7 @@ PageBase {
                                             textFormat: Text.RichText
                                             enabled: !page.readOnly
                                             text: model.Bemerkung
-                                            onLinkActivated: Qt.openUrlExternally(link)
+                                            onLinkActivated: (link) => Qt.openUrlExternally(link)
                                             onTextChanged: if (activeFocus) model.Bemerkung = text
                                         }
                                     }

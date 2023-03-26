@@ -2,6 +2,7 @@
 #include "modelhopfengaben.h"
 #include <math.h>
 #include "brauhelfer.h"
+#include "proxymodelsud.h"
 
 ModelHopfengaben::ModelHopfengaben(Brauhelfer* bh, QSqlDatabase db) :
     SqlTableModel(bh, db),
@@ -22,7 +23,7 @@ QVariant ModelHopfengaben::dataExt(const QModelIndex &idx) const
         double menge = data(idx.row(), Colerg_Menge).toDouble();
         double alpha = data(idx.row(), ColAlpha).toDouble();
         double ausbeute = data(idx.row(), ColAusbeute).toDouble();
-        double mengeSoll = bh->modelSud()->dataSud(data(idx.row(), ColSudID), ModelSud::ColMengeSoll).toDouble();
+        double mengeSoll = bh->modelSud()->dataSud(data(idx.row(), ColSudID), ModelSud::ColMengeSollAnstellen).toDouble();
         return menge * alpha * ausbeute / (10 * mengeSoll);
     }
     case ColAusbeute:
@@ -82,7 +83,7 @@ bool ModelHopfengaben::setDataExt(const QModelIndex &idx, const QVariant &value)
         if (QSqlTableModel::setData(idx, fVal))
         {
             QVariant sudId = data(idx.row(), ColSudID);
-            double mengeSoll = bh->modelSud()->dataSud(sudId, ModelSud::ColMengeSoll).toDouble();
+            double mengeSoll = bh->modelSud()->dataSud(sudId, ModelSud::ColMengeSollAnstellen).toDouble();
             double ibuSoll = bh->modelSud()->dataSud(sudId, ModelSud::ColIBU).toDouble();
             Brauhelfer::BerechnungsartHopfen berechnungsart = static_cast<Brauhelfer::BerechnungsartHopfen>(bh->modelSud()->dataSud(sudId, ModelSud::ColberechnungsArtHopfen).toInt());
             switch (berechnungsart)
@@ -125,6 +126,10 @@ bool ModelHopfengaben::setDataExt(const QModelIndex &idx, const QVariant &value)
                     double menge = (anteil * mengeSoll * 10) / (alpha * ausbeute);
                     QSqlTableModel::setData(index(idx.row(), Colerg_Menge), menge);
                 }
+                else
+                {
+                    QSqlTableModel::setData(idx, 0.0);
+                }
                 break;
             }
             }
@@ -160,7 +165,7 @@ bool ModelHopfengaben::setDataExt(const QModelIndex &idx, const QVariant &value)
             }
             case Brauhelfer::BerechnungsartHopfen::IBU:
             {
-                double mengeSoll = bh->modelSud()->dataSud(sudId, ModelSud::ColMengeSoll).toDouble();
+                double mengeSoll = bh->modelSud()->dataSud(sudId, ModelSud::ColMengeSollAnstellen).toDouble();
                 double ibuSoll = bh->modelSud()->dataSud(sudId, ModelSud::ColIBU).toDouble();
                 double alpha = data(idx.row(), ColAlpha).toDouble();
                 double ausbeute = data(idx.row(), ColAusbeute).toDouble();
@@ -243,7 +248,7 @@ void ModelHopfengaben::onSudDataChanged(const QModelIndex &idx)
     switch (idx.column())
     {
     case ModelSud::ColMenge:
-    case ModelSud::ColMengeSoll:
+    case ModelSud::ColMengeSollAnstellen:
     case ModelSud::ColSW:
     case ModelSud::ColIBU:
     case ModelSud::ColberechnungsArtHopfen:
@@ -264,28 +269,22 @@ void ModelHopfengaben::onSudDataChanged(const QModelIndex &idx)
                     QModelIndex idx2 = index(r, ColZeit);
                     switch (static_cast<Brauhelfer::HopfenZeitpunkt>(data(r, ColZeitpunkt).toInt()))
                     {
-                    case Brauhelfer::HopfenZeitpunkt::Kochen:
-                    case Brauhelfer::HopfenZeitpunkt::KochenAlt:
-                        if (idx2.data().toInt() > max)
-                            QSqlTableModel::setData(idx2, max);
-                        break;
                     case Brauhelfer::HopfenZeitpunkt::Vorderwuerze:
                     case Brauhelfer::HopfenZeitpunkt::Kochbeginn:
                         QSqlTableModel::setData(index(r, ColZeit), max);
                         break;
                     default:
+                        if (idx2.data().toInt() > max)
+                            QSqlTableModel::setData(idx2, max);
                         break;
                     }
                 }
                 else if (idx.column() == ModelSud::ColNachisomerisierungszeit)
                 {
-                    int min = -1 * idx.data().toInt();
-                    if (data(r, ColSudID) == sudId)
-                    {
-                        QModelIndex idx2 = index(r, ColZeit);
-                        if (idx2.data().toInt() < min)
-                            QSqlTableModel::setData(idx2, min);
-                    }
+                    int min = -idx.data().toInt();
+                    QModelIndex idx2 = index(r, ColZeit);
+                    if (idx2.data().toInt() < min)
+                        QSqlTableModel::setData(idx2, min);
                 }
                 QModelIndex idx2 = index(r, colUpdate);
                 setData(idx2, data(idx2));
@@ -294,6 +293,22 @@ void ModelHopfengaben::onSudDataChanged(const QModelIndex &idx)
         mSignalModifiedBlocked = false;
         break;
     }
+    }
+}
+
+void ModelHopfengaben::update(const QVariant &name, int col, const QVariant &value)
+{
+    ProxyModelSud modelSud;
+    modelSud.setSourceModel(bh->modelSud());
+    modelSud.setFilterStatus(ProxyModelSud::Rezept);
+    for (int r = 0; r < modelSud.rowCount(); ++r)
+    {
+        QVariant sudId = modelSud.data(r, ModelSud::ColID);
+        for (int j = 0; j < rowCount(); ++j)
+        {
+            if (data(j, ColSudID) == sudId && data(j, ColName) == name)
+                setData(j, col, value);
+        }
     }
 }
 

@@ -2,6 +2,7 @@
 #include "modelmalzschuettung.h"
 #include "brauhelfer.h"
 #include "modelsud.h"
+#include "proxymodelsud.h"
 
 ModelMalzschuettung::ModelMalzschuettung(Brauhelfer* bh, QSqlDatabase db) :
     SqlTableModel(bh, db),
@@ -19,13 +20,13 @@ QVariant ModelMalzschuettung::dataExt(const QModelIndex &idx) const
     {
     case ColExtrakt:
     {
-        double swMalz = bh->modelSud()->dataSud(data(idx.row(), ColSudID).toInt(), ModelSud::ColSW_Malz).toDouble();
+        double swMalz = bh->modelSud()->dataSud(data(idx.row(), ColSudID).toInt(), ModelSud::ColSWAnteilMalz).toDouble();
         double p = data(idx.row(), ColProzent).toDouble() / 100;
         return swMalz * p;
     }
     case ColExtraktProzent:
     {
-        double sw = bh->modelSud()->dataSud(data(idx.row(), ColSudID).toInt(), ModelSud::ColSW).toDouble();
+        double sw = bh->modelSud()->dataSud(data(idx.row(), ColSudID).toInt(), ModelSud::ColSWAnteilZutaten).toDouble();
         double extrakt = data(idx.row(), ColExtrakt).toDouble();
         return extrakt / sw * 100;
     }
@@ -73,12 +74,12 @@ bool ModelMalzschuettung::setDataExt(const QModelIndex &idx, const QVariant &val
     }
     case ColExtrakt:
     {
-        double swMalz = bh->modelSud()->dataSud(data(idx.row(), ColSudID).toInt(), ModelSud::ColSW_Malz).toDouble();
+        double swMalz = bh->modelSud()->dataSud(data(idx.row(), ColSudID).toInt(), ModelSud::ColSWAnteilMalz).toDouble();
         return setDataExt(index(idx.row(), ColProzent), value.toDouble() / swMalz * 100);
     }
     case ColExtraktProzent:
     {
-        double sw = bh->modelSud()->dataSud(data(idx.row(), ColSudID).toInt(), ModelSud::ColSW).toDouble();
+        double sw = bh->modelSud()->dataSud(data(idx.row(), ColSudID).toInt(), ModelSud::ColSWAnteilZutaten).toDouble();
         return setDataExt(index(idx.row(), ColExtrakt), value.toDouble() * sw / 100);
     }
     default:
@@ -101,6 +102,22 @@ void ModelMalzschuettung::onSudDataChanged(const QModelIndex &idx)
             }
         }
         mSignalModifiedBlocked = false;
+    }
+}
+
+void ModelMalzschuettung::update(const QVariant &name, int col, const QVariant &value)
+{
+    ProxyModelSud modelSud;
+    modelSud.setSourceModel(bh->modelSud());
+    modelSud.setFilterStatus(ProxyModelSud::Rezept);
+    for (int r = 0; r < modelSud.rowCount(); ++r)
+    {
+        QVariant sudId = modelSud.data(r, ModelSud::ColID);
+        for (int j = 0; j < rowCount(); ++j)
+        {
+            if (data(j, ColSudID) == sudId && data(j, ColName) == name)
+                setData(j, col, value);
+        }
     }
 }
 

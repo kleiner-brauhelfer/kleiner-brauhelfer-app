@@ -28,6 +28,7 @@ public:
         ColEingelagert,
         ColMindesthaltbar,
         ColLink,
+        ColUnvergaerbar,
         // virtual
         ColDeleted,
         ColMengeNormiert,

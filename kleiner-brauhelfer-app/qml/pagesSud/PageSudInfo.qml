@@ -324,12 +324,12 @@ PageBase {
                     }
                     LabelNumber {
                         precision: 1
-                        value: Brauhelfer.sud.Status === Brauhelfer.Rezept ? Brauhelfer.sud.Alkohol : Brauhelfer.sud.erg_Alkohol
+                        value: Brauhelfer.sud.Status === Brauhelfer.Rezept ? Brauhelfer.sud.AlkoholSoll : Brauhelfer.sud.erg_Alkohol
                     }
                     LabelNumber {
                         opacity: app.config.textOpacityHalf
                         precision: 0
-                        value: Brauhelfer.sud.Status === Brauhelfer.Rezept ? Number.NaN : Brauhelfer.sud.Alkohol
+                        value: Brauhelfer.sud.Status === Brauhelfer.Rezept ? Number.NaN : Brauhelfer.sud.AlkoholSoll
                     }
                     LabelUnit {
                         text: qsTr("%vol")
@@ -485,7 +485,7 @@ PageBase {
                     placeholderText: qsTr("Bemerkung")
                     textFormat: Text.RichText
                     text: Brauhelfer.sud.Kommentar
-                    onLinkActivated: Qt.openUrlExternally(link)
+                    onLinkActivated: (link) => Qt.openUrlExternally(link)
                     onTextChanged: if (activeFocus) Brauhelfer.sud.Kommentar = text
                 }
             }

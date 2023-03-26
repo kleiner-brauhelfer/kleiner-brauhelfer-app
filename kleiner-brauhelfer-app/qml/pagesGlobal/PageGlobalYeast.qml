@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.Material
-import QtQuick.Dialogs
+import Qt.labs.platform
 
 import "../common"
 import brauhelfer 1.0
@@ -43,7 +43,7 @@ PageBase {
             //headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
             ScrollIndicator.vertical: ScrollIndicator {}
             header: Rectangle {
-                property var widthCol1: headerLabel1.width
+                property int widthCol1: headerLabel1.width
                 z: 2
                 width: listView.width
                 height: header.height
@@ -214,7 +214,6 @@ PageBase {
                         anchors.right: parent.right
                         anchors.margins: 8
                         spacing: 16
-                        height: contentChildren[currentIndex].implicitHeight + 2 * anchors.margins
                         clip: true
                         currentIndex: listView.currentIndex
                         onCurrentIndexChanged: listView.currentIndex = currentIndex
@@ -401,6 +400,11 @@ PageBase {
                                             onTextChanged: if (activeFocus) model.Temperatur = text
                                         }
 
+                                        HorizontalDivider {
+                                            Layout.fillWidth: true
+                                            Layout.columnSpan: 3
+                                        }
+
                                         LabelPrim {
                                             Layout.columnSpan: 3
                                             Layout.fillWidth: true
@@ -450,6 +454,11 @@ PageBase {
                                             enabled: !page.readOnly
                                             text: model.Alternativen
                                             onTextChanged: if (activeFocus) model.Alternativen = text
+                                        }
+
+                                        HorizontalDivider {
+                                            Layout.fillWidth: true
+                                            Layout.columnSpan: 3
                                         }
 
                                         LabelPrim {
@@ -502,6 +511,19 @@ PageBase {
                                                 when: tfMindesthaltbar.enabled && tfMindesthaltbar.date < new Date()
                                                 PropertyChanges { target: tfMindesthaltbar; color: Material.accent }
                                             }
+                                        }
+
+                                        HorizontalDivider {
+                                            Layout.fillWidth: true
+                                            Layout.columnSpan: 3
+                                        }
+
+                                        TextFieldBase {
+                                            Layout.fillWidth: true
+                                            Layout.columnSpan: 3
+                                            placeholderText: qsTr("Link")
+                                            text: model.Link
+                                            onTextChanged: if (activeFocus) model.Link = text
                                         }
                                     }
                                 }

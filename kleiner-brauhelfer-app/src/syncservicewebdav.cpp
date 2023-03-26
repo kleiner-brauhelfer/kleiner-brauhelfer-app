@@ -11,8 +11,8 @@ SyncServiceWebDav::SyncServiceWebDav(QSettings *settings) :
     SyncService(settings)
 {
     _netManager = new QNetworkAccessManager(this);
-    connect(_netManager,SIGNAL(authenticationRequired(QNetworkReply*, QAuthenticator*)),
-            this, SLOT(authenticationRequired(QNetworkReply*, QAuthenticator*)));
+    connect(_netManager,SIGNAL(authenticationRequired(QNetworkReply*,QAuthenticator*)),
+            this, SLOT(authenticationRequired(QNetworkReply*,QAuthenticator*)));
     setFilePath(cacheFilePath("kb_daten.sqlite"));
 }
 

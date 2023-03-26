@@ -4,7 +4,7 @@ import QtQuick.Layouts
 import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
 import QtCharts
-import QtQuick.Dialogs
+import Qt.labs.platform
 
 import "../common"
 import brauhelfer 1.0
@@ -63,9 +63,9 @@ PageBase {
             Component.onCompleted: if (!readOnly) positionViewAtEnd()
             ScrollIndicator.vertical: ScrollIndicator {}
             header: Rectangle {
-                property var widthCol1: headerLabel1.width
-                property var widthCol2: headerLabel2.width
-                property var widthCol3: headerLabel3.width
+                property int widthCol1: headerLabel1.width
+                property int widthCol2: headerLabel2.width
+                property int widthCol3: headerLabel3.width
                 z: 2
                 width: listView.width
                 height: header.height

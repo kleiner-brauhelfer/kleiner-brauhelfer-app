@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.Material
-import QtQuick.Dialogs
+import Qt.labs.platform
 
 import brauhelfer 1.0
 
@@ -17,7 +17,6 @@ PopupBase {
         anchors.right: parent.right
         anchors.margins: 8
         spacing: 16
-        height: contentChildren[currentIndex].implicitHeight + 2 * anchors.margins
         clip: true
         Repeater {
             id: repeater

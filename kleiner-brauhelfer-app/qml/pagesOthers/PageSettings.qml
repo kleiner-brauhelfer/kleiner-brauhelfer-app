@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
-import QtQuick.Dialogs
+import Qt.labs.platform
 
 import "../common"
 import qmlutils 1.0
@@ -151,7 +151,8 @@ PageBase {
                                     id: openDialog
                                     title: qsTr("Pfad zur Datenbank")
                                     onAccepted: {
-                                        tfDatabasePathLocal.text = Utils.toLocalFile(decodeURIComponent(fileUrl))
+                                        console.info(file)
+                                        tfDatabasePathLocal.text = Utils.toLocalFile(decodeURIComponent(file))
                                         SyncService.syncServiceLocal.filePathLocal = tfDatabasePathLocal.text
                                         layout.connect()
                                     }
@@ -168,7 +169,7 @@ PageBase {
                             Layout.bottomMargin: 8
                             font.italic: true
                             text: qsTr("Benötigt eine <a href=\"https://www.dropbox.com/developers/apps\">Dropbox App</a>.")
-                            onLinkActivated: Qt.openUrlExternally(link)
+                            onLinkActivated: (link) => Qt.openUrlExternally(link)
                         }
                         LabelSubheader {
                             Layout.fillWidth: true

@@ -22,8 +22,8 @@ PageBase {
         //headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
         ScrollIndicator.vertical: ScrollIndicator {}
         header: Rectangle {
-            property var widthCol1: headerLabel1.width
-            property var widthCol2: headerLabel2.width
+            property int widthCol1: headerLabel1.width
+            property int widthCol2: headerLabel2.width
             z: 2
             width: listView.width
             height: header.height
@@ -51,6 +51,7 @@ PageBase {
                     }
                     LabelPrim {
                         id: headerLabel2
+                        Layout.preferredWidth: 130
                         horizontalAlignment: Qt.AlignHCenter
                         font.bold: true
                         text: qsTr("Bewertung")
@@ -66,7 +67,6 @@ PageBase {
         footer: Item {
             height: !page.readOnly ? btnAdd.height + 12 : 0
         }
-
         delegate: ItemDelegate {
             id: rowDelegate
             width: listView.width
@@ -110,7 +110,7 @@ PageBase {
                     Layout.rightMargin: 8
                     LabelDate {
                         Layout.fillWidth: true
-                        verticalAlignment: Qt.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
                         date: model.Datum
                     }
                     LabelPrim {
@@ -157,7 +157,6 @@ PageBase {
                     anchors.right: parent.right
                     anchors.margins: 8
                     spacing: 16
-                    height: contentChildren[currentIndex].implicitHeight + 2 * anchors.margins
                     clip: true
                     currentIndex: listView.currentIndex
                     onCurrentIndexChanged: listView.currentIndex = currentIndex
@@ -230,7 +229,7 @@ PageBase {
                                     placeholderText: qsTr("Bemerkung")
                                     textFormat: Text.RichText
                                     text: model.Bemerkung
-                                    onLinkActivated: Qt.openUrlExternally(link)
+                                    onLinkActivated: (link) => Qt.openUrlExternally(link)
                                     onTextChanged: if (activeFocus) model.Bemerkung = text
                                 }
 

@@ -1,6 +1,6 @@
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Dialogs
+import Qt.labs.platform
 import Qt.labs.settings
 
 import "common"
@@ -45,8 +45,6 @@ ApplicationWindow {
         property bool brewsMerklisteFilter: false
         property int ingredientsFilter: 0
         property real sugarFactor: 1.0
-        property int uebersichtIndex1: 0
-        property int uebersichtIndex2: 1
         property real scalingfactor: 1.0
         property int refractometerIndex: 2
         property bool readonly: false
@@ -275,16 +273,8 @@ ApplicationWindow {
         id: messageDialogQuitSave
         text: qsTr("Änderungen vor dem Schliessen speichern?")
         buttons: MessageDialog.Save | MessageDialog.Discard | MessageDialog.Cancel
-        onButtonClicked: {
-            switch (button) {
-            case MessageDialog.Save:
-                app.saveAndQuit()
-                break;
-            case MessageDialog.Discard:
-                Qt.quit()
-                break;
-            }
-        }
+        onSaveClicked: app.saveAndQuit()
+        onDiscardClicked: Qt.quit()
     }
 
     // header
@@ -306,7 +296,7 @@ ApplicationWindow {
         onClickedLeft: navigation.open()
         iconRight: navPane.isHome() ? "" : "ic_home_white.png"
         onClickedRight: navPane.goHome()
-        Keys.onReleased: navPane.keyPressed(event)
+        Keys.onReleased: (event) => navPane.keyPressed(event)
     }
 
     // global pages
@@ -314,14 +304,13 @@ ApplicationWindow {
         property alias pageGlobalAuswahl: pageGlobalAuswahl
         id: viewGlobal
         visible: false
-        PageGlobalAuswahl { id: pageGlobalAuswahl; onClicked: id => loadBrew(id) }
-        PageGlobalUebersicht { onClicked: id => loadBrew(id) }
+        PageGlobalAuswahl { id: pageGlobalAuswahl; onClicked: (id) => loadBrew(id) }
         PageGlobalMalt { }
         PageGlobalHops { }
         PageGlobalYeast { }
         PageGlobalIngredients { }
-        PageGlobalWater { }
         PageGlobalEquipment { }
+        PageGlobalWater { }
     }
 
     // brew pages
@@ -392,7 +381,7 @@ ApplicationWindow {
                     else
                         messageDialogQuit.open()
                 }
-                if (lastView === null || currentItem === viewGlobal || currentItem == viewSud) {
+                if (lastView === null || currentItem == viewGlobal || currentItem == viewSud) {
                     goHome()
                 }
                 else {
@@ -441,7 +430,7 @@ ApplicationWindow {
             }
             else {
                 viewGlobal.currentIndex = 0
-                if (currentItem !== viewGlobal)
+                if (currentItem != viewGlobal)
                     pop(viewGlobal)
             }
             setFocus()

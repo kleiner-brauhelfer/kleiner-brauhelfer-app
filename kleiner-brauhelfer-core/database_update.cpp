@@ -1722,6 +1722,37 @@ bool Database::update()
             db.commit();
         }
 
+        if (version == 2007)
+        {
+            ++version;
+            qInfo(Brauhelfer::loggingCategory) << "Updating to version:" << version;
+            db.transaction();
+
+            // Sud
+            //  - neue Spalte 'BemerkungZutatenMaischen'
+            //  - neue Spalte 'BemerkungZutatenKochen'
+            //  - neue Spalte 'BemerkungZutatenGaerung'
+            //  - neue Spalte 'BemerkungMaischplan'
+            //  - neue Spalte 'BemerkungWasseraufbereitung'
+            //  - neue Spalte 'MengeHefestarter'
+            //  - neue Spalte 'SWHefestarter'
+            sqlExec(db, "ALTER TABLE Sud ADD COLUMN BemerkungZutatenMaischen TEXT");
+            sqlExec(db, "ALTER TABLE Sud ADD COLUMN BemerkungZutatenKochen TEXT");
+            sqlExec(db, "ALTER TABLE Sud ADD COLUMN BemerkungZutatenGaerung TEXT");
+            sqlExec(db, "ALTER TABLE Sud ADD COLUMN BemerkungMaischplan TEXT");
+            sqlExec(db, "ALTER TABLE Sud ADD COLUMN BemerkungWasseraufbereitung TEXT");
+            sqlExec(db, "ALTER TABLE Sud ADD COLUMN MengeHefestarter REAL DEFAULT 0");
+            sqlExec(db, "ALTER TABLE Sud ADD COLUMN SWHefestarter REAL DEFAULT 0");
+
+            // WeitereZutaten & WeitereZutatenGaben
+            //  - neue Spalte 'Unvergaerbar'
+            sqlExec(db, "ALTER TABLE WeitereZutaten ADD COLUMN Unvergaerbar INTEGER");
+            sqlExec(db, "ALTER TABLE WeitereZutatenGaben ADD COLUMN Unvergaerbar INTEGER");
+
+            sqlExec(db, QString("UPDATE Global SET db_Version=%1").arg(version));
+            db.commit();
+        }
+
         return true;
     }
     catch (const std::exception& ex)

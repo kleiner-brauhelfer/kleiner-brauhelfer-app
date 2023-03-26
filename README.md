@@ -1,4 +1,8 @@
 # kleiner-brauhelfer-app
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kleiner-brauhelfer/kleiner-brauhelfer-app)](https://github.com/kleiner-brauhelfer/kleiner-brauhelfer-app/releases/latest/)
+[![GitHub Release Date](https://img.shields.io/github/release-date/kleiner-brauhelfer/kleiner-brauhelfer-app)](https://github.com/kleiner-brauhelfer/kleiner-brauhelfer-app/releases/latest/)
+[![GitHub Downlaods](https://img.shields.io/github/downloads/kleiner-brauhelfer/kleiner-brauhelfer-app/total)](https://github.com/kleiner-brauhelfer/kleiner-brauhelfer-app/releases/latest/)
+
 Die kleiner-brauhelfer-app ist eine App, welche die Software [kleiner-brauhelfer-2](https://github.com/kleiner-brauhelfer/kleiner-brauhelfer-2) ergänzt. Die App wird nur für Android Geräte kompiliert, sollte aber auch mit anderen Betriebssysteme kompatibel sein.
 
 **Diskussionsthread:**
@@ -6,7 +10,7 @@ Die kleiner-brauhelfer-app ist eine App, welche die Software [kleiner-brauhelfer
 https://hobbybrauer.de/forum/viewtopic.php?f=3&t=17466
 
 ## Download letzte Version
-- [Version 2.4.2](https://github.com/kleiner-brauhelfer/kleiner-brauhelfer-app/releases/latest) passend zum [kleinen-brauhelfer-2](https://github.com/kleiner-brauhelfer/kleiner-brauhelfer-2)
+- [Version 2.x.x](https://github.com/kleiner-brauhelfer/kleiner-brauhelfer-app/releases/latest) passend zum [kleinen-brauhelfer-2](https://github.com/kleiner-brauhelfer/kleiner-brauhelfer-2)
 - [Version 1.0.0](https://github.com/kleiner-brauhelfer/kleiner-brauhelfer-app/releases/tag/v1.0.0) passend zum [kleinen-brauhelfer bis 1.4.4.6](https://github.com/Gremmel/kleiner-brauhelfer)
 
 ## Änderungen & Erweiterungen
@@ -31,7 +35,7 @@ Siehe [Changelog](CHANGELOG.md).
 6. App Name wählen.
 7. Auf *Create app* klicken.
 8. Oben auf den *Permissions* Reiter wechseln.
-9. Folgende Optionen anwählen *files.metadata.write* und *files.content.write*.
+9. Folgende Berechtigungen aktivieren: *files.metadata.write*, *files.metadata.read*, *files.content.write* und *files.content.read*
 10. Einstellungen mit *Submit* bestätigen.
 11. Zurück zum *Settings* Reiter wechseln.
 12. Bei *Redirect URIs* *http://127.0.0.1:5476/* eintragen.
