@@ -50,6 +50,34 @@ ApplicationWindow {
         property bool readonly: false
     }
 
+    Connections {
+        target: SyncService
+        function onMessage(type, txt) {
+            switch(type) {
+            case 1:
+                messageDialog.icon = MessageDialog.Warning
+                break
+            case 2:
+            case 3:
+                messageDialog.icon = MessageDialog.Critical
+                break
+            default:
+                messageDialog.icon = MessageDialog.Information
+            }
+            messageDialog.text = txt
+            messageDialog.open()
+        }
+    }
+    Connections {
+        target: SyncService.syncServiceDropbox
+        function onAccessGranted() {
+            connect()
+            messageDialog.icon = MessageDialog.Information
+            messageDialog.text = qsTr("Zugang gewährt.")
+            messageDialog.open()
+        }
+    }
+
     // scheduler to do stuff in the background, use run() or runExt()
     Timer {
         // tasks
@@ -229,6 +257,11 @@ ApplicationWindow {
     // toast messages
     Toast {
         id: toast
+    }
+
+    // general message dialog
+    MessageDialog {
+        id: messageDialog
     }
 
     // message dialog to show readonly message

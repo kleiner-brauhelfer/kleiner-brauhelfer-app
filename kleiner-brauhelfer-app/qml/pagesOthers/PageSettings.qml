@@ -22,29 +22,6 @@ PageBase {
         onMovementStarted: forceActiveFocus()
         ScrollIndicator.vertical: ScrollIndicator {}
 
-        Connections {
-            target: SyncService
-            function onMessage(type, txt) {
-                switch(type) {
-                case 1:
-                    messageDialog.icon = MessageDialog.Warning
-                    break
-                case 2:
-                case 3:
-                    messageDialog.icon = MessageDialog.Critical
-                    break
-                default:
-                    messageDialog.icon = MessageDialog.Information
-                }
-                messageDialog.text = txt
-                messageDialog.open()
-            }
-        }
-
-        MessageDialog {
-            id: messageDialog
-        }
-
         MouseAreaCatcher {
             anchors.fill: parent
         }
@@ -200,12 +177,6 @@ PageBase {
                                 if (wasEdited)
                                 {
                                     SyncService.syncServiceDropbox.appKey = text
-                                    if (SyncService.syncServiceDropbox.appKey !== "" &&
-                                        SyncService.syncServiceDropbox.appSecret !== "" &&
-                                        SyncService.syncServiceDropbox.filePathServer !== "")
-                                    {
-                                        layout.connect()
-                                    }
                                     wasEdited = false
                                 }
                             }
@@ -230,12 +201,6 @@ PageBase {
                                 if (wasEdited)
                                 {
                                     SyncService.syncServiceDropbox.appSecret = text
-                                    if (SyncService.syncServiceDropbox.appKey !== "" &&
-                                        SyncService.syncServiceDropbox.appSecret !== "" &&
-                                        SyncService.syncServiceDropbox.filePathServer !== "")
-                                    {
-                                        layout.connect()
-                                    }
                                     wasEdited = false
                                 }
                             }
@@ -258,12 +223,6 @@ PageBase {
                                 if (wasEdited)
                                 {
                                     SyncService.syncServiceDropbox.filePathServer = text
-                                    if (SyncService.syncServiceDropbox.appKey !== "" &&
-                                        SyncService.syncServiceDropbox.appSecret !== "" &&
-                                        SyncService.syncServiceDropbox.filePathServer !== "")
-                                    {
-                                        layout.connect()
-                                    }
                                     wasEdited = false
                                 }
                             }
@@ -271,7 +230,10 @@ PageBase {
                         ButtonBase {
                             Layout.fillWidth: true
                             text: qsTr("Zugriff erlauben")
-                            onClicked: SyncService.syncServiceDropbox.grantAccess()
+                            onClicked: {
+                                Brauhelfer.disconnectDatabase()
+                                SyncService.syncServiceDropbox.grantAccess()
+                            }
                         }
                     }
                     ColumnLayout {
@@ -373,7 +335,7 @@ PageBase {
                             onClicked: {
                                 Brauhelfer.disconnectDatabase()
                                 SyncService.clearCache()
-                                connect()
+                                layout.connect()
                             }
                             contentItem: Image {
                                 source: "qrc:/images/ic_delete.png"
