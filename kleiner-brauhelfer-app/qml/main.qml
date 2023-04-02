@@ -46,8 +46,25 @@ ApplicationWindow {
         property int ingredientsFilter: 0
         property real sugarFactor: 1.0
         property real scalingfactor: 1.0
+        property int restextraktMethode: 0
         property int refractometerIndex: 2
         property bool readonly: false
+    }
+
+    Connections {
+        target: SyncService
+        function onMessage(type, txt) {
+            messageDialog.text = txt
+            messageDialog.open()
+        }
+    }
+    Connections {
+        target: SyncService.syncServiceDropbox
+        function onAccessGranted() {
+            connect()
+            messageDialog.text = qsTr("Zugang gewährt.")
+            messageDialog.open()
+        }
     }
 
     // scheduler to do stuff in the background, use run() or runExt()
@@ -229,6 +246,11 @@ ApplicationWindow {
     // toast messages
     Toast {
         id: toast
+    }
+
+    // general message dialog
+    MessageDialog {
+        id: messageDialog
     }
 
     // message dialog to show readonly message

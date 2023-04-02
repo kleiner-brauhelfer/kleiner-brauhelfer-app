@@ -22,18 +22,6 @@ PageBase {
         onMovementStarted: forceActiveFocus()
         ScrollIndicator.vertical: ScrollIndicator {}
 
-        Connections {
-            target: SyncService
-            function onMessage(type, txt) {
-                messageDialog.text = txt
-                messageDialog.open()
-            }
-        }
-
-        MessageDialog {
-            id: messageDialog
-        }
-
         MouseAreaCatcher {
             anchors.fill: parent
         }
@@ -151,7 +139,6 @@ PageBase {
                                     id: openDialog
                                     title: qsTr("Pfad zur Datenbank")
                                     onAccepted: {
-                                        console.info(file)
                                         tfDatabasePathLocal.text = Utils.toLocalFile(decodeURIComponent(file))
                                         SyncService.syncServiceLocal.filePathLocal = tfDatabasePathLocal.text
                                         layout.connect()
@@ -190,12 +177,6 @@ PageBase {
                                 if (wasEdited)
                                 {
                                     SyncService.syncServiceDropbox.appKey = text
-                                    if (SyncService.syncServiceDropbox.appKey !== "" &&
-                                        SyncService.syncServiceDropbox.appSecret !== "" &&
-                                        SyncService.syncServiceDropbox.filePathServer !== "")
-                                    {
-                                        layout.connect()
-                                    }
                                     wasEdited = false
                                 }
                             }
@@ -220,12 +201,6 @@ PageBase {
                                 if (wasEdited)
                                 {
                                     SyncService.syncServiceDropbox.appSecret = text
-                                    if (SyncService.syncServiceDropbox.appKey !== "" &&
-                                        SyncService.syncServiceDropbox.appSecret !== "" &&
-                                        SyncService.syncServiceDropbox.filePathServer !== "")
-                                    {
-                                        layout.connect()
-                                    }
                                     wasEdited = false
                                 }
                             }
@@ -248,12 +223,6 @@ PageBase {
                                 if (wasEdited)
                                 {
                                     SyncService.syncServiceDropbox.filePathServer = text
-                                    if (SyncService.syncServiceDropbox.appKey !== "" &&
-                                        SyncService.syncServiceDropbox.appSecret !== "" &&
-                                        SyncService.syncServiceDropbox.filePathServer !== "")
-                                    {
-                                        layout.connect()
-                                    }
                                     wasEdited = false
                                 }
                             }
@@ -261,7 +230,10 @@ PageBase {
                         ButtonBase {
                             Layout.fillWidth: true
                             text: qsTr("Zugriff erlauben")
-                            onClicked: SyncService.syncServiceDropbox.grantAccess()
+                            onClicked: {
+                                Brauhelfer.disconnectDatabase()
+                                SyncService.syncServiceDropbox.grantAccess()
+                            }
                         }
                     }
                     ColumnLayout {
@@ -363,7 +335,7 @@ PageBase {
                             onClicked: {
                                 Brauhelfer.disconnectDatabase()
                                 SyncService.clearCache()
-                                connect()
+                                layout.connect()
                             }
                             contentItem: Image {
                                 source: "qrc:/images/ic_delete.png"

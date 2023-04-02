@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 2.5.1 (02.04.2023)
+- Fix: Aktualisieren des Dropbox Access Tokens
+- Fix: Berücksichtigung der Temperatur bei Spindelmessung
+
 ## Version 2.5.0 (27.02.2023)
 - Neu: Kompatibel zum kleiner-brauhelfer-2 v2.5.0
 

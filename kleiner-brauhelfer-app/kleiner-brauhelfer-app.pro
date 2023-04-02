@@ -9,7 +9,7 @@ ORGANIZATION = kleiner-brauhelfer
 TARGET = kleiner-brauhelfer-app
 VER_MAJ = 2
 VER_MIN = 5
-VER_PAT = 0
+VER_PAT = 1
 VERSION = $$sprintf("%1.%2.%3",$$VER_MAJ,$$VER_MIN,$$VER_PAT)
 DEFINES += ORGANIZATION=\\\"$$ORGANIZATION\\\" TARGET=\\\"$$TARGET\\\" VERSION=\\\"$$VERSION\\\"
 DEFINES += VER_MAJ=\"$$VER_MAJ\" VER_MIN=\"$$VER_MIN\" VER_PAT=\"$$VER_PAT\"

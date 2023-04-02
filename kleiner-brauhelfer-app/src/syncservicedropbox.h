@@ -17,10 +17,7 @@ class SyncServiceDropbox : public SyncService
 
     Q_PROPERTY(QString appKey READ appKey WRITE setAppKey NOTIFY appKeyChanged)
     Q_PROPERTY(QString appSecret READ appSecret WRITE setAppSecret NOTIFY appSecretChanged)
-    Q_PROPERTY(QString refreshToken READ refreshToken WRITE setRefreshToken NOTIFY refreshTokenChanged)
-    Q_PROPERTY(QString accessToken READ accessToken WRITE setAccessToken NOTIFY accessTokenChanged)
     Q_PROPERTY(QString filePathServer READ filePathServer WRITE setFilePathServer NOTIFY filePathServerChanged)
-    Q_PROPERTY(QStringListModel* folderContent READ folderContent NOTIFY accessTokenChanged)
 
 public:
 
@@ -51,12 +48,6 @@ public:
     bool synchronize(SyncDirection direction) Q_DECL_OVERRIDE;
 
     /**
-     * @brief Gets the folder content
-     * @return List of files
-     */
-    QStringListModel *folderContent();
-
-    /**
      * @brief appKey
      * @return
      */
@@ -81,30 +72,6 @@ public:
     void setAppSecret(const QString &secret);
 
     /**
-     * @brief refreshToken
-     * @return
-     */
-    QString refreshToken() const;
-
-    /**
-     * @brief setRefreshToken
-     * @param token
-     */
-    void setRefreshToken(const QString &token);
-
-    /**
-     * @brief Gets the server access token
-     * @return Access token
-     */
-    QString accessToken() const;
-
-    /**
-     * @brief Sets the server access token
-     * @param token Access token
-     */
-    void setAccessToken(const QString &token);
-
-    /**
      * @brief Gets the database path on the server
      * @return Database path
      */
@@ -119,6 +86,11 @@ public:
 signals:
 
     /**
+     * @brief accessGranted
+     */
+    void accessGranted();
+
+    /**
      * @brief appKeyChanged
      * @param token
      */
@@ -131,39 +103,33 @@ signals:
     void appSecretChanged(const QString &secret);
 
     /**
-     * @brief refreshTokenChanged
-     * @param token
-     */
-    void refreshTokenChanged(const QString &token);
-
-    /**
-     * @brief Emitted if access token was changed
-     * @param token Access token
-     */
-    void accessTokenChanged(const QString &token);
-
-    /**
      * @brief Emitted if database path on the server changed
      * @param filePath Database path
      */
     void filePathServerChanged(const QString &filePath);
 
 private slots:
-    void error(QNetworkReply::NetworkError error);
+    void networkError(QNetworkReply::NetworkError error);
+    void authError(const QString &error, const QString &errorDescription, const QUrl &uri);
     void sslErrors(const QList<QSslError>& errors);
 
 private:
-
     bool downloadFile();
     bool uploadFile();
-    QString getServerRevision();
+    QString getServerRevision(QNetworkReply::NetworkError* replyCode = nullptr);
     QString getLocalRevision() const;
     void setLocalRevision(const QString &revision);
+    QString refreshToken() const;
+    void setRefreshToken(const QString &token);
+    QString accessToken() const;
+    void setAccessToken(const QString &token);
     void clearCachedSettings() Q_DECL_OVERRIDE;
+
+private:
+    bool _mightNeedToRefreshToken;
     QOAuth2AuthorizationCodeFlow *_oauth2;
     QNetworkAccessManager* _netManager;
     QNetworkReply* _netReply;
-    QStringListModel* _fileContent;
 };
 
 #endif // SYNCSERVICEDROPBOX_H

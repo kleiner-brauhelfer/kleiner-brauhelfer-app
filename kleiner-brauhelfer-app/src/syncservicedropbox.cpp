@@ -16,7 +16,7 @@ static const char* DROPBOX_CONTENT_URL = "https://content.dropboxapi.com";
 
 SyncServiceDropbox::SyncServiceDropbox(QSettings *settings) :
     SyncService(settings, DROPBOX_API_URL),
-    _fileContent(new QStringListModel(this))
+    _mightNeedToRefreshToken(false)
 {
     setFilePath(cacheFilePath(filePathServer()));
     _oauth2 = new QOAuth2AuthorizationCodeFlow(this);
@@ -47,11 +47,13 @@ SyncServiceDropbox::SyncServiceDropbox(QSettings *settings) :
             break;
         }
     });
+    connect(_oauth2, SIGNAL(error(QString,QString,QUrl)), this, SLOT(authError(QString,QString,QUrl)));
     connect(_oauth2, &QOAuth2AuthorizationCodeFlow::authorizeWithBrowser, &QDesktopServices::openUrl);
     connect(_oauth2, &QOAuth2AuthorizationCodeFlow::granted, this, [this]() {
         setRefreshToken(_oauth2->refreshToken());
         setAccessToken(_oauth2->token());
-        emit message(QtMsgType::QtInfoMsg, "Access granted.");
+        if (!_mightNeedToRefreshToken)
+            emit accessGranted();
     });
 }
 
@@ -82,259 +84,129 @@ void SyncServiceDropbox::refreshAccess()
 bool SyncServiceDropbox::downloadFile()
 {
     bool ret = false;
-    bool retry = true;
-    while (true)
+
+    QUrl url;
+    url.setUrl(DROPBOX_CONTENT_URL);
+    url.setPath(QString("/2/files/download"));
+
+    QNetworkRequest req;
+    req.setUrl(url);
+    req.setRawHeader("Authorization", QString("Bearer %1").arg(accessToken()).toUtf8());
+    QString json = QString("{\"path\": \"%1\"}").arg((filePathServer().compare("/") == 0) ? "" : filePathServer());
+    req.setRawHeader("Dropbox-API-arg", json.toUtf8());
+
+    QEventLoop loop;
+    _netReply = _netManager->get(req);
+    connect(_netReply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(sslErrors(QList<QSslError>)));
+    connect(_netReply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
+    connect(_netReply, SIGNAL(finished()), &loop, SLOT(quit()));
+    loop.exec();
+
+    QNetworkReply::NetworkError code = _netReply->error();
+    if (code == QNetworkReply::NoError)
     {
-        QUrl url;
-        url.setUrl(DROPBOX_CONTENT_URL);
-        url.setPath(QString("/2/files/download"));
-
-        QNetworkRequest req;
-        req.setUrl(url);
-        req.setRawHeader("Authorization", QString("Bearer %1").arg(accessToken()).toUtf8());
-        QString json = QString("{ \"path\": \"%1\" }")
-                .arg((filePathServer().compare("/") == 0) ? "" : filePathServer());
-        req.setRawHeader("Dropbox-API-arg", json.toUtf8());
-
-        QEventLoop loop;
-        _netReply = _netManager->get(req);
-        connect(_netReply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(sslErrors(QList<QSslError>)));
-        connect(_netReply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(error(QNetworkReply::NetworkError)));
-        connect(_netReply, SIGNAL(finished()), &loop, SLOT(quit()));
-        loop.exec();
-
-        QNetworkReply::NetworkError code = _netReply->error();
-        if (code == QNetworkReply::NoError)
+        QFile dstFile(getFilePath());
+        QFileInfo finfo(dstFile);
+        QDir dir(finfo.absolutePath());
+        if (!dir.exists())
         {
-            QFile dstFile(getFilePath());
-            QFileInfo finfo(dstFile);
-            QDir dir(finfo.absolutePath());
-            if (!dir.exists())
-            {
-                dir.mkpath(".");
-            }
-            if (dstFile.open(QIODevice::WriteOnly))
-            {
-                if (dstFile.write(_netReply->readAll()) != -1)
-                    ret = true;
-                dstFile.close();
-            }
+            dir.mkpath(".");
         }
-        else if (code == QNetworkReply::AuthenticationRequiredError)
+        if (dstFile.open(QIODevice::WriteOnly))
         {
-            if (retry)
-            {
-                retry = false;
-                _oauth2->refreshAccessToken();
-                continue;
-            }
+            if (dstFile.write(_netReply->readAll()) != -1)
+                ret = true;
+            dstFile.close();
         }
-        break;
     }
+
     return ret;
 }
 
 bool SyncServiceDropbox::uploadFile()
 {
     bool ret = false;
-    bool retry = true;
-    while (true)
-    {
-        QFile srcFile(getFilePath());
-        if (srcFile.open(QIODevice::ReadOnly))
-        {
-            QUrl url;
-            url.setUrl(DROPBOX_CONTENT_URL);
-            url.setPath(QString("/2/files/upload"));
 
-            QNetworkRequest req;
-            req.setUrl(url);
-            req.setRawHeader("Authorization", QString("Bearer %1").arg(accessToken()).toUtf8());
-            req.setHeader(QNetworkRequest::ContentTypeHeader, "application/octet-stream");
-            QString json = QString("{ \"path\": \"%1\", \"mode\": \"overwrite\", \"autorename\": true, \"mute\": true }")
-                    .arg((filePathServer().compare("/") == 0) ? "" : filePathServer());
-            req.setRawHeader("Dropbox-API-arg", json.toUtf8());
-
-            QEventLoop loop;
-            _netReply = _netManager->post(req, srcFile.readAll());
-            connect(_netReply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(sslErrors(QList<QSslError>)));
-            connect(_netReply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(error(QNetworkReply::NetworkError)));
-            connect(_netReply, SIGNAL(finished()), &loop, SLOT(quit()));
-            loop.exec();
-
-            QNetworkReply::NetworkError code = _netReply->error();
-            if (code == QNetworkReply::NoError)
-            {
-                ret = true;
-            }
-            else if (code == QNetworkReply::AuthenticationRequiredError)
-            {
-                if (retry)
-                {
-                    retry = false;
-                    _oauth2->refreshAccessToken();
-                    continue;
-                }
-            }
-
-            srcFile.close();
-        }
-        break;
-    }
-    return ret;
-}
-
-QString SyncServiceDropbox::getServerRevision()
-{
-    bool retry = true;
-    while (true)
+    QFile srcFile(getFilePath());
+    if (srcFile.open(QIODevice::ReadOnly))
     {
         QUrl url;
-        url.setUrl(DROPBOX_API_URL);
-        url.setPath(QString("/2/files/get_metadata"));
+        url.setUrl(DROPBOX_CONTENT_URL);
+        url.setPath(QString("/2/files/upload"));
 
         QNetworkRequest req;
         req.setUrl(url);
         req.setRawHeader("Authorization", QString("Bearer %1").arg(accessToken()).toUtf8());
-        req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-
-        QString json = QString("{\"path\": \"%1\"}").arg((filePathServer().compare("/") == 0) ? "" : filePathServer());
+        req.setHeader(QNetworkRequest::ContentTypeHeader, "application/octet-stream");
+        QString json = QString("{\"path\": \"%1\",\"mode\": \"overwrite\",\"autorename\": true,\"mute\": true}")
+                .arg((filePathServer().compare("/") == 0) ? "" : filePathServer());
+        req.setRawHeader("Dropbox-API-arg", json.toUtf8());
 
         QEventLoop loop;
-        _netReply = _netManager->post(req, json.toUtf8());
+        _netReply = _netManager->post(req, srcFile.readAll());
         connect(_netReply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(sslErrors(QList<QSslError>)));
-        connect(_netReply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(error(QNetworkReply::NetworkError)));
+        connect(_netReply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
         connect(_netReply, SIGNAL(finished()), &loop, SLOT(quit()));
         loop.exec();
 
         QNetworkReply::NetworkError code = _netReply->error();
         if (code == QNetworkReply::NoError)
         {
-            QJsonParseError jsonError;
-            QJsonDocument json = QJsonDocument::fromJson(_netReply->readAll(), &jsonError);
-            if(jsonError.error == QJsonParseError::NoError)
-            {
-                QJsonObject jsonData = json.object();
-                return jsonData.value("rev").toString();
-            }
-            else
-            {
-                emit message(QtMsgType::QtCriticalMsg, jsonError.errorString());
-            }
+            ret = true;
         }
-        else if (code == QNetworkReply::AuthenticationRequiredError)
-        {
-            if (retry)
-            {
-                retry = false;
-                _oauth2->refreshAccessToken();
-                continue;
-            }
-        }
-        break;
+
+        srcFile.close();
     }
-    return "";
+
+    return ret;
 }
 
-QStringListModel* SyncServiceDropbox::folderContent()
+QString SyncServiceDropbox::getServerRevision(QNetworkReply::NetworkError* replyCode)
 {
-    QStringList list;
-    bool retry = true;
-    bool retry2 = true;
-    while (true)
+    QUrl url;
+    url.setUrl(DROPBOX_API_URL);
+    url.setPath(QString("/2/files/get_metadata"));
+
+    QNetworkRequest req;
+    req.setUrl(url);
+    req.setRawHeader("Authorization", QString("Bearer %1").arg(accessToken()).toUtf8());
+    req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    QString json = QString("{\"path\": \"%1\"}").arg((filePathServer().compare("/") == 0) ? "" : filePathServer());
+
+    QEventLoop loop;
+    _netReply = _netManager->post(req, json.toUtf8());
+    connect(_netReply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(sslErrors(QList<QSslError>)));
+    connect(_netReply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
+    connect(_netReply, SIGNAL(finished()), &loop, SLOT(quit()));
+    loop.exec();
+
+    QNetworkReply::NetworkError code = _netReply->error();
+    if (replyCode)
+        *replyCode = code;
+    if (code == QNetworkReply::NoError)
     {
-        QString cursor = "";
-        do
+        QJsonParseError jsonError;
+        QJsonDocument json = QJsonDocument::fromJson(_netReply->readAll(), &jsonError);
+        if(jsonError.error == QJsonParseError::NoError)
         {
-            QUrl url;
-            url.setUrl(DROPBOX_API_URL);
-
-            QString json;
-            if (cursor.isEmpty())
-            {
-                url.setPath(QString("/2/files/list_folder"));
-                json = QString("{\"path\": \"\", \"recursive\": true}");
-            }
-            else
-            {
-                url.setPath(QString("/2/files/list_folder/continue"));
-                json = QString("{\"cursor\": \"%1\"}").arg(cursor);
-            }
-
-            QNetworkRequest req;
-            req.setUrl(url);
-            req.setRawHeader("Authorization", QString("Bearer %1").arg(accessToken()).toUtf8());
-            req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-
-            QEventLoop loop;
-            _netReply = _netManager->post(req, json.toUtf8());
-            connect(_netReply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(sslErrors(QList<QSslError>)));
-            connect(_netReply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(error(QNetworkReply::NetworkError)));
-            connect(_netReply, SIGNAL(finished()), &loop, SLOT(quit()));
-            loop.exec();
-
-            QNetworkReply::NetworkError code = _netReply->error();
-            if (code == QNetworkReply::NoError)
-            {
-                QJsonParseError jsonError;
-                QJsonDocument json = QJsonDocument::fromJson(_netReply->readAll(), &jsonError);
-                if(jsonError.error == QJsonParseError::NoError)
-                {
-                    QJsonObject obj = json.object();
-                    const QJsonArray entries = obj.value("entries").toArray();
-                    for (const QJsonValue& entry : entries)
-                    {
-                        QJsonObject jsonData = entry.toObject();
-                        if (jsonData.value(".tag").toString() ==  "file")
-                        {
-                            QString path = jsonData.value("path_display").toString();
-                            QString ext = QFileInfo(path).suffix();
-                            if (ext.contains("sqlite") || ext.contains("db") || ext.contains("sl"))
-                                list.append(path);
-                        }
-                    }
-                    if (list.count() > 100)
-                        break;
-                    if (!obj.value("has_more").toBool())
-                        break;
-                    cursor = obj.value("cursor").toString();
-                }
-                else
-                {
-                    emit message(QtMsgType::QtCriticalMsg, jsonError.errorString());
-                    break;
-                }
-            }
-            else if (code == QNetworkReply::AuthenticationRequiredError)
-            {
-                if (retry)
-                {
-                    retry = false;
-                    _oauth2->refreshAccessToken();
-                    break;
-                }
-                else
-                {
-                    retry2 = false;
-                    break;
-                }
-            }
-            else
-            {
-                break;
-            }
-        } while (true);
-        if (!retry && retry2)
-            continue;
-        break;
+            QJsonObject jsonData = json.object();
+            return jsonData.value("rev").toString();
+        }
+        else
+        {
+            emit message(QtMsgType::QtCriticalMsg, jsonError.errorString());
+        }
     }
-    _fileContent->setStringList(list);
-    return _fileContent;
+
+    return QString();
 }
 
-void SyncServiceDropbox::error(QNetworkReply::NetworkError error)
+void SyncServiceDropbox::networkError(QNetworkReply::NetworkError error)
 {
-    Q_UNUSED(error)
+    if (_mightNeedToRefreshToken && error == QNetworkReply::AuthenticationRequiredError)
+        return;
+
     QString msg = _netReply->errorString();
     QJsonParseError jsonError;
     QJsonDocument json = QJsonDocument::fromJson(_netReply->readAll(), &jsonError);
@@ -348,9 +220,18 @@ void SyncServiceDropbox::error(QNetworkReply::NetworkError error)
     emit message(QtMsgType::QtCriticalMsg, msg);
 }
 
+void SyncServiceDropbox::authError(const QString &error, const QString &errorDescription, const QUrl &uri)
+{
+    Q_UNUSED(uri)
+    emit message(QtMsgType::QtCriticalMsg, error + "\n" + errorDescription);
+}
+
 void SyncServiceDropbox::sslErrors(const QList<QSslError> &errors)
 {
-    Q_UNUSED(errors)
+    if (errors.count() > 0)
+        emit message(QtMsgType::QtWarningMsg, errors[0].errorString());
+    else
+        emit message(QtMsgType::QtWarningMsg, "SSL error.");
     _netReply->ignoreSslErrors();
 }
 
@@ -366,7 +247,32 @@ void SyncServiceDropbox::setLocalRevision(const QString &revision)
 
 bool SyncServiceDropbox::synchronize(SyncDirection direction)
 {
-    if (filePathServer() == "")
+    if (filePathServer().isEmpty())
+    {
+        setState(SyncState::Failed);
+        return false;
+    }
+
+    if (refreshToken().isEmpty() || accessToken().isEmpty()) {
+        setState(SyncState::Failed);
+        emit message(QtMsgType::QtCriticalMsg, "Grant access first.");
+        return false;
+    }
+
+    QNetworkReply::NetworkError replyCode;
+    _mightNeedToRefreshToken = true;
+    QString revision = getServerRevision(&replyCode);
+    if (replyCode == QNetworkReply::AuthenticationRequiredError)
+    {
+        QEventLoop loop;
+        _oauth2->refreshAccessToken();
+        connect(_oauth2, SIGNAL(granted()), &loop, SLOT(quit()));
+        connect(_oauth2, SIGNAL(error(QString,QString,QUrl)), &loop, SLOT(quit()));
+        loop.exec();
+        revision = getServerRevision();
+    }
+    _mightNeedToRefreshToken = false;
+    if (revision.isEmpty())
     {
         setState(SyncState::Failed);
         return false;
@@ -374,7 +280,6 @@ bool SyncServiceDropbox::synchronize(SyncDirection direction)
 
     if (QFile::exists(getFilePath()))
     {
-        QString revision = getServerRevision();
         if (revision == getLocalRevision())
         {
             if (direction == SyncDirection::Download)
@@ -454,6 +359,8 @@ void SyncServiceDropbox::setAppKey(const QString &key)
     if (appKey() != key)
     {
         _settings->setValue("SyncService/dropbox/AppKey", key);
+        _oauth2->setClientIdentifier(key);
+        clearCache();
         emit appKeyChanged(key);
     }
 }
@@ -468,6 +375,8 @@ void SyncServiceDropbox::setAppSecret(const QString &secret)
     if (appSecret() != secret)
     {
         _settings->setValue("SyncService/dropbox/AppSecret", secret);
+        _oauth2->setClientIdentifierSharedKey(secret);
+        clearCache();
         emit appSecretChanged(secret);
     }
 }
@@ -479,11 +388,7 @@ QString SyncServiceDropbox::refreshToken() const
 
 void SyncServiceDropbox::setRefreshToken(const QString &token)
 {
-    if (refreshToken() != token)
-    {
-        _settings->setValue("SyncService/dropbox/RefreshToken", token);
-        emit refreshTokenChanged(token);
-    }
+    _settings->setValue("SyncService/dropbox/RefreshToken", token);
 }
 
 QString SyncServiceDropbox::accessToken() const
@@ -493,11 +398,7 @@ QString SyncServiceDropbox::accessToken() const
 
 void SyncServiceDropbox::setAccessToken(const QString &token)
 {
-    if (accessToken() != token)
-    {
-        _settings->setValue("SyncService/dropbox/AccessToken", token);
-        emit accessTokenChanged(token);
-    }
+    _settings->setValue("SyncService/dropbox/AccessToken", token);
 }
 
 QString SyncServiceDropbox::filePathServer() const
@@ -521,6 +422,4 @@ void SyncServiceDropbox::clearCachedSettings()
     _settings->remove("SyncService/dropbox/AccessToken");
     _oauth2->setRefreshToken("");
     _oauth2->setToken("");
-    emit refreshTokenChanged("");
-    emit accessTokenChanged("");
 }
