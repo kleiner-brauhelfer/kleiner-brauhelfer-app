@@ -27,6 +27,7 @@
         <file>qml/common/MouseAreaCatcher.qml</file>
         <file>qml/common/PageBase.qml</file>
         <file>qml/common/PopupBase.qml</file>
+        <file>qml/common/PopupRestextrakt.qml</file>
         <file>qml/common/PopupWeitereZutatenGaben.qml</file>
         <file>qml/common/SpinBoxReal.qml</file>
         <file>qml/common/SwitchBase.qml</file>

@@ -46,6 +46,7 @@ ApplicationWindow {
         property int ingredientsFilter: 0
         property real sugarFactor: 1.0
         property real scalingfactor: 1.0
+        property int restextraktMethode: 0
         property int refractometerIndex: 2
         property bool readonly: false
     }
