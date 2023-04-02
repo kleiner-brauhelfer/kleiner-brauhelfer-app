@@ -111,7 +111,7 @@ PopupBase {
                                 id: messageDialog
                                 text: qsTr("Rohstoff vom Bestand abziehen?")
                                 buttons: MessageDialog.Yes | MessageDialog.No
-                                onAccepted: Brauhelfer.rohstoffAbziehen(
+                                onYesClicked: Brauhelfer.rohstoffAbziehen(
                                            model.Typ === Brauhelfer.ZusatzTyp.Hopfen ? Brauhelfer.RohstoffTyp.Hopfen : Brauhelfer.RohstoffTyp.Zusatz,
                                            model.Name,
                                            model.erg_Menge)

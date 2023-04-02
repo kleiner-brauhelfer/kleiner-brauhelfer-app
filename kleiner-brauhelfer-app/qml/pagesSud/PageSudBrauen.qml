@@ -43,7 +43,7 @@ PageBase {
             id: messageDialog
             text: qsTr("Verwendete Rohstoffe vom Bestand abziehen?")
             buttons: MessageDialog.Yes | MessageDialog.No
-            onAccepted: Brauhelfer.sud.brauzutatenAbziehen()
+            onYesClicked: Brauhelfer.sud.brauzutatenAbziehen()
         }
 
         ColumnLayout {
