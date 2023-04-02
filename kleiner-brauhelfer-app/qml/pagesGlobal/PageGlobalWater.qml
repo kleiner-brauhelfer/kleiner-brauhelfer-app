@@ -2,7 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 import QtQuick.Controls.Material 2.15
-import QtQuick.Dialogs 1.3
+import Qt.labs.platform 1.1
 
 import "../common"
 import brauhelfer 1.0
@@ -28,7 +28,7 @@ PageBase {
         //headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
         ScrollIndicator.vertical: ScrollIndicator {}
         header: Rectangle {
-            property var widthCol1: headerLabel1.width
+            property int widthCol1: headerLabel1.width
             z: 2
             width: listView.width
             height: header.height
@@ -160,7 +160,6 @@ PageBase {
                     anchors.right: parent.right
                     anchors.margins: 8
                     spacing: 16
-                    height: contentChildren[currentIndex].implicitHeight + 2 * anchors.margins
                     clip: true
                     currentIndex: listView.currentIndex
                     onCurrentIndexChanged: listView.currentIndex = currentIndex

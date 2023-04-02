@@ -3,7 +3,7 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 import QtQuick.Controls.Material 2.15
 import QtGraphicalEffects 1.0
-import QtQuick.Dialogs 1.3
+import Qt.labs.platform 1.1
 
 import "../common"
 import brauhelfer 1.0
@@ -41,11 +41,9 @@ PageBase {
         // message dialog
         MessageDialog {
             id: messageDialog
-            icon: StandardIcon.Question
             text: qsTr("Verwendete Rohstoffe vom Bestand abziehen?")
-            standardButtons: StandardButton.Yes | StandardButton.No
-            //buttons: MessageDialog.Yes | MessageDialog.No
-            onYes: Brauhelfer.sud.brauzutatenAbziehen()
+            buttons: MessageDialog.Yes | MessageDialog.No
+            onAccepted: Brauhelfer.sud.brauzutatenAbziehen()
         }
 
         ColumnLayout {
@@ -128,7 +126,7 @@ PageBase {
                         model: ProxyModel {
                             sourceModel: Brauhelfer.sud.modelWeitereZutatenGaben
                             filterKeyColumn: fieldIndex("Zeitpunkt")
-                            filterRegExp: /2/
+                            filterRegularExpression: /2/
                         }
                         delegate: ColumnLayout {
                             Layout.leftMargin: 8
@@ -814,7 +812,7 @@ PageBase {
                         model: ProxyModel {
                             sourceModel: Brauhelfer.sud.modelWeitereZutatenGaben
                             filterKeyColumn: fieldIndex("Zeitpunkt")
-                            filterRegExp: /1/
+                            filterRegularExpression: /1/
                         }
                         delegate: ColumnLayout {
                             Layout.leftMargin: 8
@@ -1431,7 +1429,7 @@ PageBase {
                         model: ProxyModel {
                             sourceModel: Brauhelfer.sud.modelWeitereZutatenGaben
                             filterKeyColumn: fieldIndex("Zeitpunkt")
-                            filterRegExp: /0/
+                            filterRegularExpression: /0/
                         }
                         delegate: ColumnLayout {
                             Layout.leftMargin: 8

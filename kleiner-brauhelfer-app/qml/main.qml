@@ -1,6 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import QtQuick.Dialogs 1.3
+import Qt.labs.platform 1.1
 import Qt.labs.settings 1.0
 
 import "common"
@@ -53,17 +53,6 @@ ApplicationWindow {
     Connections {
         target: SyncService
         function onMessage(type, txt) {
-            switch(type) {
-            case 1:
-                messageDialog.icon = MessageDialog.Warning
-                break
-            case 2:
-            case 3:
-                messageDialog.icon = MessageDialog.Critical
-                break
-            default:
-                messageDialog.icon = MessageDialog.Information
-            }
             messageDialog.text = txt
             messageDialog.open()
         }
@@ -72,7 +61,6 @@ ApplicationWindow {
         target: SyncService.syncServiceDropbox
         function onAccessGranted() {
             connect()
-            messageDialog.icon = MessageDialog.Information
             messageDialog.text = qsTr("Zugang gewährt.")
             messageDialog.open()
         }
@@ -267,7 +255,6 @@ ApplicationWindow {
     // message dialog to show readonly message
     MessageDialog {
         id: messageDialogReadonly
-        icon: MessageDialog.Information
         text: qsTr("Synchronisationsdienst ist nicht verfügbar.")
         informativeText: qsTr("Datenbank wird nur lesend geöffnet.")
     }
@@ -275,7 +262,6 @@ ApplicationWindow {
     // message dialog going to the settings
     MessageDialog {
         id: messageDialogGotoSettings
-        icon: MessageDialog.Warning
         text: qsTr("Verbindung mit der Datenbank fehlgeschlagen.")
         informativeText: qsTr("Einstellungen überprüfen.")
         onAccepted: navPane.goSettings()
@@ -284,7 +270,6 @@ ApplicationWindow {
     // message dialog for unsupported database version
     MessageDialog {
         id: messageDialogUnsupportedDatabaseVersion
-        icon: MessageDialog.Warning
         text: qsTr("Diese Datenbank wird nicht unterstüzt.")
         onAccepted: navPane.goSettings()
     }
@@ -292,7 +277,6 @@ ApplicationWindow {
     // message dialog for unsupported database version
     MessageDialog {
         id: messageDialogSslError
-        icon: MessageDialog.Warning
         text: qsTr("SSL nicht unterstüzt")
         informativeText: qsTr("SSL compile time: %1\nSSL run time: %2").arg(SyncService.sslLibraryBuildVersionString()).arg(SyncService.sslLibraryVersionString())
     }
@@ -300,20 +284,18 @@ ApplicationWindow {
     // message dialog to ask for quit
     MessageDialog {
         id: messageDialogQuit
-        icon: MessageDialog.Question
         text: qsTr("Soll das Programm geschlossen werden?")
-        standardButtons: StandardButton.Ok | StandardButton.Cancel
+        buttons: MessageDialog.Ok | MessageDialog.Cancel
         onAccepted: Qt.quit()
     }
 
     // message dialog to ask for save and quit
     MessageDialog {
         id: messageDialogQuitSave
-        icon: MessageDialog.Question
         text: qsTr("Änderungen vor dem Schliessen speichern?")
-        standardButtons: StandardButton.Save | StandardButton.Discard | StandardButton.Cancel
-        onAccepted: app.saveAndQuit()
-        onDiscard: Qt.quit()
+        buttons: MessageDialog.Save | MessageDialog.Discard | MessageDialog.Cancel
+        onSaveClicked: app.saveAndQuit()
+        onDiscardClicked: Qt.quit()
     }
 
     // header
@@ -335,7 +317,7 @@ ApplicationWindow {
         onClickedLeft: navigation.open()
         iconRight: navPane.isHome() ? "" : "ic_home_white.png"
         onClickedRight: navPane.goHome()
-        Keys.onReleased: navPane.keyPressed(event)
+        Keys.onReleased: (event) => navPane.keyPressed(event)
     }
 
     // global pages
@@ -420,7 +402,7 @@ ApplicationWindow {
                     else
                         messageDialogQuit.open()
                 }
-                if (lastView === null || currentItem === viewGlobal || currentItem == viewSud) {
+                if (lastView === null || currentItem == viewGlobal || currentItem == viewSud) {
                     goHome()
                 }
                 else {
@@ -469,7 +451,7 @@ ApplicationWindow {
             }
             else {
                 viewGlobal.currentIndex = 0
-                if (currentItem !== viewGlobal)
+                if (currentItem != viewGlobal)
                     pop(viewGlobal)
             }
             setFocus()

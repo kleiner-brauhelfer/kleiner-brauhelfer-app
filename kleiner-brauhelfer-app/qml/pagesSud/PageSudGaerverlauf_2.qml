@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.15
 import QtQuick.Controls.Material 2.15
 import QtGraphicalEffects 1.0
 import QtCharts 2.2
-import QtQuick.Dialogs 1.3
+import Qt.labs.platform 1.1
 
 import "../common"
 import brauhelfer 1.0
@@ -63,9 +63,9 @@ PageBase {
             Component.onCompleted: if (!readOnly) positionViewAtEnd()
             ScrollIndicator.vertical: ScrollIndicator {}
             header: Rectangle {
-                property var widthCol1: headerLabel1.width
-                property var widthCol2: headerLabel2.width
-                property var widthCol3: headerLabel3.width
+                property int widthCol1: headerLabel1.width
+                property int widthCol2: headerLabel2.width
+                property int widthCol3: headerLabel3.width
                 z: 2
                 width: listView.width
                 height: header.height
@@ -233,7 +233,7 @@ PageBase {
             model: ProxyModel {
                 sourceModel: Brauhelfer.sud.modelWeitereZutatenGaben
                 filterKeyColumn: fieldIndex("Zeitpunkt")
-                filterRegExp: /0/
+                filterRegularExpression: /0/
             }
             delegate: ItemDelegate {
                 width: listView.width

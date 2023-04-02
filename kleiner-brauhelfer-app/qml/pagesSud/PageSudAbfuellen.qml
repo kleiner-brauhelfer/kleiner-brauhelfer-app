@@ -70,7 +70,7 @@ PageBase {
                         model: ProxyModel {
                             sourceModel: Brauhelfer.sud.modelWeitereZutatenGaben
                             filterKeyColumn: fieldIndex("Zeitpunkt")
-                            filterRegExp: /0/
+                            filterRegularExpression: /0/
                         }
                         delegate: ItemDelegate {
                             enabled: !page.readOnly
