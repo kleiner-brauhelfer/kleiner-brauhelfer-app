@@ -66,6 +66,14 @@ ApplicationWindow {
             messageDialog.open()
         }
     }
+    Connections {
+        target: SyncService.syncServiceGoogle
+        function onAccessGranted() {
+            connect()
+            messageDialog.text = qsTr("Zugang gewährt.")
+            messageDialog.open()
+        }
+    }
 
     // scheduler to do stuff in the background, use run() or runExt()
     Timer {

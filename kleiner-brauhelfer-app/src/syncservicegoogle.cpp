@@ -1,4 +1,4 @@
-#include "syncservicedropbox.h"
+#include "syncservicegoogle.h"
 
 #include <QOAuthHttpServerReplyHandler>
 #include <QEventLoop>
@@ -9,31 +9,35 @@
 #include <QFileInfo>
 #include <QDesktopServices>
 
-SyncServiceDropbox::SyncServiceDropbox(QSettings *settings) :
+SyncServiceGoogle::SyncServiceGoogle(QSettings *settings) :
     SyncService(settings),
     _mightNeedToRefreshToken(false)
 {
-    setFilePath(cacheFilePath(filePathServer()));
+    setFilePath(cacheFilePath(fileId()));
     _oauth2 = new QOAuth2AuthorizationCodeFlow(this);
     _netManager = new QNetworkAccessManager(this);
 
-    _oauth2->setAuthorizationUrl(QUrl("https://www.dropbox.com/oauth2/authorize"));
-    _oauth2->setAccessTokenUrl(QUrl("https://api.dropboxapi.com/oauth2/token"));
-    _oauth2->setClientIdentifier(appKey());
-    _oauth2->setClientIdentifierSharedKey(appSecret());
+    _oauth2->setAuthorizationUrl(QUrl("https://accounts.google.com/o/oauth2/v2/auth"));
+    _oauth2->setAccessTokenUrl(QUrl("https://oauth2.googleapis.com/token"));
+    _oauth2->setScope("https://www.googleapis.com/auth/drive");
+    _oauth2->setClientIdentifier(clientId());
+    _oauth2->setClientIdentifierSharedKey(clientSecret());
     _oauth2->setRefreshToken(refreshToken());
     _oauth2->setToken(accessToken());
-    _oauth2->setReplyHandler(new QOAuthHttpServerReplyHandler(5476, this));
+    _oauth2->setReplyHandler(new QOAuthHttpServerReplyHandler(5477, this));
   #if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
     _oauth2->setModifyParametersFunction([](QAbstractOAuth::Stage stage, QMultiMap<QString, QVariant>* parameters)
   #else
     _oauth2->setModifyParametersFunction([](QAbstractOAuth::Stage stage, QVariantMap* parameters)
   #endif
     {
+        QByteArray code = parameters->value("code").toByteArray();
+        (*parameters)["code"] = QUrl::fromPercentEncoding(code);
         switch (stage)
         {
         case QAbstractOAuth::Stage::RequestingAuthorization:
-            parameters->insert("token_access_type", "offline");
+            parameters->insert("access_type", "offline");
+            parameters->insert("prompt", "consent");
             break;
         case QAbstractOAuth::Stage::RefreshingAccessToken:
             parameters->remove("redirect_uri");
@@ -52,12 +56,12 @@ SyncServiceDropbox::SyncServiceDropbox(QSettings *settings) :
     });
 }
 
-SyncServiceDropbox::~SyncServiceDropbox()
+SyncServiceGoogle::~SyncServiceGoogle()
 {
     delete _netManager;
 }
 
-void SyncServiceDropbox::grantAccess()
+void SyncServiceGoogle::grantAccess()
 {
     if (_oauth2->refreshToken().isEmpty())
         _oauth2->grant();
@@ -65,21 +69,73 @@ void SyncServiceDropbox::grantAccess()
         _oauth2->refreshAccessToken();
 }
 
-void SyncServiceDropbox::refreshAccess()
+void SyncServiceGoogle::refreshAccess()
 {
     _oauth2->refreshAccessToken();
 }
 
-bool SyncServiceDropbox::downloadFile()
+bool SyncServiceGoogle::retrieveFileId()
+{
+    bool ret = false;
+
+    if (fileName().isEmpty())
+        return false;
+
+    QNetworkRequest req;
+    QUrl url(QString("https://www.googleapis.com/drive/v3/files?q=name='%1'&fields=files(id)").arg(fileName()));
+    req.setUrl(url);
+    req.setRawHeader("Authorization", QString("Bearer %1").arg(accessToken()).toUtf8());
+
+    QEventLoop loop;
+    _netReply = _netManager->get(req);
+    connect(_netReply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(sslErrors(QList<QSslError>)));
+    connect(_netReply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
+    connect(_netReply, SIGNAL(finished()), &loop, SLOT(quit()));
+    loop.exec();
+
+    QNetworkReply::NetworkError code = _netReply->error();
+    if (code == QNetworkReply::NoError)
+    {
+        QJsonParseError jsonError;
+        QJsonDocument jsonDoc = QJsonDocument::fromJson(_netReply->readAll(), &jsonError);
+        if(jsonError.error == QJsonParseError::NoError)
+        {
+            QJsonObject json = jsonDoc.object();
+            QJsonArray files = json.value("files").toArray();
+            if (files.count() == 0)
+            {
+                setFileId("");
+                emit message(QtMsgType::QtWarningMsg, "File not found.");
+            }
+            else if (files.count() == 1)
+            {
+                setFileId(files[0].toObject().value("id").toString());
+                ret = true;
+            }
+            else
+            {
+                setFileId(files[0].toObject().value("id").toString());
+                emit message(QtMsgType::QtWarningMsg, "Multiple files not found. Verify ID manually.");
+                ret = true;
+            }
+        }
+        else
+        {
+            emit message(QtMsgType::QtCriticalMsg, jsonError.errorString());
+        }
+    }
+
+    return ret;
+}
+
+bool SyncServiceGoogle::downloadFile()
 {
     bool ret = false;
 
     QNetworkRequest req;
-    QUrl url("https://content.dropboxapi.com/2/files/download");
+    QUrl url(QString("https://www.googleapis.com/drive/v3/files/%1?alt=media").arg(fileId()));
     req.setUrl(url);
     req.setRawHeader("Authorization", QString("Bearer %1").arg(accessToken()).toUtf8());
-    QString json = QString("{\"path\": \"%1\"}").arg((filePathServer().compare("/") == 0) ? "" : filePathServer());
-    req.setRawHeader("Dropbox-API-arg", json.toUtf8());
 
     QEventLoop loop;
     _netReply = _netManager->get(req);
@@ -109,7 +165,7 @@ bool SyncServiceDropbox::downloadFile()
     return ret;
 }
 
-bool SyncServiceDropbox::uploadFile()
+bool SyncServiceGoogle::uploadFile()
 {
     bool ret = false;
 
@@ -117,16 +173,13 @@ bool SyncServiceDropbox::uploadFile()
     if (srcFile.open(QIODevice::ReadOnly))
     {
         QNetworkRequest req;
-        QUrl url("https://content.dropboxapi.com/2/files/upload");
+        QUrl url(QString("https://www.googleapis.com/upload/drive/v3/files/%1?uploadType=media").arg(fileId()));
         req.setUrl(url);
         req.setRawHeader("Authorization", QString("Bearer %1").arg(accessToken()).toUtf8());
         req.setHeader(QNetworkRequest::ContentTypeHeader, "application/octet-stream");
-        QString json = QString("{\"path\": \"%1\",\"mode\": \"overwrite\",\"autorename\": true,\"mute\": true}")
-                .arg((filePathServer().compare("/") == 0) ? "" : filePathServer());
-        req.setRawHeader("Dropbox-API-arg", json.toUtf8());
 
         QEventLoop loop;
-        _netReply = _netManager->post(req, srcFile.readAll());
+        _netReply =_netManager->sendCustomRequest(req, "PATCH", srcFile.readAll());
         connect(_netReply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(sslErrors(QList<QSslError>)));
         connect(_netReply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
         connect(_netReply, SIGNAL(finished()), &loop, SLOT(quit()));
@@ -144,18 +197,15 @@ bool SyncServiceDropbox::uploadFile()
     return ret;
 }
 
-QString SyncServiceDropbox::getServerRevision(QNetworkReply::NetworkError* replyCode)
+QString SyncServiceGoogle::getServerRevision(QNetworkReply::NetworkError* replyCode)
 {
     QNetworkRequest req;
-    QUrl url("https://api.dropboxapi.com/2/files/get_metadata");
+    QUrl url(QString("https://www.googleapis.com/drive/v3/files/%1?fields=headRevisionId").arg(fileId()));
     req.setUrl(url);
     req.setRawHeader("Authorization", QString("Bearer %1").arg(accessToken()).toUtf8());
-    req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-
-    QString json = QString("{\"path\": \"%1\"}").arg((filePathServer().compare("/") == 0) ? "" : filePathServer());
 
     QEventLoop loop;
-    _netReply = _netManager->post(req, json.toUtf8());
+    _netReply = _netManager->get(req);
     connect(_netReply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(sslErrors(QList<QSslError>)));
     connect(_netReply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
     connect(_netReply, SIGNAL(finished()), &loop, SLOT(quit()));
@@ -171,7 +221,7 @@ QString SyncServiceDropbox::getServerRevision(QNetworkReply::NetworkError* reply
         if(jsonError.error == QJsonParseError::NoError)
         {
             QJsonObject jsonData = json.object();
-            return jsonData.value("rev").toString();
+            return jsonData.value("headRevisionId").toString();
         }
         else
         {
@@ -182,7 +232,7 @@ QString SyncServiceDropbox::getServerRevision(QNetworkReply::NetworkError* reply
     return QString();
 }
 
-void SyncServiceDropbox::networkError(QNetworkReply::NetworkError error)
+void SyncServiceGoogle::networkError(QNetworkReply::NetworkError error)
 {
     if (_mightNeedToRefreshToken && error == QNetworkReply::AuthenticationRequiredError)
         return;
@@ -200,13 +250,13 @@ void SyncServiceDropbox::networkError(QNetworkReply::NetworkError error)
     emit message(QtMsgType::QtCriticalMsg, msg);
 }
 
-void SyncServiceDropbox::authError(const QString &error, const QString &errorDescription, const QUrl &uri)
+void SyncServiceGoogle::authError(const QString &error, const QString &errorDescription, const QUrl &uri)
 {
     Q_UNUSED(uri)
     emit message(QtMsgType::QtCriticalMsg, error + "\n" + errorDescription);
 }
 
-void SyncServiceDropbox::sslErrors(const QList<QSslError> &errors)
+void SyncServiceGoogle::sslErrors(const QList<QSslError> &errors)
 {
     if (errors.count() > 0)
         emit message(QtMsgType::QtWarningMsg, errors[0].errorString());
@@ -215,19 +265,19 @@ void SyncServiceDropbox::sslErrors(const QList<QSslError> &errors)
     _netReply->ignoreSslErrors();
 }
 
-QString SyncServiceDropbox::getLocalRevision() const
+QString SyncServiceGoogle::getLocalRevision() const
 {
-    return _settings->value("SyncService/dropbox/revisions/" + filePathServer(), "").toString();
+    return _settings->value("SyncService/google/revisions/" + fileId(), "").toString();
 }
 
-void SyncServiceDropbox::setLocalRevision(const QString &revision)
+void SyncServiceGoogle::setLocalRevision(const QString &revision)
 {
-    _settings->setValue("SyncService/dropbox/revisions/" + filePathServer(), revision);
+    _settings->setValue("SyncService/google/revisions/" + fileId(), revision);
 }
 
-bool SyncServiceDropbox::synchronize(SyncDirection direction)
+bool SyncServiceGoogle::synchronize(SyncDirection direction)
 {
-    if (filePathServer().isEmpty())
+    if (fileId().isEmpty())
     {
         setState(SyncState::Failed);
         return false;
@@ -329,77 +379,91 @@ bool SyncServiceDropbox::synchronize(SyncDirection direction)
     }
 }
 
-QString SyncServiceDropbox::appKey() const
+QString SyncServiceGoogle::clientId() const
 {
-    return _settings->value("SyncService/dropbox/AppKey").toString();
+    return _settings->value("SyncService/google/ClientId").toString();
 }
 
-void SyncServiceDropbox::setAppKey(const QString &key)
+void SyncServiceGoogle::setClientId(const QString &id)
 {
-    if (appKey() != key)
+    if (clientId() != id)
     {
-        _settings->setValue("SyncService/dropbox/AppKey", key);
-        _oauth2->setClientIdentifier(key);
+        _settings->setValue("SyncService/google/ClientId", id);
+        _oauth2->setClientIdentifier(id);
         clearCache();
-        emit appKeyChanged(key);
+        emit clientIdChanged(id);
     }
 }
 
-QString SyncServiceDropbox::appSecret() const
+QString SyncServiceGoogle::clientSecret() const
 {
-    return _settings->value("SyncService/dropbox/AppSecret").toString();
+    return _settings->value("SyncService/google/ClientSecret").toString();
 }
 
-void SyncServiceDropbox::setAppSecret(const QString &secret)
+void SyncServiceGoogle::setClientSecret(const QString &secret)
 {
-    if (appSecret() != secret)
+    if (clientSecret() != secret)
     {
-        _settings->setValue("SyncService/dropbox/AppSecret", secret);
+        _settings->setValue("SyncService/google/ClientSecret", secret);
         _oauth2->setClientIdentifierSharedKey(secret);
         clearCache();
-        emit appSecretChanged(secret);
+        emit clientSecretChanged(secret);
     }
 }
 
-QString SyncServiceDropbox::refreshToken() const
+QString SyncServiceGoogle::fileId() const
 {
-    return _settings->value("SyncService/dropbox/RefreshToken").toString();
+    return _settings->value("SyncService/google/fileId").toString();
 }
 
-void SyncServiceDropbox::setRefreshToken(const QString &token)
+void SyncServiceGoogle::setFileId(const QString &id)
 {
-    _settings->setValue("SyncService/dropbox/RefreshToken", token);
-}
-
-QString SyncServiceDropbox::accessToken() const
-{
-    return _settings->value("SyncService/dropbox/AccessToken").toString();
-}
-
-void SyncServiceDropbox::setAccessToken(const QString &token)
-{
-    _settings->setValue("SyncService/dropbox/AccessToken", token);
-}
-
-QString SyncServiceDropbox::filePathServer() const
-{
-    return _settings->value("SyncService/dropbox/DatabasePathOnServer").toString();
-}
-
-void SyncServiceDropbox::setFilePathServer(const QString &filePath)
-{
-    if (filePathServer() != filePath)
+    if (fileId() != id)
     {
-        _settings->setValue("SyncService/dropbox/DatabasePathOnServer", filePath);
-        setFilePath(cacheFilePath(filePath));
-        emit filePathServerChanged(filePath);
+        _settings->setValue("SyncService/google/fileId", id);
+        setFilePath(cacheFilePath(id));
+        emit fileIdChanged(id);
     }
 }
 
-void SyncServiceDropbox::clearCachedSettings()
+QString SyncServiceGoogle::fileName() const
 {
-    _settings->remove("SyncService/dropbox/RefreshToken");
-    _settings->remove("SyncService/dropbox/AccessToken");
+    return _settings->value("SyncService/google/fileName").toString();
+}
+
+void SyncServiceGoogle::setFileName(const QString &name)
+{
+    if (fileName() != name)
+    {
+        _settings->setValue("SyncService/google/fileName", name);
+        emit fileNameChanged(name);
+    }
+}
+
+QString SyncServiceGoogle::refreshToken() const
+{
+    return _settings->value("SyncService/google/RefreshToken").toString();
+}
+
+void SyncServiceGoogle::setRefreshToken(const QString &token)
+{
+    _settings->setValue("SyncService/google/RefreshToken", token);
+}
+
+QString SyncServiceGoogle::accessToken() const
+{
+    return _settings->value("SyncService/google/AccessToken").toString();
+}
+
+void SyncServiceGoogle::setAccessToken(const QString &token)
+{
+    _settings->setValue("SyncService/google/AccessToken", token);
+}
+
+void SyncServiceGoogle::clearCachedSettings()
+{
+    _settings->remove("SyncService/google/RefreshToken");
+    _settings->remove("SyncService/google/AccessToken");
     _oauth2->setRefreshToken("");
     _oauth2->setToken("");
 }

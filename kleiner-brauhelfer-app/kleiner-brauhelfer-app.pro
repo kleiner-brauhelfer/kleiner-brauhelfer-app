@@ -9,7 +9,7 @@ ORGANIZATION = kleiner-brauhelfer
 TARGET = kleiner-brauhelfer-app
 VER_MAJ = 2
 VER_MIN = 5
-VER_PAT = 1
+VER_PAT = 2
 VERSION = $$sprintf("%1.%2.%3",$$VER_MAJ,$$VER_MIN,$$VER_PAT)
 DEFINES += ORGANIZATION=\\\"$$ORGANIZATION\\\" TARGET=\\\"$$TARGET\\\" VERSION=\\\"$$VERSION\\\"
 DEFINES += VER_MAJ=\"$$VER_MAJ\" VER_MIN=\"$$VER_MIN\" VER_PAT=\"$$VER_PAT\"
@@ -55,6 +55,7 @@ INCLUDEPATH += src ../kleiner-brauhelfer-core/src
 HEADERS += \
     src/qmlutils.h \
     src/syncservice.h \
+    src/syncservicegoogle.h \
     src/syncservicelocal.h \
     src/syncservicemanager.h \
     src/syncservicedropbox.h \
@@ -66,6 +67,7 @@ SOURCES += \
     src/main.cpp \
     src/qmlutils.cpp \
     src/syncservice.cpp \
+    src/syncservicegoogle.cpp \
     src/syncservicelocal.cpp \
     src/syncservicemanager.cpp \
     src/syncservicedropbox.cpp \

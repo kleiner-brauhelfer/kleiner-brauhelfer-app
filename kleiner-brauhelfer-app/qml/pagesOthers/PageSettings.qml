@@ -55,6 +55,12 @@ PageBase {
                             app.connect()
                     }
                     break
+                case SyncService.Google:
+                    if (SyncService.syncServiceGoogle.clientId !== "" &&
+                        SyncService.syncServiceGoogle.clientSecret !== "" &&
+                        SyncService.syncServiceGoogle.fileId !== "")
+                        app.connect()
+                    break
                 }
             }
 
@@ -70,7 +76,7 @@ PageBase {
                         ComboBoxBase {
                             Layout.fillWidth: true
                             Layout.preferredHeight: height
-                            model: [qsTr("Lokal"), qsTr("Dropbox"), qsTr("WebDav")]
+                            model: [qsTr("Lokal"), qsTr("Dropbox"), qsTr("WebDav"), qsTr("Google Drive")]
                             currentIndex: SyncService.serviceId
                             onCurrentIndexChanged: {
                                 if (activeFocus) {
@@ -155,7 +161,7 @@ PageBase {
                             Layout.topMargin: 8
                             Layout.bottomMargin: 8
                             font.italic: true
-                            text: qsTr("Benötigt eine <a href=\"https://www.dropbox.com/developers/apps\">Dropbox App</a>.")
+                            text: qsTr("Benötigt eine <a href=\"http://www.dropbox.com/developers/apps\">Dropbox App</a>.")
                             onLinkActivated: (link) => Qt.openUrlExternally(link)
                         }
                         LabelSubheader {
@@ -315,6 +321,125 @@ PageBase {
                                     layout.connect()
                                     wasEdited = false
                                 }
+                            }
+                        }
+                    }
+                    ColumnLayout {
+                        Layout.fillWidth: true
+                        visible: SyncService.serviceId === SyncService.Google
+                        LabelPrim {
+                            Layout.fillWidth: true
+                            Layout.topMargin: 8
+                            Layout.bottomMargin: 8
+                            font.italic: true
+                            text: qsTr("Benötigt ein <a href=\"http://console.cloud.google.com\">Google Cloud-Projekt</a>.")
+                            onLinkActivated: (link) => Qt.openUrlExternally(link)
+                        }
+                        LabelSubheader {
+                            Layout.fillWidth: true
+                            text: qsTr("Client ID")
+                        }
+                        TextFieldBase {
+                            property bool wasEdited: false
+                            Layout.fillWidth: true
+                            placeholderText: "Client ID"
+                            inputMethodHints: Qt.ImhNoAutoUppercase
+                            text: SyncService.syncServiceGoogle.clientId
+                            selectByMouse: true
+                            onTextChanged: {
+                                if (activeFocus)
+                                    wasEdited = true
+                            }
+                            onEditingFinished: {
+                                if (wasEdited)
+                                {
+                                    SyncService.syncServiceGoogle.clientId = text
+                                    wasEdited = false
+                                }
+                            }
+                        }
+                        LabelSubheader {
+                            Layout.fillWidth: true
+                            text: qsTr("Client secret")
+                        }
+                        TextFieldBase {
+                            property bool wasEdited: false
+                            Layout.fillWidth: true
+                            placeholderText: "Client secret"
+                            inputMethodHints: Qt.ImhNoAutoUppercase
+                            echoMode: TextInput.Password
+                            text: SyncService.syncServiceGoogle.clientSecret
+                            selectByMouse: true
+                            onTextChanged: {
+                                if (activeFocus)
+                                    wasEdited = true
+                            }
+                            onEditingFinished: {
+                                if (wasEdited)
+                                {
+                                    SyncService.syncServiceGoogle.clientSecret = text
+                                    wasEdited = false
+                                }
+                            }
+                        }
+                        ButtonBase {
+                            Layout.fillWidth: true
+                            text: qsTr("Zugriff erlauben")
+                            onClicked: {
+                                Brauhelfer.disconnectDatabase()
+                                SyncService.syncServiceGoogle.grantAccess()
+                            }
+                        }
+                        LabelSubheader {
+                            Layout.fillWidth: true
+                            text: qsTr("Dateiname")
+                        }
+                        TextFieldBase {
+                            property bool wasEdited: false
+                            Layout.fillWidth: true
+                            placeholderText: "kb_daten.sqlite"
+                            text: SyncService.syncServiceGoogle.fileName
+                            selectByMouse: true
+                            onTextChanged: {
+                                if (activeFocus)
+                                    wasEdited = true
+                            }
+                            onEditingFinished: {
+                                if (wasEdited)
+                                {
+                                    SyncService.syncServiceGoogle.fileName = text
+                                    wasEdited = false
+                                }
+                            }
+                        }
+                        LabelSubheader {
+                            Layout.fillWidth: true
+                            text: qsTr("Datei ID")
+                        }
+                        TextFieldBase {
+                            property bool wasEdited: false
+                            Layout.fillWidth: true
+                            placeholderText: "Datei ID"
+                            text: SyncService.syncServiceGoogle.fileId
+                            selectByMouse: true
+                            onTextChanged: {
+                                if (activeFocus)
+                                    wasEdited = true
+                            }
+                            onEditingFinished: {
+                                if (wasEdited)
+                                {
+                                    SyncService.syncServiceGoogle.fileId = text
+                                    wasEdited = false
+                                }
+                            }
+                        }
+                        ButtonBase {
+                            Layout.fillWidth: true
+                            text: qsTr("Datei ID ermitteln")
+                            onClicked: {
+                                Brauhelfer.disconnectDatabase()
+                                SyncService.syncServiceGoogle.retrieveFileId()
                             }
                         }
                     }

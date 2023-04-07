@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 2.5.2 (07.04.2023)
+- Neu: Google Drive Unterstützung
+
 ## Version 2.5.1 (02.04.2023)
 - Fix: Aktualisieren des Dropbox Access Tokens
 - Fix: Berücksichtigung der Temperatur bei Spindelmessung
@@ -48,4 +51,4 @@
 - Fix: WebDav
 
 ## Version 2.0.0beta1 (29.10.2019)
-- Neu: Unterstüzung für kleiner-brauhelfer Version 2.x.x
+- Neu: Unterstützung für kleiner-brauhelfer Version 2.x.x

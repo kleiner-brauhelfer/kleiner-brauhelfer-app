@@ -45,9 +45,8 @@ public:
     /**
      * @brief Abstract class for synchronization service
      * @param settings Settings
-     * @param urlServerCheck URL to check availability if synchronization service
      */
-    SyncService(QSettings *settings, const QString &urlServerCheck = "");
+    SyncService(QSettings *settings);
     virtual ~SyncService();
 
     /**
@@ -124,7 +123,6 @@ protected:
     static QString cacheFilePath(const QString filePath);
 
     QSettings* _settings;
-    QString _urlServerCheck;
 
 private:
     QString _filePath;

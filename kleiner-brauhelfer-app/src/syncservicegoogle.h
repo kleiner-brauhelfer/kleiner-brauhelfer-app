@@ -1,5 +1,5 @@
-#ifndef SYNCSERVICEDROPBOX_H
-#define SYNCSERVICEDROPBOX_H
+#ifndef SYNCSERVICEGOOGLE_H
+#define SYNCSERVICEGOOGLE_H
 
 #include "syncservice.h"
 #include <QObject>
@@ -11,13 +11,14 @@
 /**
  * @brief Dropbox synchronization service
  */
-class SyncServiceDropbox : public SyncService
+class SyncServiceGoogle : public SyncService
 {
     Q_OBJECT
 
-    Q_PROPERTY(QString appKey READ appKey WRITE setAppKey NOTIFY appKeyChanged)
-    Q_PROPERTY(QString appSecret READ appSecret WRITE setAppSecret NOTIFY appSecretChanged)
-    Q_PROPERTY(QString filePathServer READ filePathServer WRITE setFilePathServer NOTIFY filePathServerChanged)
+    Q_PROPERTY(QString clientId READ clientId WRITE setClientId NOTIFY clientIdChanged)
+    Q_PROPERTY(QString clientSecret READ clientSecret WRITE setClientSecret NOTIFY clientSecretChanged)
+    Q_PROPERTY(QString fileId READ fileId WRITE setFileId NOTIFY fileIdChanged)
+    Q_PROPERTY(QString fileName READ fileName WRITE setFileName NOTIFY fileNameChanged)
 
 public:
 
@@ -25,8 +26,8 @@ public:
      * @brief Dropbox synchronization service
      * @param settings Settings
      */
-    SyncServiceDropbox(QSettings *settings);
-    ~SyncServiceDropbox();
+    SyncServiceGoogle(QSettings *settings);
+    ~SyncServiceGoogle();
 
     /**
      * @brief Grant or refresh access
@@ -40,6 +41,12 @@ public:
     Q_INVOKABLE void refreshAccess();
 
     /**
+     * @brief Grant or refresh access
+     * @return
+     */
+    Q_INVOKABLE bool retrieveFileId();
+
+    /**
      * @brief  Synchronizes the file
      * @param direction Direction to synchronize
      * @note See getState() for details about the synchronization state
@@ -47,66 +54,24 @@ public:
      */
     bool synchronize(SyncDirection direction) Q_DECL_OVERRIDE;
 
-    /**
-     * @brief appKey
-     * @return
-     */
-    QString appKey() const;
+    QString clientId() const;
+    void setClientId(const QString &id);
 
-    /**
-     * @brief setAppKey
-     * @param key
-     */
-    void setAppKey(const QString &key);
+    QString clientSecret() const;
+    void setClientSecret(const QString &secret);
 
-    /**
-     * @brief appSecret
-     * @return
-     */
-    QString appSecret() const;
+    QString fileId() const;
+    void setFileId(const QString &id);
 
-    /**
-     * @brief setAppSecret
-     * @param secret
-     */
-    void setAppSecret(const QString &secret);
-
-    /**
-     * @brief Gets the database path on the server
-     * @return Database path
-     */
-    QString filePathServer() const;
-
-    /**
-     * @brief Sets the database path on the server
-     * @param filePath Database path
-     */
-    void setFilePathServer(const QString &filePath);
+    QString fileName() const;
+    void setFileName(const QString &name);
 
 signals:
-
-    /**
-     * @brief accessGranted
-     */
     void accessGranted();
-
-    /**
-     * @brief appKeyChanged
-     * @param token
-     */
-    void appKeyChanged(const QString &key);
-
-    /**
-     * @brief appSecretChanged
-     * @param token
-     */
-    void appSecretChanged(const QString &secret);
-
-    /**
-     * @brief Emitted if database path on the server changed
-     * @param filePath Database path
-     */
-    void filePathServerChanged(const QString &filePath);
+    void clientIdChanged(const QString &id);
+    void clientSecretChanged(const QString &secret);
+    void fileIdChanged(const QString &id);
+    void fileNameChanged(const QString &name);
 
 private slots:
     void networkError(QNetworkReply::NetworkError error);
@@ -132,4 +97,4 @@ private:
     QNetworkReply* _netReply;
 };
 
-#endif // SYNCSERVICEDROPBOX_H
+#endif // SYNCSERVICEGOOGLE_H

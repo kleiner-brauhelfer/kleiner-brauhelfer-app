@@ -2,9 +2,8 @@
 
 #include <QtNetwork>
 
-SyncService::SyncService(QSettings *settings, const QString &urlServerCheck) :
+SyncService::SyncService(QSettings *settings) :
     _settings(settings),
-    _urlServerCheck(urlServerCheck),
     _filePath(""),
     _state(SyncState::Failed)
 {

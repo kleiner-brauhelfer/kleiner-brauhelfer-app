@@ -2,6 +2,7 @@
 
 #include "syncservicelocal.h"
 #include "syncservicedropbox.h"
+#include "syncservicegoogle.h"
 #include "syncservicewebdav.h"
 
 bool SyncServiceManager::supportsSsl()
@@ -32,6 +33,9 @@ SyncServiceManager::SyncServiceManager(QSettings *settings, QObject *parent) :
     mSyncServiceWebDav = new SyncServiceWebDav(mSettings);
     connect(mSyncServiceWebDav, SIGNAL(message(int,QString)), this, SIGNAL(message(int,QString)));
     mServices.append(mSyncServiceWebDav);
+    mSyncServiceGoogle = new SyncServiceGoogle(mSettings);
+    connect(mSyncServiceGoogle, SIGNAL(message(int,QString)), this, SIGNAL(message(int,QString)));
+    mServices.append(mSyncServiceGoogle);
     setServiceId((SyncServiceId)mSettings->value("SyncService/Id", 0).toInt());
 }
 
