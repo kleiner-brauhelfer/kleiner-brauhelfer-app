@@ -7,6 +7,7 @@
 
 #include "languageselector.h"
 #include "brauhelfer.h"
+#include "biercalc.h"
 #include "syncservicemanager.h"
 #include "qmlutils.h"
 #include "proxymodel.h"

@@ -4,17 +4,17 @@
 #include <qmath.h>
 #include "proxymodelsud.h"
 
-ModelAusruestung::ModelAusruestung(Brauhelfer* bh, QSqlDatabase db) :
+ModelAusruestung::ModelAusruestung(Brauhelfer* bh, const QSqlDatabase &db) :
     SqlTableModel(bh, db),
     bh(bh)
 {
-    mVirtualField.append("Maischebottich_Volumen");
-    mVirtualField.append("Maischebottich_MaxFuellvolumen");
-    mVirtualField.append("Sudpfanne_Volumen");
-    mVirtualField.append("Sudpfanne_MaxFuellvolumen");
-    mVirtualField.append("Vermoegen");
-    mVirtualField.append("AnzahlSude");
-    mVirtualField.append("AnzahlGebrauteSude");
+    mVirtualField.append(QStringLiteral("Maischebottich_Volumen"));
+    mVirtualField.append(QStringLiteral("Maischebottich_MaxFuellvolumen"));
+    mVirtualField.append(QStringLiteral("Sudpfanne_Volumen"));
+    mVirtualField.append(QStringLiteral("Sudpfanne_MaxFuellvolumen"));
+    mVirtualField.append(QStringLiteral("Vermoegen"));
+    mVirtualField.append(QStringLiteral("AnzahlSude"));
+    mVirtualField.append(QStringLiteral("AnzahlGebrauteSude"));
 }
 
 QVariant ModelAusruestung::dataExt(const QModelIndex &idx) const
@@ -55,7 +55,7 @@ QVariant ModelAusruestung::dataExt(const QModelIndex &idx) const
     {
         ProxyModel modelSud;
         QString anlage = data(idx.row(), ColName).toString();
-        QRegularExpression regExp(QString("^%1$").arg(QRegularExpression::escape(anlage)));
+        QRegularExpression regExp(QStringLiteral("^%1$").arg(QRegularExpression::escape(anlage)));
         modelSud.setSourceModel(bh->modelSud());
         modelSud.setFilterKeyColumn(ModelSud::ColAnlage);
         modelSud.setFilterRegularExpression(regExp);
@@ -65,7 +65,7 @@ QVariant ModelAusruestung::dataExt(const QModelIndex &idx) const
     {
         ProxyModelSud modelSud;
         QString anlage = data(idx.row(), ColName).toString();
-        QRegularExpression regExp(QString("^%1$").arg(QRegularExpression::escape(anlage)));
+        QRegularExpression regExp(QStringLiteral("^%1$").arg(QRegularExpression::escape(anlage)));
         modelSud.setSourceModel(bh->modelSud());
         modelSud.setFilterKeyColumn(ModelSud::ColAnlage);
         modelSud.setFilterRegularExpression(regExp);
@@ -213,6 +213,7 @@ bool ModelAusruestung::setDataExt(const QModelIndex &idx, const QVariant &value)
 bool ModelAusruestung::removeRows(int row, int count, const QModelIndex &parent)
 {
     QList<int> ids;
+    ids.reserve(count);
     for (int i = 0; i < count; ++i)
         ids.append(data(row + i, ColID).toInt());
     if (SqlTableModel::removeRows(row, count, parent))
@@ -237,6 +238,8 @@ void ModelAusruestung::defaultValues(QMap<int, QVariant> &values) const
     values[ColName] = getUniqueName(index(0, ColName), values[ColName], true);
     if (!values.contains(ColID))
         values[ColID] = getNextId();
+    if (!values.contains(ColTyp))
+        values.insert(ColTyp, int(Brauhelfer::AnlageTyp::Standard));
     if (!values.contains(ColSudhausausbeute))
         values.insert(ColSudhausausbeute, 60.0);
     if (!values.contains(ColVerdampfungsrate))

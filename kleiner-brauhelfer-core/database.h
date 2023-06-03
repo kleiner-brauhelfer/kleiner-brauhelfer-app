@@ -4,7 +4,6 @@
 #include <QString>
 #include <QSqlDatabase>
 #include <QSqlError>
-#include "sqltablemodel.h"
 #include "modelsud.h"
 #include "modelmalz.h"
 #include "modelhopfen.h"
@@ -53,7 +52,7 @@ public:
     QSqlError lastError() const;
 
 private:
-    QSqlQuery sqlExec(QSqlDatabase &db, const QString &query);
+    QSqlQuery sqlExec(const QSqlDatabase &db, const QString &query);
 
 private:
     ModelSud* modelSud;

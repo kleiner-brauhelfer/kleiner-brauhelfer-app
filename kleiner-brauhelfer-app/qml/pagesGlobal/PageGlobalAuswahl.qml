@@ -80,11 +80,6 @@ PageBase {
             }
         }
 
-        Connections {
-            target: Brauhelfer
-            function onConnectionChanged() { listView.proxy.resetColumns() }
-        }
-
         ListView {
             property alias proxy: proxy
             id: listView
