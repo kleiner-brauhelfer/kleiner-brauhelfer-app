@@ -15,19 +15,21 @@ ToolBar {
     signal clickedLeft()
     signal clickedRight()
 
+    z: 1
+    Material.elevation: 4
     height: layout.implicitHeight
+    padding: 0
 
     MouseAreaCatcher { }
 
     RowLayout {
         id: layout
         anchors.fill: parent
-        Layout.leftMargin: 4
-        Layout.rightMargin: 4
 
         ToolButton {
+            Layout.leftMargin: 4
             onClicked: clickedLeft()
-            enabled: iconLeft !== ""
+            enabled: iconLeft
             contentItem: Image {
                 source: parent.enabled ? "qrc:/images/" + iconLeft : ""
                 anchors.centerIn: parent
@@ -36,7 +38,6 @@ ToolBar {
 
         ColumnLayout {
             Layout.fillWidth: true
-
             Label {
                 id: lblMain
                 horizontalAlignment: Label.AlignHCenter
@@ -46,7 +47,6 @@ ToolBar {
                 font.bold: true
                 elide: Text.ElideRight
             }
-
             Label {
                 id: lblSub
                 horizontalAlignment: Label.AlignHCenter
@@ -58,8 +58,9 @@ ToolBar {
         }
 
         ToolButton {
+            Layout.rightMargin: 4
             onClicked: clickedRight()
-            enabled: iconRight !== ""
+            enabled: iconRight
             contentItem: Image {
                 source: parent.enabled ? "qrc:/images/" + iconRight : ""
                 anchors.centerIn: parent

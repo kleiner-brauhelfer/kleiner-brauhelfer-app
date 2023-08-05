@@ -7,7 +7,8 @@ Drawer {
     property alias model: repeater.model
 
     z: 1
-    leftPadding: 0    
+    Material.elevation: 4
+    padding: 0
     width: layout.width
     height: app.height
 
@@ -33,14 +34,10 @@ Drawer {
                    onClicked: close()
                 }
                 RowLayout {
-                    Item {
+                    Image {
                         width: 48 * app.settings.scalingfactor
                         height: width
-                        Image {
-                            width: parent.width
-                            height: parent.height
-                            source: "qrc:/images/logo.png"
-                        }
+                        source: "qrc:/images/logo.png"
                     }
                     ColumnLayout {
                         Layout.fillWidth: true

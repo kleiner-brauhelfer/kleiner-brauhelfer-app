@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.Material
+import Qt5Compat.GraphicalEffects
 
 import "common"
 
@@ -13,7 +14,7 @@ Pane {
     signal clickedRight()
 
     z: 1
-    Material.elevation: 8
+    Material.elevation: 4
     height: layout.height
     padding: 0
 
@@ -21,23 +22,24 @@ Pane {
 
     RowLayout {
         id: layout
-        height: 24
+        height: 32
         anchors.fill: parent
 
-        Item {
-            width: 4
-        }
-
         ToolButton {
+            Layout.leftMargin: 8
             implicitWidth: parent.height
             implicitHeight: parent.height
             onClicked: clickedLeft()
-            enabled: swipeView.currentIndex > 0
+            enabled: swipeView && swipeView.currentIndex > 0
             contentItem: Image {
                 anchors.fill: parent
                 visible: parent.enabled
                 source: "qrc:/images/ic_chevron_left.png"
-                opacity: 0.87
+                ColorOverlay {
+                    anchors.fill: parent
+                    source: parent
+                    color: Material.primary
+                }
             }
         }
 
@@ -45,9 +47,9 @@ Pane {
             Layout.fillWidth: true
             PageIndicator {
                 id: pageIndicator
+                anchors.centerIn: parent
                 count: swipeView.count
                 currentIndex: swipeView.currentIndex
-                anchors.centerIn: parent
                 delegate: Rectangle {
                     implicitWidth: 8
                     implicitHeight: 8
@@ -59,20 +61,21 @@ Pane {
         }
 
         ToolButton {
+            Layout.rightMargin: 8
             implicitWidth: parent.height
             implicitHeight: parent.height
             onClicked: clickedRight()
-            enabled: swipeView.currentIndex < swipeView.count - 1
+            enabled: swipeView && swipeView.currentIndex < swipeView.count - 1
             contentItem: Image {
                 anchors.fill: parent
                 visible: parent.enabled
                 source: "qrc:/images/ic_chevron_right.png"
-                opacity: 0.87
+                ColorOverlay {
+                    anchors.fill: parent
+                    source: parent
+                    color: Material.primary
+                }
             }
-        }
-
-        Item {
-            width: 4
         }
     }
 }

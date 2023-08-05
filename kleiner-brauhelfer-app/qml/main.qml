@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import Qt.labs.platform
-import Qt.labs.settings
+import QtCore
 
 import "common"
 import "pagesGlobal"
@@ -9,9 +9,9 @@ import "pagesSud"
 import "pagesTools"
 import "pagesOthers"
 
-import languageSelector 1.0
-import brauhelfer 1.0
-import ProxyModelSud 1.0
+import languageSelector
+import brauhelfer
+import ProxyModelSud
 
 ApplicationWindow {
 
@@ -20,7 +20,6 @@ ApplicationWindow {
     property alias config: config
     property alias settings: settings
     property alias defs: defs
-    property alias pageGlobalAuswahl: viewGlobal.pageGlobalAuswahl
 
     id: app
     title: Qt.application.name
@@ -331,10 +330,9 @@ ApplicationWindow {
 
     // global pages
     SwipeView {
-        property alias pageGlobalAuswahl: pageGlobalAuswahl
         id: viewGlobal
         visible: false
-        PageGlobalAuswahl { id: pageGlobalAuswahl; onClicked: (id) => loadBrew(id) }
+        PageGlobalAuswahl { onClicked: (id) => loadBrew(id) }
         PageGlobalMalt { }
         PageGlobalHops { }
         PageGlobalYeast { }
@@ -401,7 +399,7 @@ ApplicationWindow {
         initialItem: viewGlobal
         focus: true
 
-        Keys.onReleased: keyPressed(event)
+        Keys.onReleased: (event) => keyPressed(event)
 
         function keyPressed(event) {
             if (event.key === Qt.Key_Back || event.key === Qt.Key_Escape) {
@@ -493,7 +491,7 @@ ApplicationWindow {
         swipeView: navPane.currentItem
         onClickedLeft: navPane.previous()
         onClickedRight: navPane.next()
-        Keys.onReleased: navPane.keyPressed(event)
+        Keys.onReleased: (event) => navPane.keyPressed(event)
     }
 
     // busy indicator
