@@ -1,4 +1,4 @@
-import QtQuick.Controls.Material 2.15
+import QtQuick.Controls.Material
 
 LabelPrim {
     font.pointSize: 16 * app.settings.scalingfactor

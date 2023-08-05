@@ -1,7 +1,7 @@
-QT += core gui widgets qml quick quickcontrols2 charts sql network networkauth xml
-isEqual(QT_MAJOR_VERSION, 6) {
-QT += core5compat
-}
+!versionAtLeast(QT_VERSION, 6):error("Use at least Qt 6.0")
+
+QT += core gui widgets qml quick quickcontrols2 charts sql network networkauth xml core5compat
+
 android: QT += androidextras
 
 # organization, application name and version

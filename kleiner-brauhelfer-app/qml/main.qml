@@ -1,7 +1,7 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import Qt.labs.platform 1.1
-import Qt.labs.settings 1.0
+import QtQuick
+import QtQuick.Controls
+import Qt.labs.platform
+import Qt.labs.settings
 
 import "common"
 import "pagesGlobal"
@@ -294,8 +294,8 @@ ApplicationWindow {
     MessageDialog {
         id: messageDialogQuit
         text: qsTr("Soll das Programm geschlossen werden?")
-        buttons: MessageDialog.Yes | MessageDialog.No
-        onYesClicked: Qt.quit()
+        buttons: MessageDialog.Ok | MessageDialog.Cancel
+        onAccepted: Qt.quit()
     }
 
     // message dialog to ask for save and quit
