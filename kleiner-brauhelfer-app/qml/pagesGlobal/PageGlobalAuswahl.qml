@@ -5,9 +5,9 @@ import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
 
 import "../common"
-import qmlutils 1.0
-import brauhelfer 1.0
-import ProxyModelSud 1.0
+import qmlutils
+import brauhelfer
+import ProxyModelSud
 
 PageBase {
 

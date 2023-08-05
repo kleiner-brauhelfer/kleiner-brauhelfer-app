@@ -5,7 +5,7 @@ import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
 
 import "../common"
-import brauhelfer 1.0
+import brauhelfer
 
 PageBase {
     title: qsTr("Auswahl")

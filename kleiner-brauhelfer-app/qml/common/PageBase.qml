@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 
-import brauhelfer 1.0
+import brauhelfer
 
 Page {
     property string icon: ""

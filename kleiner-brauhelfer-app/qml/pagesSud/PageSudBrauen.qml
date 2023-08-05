@@ -6,8 +6,8 @@ import Qt5Compat.GraphicalEffects
 import Qt.labs.platform
 
 import "../common"
-import brauhelfer 1.0
-import ProxyModel 1.0
+import brauhelfer
+import ProxyModel
 
 PageBase {
     id: page

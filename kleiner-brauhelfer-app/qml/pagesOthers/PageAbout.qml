@@ -4,7 +4,7 @@ import QtQuick.Layouts
 import QtQuick.Controls.Material
 
 import "../common"
-import brauhelfer 1.0
+import brauhelfer
 
 PageBase {
     title: qsTr("Über")

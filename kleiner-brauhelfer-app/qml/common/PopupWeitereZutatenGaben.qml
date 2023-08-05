@@ -4,7 +4,7 @@ import QtQuick.Layouts
 import QtQuick.Controls.Material
 import Qt.labs.platform
 
-import brauhelfer 1.0
+import brauhelfer
 
 PopupBase {
     property alias model: repeater.model

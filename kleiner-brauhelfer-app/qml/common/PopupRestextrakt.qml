@@ -3,7 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.Material
 
-import brauhelfer 1.0
+import brauhelfer
 
 PopupBase {
     property variant model: null

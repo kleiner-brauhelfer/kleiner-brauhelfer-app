@@ -6,7 +6,7 @@ import Qt5Compat.GraphicalEffects
 import QtCharts
 
 import "../common"
-import brauhelfer 1.0
+import brauhelfer
 
 PageBase {
     id: page

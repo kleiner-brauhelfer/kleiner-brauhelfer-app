@@ -5,8 +5,8 @@ import Qt5Compat.GraphicalEffects
 import Qt.labs.platform
 
 import "../common"
-import qmlutils 1.0
-import brauhelfer 1.0
+import qmlutils
+import brauhelfer
 
 PageBase {
     id: page

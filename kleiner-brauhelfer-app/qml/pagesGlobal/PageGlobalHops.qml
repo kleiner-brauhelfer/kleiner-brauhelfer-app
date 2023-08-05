@@ -5,8 +5,8 @@ import QtQuick.Controls.Material
 import Qt.labs.platform
 
 import "../common"
-import brauhelfer 1.0
-import ProxyModelRohstoff 1.0
+import brauhelfer
+import ProxyModelRohstoff
 
 PageBase {
     id: page
