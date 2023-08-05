@@ -13,7 +13,7 @@ class LanguageSelector : public QObject
 
 public:
     LanguageSelector(QCoreApplication* parent, QQmlEngine* engine, const QString& language = QString());
-    Q_INVOKABLE void selectLanguage(const QString& language);
+    Q_INVOKABLE void selectLanguage(const QString& language = QLocale::system().name());
 
 signals:
     void languageChanged(const QString& language);

@@ -17,38 +17,34 @@ SyncServiceGoogle::SyncServiceGoogle(QSettings *settings) :
     _oauth2 = new QOAuth2AuthorizationCodeFlow(this);
     _netManager = new QNetworkAccessManager(this);
 
-    _oauth2->setAuthorizationUrl(QUrl("https://accounts.google.com/o/oauth2/v2/auth"));
-    _oauth2->setAccessTokenUrl(QUrl("https://oauth2.googleapis.com/token"));
-    _oauth2->setScope("https://www.googleapis.com/auth/drive");
+    _oauth2->setAuthorizationUrl(QUrl(QStringLiteral("https://accounts.google.com/o/oauth2/v2/auth")));
+    _oauth2->setAccessTokenUrl(QUrl(QStringLiteral("https://oauth2.googleapis.com/token")));
+    _oauth2->setScope(QStringLiteral("https://www.googleapis.com/auth/drive"));
     _oauth2->setClientIdentifier(clientId());
     _oauth2->setClientIdentifierSharedKey(clientSecret());
     _oauth2->setRefreshToken(refreshToken());
     _oauth2->setToken(accessToken());
     _oauth2->setReplyHandler(new QOAuthHttpServerReplyHandler(5477, this));
-  #if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
-    _oauth2->setModifyParametersFunction([](QAbstractOAuth::Stage stage, QMultiMap<QString, QVariant>* parameters)
-  #else
-    _oauth2->setModifyParametersFunction([](QAbstractOAuth::Stage stage, QVariantMap* parameters)
-  #endif
+    _oauth2->setModifyParametersFunction([](QAbstractOAuth::Stage stage, QMultiMap<QString, QVariant> *parameters)
     {
-        QByteArray code = parameters->value("code").toByteArray();
-        (*parameters)["code"] = QUrl::fromPercentEncoding(code);
-        switch (stage)
-        {
+        QByteArray code = parameters->value(QStringLiteral("code")).toByteArray();
+        parameters->replace(QStringLiteral("code"), QUrl::fromPercentEncoding(code));
+        switch (stage) {
         case QAbstractOAuth::Stage::RequestingAuthorization:
-            parameters->insert("access_type", "offline");
-            parameters->insert("prompt", "consent");
+            parameters->insert(QStringLiteral("access_type"), "offline");
+            parameters->insert(QStringLiteral("prompt"), "consent");
             break;
         case QAbstractOAuth::Stage::RefreshingAccessToken:
-            parameters->remove("redirect_uri");
+            parameters->remove(QStringLiteral("redirect_uri"));
             break;
         default:
             break;
         }
     });
-    connect(_oauth2, SIGNAL(error(QString,QString,QUrl)), this, SLOT(authError(QString,QString,QUrl)));
+    connect(_oauth2, &QAbstractOAuth2::error, this, &SyncServiceGoogle::authError);
     connect(_oauth2, &QOAuth2AuthorizationCodeFlow::authorizeWithBrowser, &QDesktopServices::openUrl);
-    connect(_oauth2, &QOAuth2AuthorizationCodeFlow::granted, this, [this]() {
+    connect(_oauth2, &QOAuth2AuthorizationCodeFlow::granted, this, [this]()
+    {
         setRefreshToken(_oauth2->refreshToken());
         setAccessToken(_oauth2->token());
         if (!_mightNeedToRefreshToken)
@@ -82,15 +78,15 @@ bool SyncServiceGoogle::retrieveFileId()
         return false;
 
     QNetworkRequest req;
-    QUrl url(QString("https://www.googleapis.com/drive/v3/files?q=name='%1'&fields=files(id)").arg(fileName()));
+    QUrl url(QStringLiteral("https://www.googleapis.com/drive/v3/files?q=name='%1'&fields=files(id)").arg(fileName()));
     req.setUrl(url);
-    req.setRawHeader("Authorization", QString("Bearer %1").arg(accessToken()).toUtf8());
+    req.setRawHeader("Authorization", QStringLiteral("Bearer %1").arg(accessToken()).toUtf8());
 
     QEventLoop loop;
     _netReply = _netManager->get(req);
-    connect(_netReply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(sslErrors(QList<QSslError>)));
-    connect(_netReply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
-    connect(_netReply, SIGNAL(finished()), &loop, SLOT(quit()));
+    connect(_netReply, &QNetworkReply::sslErrors, this, &SyncServiceGoogle::sslErrors);
+    connect(_netReply, &QNetworkReply::errorOccurred, this, &SyncServiceGoogle::networkError);
+    connect(_netReply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
     loop.exec();
 
     QNetworkReply::NetworkError code = _netReply->error();
@@ -101,21 +97,21 @@ bool SyncServiceGoogle::retrieveFileId()
         if(jsonError.error == QJsonParseError::NoError)
         {
             QJsonObject json = jsonDoc.object();
-            QJsonArray files = json.value("files").toArray();
+            QJsonArray files = json.value(QStringLiteral("files")).toArray();
             if (files.count() == 0)
             {
-                setFileId("");
-                emit message(QtMsgType::QtWarningMsg, "File not found.");
+                setFileId(QStringLiteral(""));
+                emit message(QtMsgType::QtWarningMsg, QStringLiteral("File not found."));
             }
             else if (files.count() == 1)
             {
-                setFileId(files[0].toObject().value("id").toString());
+                setFileId(files[0].toObject().value(QStringLiteral("id")).toString());
                 ret = true;
             }
             else
             {
-                setFileId(files[0].toObject().value("id").toString());
-                emit message(QtMsgType::QtWarningMsg, "Multiple files not found. Verify ID manually.");
+                setFileId(files[0].toObject().value(QStringLiteral("id")).toString());
+                emit message(QtMsgType::QtWarningMsg, QStringLiteral("Multiple files not found. Verify ID manually."));
                 ret = true;
             }
         }
@@ -133,15 +129,15 @@ bool SyncServiceGoogle::downloadFile()
     bool ret = false;
 
     QNetworkRequest req;
-    QUrl url(QString("https://www.googleapis.com/drive/v3/files/%1?alt=media").arg(fileId()));
+    QUrl url(QStringLiteral("https://www.googleapis.com/drive/v3/files/%1?alt=media").arg(fileId()));
     req.setUrl(url);
-    req.setRawHeader("Authorization", QString("Bearer %1").arg(accessToken()).toUtf8());
+    req.setRawHeader("Authorization", QStringLiteral("Bearer %1").arg(accessToken()).toUtf8());
 
     QEventLoop loop;
     _netReply = _netManager->get(req);
-    connect(_netReply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(sslErrors(QList<QSslError>)));
-    connect(_netReply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
-    connect(_netReply, SIGNAL(finished()), &loop, SLOT(quit()));
+    connect(_netReply, &QNetworkReply::sslErrors, this, &SyncServiceGoogle::sslErrors);
+    connect(_netReply, &QNetworkReply::errorOccurred, this, &SyncServiceGoogle::networkError);
+    connect(_netReply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
     loop.exec();
 
     QNetworkReply::NetworkError code = _netReply->error();
@@ -152,7 +148,7 @@ bool SyncServiceGoogle::downloadFile()
         QDir dir(finfo.absolutePath());
         if (!dir.exists())
         {
-            dir.mkpath(".");
+            dir.mkpath(QStringLiteral("."));
         }
         if (dstFile.open(QIODevice::WriteOnly))
         {
@@ -173,16 +169,16 @@ bool SyncServiceGoogle::uploadFile()
     if (srcFile.open(QIODevice::ReadOnly))
     {
         QNetworkRequest req;
-        QUrl url(QString("https://www.googleapis.com/upload/drive/v3/files/%1?uploadType=media").arg(fileId()));
+        QUrl url(QStringLiteral("https://www.googleapis.com/upload/drive/v3/files/%1?uploadType=media").arg(fileId()));
         req.setUrl(url);
-        req.setRawHeader("Authorization", QString("Bearer %1").arg(accessToken()).toUtf8());
+        req.setRawHeader("Authorization", QStringLiteral("Bearer %1").arg(accessToken()).toUtf8());
         req.setHeader(QNetworkRequest::ContentTypeHeader, "application/octet-stream");
 
         QEventLoop loop;
         _netReply =_netManager->sendCustomRequest(req, "PATCH", srcFile.readAll());
-        connect(_netReply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(sslErrors(QList<QSslError>)));
-        connect(_netReply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
-        connect(_netReply, SIGNAL(finished()), &loop, SLOT(quit()));
+        connect(_netReply, &QNetworkReply::sslErrors, this, &SyncServiceGoogle::sslErrors);
+        connect(_netReply, &QNetworkReply::errorOccurred, this, &SyncServiceGoogle::networkError);
+        connect(_netReply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
         loop.exec();
 
         QNetworkReply::NetworkError code = _netReply->error();
@@ -200,15 +196,15 @@ bool SyncServiceGoogle::uploadFile()
 QString SyncServiceGoogle::getServerRevision(QNetworkReply::NetworkError* replyCode)
 {
     QNetworkRequest req;
-    QUrl url(QString("https://www.googleapis.com/drive/v3/files/%1?fields=headRevisionId").arg(fileId()));
+    QUrl url(QStringLiteral("https://www.googleapis.com/drive/v3/files/%1?fields=headRevisionId").arg(fileId()));
     req.setUrl(url);
-    req.setRawHeader("Authorization", QString("Bearer %1").arg(accessToken()).toUtf8());
+    req.setRawHeader("Authorization", QStringLiteral("Bearer %1").arg(accessToken()).toUtf8());
 
     QEventLoop loop;
     _netReply = _netManager->get(req);
-    connect(_netReply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(sslErrors(QList<QSslError>)));
-    connect(_netReply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
-    connect(_netReply, SIGNAL(finished()), &loop, SLOT(quit()));
+    connect(_netReply, &QNetworkReply::sslErrors, this, &SyncServiceGoogle::sslErrors);
+    connect(_netReply, &QNetworkReply::errorOccurred, this, &SyncServiceGoogle::networkError);
+    connect(_netReply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
     loop.exec();
 
     QNetworkReply::NetworkError code = _netReply->error();
@@ -221,7 +217,7 @@ QString SyncServiceGoogle::getServerRevision(QNetworkReply::NetworkError* replyC
         if(jsonError.error == QJsonParseError::NoError)
         {
             QJsonObject jsonData = json.object();
-            return jsonData.value("headRevisionId").toString();
+            return jsonData.value(QStringLiteral("headRevisionId")).toString();
         }
         else
         {
@@ -243,7 +239,7 @@ void SyncServiceGoogle::networkError(QNetworkReply::NetworkError error)
     if(jsonError.error == QJsonParseError::NoError)
     {
         QJsonObject jsonData = json.object();
-        QString error_summary = jsonData.value("error_summary").toString();
+        QString error_summary = jsonData.value(QStringLiteral("error_summary")).toString();
         if (!error_summary.isEmpty())
             msg += "\n" + error_summary;
     }
@@ -261,7 +257,7 @@ void SyncServiceGoogle::sslErrors(const QList<QSslError> &errors)
     if (errors.count() > 0)
         emit message(QtMsgType::QtWarningMsg, errors[0].errorString());
     else
-        emit message(QtMsgType::QtWarningMsg, "SSL error.");
+        emit message(QtMsgType::QtWarningMsg, QStringLiteral("SSL error."));
     _netReply->ignoreSslErrors();
 }
 
@@ -285,7 +281,7 @@ bool SyncServiceGoogle::synchronize(SyncDirection direction)
 
     if (refreshToken().isEmpty() || accessToken().isEmpty()) {
         setState(SyncState::Failed);
-        emit message(QtMsgType::QtCriticalMsg, "Grant access first.");
+        emit message(QtMsgType::QtCriticalMsg, QStringLiteral("Grant access first."));
         return false;
     }
 
@@ -296,8 +292,8 @@ bool SyncServiceGoogle::synchronize(SyncDirection direction)
     {
         QEventLoop loop;
         _oauth2->refreshAccessToken();
-        connect(_oauth2, SIGNAL(granted()), &loop, SLOT(quit()));
-        connect(_oauth2, SIGNAL(error(QString,QString,QUrl)), &loop, SLOT(quit()));
+        connect(_oauth2, &QAbstractOAuth::granted, &loop, &QEventLoop::quit);
+        connect(_oauth2, &QAbstractOAuth2::error, &loop, &QEventLoop::quit);
         loop.exec();
         revision = getServerRevision();
     }
@@ -464,6 +460,6 @@ void SyncServiceGoogle::clearCachedSettings()
 {
     _settings->remove("SyncService/google/RefreshToken");
     _settings->remove("SyncService/google/AccessToken");
-    _oauth2->setRefreshToken("");
-    _oauth2->setToken("");
+    _oauth2->setRefreshToken(QString());
+    _oauth2->setToken(QString());
 }

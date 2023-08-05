@@ -4,7 +4,7 @@
 
 SyncService::SyncService(QSettings *settings) :
     _settings(settings),
-    _filePath(""),
+    _filePath(QString()),
     _state(SyncState::Failed)
 {
 }
@@ -57,7 +57,7 @@ void SyncService::clearCachedSettings()
 {
 }
 
-QString SyncService::cacheFilePath(const QString filePath)
+QString SyncService::cacheFilePath(const QString &filePath)
 {
     return QDir::cleanPath(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + QDir::separator() + filePath);
 }

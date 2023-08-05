@@ -18,7 +18,7 @@ void LanguageSelector::selectLanguage(const QString& language)
     {
         mCurrentLanguage = language;
         mParent->removeTranslator(&mTranslator);
-        if (mTranslator.load(QString("kb_app_%1").arg(mCurrentLanguage), ":/languages/"))
+        if (mTranslator.load(QStringLiteral("kb_app_%1").arg(mCurrentLanguage), QStringLiteral(":/languages/")))
             mParent->installTranslator(&mTranslator);
         mEngine->retranslate();
         emit languageChanged(mCurrentLanguage);

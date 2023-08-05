@@ -120,7 +120,7 @@ protected:
      * @param filePath File
      * @return File path in the cache
      */
-    static QString cacheFilePath(const QString filePath);
+    static QString cacheFilePath(const QString &filePath);
 
     QSettings* _settings;
 

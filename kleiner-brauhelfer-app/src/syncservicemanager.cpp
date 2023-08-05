@@ -25,16 +25,16 @@ SyncServiceManager::SyncServiceManager(QSettings *settings, QObject *parent) :
     mSettings(settings)
 {
     mSyncServiceLocal = new SyncServiceLocal(mSettings);
-    connect(mSyncServiceLocal, SIGNAL(message(int,QString)), this, SIGNAL(message(int,QString)));
+    connect(mSyncServiceLocal, &SyncService::message, this, &SyncServiceManager::message);
     mServices.append(mSyncServiceLocal);
     mSyncServiceDropbox = new SyncServiceDropbox(mSettings);
-    connect(mSyncServiceDropbox, SIGNAL(message(int,QString)), this, SIGNAL(message(int,QString)));
+    connect(mSyncServiceDropbox, &SyncService::message, this, &SyncServiceManager::message);
     mServices.append(mSyncServiceDropbox);
     mSyncServiceWebDav = new SyncServiceWebDav(mSettings);
-    connect(mSyncServiceWebDav, SIGNAL(message(int,QString)), this, SIGNAL(message(int,QString)));
+    connect(mSyncServiceWebDav, &SyncService::message, this, &SyncServiceManager::message);
     mServices.append(mSyncServiceWebDav);
     mSyncServiceGoogle = new SyncServiceGoogle(mSettings);
-    connect(mSyncServiceGoogle, SIGNAL(message(int,QString)), this, SIGNAL(message(int,QString)));
+    connect(mSyncServiceGoogle, &SyncService::message, this, &SyncServiceManager::message);
     mServices.append(mSyncServiceGoogle);
     setServiceId((SyncServiceId)mSettings->value("SyncService/Id", 0).toInt());
 }

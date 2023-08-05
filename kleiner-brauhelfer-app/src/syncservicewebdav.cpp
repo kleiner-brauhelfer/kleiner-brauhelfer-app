@@ -11,9 +11,8 @@ SyncServiceWebDav::SyncServiceWebDav(QSettings *settings) :
     SyncService(settings)
 {
     _netManager = new QNetworkAccessManager(this);
-    connect(_netManager,SIGNAL(authenticationRequired(QNetworkReply*, QAuthenticator*)),
-            this, SLOT(authenticationRequired(QNetworkReply*, QAuthenticator*)));
-    setFilePath(cacheFilePath("kb_daten.sqlite"));
+    connect(_netManager, &QNetworkAccessManager::authenticationRequired, this, &SyncServiceWebDav::authenticationRequired);
+    setFilePath(cacheFilePath(QStringLiteral("kb_daten.sqlite")));
 }
 
 SyncServiceWebDav::~SyncServiceWebDav()
@@ -43,9 +42,9 @@ bool SyncServiceWebDav::downloadFile()
 
     QEventLoop loop;
     _netReply = _netManager->get(req);
-    connect(_netReply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(sslErrors(QList<QSslError>)));
-    connect(_netReply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(error(QNetworkReply::NetworkError)));
-    connect(_netReply, SIGNAL(finished()), &loop, SLOT(quit()));
+    connect(_netReply, &QNetworkReply::sslErrors, this, &SyncServiceWebDav::sslErrors);
+    connect(_netReply, &QNetworkReply::errorOccurred, this, &SyncServiceWebDav::error);
+    connect(_netReply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
     loop.exec();
 
     if (_netReply->error() == QNetworkReply::NoError)
@@ -55,7 +54,7 @@ bool SyncServiceWebDav::downloadFile()
         QDir dir(finfo.absolutePath());
         if (!dir.exists())
         {
-            dir.mkpath(".");
+            dir.mkpath(QStringLiteral("."));
         }
         if (dstFile.open(QIODevice::WriteOnly))
         {
@@ -81,9 +80,9 @@ bool SyncServiceWebDav::uploadFile()
 
         QEventLoop loop;
         _netReply = _netManager->put(req, srcFile.readAll());
-        connect(_netReply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(sslErrors(QList<QSslError>)));
-        connect(_netReply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(error(QNetworkReply::NetworkError)));
-        connect(_netReply, SIGNAL(finished()), &loop, SLOT(quit()));
+        connect(_netReply, &QNetworkReply::sslErrors, this, &SyncServiceWebDav::sslErrors);
+        connect(_netReply, &QNetworkReply::errorOccurred, this, &SyncServiceWebDav::error);
+        connect(_netReply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
         loop.exec();
 
         if (_netReply->error() == QNetworkReply::NoError)
@@ -108,7 +107,7 @@ void SyncServiceWebDav::sslErrors(const QList<QSslError> &errors)
 
 bool SyncServiceWebDav::synchronize(SyncDirection direction)
 {
-    if (getFilePathServer() == "")
+    if (getFilePathServer().isEmpty())
     {
         setState(SyncState::Failed);
         return false;
@@ -176,7 +175,7 @@ void SyncServiceWebDav::setFilePathServer(const QString &filePath)
     if (getFilePathServer() != filePath)
     {
         _settings->setValue("SyncService/webdav/DatabasePath", filePath);
-        setFilePath(cacheFilePath("kb_daten.sqlite"));
+        setFilePath(cacheFilePath(QStringLiteral("kb_daten.sqlite")));
         emit filePathServerChanged(filePath);
     }
 }
