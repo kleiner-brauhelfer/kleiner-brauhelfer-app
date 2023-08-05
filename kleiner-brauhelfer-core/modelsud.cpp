@@ -593,7 +593,7 @@ bool ModelSud::setDataExt_impl(const QModelIndex &idx, const QVariant &value)
             Brauhelfer::SudStatus status = static_cast<Brauhelfer::SudStatus>(data(idx.row(), ColStatus).toInt());
             if (status == Brauhelfer::SudStatus::Rezept)
             {
-                double v = value.toDouble() + data(idx.row(), ColVerduennungAnstellen).toDouble() - data(idx.row(), ColSpeisemenge).toDouble();
+                double v = value.toDouble() + data(idx.row(), ColVerduennungAnstellen).toDouble() + data(idx.row(), ColMengeHefestarter).toDouble() - data(idx.row(), ColSpeisemenge).toDouble();
                 setData(idx.row(), ColWuerzemengeAnstellen, v);
             }
             return true;
@@ -607,7 +607,21 @@ bool ModelSud::setDataExt_impl(const QModelIndex &idx, const QVariant &value)
             Brauhelfer::SudStatus status = static_cast<Brauhelfer::SudStatus>(data(idx.row(), ColStatus).toInt());
             if (status == Brauhelfer::SudStatus::Rezept)
             {
-                double v = value.toDouble() + data(idx.row(), ColWuerzemengeKochende).toDouble() - data(idx.row(), ColSpeisemenge).toDouble();
+                double v = data(idx.row(), ColWuerzemengeKochende).toDouble() + value.toDouble() + data(idx.row(), ColMengeHefestarter).toDouble()  - data(idx.row(), ColSpeisemenge).toDouble();
+                setData(idx.row(), ColWuerzemengeAnstellen, v);
+            }
+            return true;
+        }
+        return false;
+    }
+    case ColMengeHefestarter:
+    {
+        if (QSqlTableModel::setData(idx, value))
+        {
+            Brauhelfer::SudStatus status = static_cast<Brauhelfer::SudStatus>(data(idx.row(), ColStatus).toInt());
+            if (status == Brauhelfer::SudStatus::Rezept)
+            {
+                double v = data(idx.row(), ColWuerzemengeKochende).toDouble() + data(idx.row(), ColVerduennungAnstellen).toDouble() + value.toDouble() - data(idx.row(), ColSpeisemenge).toDouble();
                 setData(idx.row(), ColWuerzemengeAnstellen, v);
             }
             return true;
@@ -1073,7 +1087,7 @@ bool ModelSud::removeRows(int row, int count, const QModelIndex &parent)
         sudIds.append(data(row + i, ColID).toInt());
     if (SqlTableModel::removeRows(row, count, parent))
     {
-        removeRowsFrom(bh->modelRasten(), ModelRasten::ColSudID, sudIds);
+        removeRowsFrom(bh->modelMaischplan(), ModelMaischplan::ColSudID, sudIds);
         removeRowsFrom(bh->modelMalzschuettung(), ModelMalzschuettung::ColSudID, sudIds);
         removeRowsFrom(bh->modelHopfengaben(), ModelHopfengaben::ColSudID, sudIds);
         removeRowsFrom(bh->modelWeitereZutatenGaben(), ModelWeitereZutatenGaben::ColSudID, sudIds);

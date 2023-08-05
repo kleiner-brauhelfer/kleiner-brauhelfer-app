@@ -216,7 +216,7 @@ PageBase {
                         text: qsTr("Maischplan")
                     }
                     Repeater {
-                        model: Brauhelfer.sud.modelRasten
+                        model: Brauhelfer.sud.modelMaischplan
                         delegate: ColumnLayout {
                             Layout.leftMargin: 8
                             LabelPrim {

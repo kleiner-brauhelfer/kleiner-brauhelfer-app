@@ -1,15 +1,13 @@
 #include "sudobject.h"
 #include "brauhelfer.h"
 #include "modelsud.h"
-#include <QDateTime>
-#include <QtMath>
 
 SudObject::SudObject(Brauhelfer *bh) :
     QObject(bh),
     bh(bh),
     mId(-1),
     mRowSud(-1),
-    proxyModelRasten(new ProxyModel(this)),
+    proxyModelMaischplan(new ProxyModel(this)),
     proxyModelMalzschuettung(new ProxyModel(this)),
     proxyModelHopfengaben(new ProxyModel(this)),
     proxyModelHefegaben(new ProxyModel(this)),
@@ -31,7 +29,7 @@ SudObject::SudObject(Brauhelfer *bh) :
 
 SudObject::~SudObject()
 {
-    delete proxyModelRasten;
+    delete proxyModelMaischplan;
     delete proxyModelMalzschuettung;
     delete proxyModelHopfengaben;
     delete proxyModelHefegaben;
@@ -49,8 +47,8 @@ SudObject::~SudObject()
 void SudObject::init()
 {
     qInfo(Brauhelfer::loggingCategory) << "SudObject::init()";
-    modelRasten()->setSourceModel(bh->modelRasten());
-    modelRasten()->setFilterKeyColumn(ModelRasten::ColSudID);
+    modelMaischplan()->setSourceModel(bh->modelMaischplan());
+    modelMaischplan()->setFilterKeyColumn(ModelMaischplan::ColSudID);
     modelMalzschuettung()->setSourceModel(bh->modelMalzschuettung());
     modelMalzschuettung()->setFilterKeyColumn(ModelMalzschuettung::ColSudID);
     modelHopfengaben()->setSourceModel(bh->modelHopfengaben());
@@ -80,7 +78,7 @@ void SudObject::init()
     modelTags()->setFilterKeyColumn(ModelTags::ColSudID);
 
     QRegularExpression regExpId(QStringLiteral("^%1$").arg(mId));
-    modelRasten()->setFilterRegularExpression(regExpId);
+    modelMaischplan()->setFilterRegularExpression(regExpId);
     modelMalzschuettung()->setFilterRegularExpression(regExpId);
     modelHopfengaben()->setFilterRegularExpression(regExpId);
     modelHefegaben()->setFilterRegularExpression(regExpId);
@@ -108,7 +106,7 @@ void SudObject::load(int id)
             qInfo(Brauhelfer::loggingCategory) << "SudObject::unload()";
 
         QRegularExpression regExpId(QStringLiteral("^%1$").arg(mId));
-        modelRasten()->setFilterRegularExpression(regExpId);
+        modelMaischplan()->setFilterRegularExpression(regExpId);
         modelMalzschuettung()->setFilterRegularExpression(regExpId);
         modelHopfengaben()->setFilterRegularExpression(regExpId);
         modelHefegaben()->setFilterRegularExpression(regExpId);
@@ -167,9 +165,9 @@ void SudObject::onSudDataChanged(const QModelIndex &topLeft, const QModelIndex &
         emit dataChanged(topLeft, bottomRight, roles);
 }
 
-ProxyModel* SudObject::modelRasten() const
+ProxyModel* SudObject::modelMaischplan() const
 {
-    return proxyModelRasten;
+    return proxyModelMaischplan;
 }
 
 ProxyModel* SudObject::modelMalzschuettung() const

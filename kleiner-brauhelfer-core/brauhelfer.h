@@ -21,7 +21,7 @@
 #include "modelhopfengaben.h"
 #include "modelweiterezutatengaben.h"
 #include "modelausruestung.h"
-#include "modelrasten.h"
+#include "modelmaischplan.h"
 #include "modeltags.h"
 #include "modelanhang.h"
 #include "modeletiketten.h"
@@ -51,7 +51,7 @@ class LIB_EXPORT Brauhelfer : public QObject
     Q_PROPERTY(ModelAusruestung* modelAusruestung READ modelAusruestung CONSTANT)
     Q_PROPERTY(ModelGeraete* modelGeraete READ modelGeraete CONSTANT)
     Q_PROPERTY(ModelWasser* modelWasser READ modelWasser CONSTANT)
-    Q_PROPERTY(ModelRasten* modelRasten READ modelRasten CONSTANT)
+    Q_PROPERTY(ModelMaischplan* modelMaischplan READ modelMaischplan CONSTANT)
     Q_PROPERTY(ModelMalzschuettung* modelMalzschuettung READ modelMalzschuettung CONSTANT)
     Q_PROPERTY(ModelHopfengaben* modelHopfengaben READ modelHopfengaben CONSTANT)
     Q_PROPERTY(ModelHefegaben* modelHefegaben READ modelHefegaben CONSTANT)
@@ -173,9 +173,10 @@ public:
     enum class RastTyp
     {
         Einmaischen = 0,
-        Temperatur = 1,
-        Infusion = 2,
-        Dekoktion = 3
+        Aufheizen = 1,
+        Zubruehen = 2,
+        Zuschuetten = 3,
+        Dekoktion = 4
     };
     Q_ENUM(RastTyp)
 
@@ -237,7 +238,7 @@ public:
     ModelAusruestung* modelAusruestung() const;
     ModelGeraete* modelGeraete() const;
     ModelWasser* modelWasser() const;
-    ModelRasten* modelRasten() const;
+    ModelMaischplan* modelMaischplan() const;
     ModelMalzschuettung* modelMalzschuettung() const;
     ModelHopfengaben* modelHopfengaben() const;
     ModelHefegaben* modelHefegaben() const;
