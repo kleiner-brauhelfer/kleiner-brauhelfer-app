@@ -28,8 +28,9 @@ PageBase {
         boundsBehavior: Flickable.OvershootBounds
         contentHeight: layout.height
         clip: true
-        onMovementStarted: forceActiveFocus()
         ScrollIndicator.vertical: ScrollIndicator {}
+
+        MouseAreaCatcher {}
 
         ColumnLayout {
             id: layout
@@ -38,14 +39,9 @@ PageBase {
             anchors.left: parent.left
             anchors.right: parent.right
 
-            LabelHeader {
+            LabelPrim {
                 Layout.fillWidth: true
-                horizontalAlignment: Label.AlignHCenter
-                text: qsTr("Bieranalyse mit dem Refraktometer") 
-            }
-
-            HorizontalDivider {
-                Layout.fillWidth: true
+                text: qsTr("Bieranalyse mit dem Refraktometer.")
             }
 
             RowLayout {
@@ -66,13 +62,8 @@ PageBase {
                     opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
                     onCurrentIndexChanged: {
                         app.settings.refractometerIndex = currentIndex
-                        navPane.setFocus()
                     }
                 }
-            }
-
-            HorizontalDivider {
-                Layout.fillWidth: true
             }
 
             GridLayout {
@@ -90,7 +81,7 @@ PageBase {
                     min: 0.0
                     max: 50.0
                     realValue: brixStart
-                    onNewValue: brixStart = value
+                    onNewValue: (value) => brixStart = value
                 }
                 LabelUnit {
                     text: qsTr("°Brix")
@@ -106,7 +97,7 @@ PageBase {
                     min: 0.0
                     max: brixStart
                     realValue: brixEnd
-                    onNewValue: brixEnd = value
+                    onNewValue: (value) => brixEnd = value
                 }
                 LabelUnit {
                     text: qsTr("°Brix")

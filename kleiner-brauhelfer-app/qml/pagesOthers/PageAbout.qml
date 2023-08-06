@@ -16,7 +16,6 @@ PageBase {
         boundsBehavior: Flickable.OvershootBounds
         contentHeight: layout.height
         clip: true
-        onMovementStarted: forceActiveFocus()
         ScrollIndicator.vertical: ScrollIndicator {}
 
         ColumnLayout {
@@ -29,7 +28,8 @@ PageBase {
             LabelPrim {
                 wrapMode: Text.Wrap
                 Layout.fillWidth: true
-                text: Qt.application.name + "\nv" + Qt.application.version
+                font.bold: true
+                text: Qt.application.name + " v" + Qt.application.version
             }
 
             LabelPrim {

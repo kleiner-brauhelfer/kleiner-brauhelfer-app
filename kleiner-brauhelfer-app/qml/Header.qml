@@ -19,8 +19,7 @@ ToolBar {
     Material.elevation: 4
     height: layout.implicitHeight
     padding: 0
-
-    MouseAreaCatcher { }
+    focusPolicy: Qt.StrongFocus
 
     RowLayout {
         id: layout

@@ -17,8 +17,7 @@ Pane {
     Material.elevation: 4
     height: layout.height
     padding: 0
-
-    MouseAreaCatcher { }
+    focusPolicy: Qt.StrongFocus
 
     RowLayout {
         id: layout

@@ -14,6 +14,8 @@ SpinBox {
     editable: true
     implicitWidth: 160
 
+    focusPolicy: Qt.StrongFocus
+
     stepSize: decimals === 0 ? 1 : 10
     from: min * factor
     to: max * factor

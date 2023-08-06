@@ -294,7 +294,7 @@ ApplicationWindow {
         id: messageDialogQuit
         text: qsTr("Soll das Programm geschlossen werden?")
         buttons: MessageDialog.Ok | MessageDialog.Cancel
-        onAccepted: Qt.quit()
+        onOkClicked: Qt.quit()
     }
 
     // message dialog to ask for save and quit

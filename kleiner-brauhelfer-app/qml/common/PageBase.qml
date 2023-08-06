@@ -12,6 +12,7 @@ Page {
     enabled: true
     padding: 0
     spacing: 0
+    focusPolicy: Qt.StrongFocus
     onFocusChanged: loader.active |= (app.loaded && focus)
     onVisibleChanged: loader.active |= (app.loaded && focus)
 
@@ -20,8 +21,6 @@ Page {
             loader.active = false
         }
     }
-
-    MouseAreaCatcher { }
 
     Loader {
         id: loader
