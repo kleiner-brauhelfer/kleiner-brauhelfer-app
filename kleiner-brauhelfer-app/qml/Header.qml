@@ -3,8 +3,6 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.Material
 
-import "common"
-
 ToolBar {
 
     property alias text: lblMain.text

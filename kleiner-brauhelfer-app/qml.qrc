@@ -29,6 +29,7 @@
         <file>qml/common/PopupBase.qml</file>
         <file>qml/common/PopupRestextrakt.qml</file>
         <file>qml/common/PopupWeitereZutatenGaben.qml</file>
+        <file>qml/common/RadioButtonBase.qml</file>
         <file>qml/common/SpinBoxReal.qml</file>
         <file>qml/common/SwitchBase.qml</file>
         <file>qml/common/TextAreaBase.qml</file>
@@ -40,6 +41,7 @@
         <file>qml/common/TextFieldTemperature.qml</file>
         <file>qml/common/TextFieldVolume.qml</file>
         <file>qml/common/Toast.qml</file>
+        <file>qml/common/VerticalDivider.qml</file>
         <file>qml/pagesGlobal/PageGlobalAuswahl.qml</file>
         <file>qml/pagesGlobal/PageGlobalEquipment.qml</file>
         <file>qml/pagesGlobal/PageGlobalHops.qml</file>

@@ -4,8 +4,6 @@ import QtQuick.Layouts
 import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
 
-import "common"
-
 Pane {
 
     property var swipeView : null
@@ -34,9 +32,8 @@ Pane {
                 anchors.fill: parent
                 visible: parent.enabled
                 source: "qrc:/images/ic_chevron_left.png"
-                ColorOverlay {
-                    anchors.fill: parent
-                    source: parent
+                layer.enabled: true
+                layer.effect: ColorOverlay {
                     color: Material.primary
                 }
             }
@@ -69,9 +66,8 @@ Pane {
                 anchors.fill: parent
                 visible: parent.enabled
                 source: "qrc:/images/ic_chevron_right.png"
-                ColorOverlay {
-                    anchors.fill: parent
-                    source: parent
+                layer.enabled: true
+                layer.effect: ColorOverlay {
                     color: Material.primary
                 }
             }

@@ -21,8 +21,7 @@ PageBase {
         TextFieldBase {
             id: tfFilter
             Layout.fillWidth: true
-            Layout.leftMargin: 8
-            Layout.rightMargin: 8
+            Layout.margins: 8
             placeholderText: qsTr("Suche")
             inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhLowercaseOnly
             onTextChanged: listView.model.setFilterString(text)
@@ -34,13 +33,14 @@ PageBase {
             Layout.fillWidth: true
             Layout.fillHeight: true
             boundsBehavior: Flickable.OvershootBounds
+            onMovementStarted: forceActiveFocus()
             model: ProxyModelRohstoff {
                 sourceModel: Brauhelfer.modelWeitereZutaten
                 sortOrder: Qt.AscendingOrder
                 sortColumn: fieldIndex("Name")
                 filter: app.settings.ingredientsFilter
             }
-            //headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
+            headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
             ScrollIndicator.vertical: ScrollIndicator {}
             header: Rectangle {
                 property int widthCol1: headerLabel1.width
@@ -75,6 +75,7 @@ PageBase {
                                     else {
                                         listView.model.sortColumn = col
                                     }
+                                    forceActiveFocus();
                                 }
                             }
                         }
@@ -96,6 +97,7 @@ PageBase {
                                     else {
                                         listView.model.sortColumn = col
                                     }
+                                    forceActiveFocus();
                                 }
                             }
                         }
@@ -110,21 +112,23 @@ PageBase {
             footer: Rectangle {
                 z: 2
                 width: listView.width
-                height: btnAdd.height + 12
+                height: layoutFooter.height
                 color: Material.background
-                Flow {
-                    anchors.verticalCenter: parent.verticalCenter
-                    RadioButton {
+                RowLayout {
+                    id: layoutFooter
+                    spacing: 8
+                    RadioButtonBase {
+                        Layout.leftMargin: 8
                         checked: app.settings.ingredientsFilter === ProxyModelRohstoff.Alle
                         text: qsTr("alle")
                         onClicked: app.settings.ingredientsFilter = ProxyModelRohstoff.Alle
                     }
-                    RadioButton {
+                    RadioButtonBase {
                         checked: app.settings.ingredientsFilter === ProxyModelRohstoff.Vorhanden
                         text: qsTr("vorhanden")
                         onClicked: app.settings.ingredientsFilter = ProxyModelRohstoff.Vorhanden
                     }
-                    RadioButton {
+                    RadioButtonBase {
                         checked: app.settings.ingredientsFilter === ProxyModelRohstoff.InGebrauch
                         text: qsTr("in Gebrauch")
                         onClicked: app.settings.ingredientsFilter = ProxyModelRohstoff.InGebrauch
@@ -224,19 +228,16 @@ PageBase {
                                 active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
                                 sourceComponent: Item {
                                     property variant _model: model
-                                    implicitHeight: layout.height
-                                    MouseArea {
-                                        anchors.fill: parent
-                                        anchors.margins: 0
-                                        onClicked: forceActiveFocus()
-                                    }
+                                    implicitHeight: layout.height + 16
+                                    MouseAreaCatcher { }
                                     GridLayout {
                                         id: layout
                                         anchors.top: parent.top
                                         anchors.left: parent.left
                                         anchors.right: parent.right
                                         columns: 3
-                                        columnSpacing: 0
+                                        columnSpacing: 8
+                                        rowSpacing: 16
                                         RowLayout {
                                             Layout.fillWidth: true
                                             Layout.columnSpan: 3
@@ -257,6 +258,7 @@ PageBase {
                                                     text: model.Name
                                                     font.italic: model.InGebrauch
                                                     horizontalAlignment: Text.AlignHCenter
+                                                    verticalAlignment: Text.AlignVCenter
                                                     MouseArea {
                                                         anchors.fill: parent
                                                         enabled: !page.readOnly
@@ -303,16 +305,26 @@ PageBase {
                                             decimals: 2
                                             enabled: !page.readOnly
                                             realValue: model.Menge
-                                            onNewValue: model.Menge = value
+                                            onNewValue: (value) => model.Menge = value
+                                        }
+
+                                        LabelUnit {
+                                            text: app.defs.einheiten[model.Einheit]
+                                        }
+
+                                        LabelPrim {
+                                            Layout.fillWidth: true
+                                            rightPadding: 8
+                                            text: qsTr("Einheit")
                                         }
 
                                         ComboBoxBase {
                                             id: einheiten
-                                            Layout.preferredWidth: width
+                                            Layout.columnSpan: 2
                                             model: app.defs.einheiten
                                             enabled: !page.readOnly
                                             currentIndex: _model.Einheit
-                                            onActivated: _model.Einheit = index
+                                            onActivated: (index) => _model.Einheit = index
                                         }
 
                                         LabelPrim {
@@ -328,7 +340,7 @@ PageBase {
                                             model: app.defs.zusatzTypname
                                             enabled: !page.readOnly
                                             currentIndex: _model.Typ
-                                            onActivated: _model.Typ = index
+                                            onActivated: (index) => _model.Typ = index
                                         }
 
                                         LabelPrim {
@@ -343,7 +355,7 @@ PageBase {
                                             decimals: 0
                                             enabled: !page.readOnly
                                             realValue: model.Ausbeute
-                                            onNewValue: model.Ausbeute = value
+                                            onNewValue: (value) => model.Ausbeute = value
                                         }
 
                                         LabelUnit {
@@ -375,23 +387,11 @@ PageBase {
                                             decimals: 0
                                             enabled: !page.readOnly
                                             realValue: model.Farbe
-                                            onNewValue: model.Farbe = value
+                                            onNewValue: (value) => model.Farbe = value
                                         }
 
                                         LabelUnit {
                                             text: qsTr("EBC")
-                                        }
-
-                                        HorizontalDivider {
-                                            Layout.fillWidth: true
-                                            Layout.columnSpan: 3
-                                        }
-
-                                        LabelPrim {
-                                            Layout.columnSpan: 3
-                                            Layout.fillWidth: true
-                                            rightPadding: 8
-                                            text: qsTr("Eigenschaften")
                                         }
 
                                         TextAreaBase {
@@ -404,13 +404,6 @@ PageBase {
                                             onTextChanged: if (activeFocus) model.Eigenschaften = text
                                         }
 
-                                        LabelPrim {
-                                            Layout.columnSpan: 3
-                                            Layout.fillWidth: true
-                                            rightPadding: 8
-                                            text: qsTr("Bemerkung")
-                                        }
-
                                         TextAreaBase {
                                             Layout.columnSpan: 3
                                             Layout.fillWidth: true
@@ -419,13 +412,6 @@ PageBase {
                                             enabled: !page.readOnly
                                             text: model.Bemerkung
                                             onTextChanged: if (activeFocus) model.Bemerkung = text
-                                        }
-
-                                        LabelPrim {
-                                            Layout.columnSpan: 3
-                                            Layout.fillWidth: true
-                                            rightPadding: 8
-                                            text: qsTr("Alternativen")
                                         }
 
                                         TextAreaBase {
@@ -438,11 +424,6 @@ PageBase {
                                             onTextChanged: if (activeFocus) model.Alternativen = text
                                         }
 
-                                        HorizontalDivider {
-                                            Layout.fillWidth: true
-                                            Layout.columnSpan: 3
-                                        }
-
                                         LabelPrim {
                                             Layout.fillWidth: true
                                             rightPadding: 8
@@ -453,7 +434,7 @@ PageBase {
                                             decimals: 2
                                             enabled: !page.readOnly
                                             realValue: model.Preis
-                                            onNewValue: model.Preis = value
+                                            onNewValue: (value) => model.Preis = value
                                         }
 
                                         LabelUnit {
@@ -472,7 +453,7 @@ PageBase {
                                             Layout.columnSpan: 2
                                             enabled: model.Menge > 0 && !page.readOnly
                                             date: model.Eingelagert
-                                            onNewDate: model.Eingelagert = date
+                                            onNewDate: (date) => model.Eingelagert = date
                                         }
 
                                         LabelPrim {
@@ -488,16 +469,11 @@ PageBase {
                                             Layout.columnSpan: 2
                                             enabled: model.Menge > 0 && !page.readOnly
                                             date: model.Mindesthaltbar
-                                            onNewDate: model.Mindesthaltbar = date
+                                            onNewDate: (date) => model.Mindesthaltbar = date
                                             states: State {
                                                 when: tfMindesthaltbar.enabled && tfMindesthaltbar.date < new Date()
                                                 PropertyChanges { target: tfMindesthaltbar; color: Material.accent }
                                             }
-                                        }
-
-                                        HorizontalDivider {
-                                            Layout.fillWidth: true
-                                            Layout.columnSpan: 3
                                         }
 
                                         TextFieldBase {

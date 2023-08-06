@@ -13,24 +13,20 @@ PageBase {
 
     signal clicked(int id)
 
-    function getModel() {
-        return loaderItem.modelAuswahl
-    }
-
     id: page
     title: qsTr("Sudauswahl")
     icon: "ic_list.png"
 
     ColumnLayout {
-        property alias modelAuswahl: listView.model
         anchors.fill: parent
         spacing: 0
 
         RowLayout {
+            Layout.fillWidth: true
+            Layout.margins: 8
+            spacing: 8
             TextFieldBase {
                 Layout.fillWidth: true
-                Layout.leftMargin: 8
-                Layout.rightMargin: 8
                 placeholderText: qsTr("Suche")
                 inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhLowercaseOnly
                 onTextChanged: listView.model.filterText = text
@@ -39,10 +35,7 @@ PageBase {
                 property string sortFieldName: ""
                 property int sortOrder: Qt.DescendingOrder
                 id: sortComboBox
-                Layout.preferredWidth: width
-                Layout.leftMargin: 8
-                Layout.rightMargin: 8
-                flat: true
+                implicitContentWidthPolicy: ComboBox.WidestTextWhenCompleted
                 model: [
                     qsTr("Sudname") + "  \u2191 ",
                     qsTr("Sudname") + "  \u2193 ",
@@ -75,7 +68,6 @@ PageBase {
                         case  11: sortFieldName = "Erstellt"; sortOrder = Qt.DescendingOrder; break;
                         default: sortFieldName = ""; sortOrder = Qt.DescendingOrder; break;
                     }
-                    navPane.setFocus()
                 }
             }
         }
@@ -149,7 +141,7 @@ PageBase {
                     anchors.left: parent.left
                     height: row.height - 2
                     width: 8
-                    color: selected ? Material.color(Material.accent, Material.Shade300) : getColor(model)
+                    color: selected ? Material.color(Material.accent, Material.Shade400) : getColor(model)
                 }
 
                 ColumnLayout {
@@ -222,9 +214,8 @@ PageBase {
                                 Image {
                                     anchors.fill: parent
                                     source: "qrc:/images/glass_fill.png"
-                                    ColorOverlay {
-                                        anchors.fill: parent
-                                        source: parent
+                                    layer.enabled: true
+                                    layer.effect: ColorOverlay {
                                         cached: true
                                         color: Utils.toColor(BierCalc.ebcToColor(model.FarbeIst))
                                     }
@@ -435,7 +426,8 @@ PageBase {
 
         Flow {
             Layout.fillWidth: true
-            Layout.margins: 8
+            Layout.leftMargin: 8
+            Layout.rightMargin: 8
             spacing: 8
             Repeater {
                 model: ListModel {
@@ -457,9 +449,8 @@ PageBase {
                     }
                 }
                 CheckBoxBase {
-                    padding: 0
-                    checked: app.settings.brewsFilter & model.filter
                     text: model.text
+                    checked: app.settings.brewsFilter & model.filter
                     onClicked: {
                         if (checked)
                             app.settings.brewsFilter |= model.filter
@@ -469,11 +460,11 @@ PageBase {
                 }
             }
             CheckBoxBase {
-                padding: 0
+                id: cbAlle
+                text: qsTr("alle")
                 tristate: true
                 checkState: app.settings.brewsFilter === ProxyModelSud.Alle ? Qt.Checked :
                                      app.settings.brewsFilter === ProxyModelSud.Keine ? Qt.Unchecked : Qt.PartiallyChecked
-                text: qsTr("alle")
                 onClicked: {
                     if (checkState === Qt.Unchecked)
                         app.settings.brewsFilter = ProxyModelSud.Keine
@@ -481,11 +472,13 @@ PageBase {
                         app.settings.brewsFilter = ProxyModelSud.Alle
                 }
             }
+            VerticalDivider {
+                width: 2
+                height: cbAlle.height
+            }
             CheckBoxBase {
-                leftPadding: 18
-                padding: 0
-                checked: app.settings.brewsMerklisteFilter
                 text: qsTr("Merkliste")
+                checked: app.settings.brewsMerklisteFilter
                 onClicked: app.settings.brewsMerklisteFilter = checked
             }
         }

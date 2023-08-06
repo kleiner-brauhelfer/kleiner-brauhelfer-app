@@ -25,7 +25,7 @@ PageBase {
             sortColumn: fieldIndex("Name")
             filterKeyColumn: fieldIndex("Name")
         }
-        //headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
+        headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
         ScrollIndicator.vertical: ScrollIndicator {}
         header: Rectangle {
             property int widthCol1: headerLabel1.width
@@ -67,7 +67,7 @@ PageBase {
                         id: headerLabel1
                         horizontalAlignment: Text.AlignHCenter
                         font.bold: true
-                        text: qsTr("Restalkalität [°dH]")
+                        text: qsTr("Restalkalität (°dH)")
                         MouseArea {
                             anchors.fill: parent
                             onClicked: {
@@ -168,19 +168,16 @@ PageBase {
                         Loader {
                             active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
                             sourceComponent: Item {
-                                implicitHeight: layout.height
-                                MouseArea {
-                                    anchors.fill: parent
-                                    anchors.margins: 0
-                                    onClicked: forceActiveFocus()
-                                }
+                                implicitHeight: layout.height + 16
+                                MouseAreaCatcher { }
                                 GridLayout {
                                     id: layout
                                     anchors.top: parent.top
                                     anchors.left: parent.left
                                     anchors.right: parent.right
                                     columns: 3
-                                    columnSpacing: 0
+                                    columnSpacing: 8
+                                    rowSpacing: 16
                                     RowLayout {
                                         Layout.fillWidth: true
                                         Layout.columnSpan: 3
@@ -200,6 +197,7 @@ PageBase {
                                                 visible: !itName.editing
                                                 text: model.Name
                                                 horizontalAlignment: Text.AlignHCenter
+                                                verticalAlignment: Text.AlignVCenter
                                                 MouseArea {
                                                     anchors.fill: parent
                                                     enabled: !page.readOnly
@@ -241,7 +239,7 @@ PageBase {
                                         decimals: 2
                                         enabled: !page.readOnly
                                         realValue: model.Calcium
-                                        onNewValue: model.Calcium = value
+                                        onNewValue: (value) => model.Calcium = value
                                     }
 
                                     LabelUnit {
@@ -258,7 +256,7 @@ PageBase {
                                         decimals: 3
                                         enabled: !page.readOnly
                                         realValue: model.CalciumMmol
-                                        onNewValue: model.CalciumMmol = value
+                                        onNewValue: (value) => model.CalciumMmol = value
                                     }
 
                                     LabelUnit {
@@ -277,7 +275,7 @@ PageBase {
                                         max: 99
                                         enabled: !page.readOnly
                                         realValue: model.CalciumHaerte
-                                        onNewValue: model.CalciumHaerte = value
+                                        onNewValue: (value) => model.CalciumHaerte = value
                                     }
 
                                     LabelUnit {
@@ -299,7 +297,7 @@ PageBase {
                                         decimals: 2
                                         enabled: !page.readOnly
                                         realValue: model.Magnesium
-                                        onNewValue: model.Magnesium = value
+                                        onNewValue: (value) => model.Magnesium = value
                                     }
 
                                     LabelUnit {
@@ -316,7 +314,7 @@ PageBase {
                                         decimals: 3
                                         enabled: !page.readOnly
                                         realValue: model.MagnesiumMmol
-                                        onNewValue: model.MagnesiumMmol = value
+                                        onNewValue: (value) => model.MagnesiumMmol = value
                                     }
 
                                     LabelUnit {
@@ -335,7 +333,7 @@ PageBase {
                                         max: 99
                                         enabled: !page.readOnly
                                         realValue: model.MagnesiumHaerte
-                                        onNewValue: model.MagnesiumHaerte = value
+                                        onNewValue: (value) => model.MagnesiumHaerte = value
                                     }
 
                                     LabelUnit {
@@ -357,7 +355,7 @@ PageBase {
                                         decimals: 2
                                         enabled: !page.readOnly
                                         realValue: model.Natrium
-                                        onNewValue: model.Natrium = value
+                                        onNewValue: (value) => model.Natrium = value
                                     }
 
                                     LabelUnit {
@@ -374,7 +372,7 @@ PageBase {
                                         decimals: 3
                                         enabled: !page.readOnly
                                         realValue: model.NatriumMmol
-                                        onNewValue: model.NatriumMmol = value
+                                        onNewValue: (value) => model.NatriumMmol = value
                                     }
 
                                     LabelUnit {
@@ -396,7 +394,7 @@ PageBase {
                                         decimals: 2
                                         enabled: !page.readOnly
                                         realValue: model.Sulfat
-                                        onNewValue: model.Sulfat = value
+                                        onNewValue: (value) => model.Sulfat = value
                                     }
 
                                     LabelUnit {
@@ -413,7 +411,7 @@ PageBase {
                                         decimals: 3
                                         enabled: !page.readOnly
                                         realValue: model.SulfatMmol
-                                        onNewValue: model.SulfatMmol = value
+                                        onNewValue: (value) => model.SulfatMmol = value
                                     }
 
                                     LabelUnit {
@@ -435,7 +433,7 @@ PageBase {
                                         decimals: 2
                                         enabled: !page.readOnly
                                         realValue: model.Chlorid
-                                        onNewValue: model.Chlorid = value
+                                        onNewValue: (value) => model.Chlorid = value
                                     }
 
                                     LabelUnit {
@@ -452,7 +450,7 @@ PageBase {
                                         decimals: 3
                                         enabled: !page.readOnly
                                         realValue: model.ChloridMmol
-                                        onNewValue: model.ChloridMmol = value
+                                        onNewValue: (value) => model.ChloridMmol = value
                                     }
 
                                     LabelUnit {
@@ -474,7 +472,7 @@ PageBase {
                                         decimals: 2
                                         enabled: !page.readOnly
                                         realValue: model.Hydrogencarbonat
-                                        onNewValue: model.Hydrogencarbonat = value
+                                        onNewValue: (value) => model.Hydrogencarbonat = value
                                     }
 
                                     LabelUnit {
@@ -491,7 +489,7 @@ PageBase {
                                         decimals: 3
                                         enabled: !page.readOnly
                                         realValue: model.HydrogencarbonatMmol
-                                        onNewValue: model.HydrogencarbonatMmol = value
+                                        onNewValue: (value) => model.HydrogencarbonatMmol = value
                                     }
 
                                     LabelUnit {
@@ -510,7 +508,7 @@ PageBase {
                                         max: 99
                                         enabled: !page.readOnly
                                         realValue: model.CarbonatHaerte
-                                        onNewValue: model.CarbonatHaerte = value
+                                        onNewValue: (value) => model.CarbonatHaerte = value
                                     }
 
                                     LabelUnit {
@@ -534,7 +532,7 @@ PageBase {
                                         max: 99
                                         enabled: !page.readOnly
                                         realValue: model.RestalkalitaetAdd
-                                        onNewValue: model.RestalkalitaetAdd = value
+                                        onNewValue: (value) => model.RestalkalitaetAdd = value
                                     }
 
                                     LabelUnit {

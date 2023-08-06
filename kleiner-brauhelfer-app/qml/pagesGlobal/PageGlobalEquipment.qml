@@ -20,7 +20,7 @@ PageBase {
         anchors.fill: parent
         boundsBehavior: Flickable.OvershootBounds
         model: Brauhelfer.modelAusruestung
-        //headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
+        headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
         ScrollIndicator.vertical: ScrollIndicator {}
         header: Rectangle {
             property int widthCol1: headerLabel1.width
@@ -48,7 +48,7 @@ PageBase {
                         id: headerLabel1
                         horizontalAlignment: Text.AlignHCenter
                         font.bold: true
-                        text: qsTr("Vermögen [l]")
+                        text: qsTr("Vermögen (l)")
                     }
                     LabelPrim {
                         id: headerLabel2
@@ -63,11 +63,6 @@ PageBase {
                 }
             }
         }
-        footerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackFooter : ListView.OverlayFooter
-        footer: Item {
-            height: btnAdd.height + 12
-        }
-
         delegate: ItemDelegate {
             id: rowDelegate
             width: listView.width
@@ -154,17 +149,14 @@ PageBase {
                             active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
                             sourceComponent: Item {
                                 property variant _model: model
-                                implicitHeight: layout.height
-                                MouseArea {
-                                    anchors.fill: parent
-                                    anchors.margins: 0
-                                    onClicked: forceActiveFocus()
-                                }
+                                implicitHeight: layout.height + 16
+                                MouseAreaCatcher { }
                                 ColumnLayout {
                                     id: layout
                                     anchors.top: parent.top
                                     anchors.left: parent.left
                                     anchors.right: parent.right
+                                    spacing: 8
                                     RowLayout {
                                         Layout.fillWidth: true
                                         Layout.columnSpan: 3
@@ -184,6 +176,7 @@ PageBase {
                                                 visible: !itName.editing
                                                 text: model.Name
                                                 horizontalAlignment: Text.AlignHCenter
+                                                verticalAlignment: Text.AlignVCenter
                                                 MouseArea {
                                                     anchors.fill: parent
                                                     enabled: !page.readOnly
@@ -264,7 +257,7 @@ PageBase {
                                                 stepSize: 1
                                                 enabled: !page.readOnly
                                                 realValue: model.Sudhausausbeute
-                                                onNewValue: model.Sudhausausbeute = value
+                                                onNewValue: (value) => model.Sudhausausbeute = value
                                             }
                                             LabelUnit {
                                                 text: qsTr("%")
@@ -278,7 +271,7 @@ PageBase {
                                                 stepSize: 1
                                                 enabled: !page.readOnly
                                                 realValue: model.Verdampfungsrate
-                                                onNewValue: model.Verdampfungsrate = value
+                                                onNewValue: (value) => model.Verdampfungsrate = value
                                             }
                                             LabelUnit {
                                                 text: qsTr("l/h")
@@ -304,7 +297,7 @@ PageBase {
                                                 stepSize: 1
                                                 enabled: !page.readOnly
                                                 realValue: model.KorrekturWasser
-                                                onNewValue: model.KorrekturWasser = value
+                                                onNewValue: (value) => model.KorrekturWasser = value
                                             }
                                             LabelUnit {
                                                 text: qsTr("l")
@@ -317,7 +310,7 @@ PageBase {
                                                 decimals: 0
                                                 enabled: !page.readOnly
                                                 realValue: model.KorrekturFarbe
-                                                onNewValue: model.KorrekturFarbe = value
+                                                onNewValue: (value) => model.KorrekturFarbe = value
                                             }
                                             LabelUnit {
                                                 text: qsTr("EBC")
@@ -330,7 +323,7 @@ PageBase {
                                                 decimals: 1
                                                 enabled: !page.readOnly
                                                 realValue: model.KorrekturMenge
-                                                onNewValue: model.KorrekturMenge = value
+                                                onNewValue: (value) => model.KorrekturMenge = value
                                             }
                                             LabelUnit {
                                                 text: qsTr("l")
@@ -343,7 +336,7 @@ PageBase {
                                                 decimals: 2
                                                 enabled: !page.readOnly
                                                 realValue: model.Kosten
-                                                onNewValue: model.Kosten = value
+                                                onNewValue: (value) => model.Kosten = value
                                             }
                                             LabelUnit {
                                                 text: Qt.locale().currencySymbol()
@@ -367,7 +360,7 @@ PageBase {
                                                 decimals: 1
                                                 enabled: !page.readOnly
                                                 realValue: model.Maischebottich_Durchmesser
-                                                onNewValue: model.Maischebottich_Durchmesser = value
+                                                onNewValue: (value) => model.Maischebottich_Durchmesser = value
                                             }
                                             LabelUnit {
                                                 text: qsTr("cm")
@@ -384,7 +377,7 @@ PageBase {
                                                 decimals: 1
                                                 enabled: !page.readOnly
                                                 realValue: model.Maischebottich_Hoehe
-                                                onNewValue: model.Maischebottich_Hoehe = value
+                                                onNewValue: (value) => model.Maischebottich_Hoehe = value
                                             }
                                             LabelUnit {
                                                 text: qsTr("cm")
@@ -414,7 +407,7 @@ PageBase {
                                                 max: model.Maischebottich_Hoehe
                                                 enabled: !page.readOnly
                                                 realValue: model.Maischebottich_MaxFuellhoehe
-                                                onNewValue: model.Maischebottich_MaxFuellhoehe = value
+                                                onNewValue: (value) => model.Maischebottich_MaxFuellhoehe = value
                                             }
                                             LabelUnit {
                                                 text: qsTr("cm")
@@ -450,7 +443,7 @@ PageBase {
                                                 decimals: 1
                                                 enabled: !page.readOnly
                                                 realValue: model.Sudpfanne_Durchmesser
-                                                onNewValue: model.Sudpfanne_Durchmesser = value
+                                                onNewValue: (value) => model.Sudpfanne_Durchmesser = value
                                             }
                                             LabelUnit {
                                                 text: qsTr("cm")
@@ -467,7 +460,7 @@ PageBase {
                                                 decimals: 1
                                                 enabled: !page.readOnly
                                                 realValue: model.Sudpfanne_Hoehe
-                                                onNewValue: model.Sudpfanne_Hoehe = value
+                                                onNewValue: (value) => model.Sudpfanne_Hoehe = value
                                             }
                                             LabelUnit {
                                                 text: qsTr("cm")
@@ -497,7 +490,7 @@ PageBase {
                                                 max: model.Sudpfanne_Hoehe
                                                 enabled: !page.readOnly
                                                 realValue: model.Sudpfanne_MaxFuellhoehe
-                                                onNewValue: model.Sudpfanne_MaxFuellhoehe = value
+                                                onNewValue: (value) => model.Sudpfanne_MaxFuellhoehe = value
                                             }
                                             LabelUnit {
                                                 text: qsTr("cm")
@@ -525,7 +518,6 @@ PageBase {
                                         TextAreaBase {
                                             anchors.fill: parent
                                             wrapMode: TextArea.Wrap
-                                            placeholderText: qsTr("Bemerkung")
                                             textFormat: Text.RichText
                                             enabled: !page.readOnly
                                             text: model.Bemerkung

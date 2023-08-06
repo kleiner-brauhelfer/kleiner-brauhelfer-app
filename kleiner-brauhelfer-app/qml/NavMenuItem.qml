@@ -30,10 +30,8 @@ ToolButton {
             visible: page.icon
             opacity: isCurrentPage ? 1.0 : enabled ? 0.87 : 0.37
             source: visible ? "qrc:/images/" + page.icon : ""
-            ColorOverlay {
-                visible: isCurrentPage && parent.visible
-                anchors.fill: parent
-                source: parent
+            layer.enabled: isCurrentPage && parent.visible
+            layer.effect: ColorOverlay {
                 color: Material.primary
             }
         }
