@@ -7,11 +7,7 @@ import brauhelfer
 
 TextFieldNumber {
 
-    property bool useDialog: false
-    property real temp1: 100.0
-    property real temp2: 20.0
-    property bool temp1Fix: false
-    property bool temp2Fix: true
+    property bool useDialog: true
 
     id: textfield
     min: 0.0
@@ -26,17 +22,17 @@ TextFieldNumber {
         focus: true
         onLoaded: item.open()
         sourceComponent: PopupBase {
-            maxWidth: 240
+            maxWidth: 320
             onOpened: {
-                tfV1.value = BierCalc.volumenWasser(textfield.temp2, textfield.temp1, textfield.value)
                 tfV2.value = textfield.value
-                tfV2.forceActiveFocus()
+                tfV1.value = BierCalc.volumenWasser(tfT2.value, tfT1.value, tfV2.value)
+                tfV1.forceActiveFocus()
             }
             onClosed: {
                 if (tfV2.value !== textfield.value)
                     newValue(tfV2.value)
-                textfield.focus = false
-                popuploader.active = false
+                active = false
+                textfield.forceActiveFocus()
             }
 
             GridLayout {
@@ -52,17 +48,15 @@ TextFieldNumber {
 
                 TextFieldTemperature {
                     id: tfT1
-                    value: textfield.temp1
-                    readOnly: textfield.temp1Fix
-                    onNewValue: {
+                    value: 100
+                    onNewValue: (value) => {
                         this.value = value
-                        tfV2.value = BierCalc.volumenWasser(textfield.temp1, textfield.temp2, tfV1.value)
+                        tfV2.value = BierCalc.volumenWasser(tfT1.value, tfT2.value, tfV1.value)
                     }
                 }
 
-                LabelPrim {
+                LabelUnit {
                     text: qsTr("°C")
-                    Layout.fillWidth: true
                 }
 
                 LabelPrim {
@@ -74,15 +68,14 @@ TextFieldNumber {
                     min: textfield.min
                     max: textfield.max
                     precision: textfield.precision
-                    onNewValue: {
+                    onNewValue: (value) => {
                         this.value = value
-                        tfV2.value = BierCalc.volumenWasser(textfield.temp1, textfield.temp2, value)
+                        tfV2.value = BierCalc.volumenWasser(tfT1.value, tfT2.value, tfV1.value)
                     }
                 }
 
-                LabelPrim {
+                LabelUnit {
                     text: qsTr("l")
-                    Layout.fillWidth: true
                 }
 
                 HorizontalDivider {
@@ -96,17 +89,16 @@ TextFieldNumber {
 
                 TextFieldTemperature {
                     id: tfT2
-                    value: textfield.temp2
-                    readOnly: textfield.temp2Fix
-                    onNewValue: {
+                    value: 20
+                    readOnly: true
+                    onNewValue: (value) => {
                         this.value = value
-                        tfV2.value = BierCalc.volumenWasser(textfield.temp1, textfield.temp2, tfV1.value)
+                        tfV2.value = BierCalc.volumenWasser(tfT1.value, tfT2.value, tfV1.value)
                     }
                 }
 
-                LabelPrim {
+                LabelUnit {
                     text: qsTr("°C")
-                    Layout.fillWidth: true
                 }
 
                 LabelPrim {
@@ -118,15 +110,15 @@ TextFieldNumber {
                     min: textfield.min
                     max: textfield.max
                     precision: textfield.precision
-                    onNewValue: {
+                    readOnly: true
+                    onNewValue: (value) => {
                         this.value = value
-                        tfV1.value = BierCalc.volumenWasser(textfield.temp2, textfield.temp1, value)
+                        tfV2.value = BierCalc.volumenWasser(tfT1.value, tfT2.value, tfV1.value)
                     }
                 }
 
-                LabelPrim {
+                LabelUnit {
                     text: qsTr("l")
-                    Layout.fillWidth: true
                 }
             }
         }

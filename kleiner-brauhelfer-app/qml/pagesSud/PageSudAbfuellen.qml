@@ -20,7 +20,6 @@ PageBase {
         clip: true
         contentHeight: layout.height
         boundsBehavior: Flickable.OvershootBounds
-        onMovementStarted: forceActiveFocus()
         ScrollIndicator.vertical: ScrollIndicator {}
 
         function abgefuellt() {
@@ -54,9 +53,10 @@ PageBase {
             GroupBox {
                 visible: listViewWeitereZutaten.count > 0
                 Layout.fillWidth: true
+                focusPolicy: Qt.StrongFocus
                 contentHeight: contentLayout.height
                 label: LabelHeader {
-                    text: qsTr("Weitere Zutaten")
+                    text: qsTr("Zusätze")
                 }
                 ColumnLayout {
                     id: contentLayout
@@ -144,6 +144,7 @@ PageBase {
 
             GroupBox {
                 Layout.fillWidth: true
+                focusPolicy: Qt.StrongFocus
                 label: LabelHeader {
                     text: qsTr("Restextrakt Schnellgärprobe")
                 }
@@ -164,13 +165,12 @@ PageBase {
                         visible: ctrlSGPen.checked
                         text: qsTr("Scheinbar")
                     }
-                    TextFieldPlato {
+                    TextFieldSre {
                         enabled: !page.readOnly && ctrlSGPen.checked
                         visible: ctrlSGPen.checked
-                        useDialog: true
                         sw: Brauhelfer.sud.SWIst
                         value: Brauhelfer.sud.SWSchnellgaerprobe
-                        onNewValue: Brauhelfer.sud.SWSchnellgaerprobe = value
+                        onNewValue: (value) => Brauhelfer.sud.SWSchnellgaerprobe = value
                     }
                     LabelUnit {
                         visible: ctrlSGPen.checked
@@ -217,6 +217,7 @@ PageBase {
 
             GroupBox {
                 Layout.fillWidth: true
+                focusPolicy: Qt.StrongFocus
                 label: LabelHeader {
                     text: qsTr("Restextrakt Jungbier")
                 }
@@ -228,12 +229,11 @@ PageBase {
                         Layout.fillWidth: true
                         text: qsTr("Scheinbar")
                     }
-                    TextFieldPlato {
+                    TextFieldSre {
                         enabled: !page.readOnly
-                        useDialog: true
                         sw: Brauhelfer.sud.SWIst
                         value: Brauhelfer.sud.SWJungbier
-                        onNewValue: Brauhelfer.sud.SWJungbier = value
+                        onNewValue: (value) => Brauhelfer.sud.SWJungbier = value
                     }
                     LabelUnit {
                         text: qsTr("°P")
@@ -272,6 +272,7 @@ PageBase {
 
             GroupBox {
                 Layout.fillWidth: true
+                focusPolicy: Qt.StrongFocus
                 label: LabelHeader {
                     text: qsTr("Bierwerte")
                 }
@@ -339,6 +340,7 @@ PageBase {
 
             GroupBox {
                 Layout.fillWidth: true
+                focusPolicy: Qt.StrongFocus
                 label: LabelHeader {
                     text: qsTr("Spundungsdruck")
                 }
@@ -353,7 +355,7 @@ PageBase {
                     TextFieldTemperature {
                         enabled: !page.readOnly
                         value: Brauhelfer.sud.TemperaturJungbier
-                        onNewValue: Brauhelfer.sud.TemperaturJungbier = value
+                        onNewValue: (value) => Brauhelfer.sud.TemperaturJungbier = value
                     }
                     LabelUnit {
                         text: qsTr("°C")
@@ -374,6 +376,7 @@ PageBase {
 
             GroupBox {
                 Layout.fillWidth: true
+                focusPolicy: Qt.StrongFocus
                 label: LabelHeader {
                     text: qsTr("Karbonisierung")
                 }
@@ -398,7 +401,7 @@ PageBase {
                     TextFieldTemperature {
                         enabled: !page.readOnly
                         value: Brauhelfer.sud.TemperaturKarbonisierung
-                        onNewValue: Brauhelfer.sud.TemperaturKarbonisierung = value
+                        onNewValue: (value) => Brauhelfer.sud.TemperaturKarbonisierung = value
                     }
                     LabelUnit {
                         text: qsTr("°C")
@@ -418,7 +421,7 @@ PageBase {
                         precision: 2
                         enabled: !page.readOnly
                         value: app.settings.sugarFactor
-                        onNewValue: app.settings.sugarFactor = value
+                        onNewValue: (value) => app.settings.sugarFactor = value
                     }
                     LabelPrim {
                         Layout.fillWidth: true
@@ -431,7 +434,7 @@ PageBase {
                         precision: 2
                         enabled: !page.readOnly
                         value: Brauhelfer.sud.VerschneidungAbfuellen
-                        onNewValue: Brauhelfer.sud.VerschneidungAbfuellen = value
+                        onNewValue: (value) => Brauhelfer.sud.VerschneidungAbfuellen = value
                     }
                     LabelUnit {
                         visible: !ctrlSpunden.checked
@@ -448,7 +451,7 @@ PageBase {
                         visible: !ctrlSpunden.checked
                         enabled: !page.readOnly
                         value: Brauhelfer.sud.Speisemenge
-                        onNewValue: Brauhelfer.sud.Speisemenge = value
+                        onNewValue: (value) => Brauhelfer.sud.Speisemenge = value
                     }
                     LabelUnit {
                         visible: !ctrlSpunden.checked
@@ -512,6 +515,7 @@ PageBase {
 
             GroupBox {
                 Layout.fillWidth: true
+                focusPolicy: Qt.StrongFocus
                 label: LabelHeader {
                     text: qsTr("Menge")
                 }
@@ -527,7 +531,7 @@ PageBase {
                         id: ctrlJungbiermenge
                         enabled: !page.readOnly
                         value: Brauhelfer.sud.JungbiermengeAbfuellen
-                        onNewValue: Brauhelfer.sud.JungbiermengeAbfuellen = value
+                        onNewValue: (value) => Brauhelfer.sud.JungbiermengeAbfuellen = value
                     }
                     LabelUnit {
                         text: qsTr("l")
@@ -565,7 +569,7 @@ PageBase {
                         visible: !ctrlSpunden.checked
                         enabled: !page.readOnly
                         value: Brauhelfer.sud.erg_AbgefuellteBiermenge
-                        onNewValue: Brauhelfer.sud.erg_AbgefuellteBiermenge = value
+                        onNewValue: (value) => Brauhelfer.sud.erg_AbgefuellteBiermenge = value
                     }
                     LabelUnit {
                         visible: !ctrlSpunden.checked
@@ -576,23 +580,7 @@ PageBase {
 
             GroupBox {
                 Layout.fillWidth: true
-                label: LabelHeader {
-                    text: qsTr("Bemerkung")
-                }
-                TextAreaBase {
-                    anchors.fill: parent
-                    opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
-                    wrapMode: TextArea.Wrap
-                    placeholderText: qsTr("Bemerkung")
-                    textFormat: Text.RichText
-                    text: Brauhelfer.sud.BemerkungAbfuellen
-                    onLinkActivated: (link) => Qt.openUrlExternally(link)
-                    onTextChanged: if (activeFocus) Brauhelfer.sud.BemerkungAbfuellen = text
-                }
-            }
-
-            GroupBox {
-                Layout.fillWidth: true
+                focusPolicy: Qt.StrongFocus
                 label: LabelHeader {
                     text: qsTr("Abschluss")
                 }
@@ -610,7 +598,7 @@ PageBase {
                         Layout.fillWidth: true
                         enabled: !page.readOnly
                         date: Brauhelfer.sud.Status >= Brauhelfer.Abgefuellt ? Brauhelfer.sud.Abfuelldatum : new Date()
-                        onNewDate: {
+                        onNewDate: (date) => {
                             this.date = date
                         }
                     }
@@ -622,7 +610,7 @@ PageBase {
                         enabled: !page.readOnly
                         precision: 2
                         value: Brauhelfer.sud.KostenWasserStrom
-                        onNewValue: Brauhelfer.sud.KostenWasserStrom = value
+                        onNewValue: (value) => Brauhelfer.sud.KostenWasserStrom = value
                     }
                     LabelUnit {
                         text: Qt.locale().currencySymbol()
@@ -637,6 +625,17 @@ PageBase {
                     }
                     LabelUnit {
                         text: Qt.locale().currencySymbol() + "/" + qsTr("l")
+                    }
+                    TextAreaBase {
+                        Layout.columnSpan: 3
+                        Layout.fillWidth: true
+                        opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
+                        wrapMode: TextArea.Wrap
+                        placeholderText: qsTr("Bemerkung Abfüllen")
+                        textFormat: Text.RichText
+                        text: Brauhelfer.sud.BemerkungAbfuellen
+                        onLinkActivated: (link) => Qt.openUrlExternally(link)
+                        onTextChanged: if (activeFocus) Brauhelfer.sud.BemerkungAbfuellen = text
                     }
                     ButtonBase {
                         id: ctrlAbgefuellt

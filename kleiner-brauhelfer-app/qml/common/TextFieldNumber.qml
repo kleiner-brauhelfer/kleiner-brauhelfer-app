@@ -14,7 +14,6 @@ TextFieldBase {
         return isNaN(value) ? "" : Number(value).toLocaleString(Qt.locale(), 'f', precision)
     }
 
-    implicitWidth: 60
     wrapMode: TextArea.Wrap
     inputMethodHints: Qt.ImhFormattedNumbersOnly
     horizontalAlignment: Text.AlignHCenter

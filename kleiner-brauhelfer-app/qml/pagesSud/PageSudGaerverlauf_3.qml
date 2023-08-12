@@ -57,7 +57,7 @@ PageBase {
             clip: true
             boundsBehavior: Flickable.OvershootBounds
             model: Brauhelfer.sud.modelNachgaerverlauf
-            //headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
+            headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
             Component.onCompleted: if (!readOnly) positionViewAtEnd()
             ScrollIndicator.vertical: ScrollIndicator {}
             header: Rectangle {
@@ -88,17 +88,17 @@ PageBase {
                         LabelPrim {
                             id: headerLabel1
                             font.bold: true
-                            text: qsTr("Druck [bar]")
+                            text: qsTr("Druck (bar)")
                         }
                         LabelPrim {
                             id: headerLabel2
                             font.bold: true
-                            text: qsTr("Temp [°C]")
+                            text: qsTr("Temp (°C)")
                         }
                         LabelPrim {
                             id: headerLabel3
                             font.bold: true
-                            text: qsTr("CO2 [g/ml]")
+                            text: qsTr("CO2 (g/ml)")
                         }
                     }
                     HorizontalDivider {
@@ -181,6 +181,7 @@ PageBase {
                         LabelNumber {
                             Layout.preferredWidth: listView.headerItem.widthCol3
                             horizontalAlignment: Text.AlignHCenter
+                            precision: 1
                             value: model.CO2
                             color: chart.color1
                         }
@@ -214,7 +215,7 @@ PageBase {
             onLoaded: item.open()
             sourceComponent: PopupBase {
                 property variant model: listView.currentItem.values
-                maxWidth: 240
+                maxWidth: 320
                 y: page.height * 0.1
                 onOpened: tfDruck.forceActiveFocus()
                 onClosed: popuploader.active = false
@@ -236,7 +237,7 @@ PageBase {
                         Layout.fillWidth: true
                         enabled: !page.readOnly
                         date: model.Zeitstempel
-                        onNewDate: model.Zeitstempel = date
+                        onNewDate: (date) => model.Zeitstempel = date
                     }
 
                     Image {
@@ -251,7 +252,7 @@ PageBase {
                         max: 99.9
                         precision: 2
                         value: model.Druck
-                        onNewValue: model.Druck = value
+                        onNewValue: (value) => model.Druck = value
                     }
 
                     LabelUnit {
@@ -266,7 +267,7 @@ PageBase {
                         Layout.alignment: Qt.AlignHCenter
                         enabled: !page.readOnly
                         value: model.Temp
-                        onNewValue: model.Temp = value
+                        onNewValue: (value) => model.Temp = value
                     }
 
                     LabelUnit {

@@ -241,6 +241,7 @@ PageBase {
 
                                     GroupBox {
                                         Layout.fillWidth: true
+                                        focusPolicy: Qt.StrongFocus
                                         label: LabelHeader {
                                             text: qsTr("Kernwerte")
                                         }
@@ -281,6 +282,7 @@ PageBase {
 
                                     GroupBox {
                                         Layout.fillWidth: true
+                                        focusPolicy: Qt.StrongFocus
                                         label: LabelHeader {
                                             text: qsTr("Korrekturwerte")
                                         }
@@ -346,6 +348,7 @@ PageBase {
 
                                     GroupBox {
                                         Layout.fillWidth: true
+                                        focusPolicy: Qt.StrongFocus
                                         label: LabelHeader {
                                             text: qsTr("Maischekessel")
                                         }
@@ -429,6 +432,7 @@ PageBase {
 
                                     GroupBox {
                                         Layout.fillWidth: true
+                                        focusPolicy: Qt.StrongFocus
                                         label: LabelHeader {
                                             text: qsTr("Sudpfanne")
                                         }
@@ -512,6 +516,7 @@ PageBase {
 
                                     GroupBox {
                                         Layout.fillWidth: true
+                                        focusPolicy: Qt.StrongFocus
                                         label: LabelHeader {
                                             text: qsTr("Bemerkung")
                                         }
@@ -528,6 +533,7 @@ PageBase {
 
                                     GroupBox {
                                         Layout.fillWidth: true
+                                        focusPolicy: Qt.StrongFocus
                                         label: LabelHeader {
                                             text: qsTr("Geräte")
                                         }

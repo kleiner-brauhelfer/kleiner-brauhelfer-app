@@ -16,7 +16,7 @@ PageBase {
 
     ListView {
         id: listView
-        //clip: true
+        clip: true
         anchors.fill: parent
         boundsBehavior: Flickable.OvershootBounds
         model: ProxyModel {

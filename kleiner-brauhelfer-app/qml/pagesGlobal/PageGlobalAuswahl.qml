@@ -21,6 +21,16 @@ PageBase {
         anchors.fill: parent
         spacing: 0
 
+        ProxyModelSud {
+            id: proxy
+            sourceModel: Brauhelfer.modelSud
+            filterStatus: app.settings.brewsFilter
+            filterMerkliste: app.settings.brewsMerklisteFilter
+            sortOrder: sortComboBox.sortOrder
+            sortColumn: sortComboBox.sortColumn
+            Component.onCompleted: sortComboBox.update()
+        }
+
         RowLayout {
             Layout.fillWidth: true
             Layout.margins: 8
@@ -32,7 +42,7 @@ PageBase {
                 onTextChanged: listView.model.filterText = text
             }
             ComboBoxBase {
-                property string sortFieldName: ""
+                property int sortColumn: -1
                 property int sortOrder: Qt.DescendingOrder
                 id: sortComboBox
                 implicitContentWidthPolicy: ComboBox.WidestTextWhenCompleted
@@ -50,43 +60,39 @@ PageBase {
                     qsTr("Erstellt") + "  \u2191 ",
                     qsTr("Erstellt") + "  \u2193 "
                 ]
+                function update() {
+                    switch (currentIndex) {
+                        case 0: sortColumn = proxy.fieldIndex("Sudname"); sortOrder = Qt.AscendingOrder; break;
+                        case 1: sortColumn = proxy.fieldIndex("Sudname"); sortOrder = Qt.DescendingOrder; break;
+                        case 2: sortColumn = proxy.fieldIndex("Sudnummer"); sortOrder = Qt.AscendingOrder; break;
+                        case 3: sortColumn = proxy.fieldIndex("Sudnummer"); sortOrder = Qt.DescendingOrder; break;
+                        case 4: sortColumn = proxy.fieldIndex("Kategorie"); sortOrder = Qt.AscendingOrder; break;
+                        case 5: sortColumn = proxy.fieldIndex("Kategorie"); sortOrder = Qt.DescendingOrder; break;
+                        case 6: sortColumn = proxy.fieldIndex("Braudatum"); sortOrder = Qt.AscendingOrder; break;
+                        case 7: sortColumn = proxy.fieldIndex("Braudatum"); sortOrder = Qt.DescendingOrder; break;
+                        case 8: sortColumn = proxy.fieldIndex("Gespeichert"); sortOrder = Qt.AscendingOrder; break;
+                        case 9: sortColumn = proxy.fieldIndex("Gespeichert"); sortOrder = Qt.DescendingOrder; break;
+                        case 10: sortColumn = proxy.fieldIndex("Erstellt"); sortOrder = Qt.AscendingOrder; break;
+                        case 11: sortColumn = proxy.fieldIndex("Erstellt"); sortOrder = Qt.DescendingOrder; break;
+                        default: sortColumn = -1; sortOrder = Qt.DescendingOrder; break;
+                    }
+                    proxy.invalidate()
+                }
                 currentIndex: app.settings.brewsSortColumn
                 onCurrentIndexChanged: {
                     app.settings.brewsSortColumn = currentIndex
-                    switch (currentIndex) {
-                        case 0: sortFieldName = "Sudname"; sortOrder = Qt.AscendingOrder; break;
-                        case 1: sortFieldName = "Sudname"; sortOrder = Qt.DescendingOrder; break;
-                        case 2: sortFieldName = "Sudnummer"; sortOrder = Qt.AscendingOrder; break;
-                        case 3: sortFieldName = "Sudnummer"; sortOrder = Qt.DescendingOrder; break;
-                        case 4: sortFieldName = "Kategorie"; sortOrder = Qt.AscendingOrder; break;
-                        case 5: sortFieldName = "Kategorie"; sortOrder = Qt.DescendingOrder; break;
-                        case 6: sortFieldName = "Braudatum"; sortOrder = Qt.AscendingOrder; break;
-                        case 7: sortFieldName = "Braudatum"; sortOrder = Qt.DescendingOrder; break;
-                        case 8: sortFieldName = "Gespeichert"; sortOrder = Qt.AscendingOrder; break;
-                        case 9: sortFieldName = "Gespeichert"; sortOrder = Qt.DescendingOrder; break;
-                        case 10: sortFieldName = "Erstellt"; sortOrder = Qt.AscendingOrder; break;
-                        case  11: sortFieldName = "Erstellt"; sortOrder = Qt.DescendingOrder; break;
-                        default: sortFieldName = ""; sortOrder = Qt.DescendingOrder; break;
-                    }
+                    update()
                 }
             }
         }
 
         ListView {
-            property alias proxy: proxy
             id: listView
             Layout.fillWidth: true
             Layout.fillHeight: true
             clip: true
             boundsBehavior: Flickable.DragAndOvershootBounds
-            model: ProxyModelSud {
-                id: proxy
-                sourceModel: Brauhelfer.modelSud
-                filterStatus: app.settings.brewsFilter
-                filterMerkliste: app.settings.brewsMerklisteFilter
-                sortOrder: sortComboBox.sortOrder
-                sortColumn: fieldIndex(sortComboBox.sortFieldName)
-            }
+            model: proxy
 
             ScrollIndicator.vertical: ScrollIndicator {}
 

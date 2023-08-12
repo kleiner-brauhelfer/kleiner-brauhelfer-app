@@ -21,7 +21,6 @@ PageBase {
         clip: true
         contentHeight: layout.height
         boundsBehavior: Flickable.OvershootBounds
-        onMovementStarted: forceActiveFocus()
         ScrollIndicator.vertical: ScrollIndicator {}
 
         function gebraut() {
@@ -43,7 +42,7 @@ PageBase {
             id: messageDialog
             text: qsTr("Verwendete Rohstoffe vom Bestand abziehen?")
             buttons: MessageDialog.Yes | MessageDialog.No
-            onAccepted: Brauhelfer.sud.brauzutatenAbziehen()
+            onYesClicked: Brauhelfer.sud.brauzutatenAbziehen()
         }
 
         ColumnLayout {
@@ -54,6 +53,7 @@ PageBase {
 
             GroupBox {
                 Layout.fillWidth: true
+                focusPolicy: Qt.StrongFocus
                 label: LabelHeader {
                     text: qsTr("Maischen")
                 }
@@ -119,7 +119,7 @@ PageBase {
                         Layout.fillWidth: true
                         visible: repeaterModelWeitereZutatenGabenMaischen.count > 0
                         font.bold: true
-                        text: qsTr("Weitere Zutaten")
+                        text: qsTr("Zusätze")
                     }
                     Repeater {
                         id: repeaterModelWeitereZutatenGabenMaischen
@@ -191,16 +191,11 @@ PageBase {
                                 }
                             }
                         }
-                        LabelPrim {
-                            Layout.fillWidth: true
-                            font.bold: true
-                            text: qsTr("Bemerkung")
-                        }
                         TextAreaBase {
                             Layout.fillWidth: true
                             opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
                             wrapMode: TextArea.Wrap
-                            placeholderText: qsTr("Bemerkung")
+                            placeholderText: qsTr("Bemerkung Wasseraufbereitung")
                             textFormat: Text.RichText
                             text: Brauhelfer.sud.BemerkungWasseraufbereitung
                             onLinkActivated: (link) => Qt.openUrlExternally(link)
@@ -227,252 +222,151 @@ PageBase {
                                 columns: 3
                                 Layout.leftMargin: 8
                                 columnSpacing: 16
-                                visible: model.Typ === Brauhelfer.RastTyp.Einmaischen
                                 LabelPrim {
+                                    visible: model.MengeWasser > 0
                                     Layout.fillWidth: true
-                                    text: qsTr("Wassermenge")
+                                    text: qsTr("Wasser")
                                 }
                                 LabelNumber {
+                                    visible: model.MengeWasser > 0
                                     precision: 1
-                                    value: model.Menge
+                                    value: model.MengeWasser
                                 }
                                 LabelUnit {
+                                    visible: model.MengeWasser > 0
                                     text: qsTr("l")
                                 }
                                 LabelPrim {
+                                    visible: model.MengeWasser > 0
                                     Layout.fillWidth: true
-                                    text: qsTr("Wassertemperatur")
+                                    text: ""
                                 }
                                 LabelNumber {
+                                    visible: model.MengeWasser > 0
                                     precision: 0
-                                    value: model.Param1
+                                    value: model.TempWasser
                                 }
                                 LabelUnit {
+                                    visible: model.MengeWasser > 0
                                     text: qsTr("°C")
                                 }
                                 LabelPrim {
+                                    visible: model.MengeMalz > 0
                                     Layout.fillWidth: true
-                                    text: qsTr("Maischetemperatur")
+                                    text: qsTr("Malz")
                                 }
                                 LabelNumber {
-                                    precision: 0
-                                    value: model.Temp
+                                    visible: model.MengeMalz > 0
+                                    precision: 2
+                                    value: model.MengeMalz
                                 }
                                 LabelUnit {
-                                    text: qsTr("°C")
+                                    visible: model.MengeMalz > 0
+                                    text: qsTr("kg")
                                 }
                                 LabelPrim {
-                                    visible: model.Dauer > 0
                                     Layout.fillWidth: true
-                                    text: qsTr("Rastdauer")
+                                    text: qsTr("Dauer")
                                 }
                                 LabelNumber {
-                                    visible: model.Dauer > 0
                                     precision: 0
-                                    value: model.Dauer
+                                    value: model.DauerRast
                                 }
                                 LabelUnit {
-                                    visible: model.Dauer > 0
                                     text: qsTr("min")
                                 }
-                            }
-                            GridLayout {
-                                Layout.leftMargin: 8
-                                columnSpacing: 16
-                                columns: 3
-                                visible: model.Typ === Brauhelfer.RastTyp.Temperatur
                                 LabelPrim {
                                     Layout.fillWidth: true
                                     text: qsTr("Temperatur")
                                 }
                                 LabelNumber {
                                     precision: 0
-                                    value: model.Temp
+                                    value: model.TempRast
                                 }
                                 LabelUnit {
                                     text: qsTr("°C")
                                 }
+
+
                                 LabelPrim {
-                                    visible: model.Dauer > 0
+                                    visible: model.MengeMaische > 0
                                     Layout.fillWidth: true
-                                    text: qsTr("Rastdauer")
+                                    text: qsTr("Teilmaische")
                                 }
                                 LabelNumber {
-                                    visible: model.Dauer > 0
+                                    visible: model.MengeMaische > 0
                                     precision: 0
-                                    value: model.Dauer
+                                    value: model.MengeMaische
                                 }
                                 LabelUnit {
-                                    visible: model.Dauer > 0
-                                    text: qsTr("min")
+                                    visible: model.MengeMaische > 0
+                                    text: qsTr("L")
                                 }
-                            }
-                            GridLayout {
-                                Layout.leftMargin: 8
-                                columnSpacing: 16
-                                columns: 3
-                                visible: model.Typ === Brauhelfer.RastTyp.Infusion
+
                                 LabelPrim {
+                                    visible: model.DauerExtra2 > 0
                                     Layout.fillWidth: true
-                                    text: qsTr("Wassermenge")
+                                    text: qsTr("Zwischenrast")
                                 }
                                 LabelNumber {
-                                    precision: 1
-                                    value: model.Menge
-                                }
-                                LabelUnit {
-                                    text: qsTr("l")
-                                }
-                                LabelPrim {
-                                    Layout.fillWidth: true
-                                    text: qsTr("Wassertemperatur")
-                                }
-                                LabelNumber {
+                                    visible: model.DauerExtra2 > 0
                                     precision: 0
-                                    value: model.Param1
+                                    value: model.TempExtra2
                                 }
                                 LabelUnit {
+                                    visible: model.DauerExtra2 > 0
                                     text: qsTr("°C")
                                 }
                                 LabelPrim {
+                                    visible: model.DauerExtra2 > 0
                                     Layout.fillWidth: true
-                                    text: qsTr("Maischetemperatur")
+                                    text: ""
                                 }
                                 LabelNumber {
+                                    visible: model.DauerExtra2 > 0
                                     precision: 0
-                                    value: model.Temp
+                                    value: model.DauerExtra2
                                 }
                                 LabelUnit {
-                                    text: qsTr("°C")
-                                }
-                                LabelPrim {
-                                    visible: model.Dauer > 0
-                                    Layout.fillWidth: true
-                                    text: qsTr("Rastdauer")
-                                }
-                                LabelNumber {
-                                    visible: model.Dauer > 0
-                                    precision: 0
-                                    value: model.Dauer
-                                }
-                                LabelUnit {
-                                    visible: model.Dauer > 0
-                                    text: qsTr("min")
-                                }
-                            }
-                            GridLayout {
-                                Layout.leftMargin: 8
-                                columnSpacing: 16
-                                columns: 3
-                                visible: model.Typ === Brauhelfer.RastTyp.Dekoktion
-                                LabelPrim {
-                                    Layout.fillWidth: true
-                                    text: qsTr("Maischemenge")
-                                }
-                                LabelNumber {
-                                    precision: 1
-                                    value: model.Menge
-                                }
-                                LabelUnit {
-                                    text: qsTr("l")
-                                }
-                                LabelPrim {
-                                    visible: model.Param3 > 0
-                                    Layout.fillWidth: true
-                                    text: qsTr("Teilmaischezusatzrast")
-                                }
-                                LabelNumber {
-                                    visible: model.Param3 > 0
-                                    precision: 0
-                                    value: model.Param3
-                                }
-                                LabelUnit {
-                                    visible: model.Param3 > 0
-                                    text: qsTr("°C")
-                                }
-                                LabelPrim {
-                                    visible: model.Param3 > 0 && model.Param4 > 0
-                                    Layout.fillWidth: true
-                                    text: qsTr("Teilmaischezusatzrastdauer")
-                                }
-                                LabelNumber {
-                                    visible: model.Param3 > 0 && model.Param4 > 0
-                                    precision: 0
-                                    value: model.Param4
-                                }
-                                LabelUnit {
-                                    visible: model.Param3 > 0 && model.Param4 > 0
+                                    visible: model.DauerExtra2 > 0
                                     text: qsTr("min")
                                 }
                                 LabelPrim {
-                                    visible: model.Param1 > 0
+                                    visible: model.DauerExtra1 > 0
                                     Layout.fillWidth: true
-                                    text: qsTr("Teilmaischerast")
+                                    text: qsTr("Kochrast")
                                 }
                                 LabelNumber {
-                                    visible: model.Param1 > 0
+                                    visible: model.DauerExtra1 > 0
                                     precision: 0
-                                    value: model.Param1
+                                    value: model.TempExtra1
                                 }
                                 LabelUnit {
-                                    visible: model.Param1 > 0
+                                    visible: model.DauerExtra1 > 0
                                     text: qsTr("°C")
                                 }
                                 LabelPrim {
-                                    visible: model.Param1 > 0 && model.Param2 > 0
+                                    visible: model.DauerExtra1 > 0
                                     Layout.fillWidth: true
-                                    text: qsTr("Teilmaischerastdauer")
+                                    text: ""
                                 }
                                 LabelNumber {
-                                    visible: model.Param1 > 0 && model.Param2 > 0
+                                    visible: model.DauerExtra1 > 0
                                     precision: 0
-                                    value: model.Param2
+                                    value: model.DauerExtra1
                                 }
                                 LabelUnit {
-                                    visible: model.Param1 > 0 && model.Param2 > 0
-                                    text: qsTr("min")
-                                }
-                                LabelPrim {
-                                    visible: model.Temp > 0
-                                    Layout.fillWidth: true
-                                    text: qsTr("Maischetemperatur")
-                                }
-                                LabelNumber {
-                                    visible: model.Temp > 0
-                                    precision: 0
-                                    value: model.Temp
-                                }
-                                LabelUnit {
-                                    visible: model.Temp > 0
-                                    text: qsTr("°C")
-                                }
-                                LabelPrim {
-                                    visible: model.Temp > 0 && model.Dauer > 0
-                                    Layout.fillWidth: true
-                                    text: qsTr("Absetzdauer")
-                                }
-                                LabelNumber {
-                                    visible: model.Temp > 0 && model.Dauer > 0
-                                    precision: 0
-                                    value: model.Dauer
-                                }
-                                LabelUnit {
-                                    visible: model.Temp > 0 && model.Dauer > 0
+                                    visible: model.DauerExtra1 > 0
                                     text: qsTr("min")
                                 }
                             }
                         }
                     }
-                    LabelPrim {
-                        Layout.fillWidth: true
-                        font.bold: true
-                        text: qsTr("Bemerkung")
-                    }
                     TextAreaBase {
                         Layout.fillWidth: true
                         opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
                         wrapMode: TextArea.Wrap
-                        placeholderText: qsTr("Bemerkung")
+                        placeholderText: qsTr("Bemerkung Maischplan")
                         textFormat: Text.RichText
                         text: Brauhelfer.sud.BemerkungMaischplan
                         onLinkActivated: (link) => Qt.openUrlExternally(link)
@@ -515,16 +409,11 @@ PageBase {
                     HorizontalDivider {
                         Layout.fillWidth: true
                     }
-                    LabelPrim {
-                        Layout.fillWidth: true
-                        font.bold: true
-                        text: qsTr("Bemerkung")
-                    }
                     TextAreaBase {
                         Layout.fillWidth: true
                         opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
                         wrapMode: TextArea.Wrap
-                        placeholderText: qsTr("Bemerkung")
+                        placeholderText: qsTr("Bemerkung Maischen")
                         textFormat: Text.RichText
                         text: Brauhelfer.sud.BemerkungZutatenMaischen
                         onLinkActivated: (link) => Qt.openUrlExternally(link)
@@ -535,6 +424,7 @@ PageBase {
 
             GroupBox {
                 Layout.fillWidth: true
+                focusPolicy: Qt.StrongFocus
                 label: LabelHeader {
                     text: qsTr("Läutern")
                 }
@@ -583,6 +473,7 @@ PageBase {
 
             GroupBox {
                 Layout.fillWidth: true
+                focusPolicy: Qt.StrongFocus
                 label: LabelHeader {
                     text: qsTr("Würzekochen")
                 }
@@ -703,11 +594,10 @@ PageBase {
                             Layout.fillWidth: true
                             text: qsTr("Stammwürze")
                         }
-                        TextFieldPlato {
+                        TextFieldSw {
                             enabled: !page.readOnly
-                            useDialog: true
                             value: Brauhelfer.sud.SWKochbeginn
-                            onNewValue: Brauhelfer.sud.SWKochbeginn = value
+                            onNewValue: (value) => Brauhelfer.sud.SWKochbeginn = value
                         }
                         LabelUnit {
                             text: qsTr("°P")
@@ -738,9 +628,8 @@ PageBase {
                         }
                         TextFieldVolume {
                             enabled: !page.readOnly
-                            useDialog: true
                             value: Brauhelfer.sud.WuerzemengeKochbeginn
-                            onNewValue: Brauhelfer.sud.WuerzemengeKochbeginn = value
+                            onNewValue: (value) => Brauhelfer.sud.WuerzemengeKochbeginn = value
                         }
                         LabelUnit {
                             text: qsTr("l")
@@ -805,7 +694,7 @@ PageBase {
                         Layout.fillWidth: true
                         visible: repeaterModelWeitereZutatenGabenKochen.count > 0
                         font.bold: true
-                        text: qsTr("Weitere Zutaten")
+                        text: qsTr("Zusätze")
                     }
                     Repeater {
                         id: repeaterModelWeitereZutatenGabenKochen
@@ -890,11 +779,10 @@ PageBase {
                             Layout.fillWidth: true
                             text: qsTr("Stammwürze")
                         }
-                        TextFieldPlato {
+                        TextFieldSw {
                             enabled: !page.readOnly
-                            useDialog: true
                             value: Brauhelfer.sud.SWKochende
-                            onNewValue: Brauhelfer.sud.SWKochende = value
+                            onNewValue: (value) => Brauhelfer.sud.SWKochende = value
                         }
                         LabelUnit {
                             text: qsTr("°P")
@@ -925,9 +813,8 @@ PageBase {
                         }
                         TextFieldVolume {
                             enabled: !page.readOnly
-                            useDialog: true
                             value: Brauhelfer.sud.WuerzemengeVorHopfenseihen
-                            onNewValue: Brauhelfer.sud.WuerzemengeVorHopfenseihen = value
+                            onNewValue: (value) => Brauhelfer.sud.WuerzemengeVorHopfenseihen = value
                         }
                         LabelUnit {
                             text: qsTr("l")
@@ -1051,16 +938,11 @@ PageBase {
                     HorizontalDivider {
                         Layout.fillWidth: true
                     }
-                    LabelPrim {
-                        Layout.fillWidth: true
-                        font.bold: true
-                        text: qsTr("Bemerkung")
-                    }
                     TextAreaBase {
                         Layout.fillWidth: true
                         opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
                         wrapMode: TextArea.Wrap
-                        placeholderText: qsTr("Bemerkung")
+                        placeholderText: qsTr("Bemerkung Kochen")
                         textFormat: Text.RichText
                         text: Brauhelfer.sud.BemerkungZutatenKochen
                         onLinkActivated: (link) => Qt.openUrlExternally(link)
@@ -1071,6 +953,7 @@ PageBase {
 
             GroupBox {
                 Layout.fillWidth: true
+                focusPolicy: Qt.StrongFocus
                 label: LabelHeader {
                     text: qsTr("Anstellen")
                 }
@@ -1167,6 +1050,7 @@ PageBase {
                             visible: value > 0
                             value: BierCalc.verschneidung(Brauhelfer.sud.SWAnstellen,
                                                                  Brauhelfer.sud.SWSollAnstellen,
+                                                                 0.0,
                                                                  Brauhelfer.sud.WuerzemengeKochende * (1 + Brauhelfer.sud.highGravityFaktor/100))
                         }
                         LabelUnit {
@@ -1177,11 +1061,10 @@ PageBase {
                             Layout.fillWidth: true
                             text: qsTr("Stammwürze")
                         }
-                        TextFieldPlato {
+                        TextFieldSw {
                             enabled: !page.readOnly
-                            useDialog: true
                             value: Brauhelfer.sud.SWAnstellen
-                            onNewValue: Brauhelfer.sud.SWAnstellen = value
+                            onNewValue: (value) => Brauhelfer.sud.SWAnstellen = value
                         }
                         LabelUnit {
                             text: qsTr("°P")
@@ -1206,7 +1089,7 @@ PageBase {
                         TextFieldVolume {
                             enabled: !page.readOnly
                             value: Brauhelfer.sud.WuerzemengeKochende
-                            onNewValue: Brauhelfer.sud.WuerzemengeKochende = value
+                            onNewValue: (value) => Brauhelfer.sud.WuerzemengeKochende = value
                         }
                         LabelUnit {
                             text: qsTr("l")
@@ -1223,71 +1106,39 @@ PageBase {
                         }
                         LabelPrim {
                             Layout.fillWidth: true
-                            text: qsTr("Wassermenge für Verdünnung")
+                            text: qsTr("Hefestarter")
+                        }
+                        TextFieldVolume {
+                            enabled: !page.readOnly
+                            value: Brauhelfer.sud.MengeHefestarter
+                            onNewValue: (value) => Brauhelfer.sud.MengeHefestarter = value
+                        }
+                        LabelUnit {
+                            text: qsTr("l")
+                        }
+                        Item {
+                            Layout.fillWidth: true
+                        }
+                        TextFieldSw {
+                            enabled: !page.readOnly
+                            value: Brauhelfer.sud.SWHefestarter
+                            onNewValue: (value) => Brauhelfer.sud.SWHefestarter = value
+                        }
+                        LabelUnit {
+                            text: qsTr("°P")
+                        }
+                        LabelPrim {
+                            Layout.fillWidth: true
+                            text: qsTr("Verschnittwasser")
                         }
                         TextFieldVolume {
                             enabled: !page.readOnly
                             value: Brauhelfer.sud.VerduennungAnstellen
-                            onNewValue: Brauhelfer.sud.VerduennungAnstellen = value
+                            onNewValue: (value) => Brauhelfer.sud.VerduennungAnstellen = value
                         }
                         LabelUnit {
                             text: qsTr("l")
                         }
-
-                        LabelPrim {
-                            id: hefestarter
-                            Layout.fillWidth: true
-                            visible: Brauhelfer.sud.MengeHefestarter > 0
-                            text: qsTr("Hefestarter")
-                        }
-                        LabelNumber {
-                            precision: 2
-                            visible: hefestarter.visible
-                            value: Brauhelfer.sud.MengeHefestarter
-                        }
-                        LabelUnit {
-                            visible: hefestarter.visible
-                            text: qsTr("l")
-                        }
-                        Item {
-                            visible: hefestarter.visible
-                            Layout.fillWidth: true
-                        }
-                        LabelPlato {
-                            visible: hefestarter.visible
-                            id: lblSWHefestarter
-                            value: Brauhelfer.sud.SWHefestarter
-                        }
-                        LabelUnit {
-                            visible: hefestarter.visible
-                            text: qsTr("°P")
-                        }
-                        Item {
-                            visible: hefestarter.visible
-                            Layout.fillWidth: true
-                        }
-                        LabelPlato {
-                            visible: hefestarter.visible
-                            value: BierCalc.platoToBrix(lblSWHefestarter.value)
-                        }
-                        LabelUnit {
-                            visible: hefestarter.visible
-                            text: qsTr("°Brix")
-                        }
-                        Item {
-                            visible: hefestarter.visible
-                            Layout.fillWidth: true
-                        }
-                        LabelPlato {
-                            visible: hefestarter.visible
-                            precision: 4
-                            value: BierCalc.platoToDichte(lblSWHefestarter.value)
-                        }
-                        LabelUnit {
-                            visible: hefestarter.visible
-                            text: qsTr("g/ml")
-                        }
-
                         LabelPrim {
                             Layout.fillWidth: true
                             text: qsTr("Gesamtwürzemenge")
@@ -1295,7 +1146,7 @@ PageBase {
                         TextFieldVolume {
                             enabled: !page.readOnly
                             value: Brauhelfer.sud.WuerzemengeAnstellenTotal
-                            onNewValue: Brauhelfer.sud.WuerzemengeAnstellenTotal = value
+                            onNewValue: (value) => Brauhelfer.sud.WuerzemengeAnstellenTotal = value
                         }
                         LabelUnit {
                             text: qsTr("l")
@@ -1320,7 +1171,7 @@ PageBase {
                         TextFieldVolume {
                             enabled: !page.readOnly
                             value: Brauhelfer.sud.Speisemenge
-                            onNewValue: Brauhelfer.sud.Speisemenge = value
+                            onNewValue: (value) => Brauhelfer.sud.Speisemenge = value
                         }
                         LabelUnit {
                             text: qsTr("l")
@@ -1332,7 +1183,7 @@ PageBase {
                         TextFieldVolume {
                             enabled: !page.readOnly
                             value: Brauhelfer.sud.WuerzemengeAnstellen
-                            onNewValue: Brauhelfer.sud.WuerzemengeAnstellen = value
+                            onNewValue: (value) => Brauhelfer.sud.WuerzemengeAnstellen = value
                         }
                         LabelUnit {
                             text: qsTr("l")
@@ -1370,7 +1221,7 @@ PageBase {
                             id: tfTemperature
                             enabled: !page.readOnly
                             value: 20.0
-                            onNewValue: this.value = value
+                            onNewValue: (value) => this.value = value
                         }
                         LabelUnit {
                             text: qsTr("°C")
@@ -1381,6 +1232,7 @@ PageBase {
 
             GroupBox {
                 Layout.fillWidth: true
+                focusPolicy: Qt.StrongFocus
                 label: LabelHeader {
                     text: qsTr("Gärung")
                 }
@@ -1422,7 +1274,7 @@ PageBase {
                         Layout.fillWidth: true
                         visible: repeaterModelWeitereZutatenGabenGaerung.count > 0
                         font.bold: true
-                        text: qsTr("Weitere Zutaten")
+                        text: qsTr("Zusätze")
                     }
                     Repeater {
                         id: repeaterModelWeitereZutatenGabenGaerung
@@ -1464,16 +1316,11 @@ PageBase {
                     HorizontalDivider {
                         Layout.fillWidth: true
                     }
-                    LabelPrim {
-                        Layout.fillWidth: true
-                        font.bold: true
-                        text: qsTr("Bemerkung")
-                    }
                     TextAreaBase {
                         Layout.fillWidth: true
                         opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
                         wrapMode: TextArea.Wrap
-                        placeholderText: qsTr("Bemerkung")
+                        placeholderText: qsTr("Bemerkung Gärung")
                         textFormat: Text.RichText
                         text: Brauhelfer.sud.BemerkungZutatenGaerung
                         onLinkActivated: (link) => Qt.openUrlExternally(link)
@@ -1484,23 +1331,7 @@ PageBase {
 
             GroupBox {
                 Layout.fillWidth: true
-                label: LabelHeader {
-                    text: qsTr("Bemerkung")
-                }
-                TextAreaBase {
-                    anchors.fill: parent
-                    opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
-                    wrapMode: TextArea.Wrap
-                    placeholderText: qsTr("Bemerkung")
-                    textFormat: Text.RichText
-                    text: Brauhelfer.sud.BemerkungBrauen
-                    onLinkActivated: (link) => Qt.openUrlExternally(link)
-                    onTextChanged: if (activeFocus) Brauhelfer.sud.BemerkungBrauen = text
-                }
-            }
-
-            GroupBox {
-                Layout.fillWidth: true
+                focusPolicy: Qt.StrongFocus
                 label: LabelHeader {
                     text: qsTr("Abschluss")
                 }
@@ -1518,7 +1349,7 @@ PageBase {
                         Layout.fillWidth: true
                         enabled: !page.readOnly
                         date: Brauhelfer.sud.Status >= Brauhelfer.Gebraut ? Brauhelfer.sud.Braudatum : new Date()
-                        onNewDate: this.date = date
+                        onNewDate: (date) => this.date = date
                     }
                     LabelPrim {
                         Layout.fillWidth: true
@@ -1528,7 +1359,7 @@ PageBase {
                         enabled: !page.readOnly
                         precision: 2
                         value: Brauhelfer.sud.KostenWasserStrom
-                        onNewValue: Brauhelfer.sud.KostenWasserStrom = value
+                        onNewValue: (value) => Brauhelfer.sud.KostenWasserStrom = value
                     }
                     LabelUnit {
                         text: Qt.locale().currencySymbol()
@@ -1551,6 +1382,17 @@ PageBase {
                         text: qsTr("Sud für Durchschnittsberechnung ignorieren")
                         checked: Brauhelfer.sud.AusbeuteIgnorieren
                         onClicked: Brauhelfer.sud.AusbeuteIgnorieren = checked
+                    }
+                    TextAreaBase {
+                        Layout.columnSpan: 3
+                        Layout.fillWidth: true
+                        opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
+                        wrapMode: TextArea.Wrap
+                        placeholderText: qsTr("Bemerkung Brauen")
+                        textFormat: Text.RichText
+                        text: Brauhelfer.sud.BemerkungBrauen
+                        onLinkActivated: (link) => Qt.openUrlExternally(link)
+                        onTextChanged: if (activeFocus) Brauhelfer.sud.BemerkungBrauen = text
                     }
                     ButtonBase {
                         Layout.columnSpan: 3

@@ -37,7 +37,7 @@ PopupBase {
             Layout.fillWidth: true
             enabled: !page.readOnly
             date: model.Zeitstempel
-            onNewDate: model.Zeitstempel = date
+            onNewDate: (date) => model.Zeitstempel = date
         }
 
         ComboBoxBase {
@@ -74,8 +74,7 @@ PopupBase {
             }
         }
 
-        Label {
-            text: ""
+        Item {
             visible: app.settings.restextraktMethode == 1
         }
 
@@ -84,7 +83,7 @@ PopupBase {
             Layout.alignment: Qt.AlignHCenter
             enabled: !page.readOnly
             visible: app.settings.restextraktMethode == 1
-            onNewValue: {
+            onNewValue: (value) => {
                 this.value = value
                 var brix = value
                 if (!isNaN(brix)) {
@@ -116,7 +115,7 @@ PopupBase {
             min: 0.0
             max: 2.0
             precision: 4
-            onNewValue: {
+            onNewValue: (value) => {
                 this.value = value
                 var density = value
                 if (!isNaN(density)) {
@@ -136,8 +135,7 @@ PopupBase {
             visible: app.settings.restextraktMethode == 0
         }
 
-        Label {
-            text: ""
+        Item {
             visible: app.settings.restextraktMethode == 0
         }
 
@@ -146,7 +144,7 @@ PopupBase {
             Layout.alignment: Qt.AlignHCenter
             enabled: !page.readOnly
             visible: app.settings.restextraktMethode == 0
-            onNewValue: {
+            onNewValue: (value) => {
                 this.value = value
                 var plato = value
                 if (!isNaN(value)) {
@@ -178,7 +176,7 @@ PopupBase {
             Layout.alignment: Qt.AlignHCenter
             enabled: !page.readOnly
             value: model.Temp
-            onNewValue: {
+            onNewValue: (value) => {
                 model.Temp = value
                 if (app.settings.restextraktMethode === 0) {
                     var plato = tfPlato.value
@@ -204,7 +202,7 @@ PopupBase {
             Layout.alignment: Qt.AlignHCenter
             enabled: !page.readOnly && app.settings.restextraktMethode == 2
             value: model.Restextrakt
-            onNewValue: model.Restextrakt = value
+            onNewValue: (value) => model.Restextrakt = value
         }
 
         LabelUnit {

@@ -23,10 +23,7 @@ Popup {
     background: Rectangle {
         color: Material.background
         radius: 10
-        MouseArea {
-            anchors.fill: parent
-            onClicked: forceActiveFocus()
-        }
+        MouseAreaCatcher { }
     }
 
     Flickable {

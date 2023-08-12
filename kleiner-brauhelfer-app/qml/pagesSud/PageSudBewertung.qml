@@ -15,11 +15,11 @@ PageBase {
 
     ListView {
         id: listView
-        //clip: true
+        clip: true
         anchors.fill: parent
         boundsBehavior: Flickable.OvershootBounds
         model: Brauhelfer.sud.modelBewertungen
-        //headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
+        headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
         ScrollIndicator.vertical: ScrollIndicator {}
         header: Rectangle {
             property int widthCol1: headerLabel1.width
@@ -172,7 +172,7 @@ PageBase {
                                     TextFieldDate {
                                         Layout.fillWidth: true
                                         date: model.Datum
-                                        onNewDate: model.Datum = date
+                                        onNewDate: (date) => model.Datum = date
                                     }
                                     ToolButton {
                                         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
@@ -245,42 +245,42 @@ PageBase {
                                     Layout.fillWidth: true
                                     Flow {
                                         anchors.fill: parent
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("toll, macht Lust auf mehr")
                                             checked: model.Gesamteindruck & (1 << 0)
                                             onClicked: model.Gesamteindruck = (1 << 0)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("gutes, typisches Bier")
                                             checked: model.Gesamteindruck & (1 << 1)
                                             onClicked: model.Gesamteindruck = (1 << 1)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("interessant")
                                             checked: model.Gesamteindruck & (1 << 2)
                                             onClicked: model.Gesamteindruck = (1 << 2)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("überraschend, ungewöhnlich")
                                             checked: model.Gesamteindruck & (1 << 3)
                                             onClicked: model.Gesamteindruck = (1 << 3)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("kreativ, mutig")
                                             checked: model.Gesamteindruck & (1 << 4)
                                             onClicked: model.Gesamteindruck = (1 << 4)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("unauffällig, gewöhnlich")
                                             checked: model.Gesamteindruck & (1 << 5)
                                             onClicked: model.Gesamteindruck = (1 << 5)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("einmal ist genug, langweilig")
                                             checked: model.Gesamteindruck & (1 << 6)
                                             onClicked: model.Gesamteindruck = (1 << 6)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("nicht trinkbar, problematisch")
                                             checked: model.Gesamteindruck & (1 << 7)
                                             onClicked: model.Gesamteindruck = (1 << 7)
@@ -308,37 +308,37 @@ PageBase {
                                     Layout.fillWidth: true
                                     Flow {
                                         anchors.fill: parent
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("hellgelb, lichtgelb")
                                             checked: model.Farbe & (1 << 4)
                                             onClicked: model.Farbe = (1 << 4) | (model.Farbe & 0x0F)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("gelb")
                                             checked: model.Farbe & (1 << 5)
                                             onClicked: model.Farbe = (1 << 5) | (model.Farbe & 0x0F)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("golden")
                                             checked: model.Farbe & (1 << 6)
                                             onClicked: model.Farbe = (1 << 6) | (model.Farbe & 0x0F)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("bernstein")
                                             checked: model.Farbe & (1 << 7)
                                             onClicked: model.Farbe = (1 << 7) | (model.Farbe & 0x0F)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("kupferrot, amber")
                                             checked: model.Farbe & (1 << 8)
                                             onClicked: model.Farbe = (1 << 8) | (model.Farbe & 0x0F)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("braun, tiefbraun")
                                             checked: model.Farbe & (1 << 9)
                                             onClicked: model.Farbe = (1 << 9) | (model.Farbe & 0x0F)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("schwarz, tief dunkel")
                                             checked: model.Farbe & (1 << 10)
                                             onClicked: model.Farbe = (1 << 10) | (model.Farbe & 0x0F)
@@ -350,22 +350,22 @@ PageBase {
                                     Layout.fillWidth: true
                                     Flow {
                                         anchors.fill: parent
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("satt, intensiv")
                                             checked: model.Farbe & (1 << 0)
                                             onClicked: model.Farbe = (1 << 0) | (model.Farbe & 0x7F0)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("glänzend")
                                             checked: model.Farbe & (1 << 1)
                                             onClicked: model.Farbe = (1 << 1) | (model.Farbe & 0x7F0)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("matt, blass")
                                             checked: model.Farbe & (1 << 2)
                                             onClicked: model.Farbe = (1 << 2) | (model.Farbe & 0x7F0)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("gräulich, fahl")
                                             checked: model.Farbe & (1 << 3)
                                             onClicked: model.Farbe = (1 << 3) | (model.Farbe & 0x7F0)
@@ -393,12 +393,12 @@ PageBase {
                                     Layout.fillWidth: true
                                     Flow {
                                         anchors.fill: parent
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("feinporig, fest")
                                             checked: model.Schaum & (1 << 0)
                                             onClicked: model.Schaum = (1 << 0) | (model.Schaum & 0x7FC)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("grobporig, schwach")
                                             checked: model.Schaum & (1 << 1)
                                             onClicked: model.Schaum = (1 << 1) | (model.Schaum & 0x7FC)
@@ -410,12 +410,12 @@ PageBase {
                                     Layout.fillWidth: true
                                     Flow {
                                         anchors.fill: parent
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("gut haftend")
                                             checked: model.Schaum & (1 << 2)
                                             onClicked: model.Schaum = (1 << 2) | (model.Schaum & 0x7F3)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("schlecht haftend")
                                             checked: model.Schaum & (1 << 3)
                                             onClicked: model.Schaum = (1 << 3) | (model.Schaum & 0x7F3)
@@ -427,17 +427,17 @@ PageBase {
                                     Layout.fillWidth: true
                                     Flow {
                                         anchors.fill: parent
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("gute Haltbarkeit")
                                             checked: model.Schaum & (1 << 4)
                                             onClicked: model.Schaum = (1 << 4) | (model.Schaum & 0x78F)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("mässige Haltbarkeit")
                                             checked: model.Schaum & (1 << 5)
                                             onClicked: model.Schaum = (1 << 5) | (model.Schaum & 0x78F)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("keine Haltbarkeit")
                                             checked: model.Schaum & (1 << 6)
                                             onClicked: model.Schaum = (1 << 6) | (model.Schaum & 0x78F)
@@ -449,22 +449,22 @@ PageBase {
                                     Layout.fillWidth: true
                                     Flow {
                                         anchors.fill: parent
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("geringes Volumen")
                                             checked: model.Schaum & (1 << 7)
                                             onClicked: model.Schaum = (1 << 7) | (model.Schaum & 0x07F)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("kräftiges Volumen")
                                             checked: model.Schaum & (1 << 8)
                                             onClicked: model.Schaum = (1 << 8) | (model.Schaum & 0x07F)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("sehr voluminös, mächtig")
                                             checked: model.Schaum & (1 << 9)
                                             onClicked: model.Schaum = (1 << 9) | (model.Schaum & 0x07F)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("überschäumend")
                                             checked: model.Schaum & (1 << 10)
                                             onClicked: model.Schaum = (1 << 10) | (model.Schaum & 0x07F)
@@ -663,42 +663,42 @@ PageBase {
                                     Layout.fillWidth: true
                                     Flow {
                                         anchors.fill: parent
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("angenehm rezent")
                                             checked: model.Antrunk & (1 << 0)
                                             onClicked: model.Antrunk = (1 << 0)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("rezent, fein perlend")
                                             checked: model.Antrunk & (1 << 1)
                                             onClicked: model.Antrunk = (1 << 1)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("gut eingebunden")
                                             checked: model.Antrunk & (1 << 2)
                                             onClicked: model.Antrunk = (1 << 2)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("prickelnd")
                                             checked: model.Antrunk & (1 << 3)
                                             onClicked: model.Antrunk = (1 << 3)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("stark prickelnd, aufdringlich")
                                             checked: model.Antrunk & (1 << 4)
                                             onClicked: model.Antrunk = (1 << 4)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("wenig rezent")
                                             checked: model.Antrunk & (1 << 5)
                                             onClicked: model.Antrunk = (1 << 5)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("schal")
                                             checked: model.Antrunk & (1 << 6)
                                             onClicked: model.Antrunk = (1 << 6)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("sehr schal")
                                             checked: model.Antrunk & (1 << 7)
                                             onClicked: model.Antrunk = (1 << 7)
@@ -726,27 +726,27 @@ PageBase {
                                     Layout.fillWidth: true
                                     Flow {
                                         anchors.fill: parent
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("wässrig, leer, dünn")
                                             checked: model.Haupttrunk & (1 << 0)
                                             onClicked: model.Haupttrunk = (1 << 0)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("etwas leer")
                                             checked: model.Haupttrunk & (1 << 1)
                                             onClicked: model.Haupttrunk = (1 << 1)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("schlank")
                                             checked: model.Haupttrunk & (1 << 2)
                                             onClicked: model.Haupttrunk = (1 << 2)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("vollmundig")
                                             checked: model.Haupttrunk & (1 << 3)
                                             onClicked: model.Haupttrunk = (1 << 3)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("mastig, breit")
                                             checked: model.Haupttrunk & (1 << 4)
                                             onClicked: model.Haupttrunk = (1 << 4)
@@ -774,47 +774,47 @@ PageBase {
                                     Layout.fillWidth: true
                                     Flow {
                                         anchors.fill: parent
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("sehr fein")
                                             checked: model.Nachtrunk & (1 << 0)
                                             onClicked: model.Nachtrunk = (1 << 0)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("angenehm, ausgewogen")
                                             checked: model.Nachtrunk & (1 << 1)
                                             onClicked: model.Nachtrunk = (1 << 1)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("nicht anhängend")
                                             checked: model.Nachtrunk & (1 << 2)
                                             onClicked: model.Nachtrunk = (1 << 2)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("nachhängend")
                                             checked: model.Nachtrunk & (1 << 3)
                                             onClicked: model.Nachtrunk = (1 << 3)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("stark nachhängend")
                                             checked: model.Nachtrunk & (1 << 4)
                                             onClicked: model.Nachtrunk = (1 << 4)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("wenig herb, unterentwickelt")
                                             checked: model.Nachtrunk & (1 << 5)
                                             onClicked: model.Nachtrunk = (1 << 5)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("sehr herb, kräftig betont")
                                             checked: model.Nachtrunk & (1 << 6)
                                             onClicked: model.Nachtrunk = (1 << 6)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("nicht/kaum wahrnehmbar")
                                             checked: model.Nachtrunk & (1 << 7)
                                             onClicked: model.Nachtrunk = (1 << 7)
                                         }
-                                        RadioButton {
+                                        RadioButtonBase {
                                             text: qsTr("unangenehm")
                                             checked: model.Nachtrunk & (1 << 8)
                                             onClicked: model.Nachtrunk = (1 << 8)

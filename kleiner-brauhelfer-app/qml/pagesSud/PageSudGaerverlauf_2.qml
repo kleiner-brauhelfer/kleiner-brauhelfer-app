@@ -59,7 +59,7 @@ PageBase {
             clip: true
             boundsBehavior: Flickable.OvershootBounds
             model: Brauhelfer.sud.modelHauptgaerverlauf
-            //headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
+            headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
             Component.onCompleted: if (!readOnly) positionViewAtEnd()
             ScrollIndicator.vertical: ScrollIndicator {}
             header: Rectangle {
@@ -90,17 +90,17 @@ PageBase {
                         LabelPrim {
                             id: headerLabel1
                             font.bold: true
-                            text: qsTr("SRE [°P]")
+                            text: qsTr("SRE (°P)")
                         }
                         LabelPrim {
                             id: headerLabel2
                             font.bold: true
-                            text: qsTr("Temp [°C]")
+                            text: qsTr("Temp (°C)")
                         }
                         LabelPrim {
                             id: headerLabel3
                             font.bold: true
-                            text: qsTr("Alk [%]")
+                            text: qsTr("Alk (%)")
                         }
                     }
                     HorizontalDivider {
@@ -219,7 +219,7 @@ PageBase {
             Layout.leftMargin: 8
             Layout.rightMargin: 8
             visible: listViewWeitereZutaten.count > 0
-            text: qsTr("Weitere Zutaten")
+            text: qsTr("Zusätze")
         }
         ListView {
             id: listViewWeitereZutaten
@@ -227,7 +227,7 @@ PageBase {
             Layout.leftMargin: 8
             Layout.rightMargin: 8
             height: Math.min(contentHeight, 80)
-            //clip: true
+            clip: true
             boundsBehavior: Flickable.OvershootBounds
             ScrollIndicator.vertical: ScrollIndicator {}
             model: ProxyModel {
@@ -236,7 +236,7 @@ PageBase {
                 filterRegularExpression: /0/
             }
             delegate: ItemDelegate {
-                width: listView.width
+                width: listViewWeitereZutaten.width
                 height: dataColumn2.implicitHeight
                 enabled: !page.readOnly
                 onClicked: {

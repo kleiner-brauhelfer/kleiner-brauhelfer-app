@@ -3,7 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
-import QtCharts 2.2
+import QtCharts
 
 import "../common"
 import brauhelfer
@@ -56,7 +56,7 @@ PageBase {
             clip: true
             boundsBehavior: Flickable.OvershootBounds
             model: Brauhelfer.sud.modelSchnellgaerverlauf
-            //headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
+            headerPositioning: listView.height < app.config.headerFooterPositioningThresh ? ListView.PullBackHeader : ListView.OverlayHeader
             Component.onCompleted: if (!readOnly) positionViewAtEnd()
             ScrollIndicator.vertical: ScrollIndicator {}
             header: Rectangle {
@@ -87,17 +87,17 @@ PageBase {
                         LabelPrim {
                             id: headerLabel1
                             font.bold: true
-                            text: qsTr("SRE [°P]")
+                            text: qsTr("SRE (°P)")
                         }
                         LabelPrim {
                             id: headerLabel2
                             font.bold: true
-                            text: qsTr("Temp [°C]")
+                            text: qsTr("Temp (°C)")
                         }
                         LabelPrim {
                             id: headerLabel3
                             font.bold: true
-                            text: qsTr("Alk [%]")
+                            text: qsTr("Alk (%)")
                         }
                     }
                     HorizontalDivider {

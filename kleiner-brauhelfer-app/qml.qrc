@@ -22,7 +22,6 @@
         <file>qml/common/LabelPlato.qml</file>
         <file>qml/common/LabelPrim.qml</file>
         <file>qml/common/LabelSec.qml</file>
-        <file>qml/common/LabelSubheader.qml</file>
         <file>qml/common/LabelUnit.qml</file>
         <file>qml/common/MouseAreaCatcher.qml</file>
         <file>qml/common/PageBase.qml</file>
@@ -38,6 +37,8 @@
         <file>qml/common/TextFieldDateTime.qml</file>
         <file>qml/common/TextFieldNumber.qml</file>
         <file>qml/common/TextFieldPlato.qml</file>
+        <file>qml/common/TextFieldSre.qml</file>
+        <file>qml/common/TextFieldSw.qml</file>
         <file>qml/common/TextFieldTemperature.qml</file>
         <file>qml/common/TextFieldVolume.qml</file>
         <file>qml/common/Toast.qml</file>

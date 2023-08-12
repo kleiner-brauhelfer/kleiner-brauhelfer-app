@@ -12,7 +12,6 @@ TextFieldBase {
     }
 
     id: tf
-    implicitWidth: 150
     wrapMode: TextArea.Wrap
     inputMethodHints: Qt.ImhDate | Qt.ImhTime
     horizontalAlignment: Text.AlignHCenter

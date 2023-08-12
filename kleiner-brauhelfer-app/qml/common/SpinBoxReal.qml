@@ -12,7 +12,6 @@ SpinBox {
     readonly property int factor: Math.pow(10, decimals)
 
     editable: true
-    implicitWidth: 160
 
     focusPolicy: Qt.StrongFocus
 
