@@ -1,8 +1,8 @@
 #include "qmlutils.h"
 #include <QDir>
-#ifdef Q_OS_ANDROID
-#include <QtAndroidExtras>
-#endif
+//#ifdef Q_OS_ANDROID
+//  #include <QtAndroidExtras>
+//#endif
 
 QString QmlUtils::toLocalFile(const QUrl &url)
 {

@@ -1,9 +1,9 @@
 #include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QSettings>
-#ifdef Q_OS_ANDROID
-  #include <QtAndroid>
-#endif
+//#ifdef Q_OS_ANDROID
+//  #include <QtAndroid>
+//#endif
 
 #include "languageselector.h"
 #include "brauhelfer.h"
@@ -73,10 +73,10 @@ int main(int argc, char *argv[])
 
     // check permissions
   #ifdef Q_OS_ANDROID
-    if(QtAndroid::checkPermission("android.permission.READ_EXTERNAL_STORAGE") == QtAndroid::PermissionResult::Denied)
-        QtAndroid::requestPermissionsSync(QStringList() << "android.permission.READ_EXTERNAL_STORAGE");
-    if(QtAndroid::checkPermission("android.permission.WRITE_EXTERNAL_STORAGE") == QtAndroid::PermissionResult::Denied)
-        QtAndroid::requestPermissionsSync(QStringList() << "android.permission.WRITE_EXTERNAL_STORAGE");
+    //if(QtAndroid::checkPermission("android.permission.READ_EXTERNAL_STORAGE") == QtAndroid::PermissionResult::Denied)
+    //    QtAndroid::requestPermissionsSync(QStringList() << "android.permission.READ_EXTERNAL_STORAGE");
+    //if(QtAndroid::checkPermission("android.permission.WRITE_EXTERNAL_STORAGE") == QtAndroid::PermissionResult::Denied)
+    //    QtAndroid::requestPermissionsSync(QStringList() << "android.permission.WRITE_EXTERNAL_STORAGE");
   #endif
 
     // load QML and start
