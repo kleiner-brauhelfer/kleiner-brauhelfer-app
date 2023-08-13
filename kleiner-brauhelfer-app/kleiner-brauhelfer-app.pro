@@ -2,14 +2,14 @@
 
 QT += core gui widgets qml quick quickcontrols2 charts sql network networkauth xml core5compat
 
-android: QT += androidextras
+#android: QT += androidextras
 
 # organization, application name and version
 ORGANIZATION = kleiner-brauhelfer
 TARGET = kleiner-brauhelfer-app
 VER_MAJ = 2
-VER_MIN = 5
-VER_PAT = 2
+VER_MIN = 6
+VER_PAT = 0
 VERSION = $$sprintf("%1.%2.%3",$$VER_MAJ,$$VER_MIN,$$VER_PAT)
 DEFINES += ORGANIZATION=\\\"$$ORGANIZATION\\\" TARGET=\\\"$$TARGET\\\" VERSION=\\\"$$VERSION\\\"
 DEFINES += VER_MAJ=\"$$VER_MAJ\" VER_MIN=\"$$VER_MIN\" VER_PAT=\"$$VER_PAT\"
@@ -33,16 +33,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 # android deployment
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
-ANDROID_ABIS = armeabi-v7a arm64-v8a x86 x86_64
-ANDROID_EXTRA_LIBS += \
-    $$PWD/android/libs/arm/libcrypto_1_1.so \
-    $$PWD/android/libs/arm/libssl_1_1.so \
-    $$PWD/android/libs/arm64/libcrypto_1_1.so \
-    $$PWD/android/libs/arm64/libssl_1_1.so \
-    $$PWD/android/libs/x86/libcrypto_1_1.so \
-    $$PWD/android/libs/x86/libssl_1_1.so \
-    $$PWD/android/libs/x86_64/libcrypto_1_1.so \
-    $$PWD/android/libs/x86_64/libssl_1_1.so
+ANDROID_EXTRA_LIBS = $$PWD/android/libs/$${QT_ARCH}/libcrypto_3.so $$PWD/android/libs/$${QT_ARCH}/libssl_3.so
 
 # libraries
 !android: LIBS += -L$$OUT_PWD/../ -lkleiner-brauhelfer-core
