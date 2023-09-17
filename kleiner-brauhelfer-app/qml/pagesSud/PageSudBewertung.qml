@@ -225,7 +225,6 @@ PageBase {
 
                                 TextAreaBase {
                                     Layout.fillWidth: true
-                                    wrapMode: TextArea.Wrap
                                     placeholderText: qsTr("Bemerkung")
                                     textFormat: Text.RichText
                                     text: model.Bemerkung
@@ -290,7 +289,6 @@ PageBase {
 
                                 TextAreaBase {
                                     Layout.fillWidth: true
-                                    wrapMode: TextArea.Wrap
                                     placeholderText: qsTr("Bemerkung")
                                     text: model.GesamteindruckBemerkung
                                     onTextChanged: if (activeFocus) model.GesamteindruckBemerkung = text
@@ -375,7 +373,6 @@ PageBase {
 
                                 TextAreaBase {
                                     Layout.fillWidth: true
-                                    wrapMode: TextArea.Wrap
                                     placeholderText: qsTr("Bemerkung")
                                     text: model.FarbeBemerkung
                                     onTextChanged: if (activeFocus) model.FarbeBemerkung = text
@@ -474,7 +471,6 @@ PageBase {
 
                                 TextAreaBase {
                                     Layout.fillWidth: true
-                                    wrapMode: TextArea.Wrap
                                     placeholderText: qsTr("Bemerkung")
                                     text: model.SchaumBemerkung
                                     onTextChanged: if (activeFocus) model.SchaumBemerkung = text
@@ -557,7 +553,6 @@ PageBase {
 
                                 TextAreaBase {
                                     Layout.fillWidth: true
-                                    wrapMode: TextArea.Wrap
                                     placeholderText: qsTr("Bemerkung")
                                     text: model.GeruchBemerkung
                                     onTextChanged: if (activeFocus) model.GeruchBemerkung = text
@@ -645,7 +640,6 @@ PageBase {
 
                                 TextAreaBase {
                                     Layout.fillWidth: true
-                                    wrapMode: TextArea.Wrap
                                     placeholderText: qsTr("Bemerkung")
                                     text: model.GeschmackBemerkung
                                     onTextChanged: if (activeFocus) model.GeschmackBemerkung = text
@@ -708,7 +702,6 @@ PageBase {
 
                                 TextAreaBase {
                                     Layout.fillWidth: true
-                                    wrapMode: TextArea.Wrap
                                     placeholderText: qsTr("Bemerkung")
                                     text: model.AntrunkBemerkung
                                     onTextChanged: if (activeFocus) model.AntrunkBemerkung = text
@@ -756,7 +749,6 @@ PageBase {
 
                                 TextAreaBase {
                                     Layout.fillWidth: true
-                                    wrapMode: TextArea.Wrap
                                     placeholderText: qsTr("Bemerkung")
                                     text: model.HaupttrunkBemerkung
                                     onTextChanged: if (activeFocus) model.HaupttrunkBemerkung = text
@@ -824,7 +816,6 @@ PageBase {
 
                                 TextAreaBase {
                                     Layout.fillWidth: true
-                                    wrapMode: TextArea.Wrap
                                     placeholderText: qsTr("Bemerkung")
                                     text: model.NachtrunkBemerkung
                                     onTextChanged: if (activeFocus) model.NachtrunkBemerkung = text

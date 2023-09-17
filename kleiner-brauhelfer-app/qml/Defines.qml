@@ -6,8 +6,8 @@ QtObject {
         qsTr("g"),
         qsTr("mg"),
         qsTr("Stk."),
-        qsTr("l"),
-        qsTr("ml")]
+        qsTr("L"),
+        qsTr("mL")]
 
     readonly property var einheitenDivider: [
         1/1000,

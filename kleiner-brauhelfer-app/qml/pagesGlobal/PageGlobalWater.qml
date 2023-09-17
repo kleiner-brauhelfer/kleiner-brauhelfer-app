@@ -563,7 +563,6 @@ PageBase {
                                     TextAreaBase {
                                         Layout.columnSpan: 3
                                         Layout.fillWidth: true
-                                        wrapMode: TextArea.Wrap
                                         placeholderText: qsTr("Bemerkung")
                                         textFormat: Text.RichText
                                         enabled: !page.readOnly

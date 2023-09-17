@@ -218,7 +218,6 @@ PopupBase {
             Layout.fillWidth: true
             Layout.columnSpan: 3
             enabled: !page.readOnly
-            wrapMode: TextArea.Wrap
             placeholderText: qsTr("Bemerkung")
             text: model.Bemerkung
             onTextChanged: if (activeFocus) model.Bemerkung = text

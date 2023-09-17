@@ -366,7 +366,6 @@ PageBase {
                                         TextAreaBase {
                                             Layout.columnSpan: 3
                                             Layout.fillWidth: true
-                                            wrapMode: TextArea.Wrap
                                             placeholderText: qsTr("Eigenschaften")
                                             enabled: !page.readOnly
                                             text: model.Eigenschaften
@@ -376,7 +375,6 @@ PageBase {
                                         TextAreaBase {
                                             Layout.columnSpan: 3
                                             Layout.fillWidth: true
-                                            wrapMode: TextArea.Wrap
                                             placeholderText: qsTr("Bemerkung")
                                             enabled: !page.readOnly
                                             text: model.Bemerkung
@@ -386,7 +384,6 @@ PageBase {
                                         TextAreaBase {
                                             Layout.columnSpan: 3
                                             Layout.fillWidth: true
-                                            wrapMode: TextArea.Wrap
                                             placeholderText: qsTr("Alternativen")
                                             enabled: !page.readOnly
                                             text: model.Alternativen
@@ -410,32 +407,22 @@ PageBase {
                                             text: Qt.locale().currencySymbol() + "/" + qsTr("kg")
                                         }
 
-                                        LabelPrim {
-                                            Layout.fillWidth: true
-                                            rightPadding: 8
-                                            text: qsTr("Eingelagert")
-                                        }
-
                                         TextFieldDate {
                                             Layout.fillWidth: true
                                             Layout.alignment: Qt.AlignHCenter
-                                            Layout.columnSpan: 2
+                                            Layout.columnSpan: 3
+                                            placeholderText: qsTr("Einlagerung")
                                             enabled: model.Menge > 0 && !page.readOnly
                                             date: model.Eingelagert
                                             onNewDate: (date) => model.Eingelagert = date
-                                        }
-
-                                        LabelPrim {
-                                            Layout.fillWidth: true
-                                            rightPadding: 8
-                                            text: qsTr("Haltbar")
                                         }
 
                                         TextFieldDate {
                                             id: tfMindesthaltbar
                                             Layout.fillWidth: true
                                             Layout.alignment: Qt.AlignHCenter
-                                            Layout.columnSpan: 2
+                                            Layout.columnSpan: 3
+                                            placeholderText: qsTr("Haltbarkeit")
                                             enabled: model.Menge > 0 && !page.readOnly
                                             date: model.Mindesthaltbar
                                             onNewDate: (date) => model.Mindesthaltbar = date

@@ -75,7 +75,7 @@ TextFieldNumber {
                 }
 
                 LabelUnit {
-                    text: qsTr("l")
+                    text: qsTr("L")
                 }
 
                 HorizontalDivider {
@@ -118,7 +118,7 @@ TextFieldNumber {
                 }
 
                 LabelUnit {
-                    text: qsTr("l")
+                    text: qsTr("L")
                 }
             }
         }

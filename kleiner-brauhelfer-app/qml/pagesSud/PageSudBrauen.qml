@@ -171,7 +171,7 @@ PageBase {
                                 value: Brauhelfer.sud.erg_WHauptguss
                             }
                             LabelUnit {
-                                text: qsTr("l")
+                                text: qsTr("L")
                             }
                         }
                         Repeater {
@@ -194,7 +194,6 @@ PageBase {
                         TextAreaBase {
                             Layout.fillWidth: true
                             opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
-                            wrapMode: TextArea.Wrap
                             placeholderText: qsTr("Bemerkung Wasseraufbereitung")
                             textFormat: Text.RichText
                             text: Brauhelfer.sud.BemerkungWasseraufbereitung
@@ -234,7 +233,7 @@ PageBase {
                                 }
                                 LabelUnit {
                                     visible: model.MengeWasser > 0
-                                    text: qsTr("l")
+                                    text: qsTr("L")
                                 }
                                 LabelPrim {
                                     visible: model.MengeWasser > 0
@@ -365,7 +364,6 @@ PageBase {
                     TextAreaBase {
                         Layout.fillWidth: true
                         opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
-                        wrapMode: TextArea.Wrap
                         placeholderText: qsTr("Bemerkung Maischplan")
                         textFormat: Text.RichText
                         text: Brauhelfer.sud.BemerkungMaischplan
@@ -412,7 +410,6 @@ PageBase {
                     TextAreaBase {
                         Layout.fillWidth: true
                         opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
-                        wrapMode: TextArea.Wrap
                         placeholderText: qsTr("Bemerkung Maischen")
                         textFormat: Text.RichText
                         text: Brauhelfer.sud.BemerkungZutatenMaischen
@@ -447,7 +444,7 @@ PageBase {
                                 value: Brauhelfer.sud.erg_WNachguss
                             }
                             LabelUnit {
-                                text: qsTr("l")
+                                text: qsTr("L")
                             }
                         }
                         Repeater {
@@ -610,7 +607,7 @@ PageBase {
                             value: BierCalc.volumenWasser(20.0, 100.0, Brauhelfer.sud.MengeSollKochbeginn)
                         }
                         LabelUnit {
-                            text: qsTr("l")
+                            text: qsTr("L")
                         }
                         LabelPrim {
                             Layout.fillWidth: true
@@ -620,7 +617,7 @@ PageBase {
                             value: Brauhelfer.sud.MengeSollKochbeginn
                         }
                         LabelUnit {
-                            text: qsTr("l")
+                            text: qsTr("L")
                         }
                         LabelPrim {
                             Layout.fillWidth: true
@@ -632,7 +629,7 @@ PageBase {
                             onNewValue: (value) => Brauhelfer.sud.WuerzemengeKochbeginn = value
                         }
                         LabelUnit {
-                            text: qsTr("l")
+                            text: qsTr("L")
                         }
                     }
                     HorizontalDivider {
@@ -795,7 +792,7 @@ PageBase {
                             value: BierCalc.volumenWasser(20.0, 100.0, Brauhelfer.sud.MengeSollKochende)
                         }
                         LabelUnit {
-                            text: qsTr("l")
+                            text: qsTr("L")
                         }
                         LabelPrim {
                             Layout.fillWidth: true
@@ -805,7 +802,7 @@ PageBase {
                             value: Brauhelfer.sud.MengeSollKochende
                         }
                         LabelUnit {
-                            text: qsTr("l")
+                            text: qsTr("L")
                         }
                         LabelPrim {
                             Layout.fillWidth: true
@@ -817,7 +814,7 @@ PageBase {
                             onNewValue: (value) => Brauhelfer.sud.WuerzemengeVorHopfenseihen = value
                         }
                         LabelUnit {
-                            text: qsTr("l")
+                            text: qsTr("L")
                         }
                     }
                     HorizontalDivider {
@@ -835,7 +832,7 @@ PageBase {
                             value: Brauhelfer.sud.VerdampfungsrateIst
                         }
                         LabelUnit {
-                            text: qsTr("l/h")
+                            text: qsTr("L/h")
                         }
                         LabelPrim {
                             Layout.fillWidth: true
@@ -846,7 +843,7 @@ PageBase {
                             value: Brauhelfer.sud.Verdampfungsrate
                         }
                         LabelUnit {
-                            text: qsTr("l/h")
+                            text: qsTr("L/h")
                         }
                     }
                     HorizontalDivider {
@@ -941,7 +938,6 @@ PageBase {
                     TextAreaBase {
                         Layout.fillWidth: true
                         opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
-                        wrapMode: TextArea.Wrap
                         placeholderText: qsTr("Bemerkung Kochen")
                         textFormat: Text.RichText
                         text: Brauhelfer.sud.BemerkungZutatenKochen
@@ -979,7 +975,7 @@ PageBase {
                                 value: Brauhelfer.sud.MengeSollHgf
                             }
                             LabelUnit {
-                                text: qsTr("l")
+                                text: qsTr("L")
                             }
                         }
                         Repeater {
@@ -1055,7 +1051,7 @@ PageBase {
                         }
                         LabelUnit {
                             visible: lblWasserverschneidung.visible
-                            text: qsTr("l")
+                            text: qsTr("L")
                         }
                         LabelPrim {
                             Layout.fillWidth: true
@@ -1092,7 +1088,7 @@ PageBase {
                             onNewValue: (value) => Brauhelfer.sud.WuerzemengeKochende = value
                         }
                         LabelUnit {
-                            text: qsTr("l")
+                            text: qsTr("L")
                         }
                         LabelPrim {
                             Layout.fillWidth: true
@@ -1102,7 +1098,7 @@ PageBase {
                             value: Brauhelfer.sud.WuerzemengeVorHopfenseihen - Brauhelfer.sud.WuerzemengeKochende
                         }
                         LabelUnit {
-                            text: qsTr("l")
+                            text: qsTr("L")
                         }
                         LabelPrim {
                             Layout.fillWidth: true
@@ -1114,7 +1110,7 @@ PageBase {
                             onNewValue: (value) => Brauhelfer.sud.MengeHefestarter = value
                         }
                         LabelUnit {
-                            text: qsTr("l")
+                            text: qsTr("L")
                         }
                         Item {
                             Layout.fillWidth: true
@@ -1137,7 +1133,7 @@ PageBase {
                             onNewValue: (value) => Brauhelfer.sud.VerduennungAnstellen = value
                         }
                         LabelUnit {
-                            text: qsTr("l")
+                            text: qsTr("L")
                         }
                         LabelPrim {
                             Layout.fillWidth: true
@@ -1149,7 +1145,7 @@ PageBase {
                             onNewValue: (value) => Brauhelfer.sud.WuerzemengeAnstellenTotal = value
                         }
                         LabelUnit {
-                            text: qsTr("l")
+                            text: qsTr("L")
                         }
                         LabelPrim {
                             Layout.fillWidth: true
@@ -1162,7 +1158,7 @@ PageBase {
                             }
                         }
                         LabelUnit {
-                            text: qsTr("l")
+                            text: qsTr("L")
                         }
                         LabelPrim {
                             Layout.fillWidth: true
@@ -1174,7 +1170,7 @@ PageBase {
                             onNewValue: (value) => Brauhelfer.sud.Speisemenge = value
                         }
                         LabelUnit {
-                            text: qsTr("l")
+                            text: qsTr("L")
                         }
                         LabelPrim {
                             Layout.fillWidth: true
@@ -1186,7 +1182,7 @@ PageBase {
                             onNewValue: (value) => Brauhelfer.sud.WuerzemengeAnstellen = value
                         }
                         LabelUnit {
-                            text: qsTr("l")
+                            text: qsTr("L")
                         }
                     }
                     HorizontalDivider {
@@ -1319,7 +1315,6 @@ PageBase {
                     TextAreaBase {
                         Layout.fillWidth: true
                         opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
-                        wrapMode: TextArea.Wrap
                         placeholderText: qsTr("Bemerkung Gärung")
                         textFormat: Text.RichText
                         text: Brauhelfer.sud.BemerkungZutatenGaerung
@@ -1373,7 +1368,7 @@ PageBase {
                         value: Brauhelfer.sud.erg_Preis
                     }
                     LabelUnit {
-                        text: Qt.locale().currencySymbol() + "/" + qsTr("l")
+                        text: Qt.locale().currencySymbol() + "/" + qsTr("L")
                     }
                     CheckBoxBase {
                         Layout.columnSpan: 3
@@ -1387,7 +1382,6 @@ PageBase {
                         Layout.columnSpan: 3
                         Layout.fillWidth: true
                         opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
-                        wrapMode: TextArea.Wrap
                         placeholderText: qsTr("Bemerkung Brauen")
                         textFormat: Text.RichText
                         text: Brauhelfer.sud.BemerkungBrauen

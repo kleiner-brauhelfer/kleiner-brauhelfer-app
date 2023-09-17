@@ -303,7 +303,7 @@ PageBase {
                                 value: model.Menge
                             }
                             LabelUnit {
-                                text: qsTr("l")
+                                text: qsTr("L")
                             }
                             LabelPrim {
                                 Layout.fillWidth: true

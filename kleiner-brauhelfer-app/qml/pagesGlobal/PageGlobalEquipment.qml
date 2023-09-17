@@ -275,7 +275,7 @@ PageBase {
                                                 onNewValue: (value) => model.Verdampfungsrate = value
                                             }
                                             LabelUnit {
-                                                text: qsTr("l/h")
+                                                text: qsTr("L/h")
                                             }
                                         }
                                     }
@@ -302,7 +302,7 @@ PageBase {
                                                 onNewValue: (value) => model.KorrekturWasser = value
                                             }
                                             LabelUnit {
-                                                text: qsTr("l")
+                                                text: qsTr("L")
                                             }
                                             LabelPrim {
                                                 Layout.fillWidth: true
@@ -328,7 +328,7 @@ PageBase {
                                                 onNewValue: (value) => model.KorrekturMenge = value
                                             }
                                             LabelUnit {
-                                                text: qsTr("l")
+                                                text: qsTr("L")
                                             }
                                             LabelPrim {
                                                 Layout.fillWidth: true
@@ -389,13 +389,13 @@ PageBase {
                                                 Layout.fillWidth: true
                                                 text: qsTr("Volumen")
                                             }
-                                            LabelNumber {
-                                                Layout.alignment: Qt.AlignHCenter
+                                            TextFieldNumber {
+                                                readOnly: true
                                                 precision: 1
                                                 value: model.Maischebottich_Volumen
                                             }
                                             LabelUnit {
-                                                text: qsTr("l")
+                                                text: qsTr("L")
                                             }
                                             HorizontalDivider {
                                                 Layout.fillWidth: true
@@ -419,13 +419,13 @@ PageBase {
                                                 Layout.fillWidth: true
                                                 text: qsTr("Nutzbares Volumen")
                                             }
-                                            LabelNumber {
-                                                Layout.alignment: Qt.AlignHCenter
+                                            TextFieldNumber {
+                                                readOnly: true
                                                 precision: 1
                                                 value: model.Maischebottich_MaxFuellvolumen
                                             }
                                             LabelUnit {
-                                                text: qsTr("l")
+                                                text: qsTr("L")
                                             }
                                         }
                                     }
@@ -473,13 +473,13 @@ PageBase {
                                                 Layout.fillWidth: true
                                                 text: qsTr("Volumen")
                                             }
-                                            LabelNumber {
-                                                Layout.alignment: Qt.AlignHCenter
+                                            TextFieldNumber {
+                                                readOnly: true
                                                 precision: 1
                                                 value: model.Sudpfanne_Volumen
                                             }
                                             LabelUnit {
-                                                text: qsTr("l")
+                                                text: qsTr("L")
                                             }
                                             HorizontalDivider {
                                                 Layout.fillWidth: true
@@ -503,32 +503,25 @@ PageBase {
                                                 Layout.fillWidth: true
                                                 text: qsTr("Nutzbares Volumen")
                                             }
-                                            LabelNumber {
-                                                Layout.alignment: Qt.AlignHCenter
+                                            TextFieldNumber {
+                                                readOnly: true
                                                 precision: 1
                                                 value: model.Sudpfanne_MaxFuellvolumen
                                             }
                                             LabelUnit {
-                                                text: qsTr("l")
+                                                text: qsTr("L")
                                             }
                                         }
                                     }
 
-                                    GroupBox {
+                                    TextAreaBase {
                                         Layout.fillWidth: true
-                                        focusPolicy: Qt.StrongFocus
-                                        label: LabelHeader {
-                                            text: qsTr("Bemerkung")
-                                        }
-                                        TextAreaBase {
-                                            anchors.fill: parent
-                                            wrapMode: TextArea.Wrap
-                                            textFormat: Text.RichText
-                                            enabled: !page.readOnly
-                                            text: model.Bemerkung
-                                            onLinkActivated: (link) => Qt.openUrlExternally(link)
-                                            onTextChanged: if (activeFocus) model.Bemerkung = text
-                                        }
+                                        placeholderText: qsTr("Bemerkung")
+                                        textFormat: Text.RichText
+                                        enabled: !page.readOnly
+                                        text: model.Bemerkung
+                                        onLinkActivated: (link) => Qt.openUrlExternally(link)
+                                        onTextChanged: if (activeFocus) model.Bemerkung = text
                                     }
 
                                     GroupBox {

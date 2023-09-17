@@ -56,7 +56,6 @@ PageBase {
                         Layout.columnSpan: 3
                         Layout.fillWidth: true
                         opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
-                        wrapMode: TextArea.Wrap
                         placeholderText: qsTr("Bemerkung Gärung")
                         textFormat: Text.RichText
                         text: Brauhelfer.sud.BemerkungGaerung

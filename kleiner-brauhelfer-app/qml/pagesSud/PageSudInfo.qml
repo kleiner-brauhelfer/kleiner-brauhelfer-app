@@ -234,7 +234,7 @@ PageBase {
                     value: Brauhelfer.sud.Status === Brauhelfer.Rezept ? Number.NaN : Brauhelfer.sud.Menge
                 }
                 LabelUnit {
-                    text: qsTr("l")
+                    text: qsTr("L")
                 }
 
                 LabelPrim {
@@ -367,11 +367,6 @@ PageBase {
                     text: qsTr("g/l")
                 }
 
-                HorizontalDivider {
-                    Layout.columnSpan: 4
-                    Layout.fillWidth: true
-                }
-
                 LabelPrim {
                     Layout.fillWidth: true
                     text: qsTr("Restalkalität")
@@ -411,17 +406,11 @@ PageBase {
                     text: ""
                 }
 
-                HorizontalDivider {
-                    Layout.columnSpan: 4
-                    Layout.fillWidth: true
-                }
-
                 LabelPrim {
                     Layout.fillWidth: true
                     text: qsTr("Reifezeit")
                 }
                 LabelNumber {
-
                     precision: 0
                     value: Brauhelfer.sud.Status === Brauhelfer.Rezept ? Brauhelfer.sud.Reifezeit : Number.NaN
                 }
@@ -434,11 +423,6 @@ PageBase {
                     text: qsTr("Wochen")
                 }
 
-                HorizontalDivider {
-                    Layout.columnSpan: 4
-                    Layout.fillWidth: true
-                }
-
                 LabelPrim {
                     Layout.fillWidth: true
                     text: qsTr("Gesamtkosten")
@@ -449,7 +433,7 @@ PageBase {
                     value: Brauhelfer.sud.erg_Preis
                 }
                 LabelUnit {
-                    text: Qt.locale().currencySymbol() + "/" + qsTr("l")
+                    text: Qt.locale().currencySymbol() + "/" + qsTr("L")
                 }
             }
 

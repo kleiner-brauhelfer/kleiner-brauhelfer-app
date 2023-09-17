@@ -438,7 +438,7 @@ PageBase {
                     }
                     LabelUnit {
                         visible: !ctrlSpunden.checked
-                        text: qsTr("l")
+                        text: qsTr("L")
                     }
 
                     LabelPrim {
@@ -455,7 +455,7 @@ PageBase {
                     }
                     LabelUnit {
                         visible: !ctrlSpunden.checked
-                        text: qsTr("l")
+                        text: qsTr("L")
                     }
 
 
@@ -473,7 +473,7 @@ PageBase {
                     }
                     LabelUnit {
                         visible: tbSpeiseAnteil.visible
-                        text: qsTr("ml")
+                        text: qsTr("mL")
                     }
                     LabelNumber {
                         horizontalAlignment: Text.AlignHCenter
@@ -483,7 +483,7 @@ PageBase {
                     }
                     LabelUnit {
                         visible: tbSpeiseAnteil.visible
-                        text: qsTr("ml/l")
+                        text: qsTr("mL/L")
                     }
                     LabelPrim {
                         Layout.fillWidth: true
@@ -534,7 +534,7 @@ PageBase {
                         onNewValue: (value) => Brauhelfer.sud.JungbiermengeAbfuellen = value
                     }
                     LabelUnit {
-                        text: qsTr("l")
+                        text: qsTr("L")
                     }
                     LabelPrim {
                         Layout.fillWidth: true
@@ -544,7 +544,7 @@ PageBase {
                         value: Brauhelfer.sud.WuerzemengeAnstellen - Brauhelfer.sud.JungbiermengeAbfuellen
                     }
                     LabelUnit {
-                        text: qsTr("l")
+                        text: qsTr("L")
                     }
                     LabelPrim {
                         Layout.fillWidth: true
@@ -557,7 +557,7 @@ PageBase {
                     }
                     LabelUnit {
                         visible: !ctrlSpunden.checked
-                        text: qsTr("l")
+                        text: qsTr("L")
                     }
                     LabelPrim {
                         Layout.fillWidth: true
@@ -573,7 +573,7 @@ PageBase {
                     }
                     LabelUnit {
                         visible: !ctrlSpunden.checked
-                        text: qsTr("l")
+                        text: qsTr("L")
                     }
                 }
             }
@@ -624,13 +624,12 @@ PageBase {
                         value: Brauhelfer.sud.erg_Preis
                     }
                     LabelUnit {
-                        text: Qt.locale().currencySymbol() + "/" + qsTr("l")
+                        text: Qt.locale().currencySymbol() + "/" + qsTr("L")
                     }
                     TextAreaBase {
                         Layout.columnSpan: 3
                         Layout.fillWidth: true
                         opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
-                        wrapMode: TextArea.Wrap
                         placeholderText: qsTr("Bemerkung Abfüllen")
                         textFormat: Text.RichText
                         text: Brauhelfer.sud.BemerkungAbfuellen
