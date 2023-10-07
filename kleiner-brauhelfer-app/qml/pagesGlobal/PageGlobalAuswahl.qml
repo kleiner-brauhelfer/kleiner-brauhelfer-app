@@ -324,7 +324,7 @@ PageBase {
                             }
                             LabelPrim {
                                 Layout.fillWidth: true
-                                text: qsTr("Alkohol")
+                                text: qsTr("Alkoholgehalt")
                             }
                             LabelNumber {
                                 Layout.fillWidth: true

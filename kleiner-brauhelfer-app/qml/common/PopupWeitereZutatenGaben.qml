@@ -15,7 +15,6 @@ PopupBase {
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.margins: 8
         spacing: 16
         clip: true
         Repeater {

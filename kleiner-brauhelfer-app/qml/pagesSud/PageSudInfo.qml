@@ -43,6 +43,18 @@ PageBase {
                 columns: 2
                 LabelPrim {
                     Layout.fillWidth: true
+                    text: qsTr("Sudnummer")
+                }
+                SpinBoxReal {
+                    Layout.fillWidth: true
+                    enabled: !page.readOnly
+                    decimals: 0
+                    max: 9999
+                    realValue: Brauhelfer.sud.Sudnummer
+                    onNewValue: (value) => Brauhelfer.sud.Sudnummer = value
+                }
+                LabelPrim {
+                    Layout.fillWidth: true
                     text: qsTr("Kategorie")
                 }
                 ComboBoxBase {
@@ -55,18 +67,6 @@ PageBase {
                     Component.onCompleted: {
                         currentIndex = Qt.binding(function(){return find(Brauhelfer.sud.Kategorie)})
                     }
-                }
-                LabelPrim {
-                    Layout.fillWidth: true
-                    text: qsTr("Sudnummer")
-                }
-                SpinBoxReal {
-                    Layout.fillWidth: true
-                    enabled: !page.readOnly
-                    decimals: 0
-                    max: 9999
-                    realValue: Brauhelfer.sud.Sudnummer
-                    onNewValue: (value) => Brauhelfer.sud.Sudnummer = value
                 }
                 LabelPrim {
                     Layout.fillWidth: true
@@ -301,7 +301,7 @@ PageBase {
 
                 LabelPrim {
                     Layout.fillWidth: true
-                    text: qsTr("Alkohol")
+                    text: qsTr("Alkoholgehalt")
                 }
                 LabelNumber {
                     precision: 1
@@ -352,7 +352,7 @@ PageBase {
 
                 LabelPrim {
                     Layout.fillWidth: true
-                    text: qsTr("CO2")
+                    text: qsTr("Karbonisierung (CO2)")
                 }
                 LabelNumber {
                     precision: 1
@@ -368,19 +368,23 @@ PageBase {
                 }
 
                 LabelPrim {
+                    visible: Brauhelfer.sud.RestalkalitaetSoll !== 0
                     Layout.fillWidth: true
                     text: qsTr("Restalkalität")
                 }
                 LabelNumber {
+                    visible: Brauhelfer.sud.RestalkalitaetSoll !== 0
                     precision: 1
                     value: Brauhelfer.sud.Status === Brauhelfer.Rezept ?  Brauhelfer.sud.RestalkalitaetSoll : Brauhelfer.sud.RestalkalitaetIst
                 }
                 LabelNumber {
+                    visible: Brauhelfer.sud.RestalkalitaetSoll !== 0
                     opacity: app.config.textOpacityHalf
                     precision: 1
                     value: Brauhelfer.sud.Status === Brauhelfer.Rezept ? Number.NaN : Brauhelfer.sud.RestalkalitaetSoll
                 }
                 LabelUnit {
+                    visible: Brauhelfer.sud.RestalkalitaetSoll !== 0
                     text: qsTr("°dH")
                 }
 
@@ -445,7 +449,7 @@ PageBase {
                 Layout.fillWidth: true
                 opacity: enabled ? app.config.textOpacityFull : app.config.textOpacityDisabled
                 wrapMode: TextArea.Wrap
-                placeholderText: qsTr("Bemerkung")
+                placeholderText: qsTr("Bemerkung Rezept")
                 textFormat: Text.RichText
                 text: Brauhelfer.sud.Kommentar
                 onLinkActivated: (link) => Qt.openUrlExternally(link)

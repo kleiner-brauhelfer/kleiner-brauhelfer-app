@@ -199,7 +199,7 @@ PageBase {
                     text: qsTr("%")
                 }
                 LabelPrim {
-                    text: qsTr("Alkohol")
+                    text: qsTr("Alkoholgehalt")
                 }
                 LabelNumber {
                     id: lblAlcVol

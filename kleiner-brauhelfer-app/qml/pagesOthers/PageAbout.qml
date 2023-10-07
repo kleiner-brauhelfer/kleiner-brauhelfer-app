@@ -36,7 +36,7 @@ PageBase {
                 wrapMode: Text.Wrap
                 Layout.fillWidth: true
                 textFormat: Text.RichText
-                text: qsTr("Diese App dient als Ergänzung zum Programm <a href=\"http://kleiner-brauhelfer.github.io\">kleiner-brauhelfer-2</a>.")
+                text: qsTr("Diese App ergänzt das Programm <a href=\"http://kleiner-brauhelfer.github.io\">kleiner-brauhelfer-2</a>.")
                 onLinkActivated: (link) => Qt.openUrlExternally(link)
             }
 

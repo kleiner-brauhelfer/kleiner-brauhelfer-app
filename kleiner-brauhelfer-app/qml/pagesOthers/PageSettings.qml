@@ -395,6 +395,10 @@ PageBase {
                         }
                     }
 
+                    HorizontalDivider {
+                        Layout.fillWidth: true
+                    }
+
                     CheckBoxBase {
                         Layout.fillWidth: true
                         text: qsTr("schreibgeschützt")

@@ -28,9 +28,7 @@ PageBase {
             Brauhelfer.sud.Braudatum = tfBraudatum.date
             Brauhelfer.sud.Status = Brauhelfer.Gebraut
             var values = {"SudID": Brauhelfer.sud.id,
-                          "Zeitstempel": Brauhelfer.sud.Braudatum,
-                          "SW": Brauhelfer.sud.SWAnstellen,
-                          "Temp": tfTemperature.value }
+                          "Zeitstempel": Brauhelfer.sud.Braudatum}
             if (Brauhelfer.sud.modelSchnellgaerverlauf.rowCount() === 0)
                 Brauhelfer.sud.modelSchnellgaerverlauf.append(values)
             if (Brauhelfer.sud.modelHauptgaerverlauf.rowCount() === 0)
@@ -224,7 +222,7 @@ PageBase {
                                 LabelPrim {
                                     visible: model.MengeWasser > 0
                                     Layout.fillWidth: true
-                                    text: qsTr("Wasser")
+                                    text: qsTr("Hauptguss")
                                 }
                                 LabelNumber {
                                     visible: model.MengeWasser > 0
@@ -264,44 +262,19 @@ PageBase {
                                     text: qsTr("kg")
                                 }
                                 LabelPrim {
-                                    Layout.fillWidth: true
-                                    text: qsTr("Dauer")
-                                }
-                                LabelNumber {
-                                    precision: 0
-                                    value: model.DauerRast
-                                }
-                                LabelUnit {
-                                    text: qsTr("min")
-                                }
-                                LabelPrim {
-                                    Layout.fillWidth: true
-                                    text: qsTr("Temperatur")
-                                }
-                                LabelNumber {
-                                    precision: 0
-                                    value: model.TempRast
-                                }
-                                LabelUnit {
-                                    text: qsTr("°C")
-                                }
-
-
-                                LabelPrim {
                                     visible: model.MengeMaische > 0
                                     Layout.fillWidth: true
                                     text: qsTr("Teilmaische")
                                 }
                                 LabelNumber {
                                     visible: model.MengeMaische > 0
-                                    precision: 0
+                                    precision: 1
                                     value: model.MengeMaische
                                 }
                                 LabelUnit {
                                     visible: model.MengeMaische > 0
                                     text: qsTr("L")
                                 }
-
                                 LabelPrim {
                                     visible: model.DauerExtra2 > 0
                                     Layout.fillWidth: true
@@ -357,6 +330,28 @@ PageBase {
                                 LabelUnit {
                                     visible: model.DauerExtra1 > 0
                                     text: qsTr("min")
+                                }
+                                LabelPrim {
+                                    Layout.fillWidth: true
+                                    text: model.MengeMaische === 0 ? qsTr("Rast") : qsTr("Absetzen")
+                                }
+                                LabelNumber {
+                                    precision: 0
+                                    value: model.DauerRast
+                                }
+                                LabelUnit {
+                                    text: qsTr("min")
+                                }
+                                LabelPrim {
+                                    Layout.fillWidth: true
+                                    text: ""
+                                }
+                                LabelNumber {
+                                    precision: 0
+                                    value: model.TempRast
+                                }
+                                LabelUnit {
+                                    text: qsTr("°C")
                                 }
                             }
                         }
@@ -1084,6 +1079,7 @@ PageBase {
                         }
                         TextFieldVolume {
                             enabled: !page.readOnly
+                            useDialog: false
                             value: Brauhelfer.sud.WuerzemengeKochende
                             onNewValue: (value) => Brauhelfer.sud.WuerzemengeKochende = value
                         }
@@ -1106,6 +1102,8 @@ PageBase {
                         }
                         TextFieldVolume {
                             enabled: !page.readOnly
+                            useDialog: false
+                            precision: 2
                             value: Brauhelfer.sud.MengeHefestarter
                             onNewValue: (value) => Brauhelfer.sud.MengeHefestarter = value
                         }
@@ -1129,6 +1127,8 @@ PageBase {
                         }
                         TextFieldVolume {
                             enabled: !page.readOnly
+                            useDialog: false
+                            precision: 2
                             value: Brauhelfer.sud.VerduennungAnstellen
                             onNewValue: (value) => Brauhelfer.sud.VerduennungAnstellen = value
                         }
@@ -1141,6 +1141,7 @@ PageBase {
                         }
                         TextFieldVolume {
                             enabled: !page.readOnly
+                            useDialog: false
                             value: Brauhelfer.sud.WuerzemengeAnstellenTotal
                             onNewValue: (value) => Brauhelfer.sud.WuerzemengeAnstellenTotal = value
                         }
@@ -1166,6 +1167,8 @@ PageBase {
                         }
                         TextFieldVolume {
                             enabled: !page.readOnly
+                            useDialog: false
+                            precision: 2
                             value: Brauhelfer.sud.Speisemenge
                             onNewValue: (value) => Brauhelfer.sud.Speisemenge = value
                         }
@@ -1178,6 +1181,7 @@ PageBase {
                         }
                         TextFieldVolume {
                             enabled: !page.readOnly
+                            useDialog: false
                             value: Brauhelfer.sud.WuerzemengeAnstellen
                             onNewValue: (value) => Brauhelfer.sud.WuerzemengeAnstellen = value
                         }
@@ -1202,25 +1206,16 @@ PageBase {
                         LabelUnit {
                             text: qsTr("%")
                         }
-                    }
-                    HorizontalDivider {
-                        Layout.fillWidth: true
-                    }
-                    RowLayout {
-                        spacing: 16
                         LabelPrim {
                             Layout.fillWidth: true
-                            font.bold: true
-                            text: qsTr("Temperatur")
+                            Layout.leftMargin: 8
+                            text: qsTr("Aus Rezept")
                         }
-                        TextFieldTemperature {
-                            id: tfTemperature
-                            enabled: !page.readOnly
-                            value: 20.0
-                            onNewValue: (value) => this.value = value
+                        LabelNumber {
+                            value: Brauhelfer.sud.Sudhausausbeute
                         }
                         LabelUnit {
-                            text: qsTr("°C")
+                            text: qsTr("%")
                         }
                     }
                 }
