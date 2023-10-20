@@ -276,14 +276,14 @@ ApplicationWindow {
         id: messageDialogGotoSettings
         text: qsTr("Verbindung mit der Datenbank fehlgeschlagen.")
         informativeText: qsTr("Einstellungen überprüfen.")
-        onAccepted: navPane.goSettings()
+        onOkClicked: navPane.goSettings()
     }
 
     // message dialog for unsupported database version
     MessageDialog {
         id: messageDialogUnsupportedDatabaseVersion
         text: qsTr("Diese Datenbank wird nicht unterstüzt.")
-        onAccepted: navPane.goSettings()
+        onOkClicked: navPane.goSettings()
     }
 
     // message dialog for unsupported database version
@@ -542,24 +542,26 @@ ApplicationWindow {
         {
             var i
             model.clear()
-            for (i = 0; i < viewGlobal.count; ++i)
-                model.append({"type": "NavMenuItem.qml",
-                              "view": viewGlobal,
-                              "index": i})
-            if (viewSud.count > 0)
-                model.append({"type": "NavMenuDivider.qml"})
-            for (i = 0; i < viewSud.count; ++i)
-                model.append({"type": "NavMenuItem.qml",
-                              "view": viewSud,
-                              "index": i})
-            if (viewTools.count > 0)
-                model.append({"type": "NavMenuDivider.qml"})
-            for (i = 0; i < viewTools.count; ++i)
-                model.append({"type": "NavMenuItem.qml",
-                              "view": viewTools,
-                              "index": i})
-            if (viewOthers.count > 0)
-                model.append({"type": "NavMenuDivider.qml"})
+            if (Brauhelfer.connected) {
+                for (i = 0; i < viewGlobal.count; ++i)
+                    model.append({"type": "NavMenuItem.qml",
+                                  "view": viewGlobal,
+                                  "index": i})
+                if (viewSud.count > 0)
+                    model.append({"type": "NavMenuDivider.qml"})
+                for (i = 0; i < viewSud.count; ++i)
+                    model.append({"type": "NavMenuItem.qml",
+                                  "view": viewSud,
+                                  "index": i})
+                if (viewTools.count > 0)
+                    model.append({"type": "NavMenuDivider.qml"})
+                for (i = 0; i < viewTools.count; ++i)
+                    model.append({"type": "NavMenuItem.qml",
+                                  "view": viewTools,
+                                  "index": i})
+                if (viewOthers.count > 0)
+                    model.append({"type": "NavMenuDivider.qml"})
+            }
             for (i = 0; i < viewOthers.count; ++i)
                 model.append({"type": "NavMenuItem.qml",
                               "view": viewOthers,
