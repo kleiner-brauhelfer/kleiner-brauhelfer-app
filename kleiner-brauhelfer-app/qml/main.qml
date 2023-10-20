@@ -123,8 +123,6 @@ ApplicationWindow {
                     break;
                 case SyncService.Failed:
                     toast.start(qsTr("Synchronisation fehlgeschlagen."))
-                    if (!SyncService.supportsSsl())
-                        messageDialogSslError.open()
                     break;
                 }
 
@@ -245,8 +243,14 @@ ApplicationWindow {
         navigation.build()
     }
 
+    function checkSsl() {
+        if (!SyncService.supportsSsl())
+            messageDialogSslError.open()
+    }
+
     Component.onCompleted: {
         updateLanguage()
+        checkSsl()
         connect()
     }
 
@@ -286,7 +290,7 @@ ApplicationWindow {
     MessageDialog {
         id: messageDialogSslError
         text: qsTr("SSL nicht unterstüzt")
-        informativeText: qsTr("SSL compile time: %1\nSSL run time: %2").arg(SyncService.sslLibraryBuildVersionString()).arg(SyncService.sslLibraryVersionString())
+        informativeText: qsTr("Version benötigt: %1\nVersion installiert: %2").arg(SyncService.sslLibraryBuildVersionString()).arg(SyncService.sslLibraryVersionString())
     }
 
     // message dialog to ask for quit

@@ -25,11 +25,12 @@ SyncServiceGoogle::SyncServiceGoogle(QSettings *settings) :
     _oauth2->setRefreshToken(refreshToken());
     _oauth2->setToken(accessToken());
     _oauth2->setReplyHandler(new QOAuthHttpServerReplyHandler(5477, this));
-    _oauth2->setModifyParametersFunction([](QAbstractOAuth::Stage stage, QMultiMap<QString, QVariant> *parameters)
+    _oauth2->setModifyParametersFunction([](QAbstractOAuth::Stage stage, QMultiMap<QString, QVariant>* parameters)
     {
         QByteArray code = parameters->value(QStringLiteral("code")).toByteArray();
         parameters->replace(QStringLiteral("code"), QUrl::fromPercentEncoding(code));
-        switch (stage) {
+        switch (stage)
+        {
         case QAbstractOAuth::Stage::RequestingAuthorization:
             parameters->insert(QStringLiteral("access_type"), "offline");
             parameters->insert(QStringLiteral("prompt"), "consent");
