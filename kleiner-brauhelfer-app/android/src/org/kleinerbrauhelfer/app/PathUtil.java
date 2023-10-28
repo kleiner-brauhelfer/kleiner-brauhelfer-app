@@ -1,46 +1,30 @@
 package org.kleinerbrauhelfer.app;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.net.Uri;
-import android.webkit.MimeTypeMap;
-import android.provider.OpenableColumns;
-import android.provider.MediaStore;
-
-// TODO: make it work...
+import android.provider.DocumentsContract;
+import android.os.Environment;
 
 public class PathUtil {
 
-    public static String getFileName(Uri uri, Context context) {
-        String fileName = getFileNameFromCursor(uri, context);
-        if (fileName == null) {
-            String fileExtension = getFileExtension(uri, context);
-            fileName = "temp_file" + (fileExtension != null ? "." + fileExtension : "");
-        } else {
-            if (!fileName.contains(".")) {
-                String fileExtension = getFileExtension(uri, context);
-                fileName = fileName + "." + fileExtension;
+    public static String getPath(final Context context, final Uri uri) {
+        if (isExternalStorageDocument(uri)) {
+            final String[] uriParts = uri.toString().split(":");
+            final String[] docIdParts = DocumentsContract.getDocumentId(uri).split(":");
+            if (isPrimaryStorage(docIdParts[0])) {
+                return Environment.getExternalStorageDirectory() + "/" + uriParts[uriParts.length-1];
+            } else {
+                return "/storage/" + docIdParts[0] + "/" + uriParts[uriParts.length-1];
             }
-            return fileName;
         }
-        return "";
+        return uri.toString();
     }
 
-    private static String getFileExtension(Uri uri, Context context) {
-        String fileType = context.getContentResolver().getType(uri);
-        return MimeTypeMap.getSingleton().getExtensionFromMimeType(fileType);
+    private static boolean isExternalStorageDocument(final Uri uri) {
+        return "com.android.externalstorage.documents".equals(uri.getAuthority());
     }
 
-    private static String getFileNameFromCursor(Uri uri, Context context) {
-        String fileName = null;
-        Cursor cursor = context.getContentResolver().query(uri, new String[] {OpenableColumns.DISPLAY_NAME}, null, null, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
-            int nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-            if (nameIndex >= 0)
-                fileName = cursor.getString(nameIndex);
-            cursor.close();
-        }
-        return fileName;
+    private static boolean isPrimaryStorage(final String id) {
+        return "primary".equalsIgnoreCase(id);
     }
 }

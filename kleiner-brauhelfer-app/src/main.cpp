@@ -73,19 +73,25 @@ int main(int argc, char *argv[])
 
   #ifdef Q_OS_ANDROID
     // check permissions
-    if (QtAndroidPrivate::checkPermission(QStringLiteral("android.permission.READ_EXTERNAL_STORAGE")).result() != QtAndroidPrivate::Authorized)
-        QtAndroidPrivate::requestPermission(QStringLiteral("android.permission.READ_EXTERNAL_STORAGE")).result();
-    if (QtAndroidPrivate::checkPermission(QStringLiteral("android.permission.WRITE_EXTERNAL_STORAGE")).result() != QtAndroidPrivate::Authorized)
-        QtAndroidPrivate::requestPermission(QStringLiteral("android.permission.WRITE_EXTERNAL_STORAGE")).result();
-    if (QtAndroidPrivate::checkPermission(QStringLiteral("android.permission.MANAGE_EXTERNAL_STORAGE")).result() != QtAndroidPrivate::Authorized)
-        QtAndroidPrivate::requestPermission(QStringLiteral("android.permission.MANAGE_EXTERNAL_STORAGE")).result();
-    if(!QJniObject::callStaticMethod<jboolean>("android/os/Environment", "isExternalStorageManager"))
+    if (QtAndroidPrivate::androidSdkVersion() < 33)
     {
-        QJniObject filepermit = QJniObject::getStaticObjectField("android/provider/Settings", "ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION", "Ljava/lang/String;");
-        QJniObject pkgName = QJniObject::fromString(QStringLiteral("package:org.kleinerbrauhelfer.app"));
-        QJniObject parsedUri = QJniObject::callStaticObjectMethod("android/net/Uri", "parse", "(Ljava/lang/String;)Landroid/net/Uri;", pkgName.object<jstring>());
-        QJniObject intent("android/content/Intent", "(Ljava/lang/String;Landroid/net/Uri;)V", filepermit.object<jstring>(), parsedUri.object());
-        QtAndroidPrivate::startActivity(intent, 0);
+        if (QtAndroidPrivate::checkPermission(QStringLiteral("android.permission.READ_EXTERNAL_STORAGE")).result() != QtAndroidPrivate::Authorized)
+            QtAndroidPrivate::requestPermission(QStringLiteral("android.permission.READ_EXTERNAL_STORAGE")).result();
+        if (QtAndroidPrivate::checkPermission(QStringLiteral("android.permission.WRITE_EXTERNAL_STORAGE")).result() != QtAndroidPrivate::Authorized)
+            QtAndroidPrivate::requestPermission(QStringLiteral("android.permission.WRITE_EXTERNAL_STORAGE")).result();
+    }
+    else
+    {
+        if (QtAndroidPrivate::checkPermission(QStringLiteral("android.permission.MANAGE_EXTERNAL_STORAGE")).result() != QtAndroidPrivate::Authorized)
+            QtAndroidPrivate::requestPermission(QStringLiteral("android.permission.MANAGE_EXTERNAL_STORAGE")).result();
+        if(!QJniObject::callStaticMethod<jboolean>("android/os/Environment", "isExternalStorageManager"))
+        {
+            QJniObject filepermit = QJniObject::getStaticObjectField("android/provider/Settings", "ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION", "Ljava/lang/String;");
+            QJniObject pkgName = QJniObject::fromString(QStringLiteral("package:org.kleinerbrauhelfer.app"));
+            QJniObject parsedUri = QJniObject::callStaticObjectMethod("android/net/Uri", "parse", "(Ljava/lang/String;)Landroid/net/Uri;", pkgName.object<jstring>());
+            QJniObject intent("android/content/Intent", "(Ljava/lang/String;Landroid/net/Uri;)V", filepermit.object<jstring>(), parsedUri.object());
+            QtAndroidPrivate::startActivity(intent, 0);
+        }
     }
   #endif
 

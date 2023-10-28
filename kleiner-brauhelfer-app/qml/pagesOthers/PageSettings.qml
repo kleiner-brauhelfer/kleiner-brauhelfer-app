@@ -105,7 +105,7 @@ PageBase {
                                 property bool wasEdited: false
                                 id: tfDatabasePathLocal
                                 Layout.fillWidth: true
-                                inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase
+                                inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase
                                 placeholderText: qsTr("Pfad")
                                 text: SyncService.syncServiceLocal.filePathLocal
                                 selectByMouse: true
@@ -157,7 +157,7 @@ PageBase {
                             property bool wasEdited: false
                             Layout.fillWidth: true
                             placeholderText: qsTr("App key")
-                            inputMethodHints: Qt.ImhNoAutoUppercase
+                            inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase
                             text: SyncService.syncServiceDropbox.appKey
                             selectByMouse: true
                             onTextChanged: {
@@ -176,7 +176,7 @@ PageBase {
                             property bool wasEdited: false
                             Layout.fillWidth: true
                             placeholderText: qsTr("App secret")
-                            inputMethodHints: Qt.ImhNoAutoUppercase
+                            inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase
                             echoMode: TextInput.Password
                             text: SyncService.syncServiceDropbox.appSecret
                             selectByMouse: true
@@ -233,7 +233,7 @@ PageBase {
                             property bool wasEdited: false
                             Layout.fillWidth: true
                             placeholderText: qsTr("URL")
-                            inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhUrlCharactersOnly
+                            inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase | Qt.ImhUrlCharactersOnly
                             text: SyncService.syncServiceWebDav.filePathServer
                             selectByMouse: true
                             onTextChanged: {
@@ -253,7 +253,7 @@ PageBase {
                             property bool wasEdited: false
                             Layout.fillWidth: true
                             placeholderText: qsTr("Benutzername")
-                            inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase
+                            inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase
                             text: SyncService.syncServiceWebDav.user
                             selectByMouse: true
                             onTextChanged: {
@@ -273,7 +273,7 @@ PageBase {
                             property bool wasEdited: false
                             Layout.fillWidth: true
                             placeholderText: qsTr("Passwort")
-                            inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase
+                            inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase
                             text: SyncService.syncServiceWebDav.password
                             echoMode: TextInput.Password
                             selectByMouse: true
@@ -306,7 +306,7 @@ PageBase {
                             property bool wasEdited: false
                             Layout.fillWidth: true
                             placeholderText: qsTr("Client ID")
-                            inputMethodHints: Qt.ImhNoAutoUppercase
+                            inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase
                             text: SyncService.syncServiceGoogle.clientId
                             selectByMouse: true
                             onTextChanged: {
@@ -325,7 +325,7 @@ PageBase {
                             property bool wasEdited: false
                             Layout.fillWidth: true
                             placeholderText: qsTr("Client secret")
-                            inputMethodHints: Qt.ImhNoAutoUppercase
+                            inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase
                             echoMode: TextInput.Password
                             text: SyncService.syncServiceGoogle.clientSecret
                             selectByMouse: true

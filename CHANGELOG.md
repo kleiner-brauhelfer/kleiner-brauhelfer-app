@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.6.1 (28.10.2023)
+- Fix: Berechtigungen Android 13
+- Fix: Dialog Dateiauswahl (lokale Datenbank)
+
+## Version 2.6.0alpha (17.08.2023)
+- Neu: Kompatibel zum kleiner-brauhelfer-2 v2.6.0
+
 ## Version 2.5.2 (07.04.2023)
 - Neu: Google Drive Unterstützung
 
