@@ -4,18 +4,18 @@
 #include "kleiner-brauhelfer-core_global.h"
 #include "proxymodel.h"
 #include <QFlag>
+#include <QDateTime>
+#include <QSettings>
 
 class LIB_EXPORT ProxyModelSud : public ProxyModel
 {
     Q_OBJECT
 
-  #if (QT_VERSION >= QT_VERSION_CHECK(5, 8, 0))
     Q_PROPERTY(bool filterMerkliste READ filterMerkliste WRITE setFilterMerkliste NOTIFY layoutChanged)
     Q_PROPERTY(FilterStatus filterStatus READ filterStatus WRITE setFilterStatus NOTIFY layoutChanged)
     Q_PROPERTY(QDateTime minDate READ filterMinimumDate WRITE setFilterMinimumDate NOTIFY layoutChanged)
     Q_PROPERTY(QDateTime maxDate READ filterMaximumDate WRITE setFilterMaximumDate NOTIFY layoutChanged)
     Q_PROPERTY(QString filterText READ filterText WRITE setFilterText NOTIFY layoutChanged)
-  #endif
 
 public:
     enum FilterStatusPart
@@ -39,16 +39,23 @@ public:
     FilterStatus filterStatus() const;
     void setFilterStatus(FilterStatus status);
 
+    bool filterDate() const;
+    void setFilterDate(bool value);
+
     QDateTime filterMinimumDate() const;
-    void setFilterMinimumDate(const QDateTime &dt = QDateTime());
+    void setFilterMinimumDate(const QDateTime &dt);
 
     QDateTime filterMaximumDate() const;
-    void setFilterMaximumDate(const QDateTime &dt = QDateTime());
-
-    void setFilterDate(const QDateTime &min = QDateTime(), const QDateTime &max = QDateTime());
+    void setFilterMaximumDate(const QDateTime &dt);
 
     QString filterText() const;
     void setFilterText(const QString& text);
+
+    QString filterKategorie() const;
+    void setFilterKategorie(const QString& kategorie);
+
+    void saveSetting(QSettings* settings);
+    void loadSettings(QSettings* settings);
 
 protected:
     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const Q_DECL_OVERRIDE;
@@ -58,10 +65,12 @@ private:
 
 private:
     bool mFilterMerkliste;
+    bool mFilterDate;
     FilterStatus mFilterStatus;
     QDateTime mMinDate;
     QDateTime mMaxDate;
     QString mFilterText;
+    QString mFilterKategorie;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(ProxyModelSud::FilterStatus)

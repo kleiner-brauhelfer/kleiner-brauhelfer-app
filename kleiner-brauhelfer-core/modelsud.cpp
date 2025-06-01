@@ -1,5 +1,6 @@
 // clazy:excludeall=skipped-base-method
 #include "modelsud.h"
+#include "proxymodel.h"
 #include "brauhelfer.h"
 #include <math.h>
 #include <qmath.h>
@@ -831,7 +832,8 @@ void ModelSud::update(int row, int colChanged)
 
         // erg_EffektiveAusbeute
         sw_dichte = data(row, ColSWAnstellen).toDouble();
-        sw = sw_dichte - swWzMaischenRecipe[row] - swWzKochenRecipe[row];
+        double sw_starter = data(row, ColSWAnteilHefestarter).toDouble();
+        sw = sw_dichte - swWzMaischenRecipe[row] - swWzKochenRecipe[row] - sw_starter;
         menge = data(row, ColWuerzemengeAnstellenTotal).toDouble();
         setData(row, Colerg_EffektiveAusbeute, BierCalc::sudhausausbeute(sw, sw_dichte, menge, schuet));
     }
