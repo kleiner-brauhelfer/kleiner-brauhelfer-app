@@ -15,7 +15,7 @@ VERSION = $$sprintf("%1.%2.%3", $$VER_MAJ, $$VER_MIN, $$VER_PAT)
 DEFINES += VER_MAJ=\"$$VER_MAJ\" VER_MIN=\"$$VER_MIN\" VER_PAT=\"$$VER_PAT\"
 
 TEMPLATE = lib
-#CONFIG += staticlib
+CONFIG += staticlib
 DEFINES += ORGANIZATION=\\\"$$ORGANIZATION\\\" TARGET=\\\"$$TARGET\\\" VERSION=\\\"$$VERSION\\\"
 CONFIG += skip_target_version_ext unversioned_libname unversioned_soname
 staticlib {

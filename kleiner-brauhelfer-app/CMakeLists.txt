@@ -1,14 +1,15 @@
 cmake_minimum_required(VERSION 3.16)
 
+# Define project organization, name, version and build type of the kleiner-brauhelfer-core library
 set(ORGANIZATION kleiner-brauhelfer)
 set(TARGET kleiner-brauhelfer-app)
-set(VER_MAJ 2)
-set(VER_MIN 6)
-set(VER_PAT 1)
+set(VERSION 2.6.1)
 set(BUILD_TYPE STATIC)
 
-project(${TARGET} LANGUAGES CXX)
+# Set name, version and language of the project
+project(${TARGET} VERSION ${VERSION} LANGUAGES CXX)
 
+# Qt6 requirements
 find_package(Qt6 REQUIRED COMPONENTS
     Core
     Gui
@@ -25,37 +26,33 @@ find_package(Qt6 REQUIRED COMPONENTS
     LinguistTools
 )
 
+# Setup project-wide defaults to a standard arrangement
 qt_standard_project_setup(REQUIRES 6.5)
 
-set(CMAKE_CXX_STANDARD 17)
+# Globally disable static linkage for Qt6
+set(Qt6_STATIC OFF CACHE BOOL "" FORCE)
+
+# Set required C++ standard
+set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Handle rcc automatically for Qt targets
 set(CMAKE_AUTORCC ON)
+
+# Enables building multi-ABI packages for Android
 set(QT_ANDROID_BUILD_ALL_ABIS TRUE)
 
-set(SOURCES
-    src/main.cpp
-    src/qmlutils.cpp
-    src/syncservice.cpp
-    src/syncservicegoogle.cpp
-    src/syncservicelocal.cpp
-    src/syncservicemanager.cpp
-    src/syncservicedropbox.cpp
-    src/syncservicewebdav.cpp
-    src/languageselector.cpp
+# Source files
+file(GLOB SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
 )
 
-set(HEADERS
-    src/qmlutils.h
-    src/syncservice.h
-    src/syncservicegoogle.h
-    src/syncservicelocal.h
-    src/syncservicemanager.h
-    src/syncservicedropbox.h
-    src/syncservicewebdav.h
-    src/languageselector.h
+# Header files
+file(GLOB HEADERS
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/*.h
 )
 
+# Qml files
 set(QML
     qml/main.qml
     qml/Config.qml
@@ -120,51 +117,64 @@ set(QML
     qml/pagesTools/PageToolBieranalyse.qml
 )
 
+# Add the target to the build system
 qt_add_executable(${PROJECT_NAME}
     ${SOURCES}
     ${HEADERS}
     images.qrc
 )
 
+# Add the qml files
 qt_add_qml_module(${PROJECT_NAME}
     URI app
     QML_FILES ${QML}
     RESOURCE_PREFIX "/"
 )
 
+# Add the resource files
 qt_add_resources(${PROJECT_NAME}
     PREFIX "/"
     FILES qtquickcontrols2.conf android/AndroidManifest.xml
 )
 
+# Add the translation files
 qt_add_translations(${PROJECT_NAME}
     TS_FILES languages/kb_app_en.ts
     RESOURCE_PREFIX "/languages/"
 )
 
-target_compile_definitions(${PROJECT_NAME} PRIVATE ORGANIZATION="${ORGANIZATION}")
-target_compile_definitions(${PROJECT_NAME} PRIVATE TARGET="${TARGET}")
-target_compile_definitions(${PROJECT_NAME} PRIVATE VER_MAJ=${VER_MAJ})
-target_compile_definitions(${PROJECT_NAME} PRIVATE VER_MIN=${VER_MIN})
-target_compile_definitions(${PROJECT_NAME} PRIVATE VER_PAT=${VER_PAT})
-target_compile_definitions(${PROJECT_NAME} PRIVATE VERSION="${VER_MAJ}.${VER_MIN}.${VER_PAT}")
+# Add directories to the include search path
+target_include_directories(${PROJECT_NAME} PRIVATE
+    src
+    ../kleiner-brauhelfer-core
+)
 
-target_include_directories(${PROJECT_NAME} PRIVATE src)
+# Set the definitions
+target_compile_definitions(${PROJECT_NAME} PRIVATE
+    ORGANIZATION="${ORGANIZATION}"
+    TARGET="${TARGET}"
+    VER_MAJ=${PROJECT_VERSION_MAJOR}
+    VER_MIN=${PROJECT_VERSION_MINOR}
+    VER_PAT=${PROJECT_VERSION_PATCH}
+    VERSION="${PROJECT_VERSION}"
+)
 
+# Set the definition of the kleiner-brauhelfer-core library build type
 if(${BUILD_TYPE} STREQUAL STATIC)
     target_compile_definitions(${PROJECT_NAME} PRIVATE KLEINERBRAUHELFERCORE_LIBRARY_STATIC)
-elseif(${BUILD_TYPE} STREQUAL  SHARED)
+elseif(${BUILD_TYPE} STREQUAL SHARED)
 else()
     message(FATAL_ERROR "BUILD_TYPE must be either STATIC or SHARED" )
 endif()
-target_include_directories(${PROJECT_NAME} PRIVATE ../kleiner-brauhelfer-core)
-target_link_libraries(${PROJECT_NAME} PRIVATE kleiner-brauhelfer-core)
 
-set_property(TARGET ${TARGET} APPEND PROPERTY
+# Append path to a custom Android package template
+set_property(TARGET ${PROJECT_NAME} APPEND PROPERTY
     QT_ANDROID_PACKAGE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/android
 )
 
+# Link the core and Qt libraries
 target_link_libraries(${PROJECT_NAME} PRIVATE
+    kleiner-brauhelfer-core
     Qt6::Core
     Qt6::Gui
     Qt6::Widgets

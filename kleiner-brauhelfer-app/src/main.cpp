@@ -96,7 +96,7 @@ int main(int argc, char *argv[])
   #endif
 
     // load QML and start
-    engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
+    engine.load(QUrl(QStringLiteral("qrc:/app/qml/main.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;
     return app.exec();
